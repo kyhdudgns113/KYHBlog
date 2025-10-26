@@ -1,6 +1,8 @@
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import './_styles/_Lefter.scss'
+
 type LefterProps = DivCommonProps & {}
 
 export const Lefter: FC<LefterProps> = ({className, ...props}) => {

@@ -1,0 +1,16 @@
+.Template {
+  .Lefter {
+    display: flex;
+    flex-direction: row;
+
+    height: fit-content;
+
+    left: 32px;
+    min-height: 600px;
+    position: fixed;
+    top: 100px;
+
+    width: fit-content;
+    z-index: 1;
+  }
+}

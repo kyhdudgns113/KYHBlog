@@ -1,0 +1,25 @@
+.Template {
+  .Header {
+    .SignArea_Part {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+
+      ._button_row_part {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+
+        height: 60px;
+
+        margin-left: auto;
+
+        padding-right: 16px;
+
+        user-select: none;
+        width: fit-content;
+      }
+    }
+  }
+}

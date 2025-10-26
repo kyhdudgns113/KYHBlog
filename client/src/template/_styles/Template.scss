@@ -8,4 +8,14 @@
 
   min-height: 100vh;
   width: calc(100vw - 10px);
+
+  .Body {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    position: relative;
+
+    width: 100%;
+  }
 }
