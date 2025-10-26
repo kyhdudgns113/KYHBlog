@@ -5,6 +5,7 @@ import * as Slices from './slices'
 
 const store = configureStore({
   reducer: {
+    modal: Slices.modalSlice.reducer,
     test: Slices.testSlice.reducer
   }
 })

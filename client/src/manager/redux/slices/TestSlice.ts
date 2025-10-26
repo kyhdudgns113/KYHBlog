@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {useBlogDispatch, useBlogSelector} from '../store'
 
-import type {PayloadAction} from '@reduxjs/toolkit'
+import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
 // State 타입 정의
 interface TestState {

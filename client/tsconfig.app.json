@@ -27,7 +27,7 @@
       "@styles/*": ["src/base/styles/*"],
 
       "@component": ["src/base/components"],
-      "@context": ["src/manager/context"],
+      "@context": ["src/manager/contexts"],
       "@fetch": ["src/base/fetch"],
       "@guard": ["src/base/guards"],
       "@nullValue": ["src/base/values/nullValues"],
