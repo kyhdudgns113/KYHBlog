@@ -1,7 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
-
 import * as V from '@value'
 
 // State 타입 정의
