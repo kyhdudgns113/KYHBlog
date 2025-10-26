@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {useBlogDispatch, useBlogSelector} from '../store'
 
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
@@ -31,19 +30,3 @@ export const modalSlice = createSlice({
     }
   }
 })
-
-// AREA1: States
-
-export const useModalState = () => useBlogSelector(state => state.modal)
-
-// AREA2: Actions
-
-export const useModalActions = () => {
-  const dispatch = useBlogDispatch()
-
-  return {
-    closeModal: () => dispatch(modalSlice.actions.closeModal()),
-    openLogInModal: () => dispatch(modalSlice.actions.openLogInModal()),
-    openSignUpModal: () => dispatch(modalSlice.actions.openSignUpModal())
-  }
-}

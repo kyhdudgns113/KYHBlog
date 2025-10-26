@@ -1,0 +1,14 @@
+import {useBlogSelector, useBlogDispatch} from '@redux'
+import {modalSlice} from './ModalSlice'
+
+export const useModalState = () => useBlogSelector(state => state.modal)
+
+export const useModalActions = () => {
+  const dispatch = useBlogDispatch()
+
+  return {
+    closeModal: () => dispatch(modalSlice.actions.closeModal()),
+    openLogInModal: () => dispatch(modalSlice.actions.openLogInModal()),
+    openSignUpModal: () => dispatch(modalSlice.actions.openSignUpModal())
+  }
+}

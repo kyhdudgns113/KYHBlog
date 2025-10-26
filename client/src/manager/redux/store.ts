@@ -3,7 +3,7 @@ import {configureStore} from '@reduxjs/toolkit'
 
 import * as Slices from './slices'
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     modal: Slices.modalSlice.reducer,
     test: Slices.testSlice.reducer

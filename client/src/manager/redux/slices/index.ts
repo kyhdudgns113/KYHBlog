@@ -1,2 +1,2 @@
-export * from './ModalSlice'
-export * from './TestSlice'
+export * from './Modal'
+export * from './Test'

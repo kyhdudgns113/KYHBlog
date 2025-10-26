@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {useBlogDispatch, useBlogSelector} from '../store'
 
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
@@ -32,19 +31,3 @@ export const testSlice = createSlice({
     }
   }
 })
-
-// AREA1: States
-
-export const useTestState = () => useBlogSelector(state => state.test)
-
-// AREA2: Actions
-
-export const useTestActions = () => {
-  const dispatch = useBlogDispatch()
-
-  return {
-    incCnt: () => dispatch(testSlice.actions.incCnt()),
-    decCnt: () => dispatch(testSlice.actions.decCnt()),
-    setCnt: (cnt: number) => dispatch(testSlice.actions.setCnt(cnt))
-  }
-}
