@@ -23,7 +23,7 @@ export const LogInModal: FC<LogInModalProps> = ({className, ...props}) => {
   const _executeLogIn = useCallback(
     (userId: string, password: string) => {
       if (logInLock) {
-        alert('로그인 중입니다.')
+        alert('로그인 하고있어요')
         return
       }
       logIn(userId, password) // ::
@@ -47,6 +47,8 @@ export const LogInModal: FC<LogInModalProps> = ({className, ...props}) => {
   const onKeyDown = useCallback(
     (userId: string, password: string) => (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
+        e.stopPropagation()
+        e.preventDefault()
         _executeLogIn(userId, password)
       } // ::
       else if (e.key === 'Escape') {
@@ -58,6 +60,7 @@ export const LogInModal: FC<LogInModalProps> = ({className, ...props}) => {
   const onSubmit = useCallback(
     (userId: string, password: string) => (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
+      e.stopPropagation()
       _executeLogIn(userId, password)
     },
     [_executeLogIn]

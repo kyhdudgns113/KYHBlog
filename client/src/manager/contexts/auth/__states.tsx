@@ -7,6 +7,7 @@ import type {Setter} from '@type'
 
 // prettier-ignore
 type ContextType = {
+  isLoggedIn: boolean, setIsLoggedIn: Setter<boolean>
   picture: string, setPicture: Setter<string>
   userAuth: number, setUserAuth: Setter<number>
   userId: string, setUserId: Setter<string>
@@ -16,6 +17,7 @@ type ContextType = {
 }
 // prettier-ignore
 export const AuthStatesContext = createContext<ContextType>({
+  isLoggedIn: false, setIsLoggedIn: () => {},
   picture: '', setPicture: () => {},
   userAuth: 0, setUserAuth: () => {},
   userId: '', setUserId: () => {},
@@ -27,6 +29,7 @@ export const AuthStatesContext = createContext<ContextType>({
 export const useAuthStatesContext = () => useContext(AuthStatesContext)
 
 export const AuthStatesProvider: FC<PropsWithChildren> = ({children}) => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [picture, setPicture] = useState<string>('')
   const [userAuth, setUserAuth] = useState<number>(AUTH_GUEST)
   const [userId, setUserId] = useState<string>('')
@@ -36,6 +39,7 @@ export const AuthStatesProvider: FC<PropsWithChildren> = ({children}) => {
 
   // prettier-ignore
   const value: ContextType = {
+    isLoggedIn, setIsLoggedIn,
     picture, setPicture,
     userAuth, setUserAuth,
     userId, setUserId,
