@@ -9,6 +9,8 @@
       border-radius: 8px;
       border-width: 4px;
 
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
+
       color: v.$SAKURA_TEXT;
 
       display: flex;
@@ -16,7 +18,13 @@
 
       height: 600px;
 
-      width: 200px;
+      transition: box-shadow 0.3s ease;
+
+      width: 100%;
+
+      &:hover {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+      }
     }
   }
 }

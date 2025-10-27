@@ -3,24 +3,36 @@
 .Template {
   .Lefter {
     .Toggle_Button {
+      align-items: center;
       border-color: v.$SAKURA_BORDER;
       border-radius: 50%;
       border-width: 2px;
 
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+
       color: v.$SAKURA_TEXT;
       cursor: pointer;
+
+      display: flex;
+
       font-size: 28px;
       font-weight: 700;
 
-      height: fit-content;
+      height: 40px;
+      justify-content: center;
 
-      padding: 4px;
       position: absolute;
-      top: 50px;
       right: -50px;
+      top: 50px;
+      transition: box-shadow 0.3s ease;
       user-select: none;
 
-      width: fit-content;
+      width: 40px;
+
+      &:hover {
+        border-width: 3px;
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.35);
+      }
     }
   }
 }

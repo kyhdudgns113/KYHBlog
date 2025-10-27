@@ -1,3 +1,5 @@
+import {useTemplateState} from '@redux'
+
 import {ToggleButton} from './buttons'
 import {ButtonRowPart, DirectoryListPart} from './parts'
 
@@ -9,9 +11,11 @@ import './_styles/_Lefter.scss'
 type LefterProps = DivCommonProps & {}
 
 export const Lefter: FC<LefterProps> = ({className, ...props}) => {
+  const {isLefterOpen} = useTemplateState()
+
   return (
     <div className={`Lefter ${className || ''}`} {...props}>
-      <div className="_body_lefter">
+      <div className={`_body_lefter ${isLefterOpen ? '_open' : '_close'}`}>
         <ButtonRowPart />
         <DirectoryListPart />
       </div>

@@ -7,6 +7,7 @@ export const store = configureStore({
   reducer: {
     lock: Slices.lockSlice.reducer,
     modal: Slices.modalSlice.reducer,
+    template: Slices.templateSlice.reducer,
     test: Slices.testSlice.reducer
   }
 })
