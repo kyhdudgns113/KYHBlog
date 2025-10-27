@@ -1,0 +1,24 @@
+@use '../../../base/styles/values.scss' as v;
+
+.Template {
+  .Righter {
+    .ChatRoomList_Part {
+      background-color: #e0e0e0;
+
+      border-color: #808080;
+      border-radius: 8px;
+      border-width: 4px;
+
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
+
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: 600px;
+
+      &:hover {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}

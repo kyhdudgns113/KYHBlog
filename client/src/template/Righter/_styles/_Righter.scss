@@ -1,0 +1,41 @@
+@use '../../../base/styles/values.scss' as v;
+
+.Template {
+  .Righter {
+    display: flex;
+    flex-direction: row;
+
+    height: fit-content;
+
+    right: 32px;
+    position: fixed;
+
+    top: 90px;
+
+    z-index: v.$Z_INDEX_SIDEBAR;
+
+    ._body_righter {
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      transform: translateX(0);
+      transition: 0.7s ease;
+      position: relative;
+      user-select: none;
+
+      width: 200px;
+
+      &._open {
+        opacity: 1;
+        transform: translateX(0);
+        width: 200px;
+      }
+
+      &._close {
+        opacity: 0;
+        transform: translateX(200px);
+        width: 0;
+      }
+    }
+  }
+}

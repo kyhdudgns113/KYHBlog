@@ -1,16 +1,16 @@
 @use '../../../base/styles/values.scss' as v;
 
 .Template {
-  .Lefter {
-    .Toggle_Button {
+  .Righter {
+    .Setting_Button {
       align-items: center;
-      border-color: v.$SAKURA_BORDER;
+      border-color: #808080;
       border-radius: 50%;
       border-width: 2px;
 
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
 
-      color: v.$SAKURA_TEXT;
+      color: #808080;
       cursor: pointer;
 
       display: flex;
@@ -21,9 +21,6 @@
       height: 40px;
       justify-content: center;
 
-      position: absolute;
-      right: -50px;
-      top: 96px;
       transition: box-shadow 0.3s ease;
       user-select: none;
 
