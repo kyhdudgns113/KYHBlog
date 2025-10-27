@@ -1,7 +1,8 @@
 import {useCallback, useState} from 'react'
 
 import {Modal} from '@component'
-import {useModalActions} from '@redux'
+import {useAuthCallbacksContext} from '@context'
+import {useLockState, useModalActions} from '@redux'
 
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -12,14 +13,32 @@ import './_styles/LogInModal.scss'
 type LogInModalProps = DivCommonProps & {}
 
 export const LogInModal: FC<LogInModalProps> = ({className, ...props}) => {
+  const {logInLock} = useLockState()
   const {closeModal} = useModalActions()
+  const {logIn} = useAuthCallbacksContext()
 
   const [userId, setUserId] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
-  const _executeLogIn = useCallback((userId: string, password: string) => {
-    console.log(userId, password)
-  }, [])
+  const _executeLogIn = useCallback(
+    (userId: string, password: string) => {
+      if (logInLock) {
+        alert('로그인 중입니다.')
+        return
+      }
+      logIn(userId, password) // ::
+        .then(res => {
+          if (res) {
+            alert('로그인 성공!!')
+            closeModal()
+          }
+        })
+        .catch(err => {
+          alert(err)
+        })
+    },
+    [logInLock, closeModal, logIn]
+  )
 
   const onClose = useCallback(() => {
     closeModal()

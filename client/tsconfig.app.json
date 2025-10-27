@@ -29,6 +29,7 @@
       "@component": ["src/base/components"],
       "@context": ["src/manager/contexts"],
       "@fetch": ["src/base/fetch"],
+      "@httpType": ["src/base/types/httpTypes"],
       "@guard": ["src/base/guards"],
       "@nullValue": ["src/base/values/nullValues"],
       "@prop": ["src/base/types/props"],

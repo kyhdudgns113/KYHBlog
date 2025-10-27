@@ -1,7 +1,8 @@
 import {useCallback, useState} from 'react'
 
 import {Modal} from '@component'
-import {useModalActions} from '@redux'
+import {useAuthCallbacksContext} from '@context'
+import {useLockState, useModalActions} from '@redux'
 
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -9,10 +10,14 @@ import type {DivCommonProps} from '@prop'
 import './_styles/_ModalCommon.scss'
 import './_styles/SignUpModal.scss'
 
+import * as SV from '@shareValue'
+
 type SignUpModalProps = DivCommonProps & {}
 
 export const SignUpModal: FC<SignUpModalProps> = ({className, ...props}) => {
+  const {signUpLock} = useLockState()
   const {closeModal} = useModalActions()
+  const {signUp} = useAuthCallbacksContext()
 
   const [userId, setUserId] = useState<string>('')
   const [userMail, setUserMail] = useState<string>('')
@@ -22,10 +27,59 @@ export const SignUpModal: FC<SignUpModalProps> = ({className, ...props}) => {
 
   const _executeSignUp = useCallback(
     (userId: string, userMail: string, userName: string, password: string, passwordConfirm: string) => {
-      console.log(userId, userMail, userName, password, passwordConfirm)
-      closeModal()
+      // 1. 입력값 췍: userId
+      if (!userId || userId.length < SV.USER_ID_LENGTH_MIN || userId.length > SV.USER_ID_LENGTH_MAX) {
+        alert(`userId 는 ${SV.USER_ID_LENGTH_MIN}자 이상 ${SV.USER_ID_LENGTH_MAX}자 이하여야 합니다.`)
+        return
+      }
+      if (!SV.REGIX_USER_ID.test(userId)) {
+        alert('userId 는 영문 대소문자, 숫자, 언더바(_), 마침표(.)만 포함할 수 있습니다.')
+        return
+      }
+
+      // 2. 입력값 췍: userMail
+      if (!userMail || !SV.REGIX_USER_MAIL.test(userMail)) {
+        alert('userMail 는 이메일 형식이어야 합니다.')
+        return
+      }
+
+      // 3. 입력값 췍: userName
+      if (!userName || userName.length < SV.USER_NAME_LENGTH_MIN || userName.length > SV.USER_NAME_LENGTH_MAX) {
+        alert(`userName 는 ${SV.USER_NAME_LENGTH_MIN}자 이상 ${SV.USER_NAME_LENGTH_MAX}자 이하여야 합니다.`)
+        return
+      }
+      if (!SV.REGIX_USER_NAME.test(userName)) {
+        alert('userName 는 한글, 영문 대소문자, 숫자, 언더바(_)만 포함할 수 있습니다.')
+        return
+      }
+
+      // 4. 입력값 췍: password
+      if (!password || password.length < SV.PASSWORD_LENGTH_MIN || password.length > SV.PASSWORD_LENGTH_MAX) {
+        alert(`password 는 ${SV.PASSWORD_LENGTH_MIN}자 이상 ${SV.PASSWORD_LENGTH_MAX}자 이하여야 합니다.`)
+        return
+      }
+      if (!SV.REGIX_PASSWORD.test(password)) {
+        alert('password 는 영문 대소문자, 숫자, 특수문자를 각각 포함하여 8자 이상으로 입력해주세요.')
+        return
+      }
+      if (password !== passwordConfirm) {
+        alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.')
+        return
+      }
+
+      if (signUpLock) {
+        alert('회원가입 중입니다.')
+        return
+      }
+      signUp(userId, userMail, userName, password) // ::
+        .then(res => {
+          if (res) {
+            alert('회원가입 성공!!')
+            closeModal()
+          }
+        })
     },
-    [closeModal]
+    [signUpLock, closeModal, signUp]
   )
 
   const onClose = useCallback(() => {

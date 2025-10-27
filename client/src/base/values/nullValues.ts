@@ -1,7 +1,7 @@
 import type {ChatRoomType, DirectoryType, FileType, UserType} from '@shareType'
 import type {AuthBodyType} from '@type'
 
-export const NULL_AUTH_BODY: AuthBodyType = {
+export const NULL_AUTH_BODY = (): AuthBodyType => ({
   jwtFromServer: '',
   picture: '',
   userAuth: 0,
@@ -9,9 +9,9 @@ export const NULL_AUTH_BODY: AuthBodyType = {
   userMail: '',
   userName: '',
   userOId: ''
-}
+})
 
-export const NULL_CHAT_ROOM: ChatRoomType = {
+export const NULL_CHAT_ROOM = (): ChatRoomType => ({
   chatRoomOId: '',
   targetUserId: '',
   targetUserMail: '',
@@ -20,17 +20,17 @@ export const NULL_CHAT_ROOM: ChatRoomType = {
   lastChatDate: new Date(),
   chatRoomName: '',
   unreadMessageCount: 0
-}
+})
 
-export const NULL_DIR: DirectoryType = {
+export const NULL_DIR = (): DirectoryType => ({
   dirName: '',
   dirOId: '',
   fileOIdsArr: [],
   parentDirOId: '',
   subDirOIdsArr: []
-}
+})
 
-export const NULL_FILE: FileType = {
+export const NULL_FILE = (): FileType => ({
   content: '',
   createdAt: new Date(),
   dirOId: '',
@@ -41,9 +41,9 @@ export const NULL_FILE: FileType = {
   updatedAt: new Date(),
   userName: '',
   userOId: ''
-}
+})
 
-export const NULL_USER: UserType = {
+export const NULL_USER = (): UserType => ({
   createdAt: new Date(),
   updatedAt: new Date(),
   userAuth: 0,
@@ -51,4 +51,4 @@ export const NULL_USER: UserType = {
   userMail: '',
   userName: '',
   userOId: ''
-}
+})

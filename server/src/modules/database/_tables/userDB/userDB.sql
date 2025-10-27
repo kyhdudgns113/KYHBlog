@@ -20,6 +20,6 @@ CREATE TABLE `users` (
   CONSTRAINT unique_userName
     UNIQUE (userName),
 
-  CONSTRAINT chk_userId_alnum CHECK (userId REGEXP '^[a-zA-Z0-9]+$'),
+  CONSTRAINT chk_userId_alnum CHECK (userId REGEXP '^[a-zA-Z0-9_.]+$'),
   CONSTRAINT chk_userMail_email CHECK (userMail REGEXP '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$')
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs;
