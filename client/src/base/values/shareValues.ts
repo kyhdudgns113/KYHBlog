@@ -17,6 +17,8 @@ export const [AUTH_ADMIN, AUTH_USER, AUTH_GUEST] = [100, 1, 0]
 
 export const [CHAT_ROOM_STATUS_INACTIVE, CHAT_ROOM_STATUS_ACTIVE] = [0, 1]
 
+export const [FILE_NORMAL, FILE_HIDDEN, FILE_NOTICE] = [0, 1, 2]
+
 export const REGIX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!-/:-@[-`{-~])[A-Za-z\d!-/:-@[-`{-~]+$/
 export const REGIX_USER_ID = /^[a-zA-Z0-9_.]+$/
 export const REGIX_USER_MAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/

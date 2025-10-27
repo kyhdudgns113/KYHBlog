@@ -18,5 +18,5 @@ export const useDirectoryActions = () => {
   }
 }
 
-export const useSelectedDirectory = (dirOId: string) => useBlogSelector(state => state.directory.directories[dirOId])
-export const useSelectedFileRow = (fileOId: string) => useBlogSelector(state => state.directory.fileRows[fileOId])
+export const useSelectDirectory = (dirOId: string) => useBlogSelector(state => state.directory.directories[dirOId])
+export const useSelectFileRow = (fileOId: string) => useBlogSelector(state => state.directory.fileRows[fileOId])
