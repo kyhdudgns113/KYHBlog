@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react'
 
 import {Modal} from '@component'
 import {useAuthCallbacksContext} from '@context'
-import {useLockState, useModalActions} from '@redux'
+import {useLockStates, useModalActions} from '@redux'
 
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -13,7 +13,7 @@ import './_styles/LogInModal.scss'
 type LogInModalProps = DivCommonProps & {}
 
 export const LogInModal: FC<LogInModalProps> = ({className, ...props}) => {
-  const {logInLock} = useLockState()
+  const {logInLock} = useLockStates()
   const {closeModal} = useModalActions()
   const {logIn} = useAuthCallbacksContext()
 

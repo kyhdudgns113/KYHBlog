@@ -1,7 +1,7 @@
 import {useBlogSelector, useBlogDispatch} from '@redux'
 import {templateSlice} from './slice'
 
-export const useTemplateState = () => useBlogSelector(state => state.template)
+export const useTemplateStates = () => useBlogSelector(state => state.template)
 
 export const useTemplateActions = () => {
   const dispatch = useBlogDispatch()

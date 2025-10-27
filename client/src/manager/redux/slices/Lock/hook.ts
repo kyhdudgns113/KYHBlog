@@ -2,7 +2,7 @@ import {useBlogSelector, useBlogDispatch} from '@redux'
 
 import {lockSlice} from './slice'
 
-export const useLockState = () => useBlogSelector(state => state.lock)
+export const useLockStates = () => useBlogSelector(state => state.lock)
 
 export const useLockActions = () => {
   const dispatch = useBlogDispatch()

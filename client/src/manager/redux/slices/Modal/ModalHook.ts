@@ -1,7 +1,7 @@
 import {useBlogSelector, useBlogDispatch} from '@redux'
 import {modalSlice} from './ModalSlice'
 
-export const useModalState = () => useBlogSelector(state => state.modal)
+export const useModalStates = () => useBlogSelector(state => state.modal)
 
 export const useModalActions = () => {
   const dispatch = useBlogDispatch()

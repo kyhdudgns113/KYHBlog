@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {Icon} from '@component'
-import {useTemplateActions, useTemplateState} from '@redux'
+import {useTemplateActions, useTemplateStates} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {SpanCommonProps} from '@prop'
@@ -10,7 +10,7 @@ import '../_styles/Btn_Toggle.scss'
 type ToggleButtonProps = SpanCommonProps & {}
 
 export const ToggleButton: FC<ToggleButtonProps> = ({className, style, ...props}) => {
-  const {isRighterOpen} = useTemplateState()
+  const {isRighterOpen} = useTemplateStates()
   const {toggleRighter} = useTemplateActions()
 
   const onClickRToggle = useCallback(

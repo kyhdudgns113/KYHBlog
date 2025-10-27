@@ -1,4 +1,4 @@
-import {useTemplateState} from '@redux'
+import {useTemplateStates} from '@redux'
 
 import {ButtonRowPart, ChatRoomPart, ChatRoomListPart} from './parts'
 import {ToggleButton} from './buttons'
@@ -11,7 +11,7 @@ import './_styles/_Righter.scss'
 type RighterProps = DivCommonProps & {}
 
 export const Righter: FC<RighterProps> = ({className, ...props}) => {
-  const {isRighterOpen} = useTemplateState()
+  const {isRighterOpen} = useTemplateStates()
 
   return (
     <div className={`Righter ${className || ''}`} {...props}>

@@ -2,18 +2,23 @@ import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
+import * as NV from '@nullValue'
 import * as ST from '@shareType'
 
 // State 타입 정의
 interface DirectoryState {
   directories: {[dirOId: string]: ST.DirectoryType}
   fileRows: {[fileOId: string]: ST.FileRowType}
+  rootDir: ST.DirectoryType
+  rootDirOId: string
 }
 
 // 초기 상태
 const initialState: DirectoryState = {
   directories: {},
-  fileRows: {}
+  fileRows: {},
+  rootDir: NV.NULL_DIR(),
+  rootDirOId: ''
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)
@@ -26,6 +31,12 @@ export const directorySlice = createSlice({
     },
     initFileRows: state => {
       state.fileRows = {}
+    },
+    setRootDir: (state, action: PayloadAction<ST.DirectoryType>) => {
+      state.rootDir = action.payload
+    },
+    setRootDirOId: (state, action: PayloadAction<string>) => {
+      state.rootDirOId = action.payload
     },
     writeExtraDirectory: (state, action: PayloadAction<ST.ExtraDirObjectType>) => {
       const {dirOIdsArr, directories} = action.payload

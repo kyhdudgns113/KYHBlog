@@ -1,6 +1,6 @@
 import {Outlet} from 'react-router-dom'
 
-import {useModalState} from '@redux'
+import {useModalStates} from '@redux'
 
 import {Header} from './Header'
 import {Lefter} from './Lefter'
@@ -18,7 +18,7 @@ import './_styles/Template.scss'
 type TemplateProps = DivCommonProps & {}
 
 export const Template: FC<TemplateProps> = ({className, ...props}) => {
-  const {modalName} = useModalState()
+  const {modalName} = useModalStates()
 
   return (
     <div className={`Template ${className || ''}`} {...props}>
