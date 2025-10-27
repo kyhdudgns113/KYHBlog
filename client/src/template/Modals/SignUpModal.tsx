@@ -89,6 +89,8 @@ export const SignUpModal: FC<SignUpModalProps> = ({className, ...props}) => {
   const onKeyDown = useCallback(
     (userId: string, userMail: string, userName: string, password: string, passwordConfirm: string) => (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
+        e.preventDefault()
+        e.stopPropagation()
         _executeSignUp(userId, userMail, userName, password, passwordConfirm)
       } // ::
       else if (e.key === 'Escape') {
@@ -101,6 +103,7 @@ export const SignUpModal: FC<SignUpModalProps> = ({className, ...props}) => {
   const onSubmit = useCallback(
     (userId: string, userMail: string, userName: string, password: string, passwordConfirm: string) => (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
+      e.stopPropagation()
       _executeSignUp(userId, userMail, userName, password, passwordConfirm)
     },
     [_executeSignUp]

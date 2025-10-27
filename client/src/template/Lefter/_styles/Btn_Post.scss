@@ -1,0 +1,23 @@
+@use '../../../base/styles/values.scss' as v;
+
+.Template {
+  .Lefter {
+    .Post_Button {
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 50%;
+      border-width: 2px;
+
+      color: v.$SAKURA_TEXT;
+      cursor: pointer;
+      font-size: 28px;
+      font-weight: 700;
+
+      height: fit-content;
+
+      padding: 4px;
+      user-select: none;
+
+      width: fit-content;
+    }
+  }
+}

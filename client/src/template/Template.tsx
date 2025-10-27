@@ -24,8 +24,6 @@ export const Template: FC<TemplateProps> = ({className, ...props}) => {
     <div className={`Template ${className || ''}`} {...props}>
       {/* 1. 템플릿 레이아웃 영역 */}
       <Header />
-      {/* <div>yes</div> */}
-      {/* <div>{modalName || 'Yes'}</div> */}
       <div className="Body">
         <Lefter />
         <div className="PageArea">
