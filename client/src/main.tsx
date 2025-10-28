@@ -15,7 +15,9 @@ createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <C.AuthProvider>
         <C.DirectoryProvider>
-          <App />
+          <C.FileProvider>
+            <App />
+          </C.FileProvider>
         </C.DirectoryProvider>
       </C.AuthProvider>
     </Provider>

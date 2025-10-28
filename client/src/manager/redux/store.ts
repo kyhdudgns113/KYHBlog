@@ -6,6 +6,7 @@ import * as Slices from './slices'
 export const store = configureStore({
   reducer: {
     directory: Slices.directorySlice.reducer,
+    file: Slices.fileSlice.reducer,
     lock: Slices.lockSlice.reducer,
     modal: Slices.modalSlice.reducer,
     template: Slices.templateSlice.reducer,

@@ -1,4 +1,5 @@
 export * from './Directory'
+export * from './File'
 export * from './Lock'
 export * from './Modal'
 export * from './Template'
