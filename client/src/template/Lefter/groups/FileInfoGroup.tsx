@@ -1,11 +1,9 @@
-import {useCallback} from 'react'
-
 import {Icon} from '@component'
 import {useDirectoryStates} from '@redux'
 
 import {FileStatusButton} from '../buttons'
 
-import type {FC, MouseEvent} from 'react'
+import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import '../_styles/Grp_FileInfo.scss'
@@ -15,12 +13,8 @@ type FileInfoGroupProps = DivCommonProps & {fileOId: string}
 export const FileInfoGroup: FC<FileInfoGroupProps> = ({fileOId, className, ...props}) => {
   const {fileRows} = useDirectoryStates()
 
-  const onClickRow = useCallback((e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation()
-  }, []) // eslint-disable-line
-
   return (
-    <div className={`FileInfo_Group ${className || ''}`} onClick={onClickRow} {...props}>
+    <div className={`FileInfo_Group ${className || ''}`} {...props}>
       {/* 1. 파일 아이콘 */}
       <Icon iconName="article" style={{fontSize: '18px', marginLeft: '4px', marginRight: '4px'}} />
 

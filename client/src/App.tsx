@@ -11,8 +11,11 @@ function App() {
     <Routes>
       <Route path="/" element={<P.RedirectMainPage />} />
       <Route path="/main/*" element={<Template />}>
-        <Route index element={<P.NullPage />} />
+        <Route index element={<P.MainPage />} />
+        <Route path="reading/*" element={<P.ReadingPage />} />
+        <Route path="*" element={<P.NullPage />} />
       </Route>
+      <Route path="*" element={<P.NullPage />} />
     </Routes>
   )
 }
