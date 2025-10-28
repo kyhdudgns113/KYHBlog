@@ -1,3 +1,5 @@
+export * from './Chat'
+export * from './Comment'
 export * from './Directory'
 export * from './File'
 export * from './Lock'

@@ -8,8 +8,10 @@ export const useLockActions = () => {
   const dispatch = useBlogDispatch()
 
   return {
+    lockComment: () => dispatch(lockSlice.actions.lockComment()),
     lockLogIn: () => dispatch(lockSlice.actions.lockLogIn()),
     lockSignUp: () => dispatch(lockSlice.actions.lockSignUp()),
+    unlockComment: () => dispatch(lockSlice.actions.unlockComment()),
     unlockLogIn: () => dispatch(lockSlice.actions.unlockLogIn()),
     unlockSignUp: () => dispatch(lockSlice.actions.unlockSignUp())
   }

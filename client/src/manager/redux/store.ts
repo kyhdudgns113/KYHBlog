@@ -5,13 +5,22 @@ import * as Slices from './slices'
 
 export const store = configureStore({
   reducer: {
+    chat: Slices.chatSlice.reducer,
+    comment: Slices.commentSlice.reducer,
     directory: Slices.directorySlice.reducer,
     file: Slices.fileSlice.reducer,
     lock: Slices.lockSlice.reducer,
     modal: Slices.modalSlice.reducer,
     template: Slices.templateSlice.reducer,
     test: Slices.testSlice.reducer
-  }
+  },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['file/setFile', 'comment/setCommentReplyArr'],
+        ignoredPaths: ['file', 'comment']
+      }
+    })
 })
 
 export type BlogState = ReturnType<typeof store.getState>

@@ -16,7 +16,9 @@ createRoot(document.getElementById('root')!).render(
       <C.AuthProvider>
         <C.DirectoryProvider>
           <C.FileProvider>
-            <App />
+            <C.CommentProvider>
+              <App />
+            </C.CommentProvider>
           </C.FileProvider>
         </C.DirectoryProvider>
       </C.AuthProvider>

@@ -1,0 +1,17 @@
+.Template {
+  .ReadingPage {
+    .CommentUserName_F {
+      position: relative;
+
+      width: fit-content;
+
+      ._commentUserName {
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 600;
+
+        user-select: none;
+      }
+    }
+  }
+}

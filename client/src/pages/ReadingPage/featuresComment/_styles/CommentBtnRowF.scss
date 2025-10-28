@@ -1,0 +1,16 @@
+.Template {
+  .ReadingPage {
+    .CommentBtnRow_F {
+      display: flex;
+      flex-direction: row;
+
+      gap: 8px;
+
+      justify-content: center;
+
+      margin-left: auto;
+
+      width: fit-content;
+    }
+  }
+}

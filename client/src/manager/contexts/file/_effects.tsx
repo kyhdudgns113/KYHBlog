@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect} from 'react'
 
 import {useFileCallbacksContext} from './_callbacks'
-import {useFileActions, useFileState} from '@redux'
+import {useCommentActions, useFileActions, useFileStates} from '@redux'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -13,8 +13,9 @@ export const FileEffectsContext = createContext<ContextType>({})
 export const useFileEffectsContext = () => useContext(FileEffectsContext)
 
 export const FileEffectsProvider: FC<PropsWithChildren> = ({children}) => {
-  const {file, fileOId} = useFileState()
-  const {resetCommentReplyArr, resetFile, resetFileContent, resetFileName, resetFileUser, setFileContent, setFileName} = useFileActions()
+  const {file, fileOId} = useFileStates()
+  const {resetFile, resetFileContent, resetFileName, resetFileUser, setFileContent, setFileName} = useFileActions()
+  const {resetCommentReplyArr} = useCommentActions()
   const {loadComments, loadFile} = useFileCallbacksContext()
 
   // 초기화: file

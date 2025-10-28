@@ -1,5 +1,5 @@
 export * from './FontAwesome'
 export * from './Icons'
 export * from './MarginBlocks'
-export * from './MDComponent'
+export * from './MarkDownComponent'
 export * from './Modals'

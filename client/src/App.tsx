@@ -3,6 +3,7 @@ import {Routes, Route} from 'react-router-dom'
 import {Template} from './template'
 
 import * as P from './pages'
+import * as SV from '@shareValue'
 
 import './base/styles/App.css'
 
@@ -12,7 +13,7 @@ function App() {
       <Route path="/" element={<P.RedirectMainPage />} />
       <Route path="/main/*" element={<Template />}>
         <Route index element={<P.MainPage />} />
-        <Route path="reading/*" element={<P.ReadingPage />} />
+        <Route path="reading/*" element={<P.ReadingPage reqAuth={SV.AUTH_GUEST} />} />
         <Route path="*" element={<P.NullPage />} />
       </Route>
       <Route path="*" element={<P.NullPage />} />

@@ -1,19 +1,29 @@
 import {useEffect} from 'react'
 import {useLocation} from 'react-router-dom'
 
+import {CheckAuth} from '@guard'
 import {useFileActions} from '@redux'
+
+import {ReadingHeaderPart, ReadingContentPart, ReadingCommentsPart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-type ReadingPageProps = DivCommonProps & {}
+import './_styles/_ReadingPage.scss'
+import '@styles/MarkdownStyles.scss'
 
-export const ReadingPage: FC<ReadingPageProps> = ({className, ...props}) => {
+type ReadingPageProps = DivCommonProps & {reqAuth: number}
+
+export const ReadingPage: FC<ReadingPageProps> = ({reqAuth, className, ...props}) => {
   const {setFileOId, resetFileOId} = useFileActions()
 
   const location = useLocation()
 
-  // 초기화: fileOId from url
+  /**
+   * 초기화: fileOId from url
+   *
+   * - Context 에서 이걸하면 url 바뀔때마다 fileOId 바뀌면서 작업이 많아진다
+   */
   useEffect(() => {
     const fileOId = location.pathname.split('/main/reading/')[1]
     if (fileOId) {
@@ -29,8 +39,14 @@ export const ReadingPage: FC<ReadingPageProps> = ({className, ...props}) => {
   }, [location, resetFileOId, setFileOId])
 
   return (
-    <div className={`ReadingPage ${className || ''}`} {...props}>
-      <h1>ReadingPage</h1>
-    </div>
+    <CheckAuth reqAuth={reqAuth}>
+      <div className={`ReadingPage ${className || ''}`} {...props}>
+        <div className="_container_page">
+          <ReadingHeaderPart />
+          <ReadingContentPart />
+          <ReadingCommentsPart />
+        </div>
+      </div>
+    </CheckAuth>
   )
 }

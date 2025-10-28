@@ -1,6 +1,6 @@
 import {createContext, useCallback, useContext} from 'react'
 
-import {useFileActions} from '@redux'
+import {useCommentActions, useFileActions} from '@redux'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -21,7 +21,8 @@ export const FileCallbacksContext = createContext<ContextType>({
 export const useFileCallbacksContext = () => useContext(FileCallbacksContext)
 
 export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setCommentReplyArr, setFile, setFileUser} = useFileActions()
+  const {setFile, setFileUser} = useFileActions()
+  const {setCommentReplyArr} = useCommentActions()
 
   // GET AREA:
 
