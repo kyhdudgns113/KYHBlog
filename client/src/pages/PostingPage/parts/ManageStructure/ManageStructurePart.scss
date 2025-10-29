@@ -1,0 +1,55 @@
+@use '../../../../base/styles/values.scss' as sv;
+
+.Template {
+  .PostingPage {
+    .ManageStructure_Part {
+      background-color: white;
+
+      border-radius: 8px;
+      border-width: 2px;
+      border-color: sv.$SAKURA_BORDER;
+
+      height: 650px;
+
+      margin-left: 280px;
+
+      overflow: auto;
+
+      padding-bottom: 4px;
+      padding-top: 4px;
+
+      width: 300px;
+
+      input._dir {
+        border-color: sv.$SAKURA_BORDER;
+        border-width: 2px;
+
+        padding-bottom: 2px;
+        padding-top: 2px;
+        padding-left: 4px;
+
+        width: 100%;
+      }
+
+      input._file {
+        border-color: #888888;
+        border-width: 2px;
+
+        padding-bottom: 2px;
+        padding-left: 4px;
+        padding-top: 2px;
+
+        width: 100%;
+      }
+
+      ._icon_row {
+        color: sv.$SAKURA_TEXT;
+        font-size: 22px;
+
+        &:hover {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+}

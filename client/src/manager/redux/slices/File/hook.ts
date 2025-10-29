@@ -9,6 +9,9 @@ export const useFileActions = () => {
   const dispatch = useBlogDispatch()
 
   return {
+    offDeleteFile: () => dispatch(fileSlice.actions.offDeleteFile()),
+    onDeleteFile: () => dispatch(fileSlice.actions.onDeleteFile()),
+    // ::
     resetFile: () => dispatch(fileSlice.actions.resetFile()),
     resetFileContent: () => dispatch(fileSlice.actions.resetFileContent()),
     resetFileName: () => dispatch(fileSlice.actions.resetFileName()),

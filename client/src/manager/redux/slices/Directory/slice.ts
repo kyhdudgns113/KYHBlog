@@ -8,6 +8,8 @@ import * as ST from '@shareType'
 // State 타입 정의
 interface DirectoryState {
   directories: {[dirOId: string]: ST.DirectoryType}
+  dirOId_addDir: string
+  dirOId_addFile: string
   fileRows: {[fileOId: string]: ST.FileRowType}
   rootDir: ST.DirectoryType
   rootDirOId: string
@@ -16,6 +18,8 @@ interface DirectoryState {
 // 초기 상태
 const initialState: DirectoryState = {
   directories: {},
+  dirOId_addDir: '',
+  dirOId_addFile: '',
   fileRows: {},
   rootDir: NV.NULL_DIR(),
   rootDirOId: ''
@@ -29,8 +33,21 @@ export const directorySlice = createSlice({
     initDirectories: state => {
       state.directories = {}
     },
+    initDirOId_addDir: state => {
+      state.dirOId_addDir = ''
+    },
+    initDirOId_addFile: state => {
+      state.dirOId_addFile = ''
+    },
     initFileRows: state => {
       state.fileRows = {}
+    },
+    // ::
+    setDirOId_addDir: (state, action: PayloadAction<string>) => {
+      state.dirOId_addDir = action.payload
+    },
+    setDirOId_addFile: (state, action: PayloadAction<string>) => {
+      state.dirOId_addFile = action.payload
     },
     setRootDir: (state, action: PayloadAction<ST.DirectoryType>) => {
       state.rootDir = action.payload
@@ -38,6 +55,7 @@ export const directorySlice = createSlice({
     setRootDirOId: (state, action: PayloadAction<string>) => {
       state.rootDirOId = action.payload
     },
+    // ::
     writeExtraDirectory: (state, action: PayloadAction<ST.ExtraDirObjectType>) => {
       const {dirOIdsArr, directories} = action.payload
       dirOIdsArr.forEach(dirOId => {

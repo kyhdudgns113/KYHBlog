@@ -14,6 +14,7 @@ function App() {
       <Route path="/main/*" element={<Template />}>
         <Route index element={<P.MainPage />} />
         <Route path="reading/*" element={<P.ReadingPage reqAuth={SV.AUTH_GUEST} />} />
+        <Route path="posting/*" element={<P.PostingPage reqAuth={SV.AUTH_ADMIN} />} />
         <Route path="*" element={<P.NullPage />} />
       </Route>
       <Route path="*" element={<P.NullPage />} />

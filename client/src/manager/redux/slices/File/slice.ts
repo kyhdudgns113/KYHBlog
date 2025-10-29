@@ -12,6 +12,7 @@ interface FileState {
   fileName: string // 수정중인 파일의 이름
   fileOId: string // 현재 열려있는 파일의 OId
   fileUser: ST.UserType // 현재 열려있는 파일의 작성자
+  isDelete: boolean // 현재 열려있는 파일을 삭제할지 여부
   isFileUserSelected: boolean // 현재 열려있는 파일의 작성자가 선택되었는지 여부
 }
 
@@ -22,6 +23,7 @@ const initialState: FileState = {
   fileName: '',
   fileOId: '',
   fileUser: NV.NULL_USER(),
+  isDelete: false,
   isFileUserSelected: false
 }
 
@@ -30,6 +32,13 @@ export const fileSlice = createSlice({
   name: 'file',
   initialState,
   reducers: {
+    offDeleteFile: state => {
+      state.isDelete = false
+    },
+    onDeleteFile: state => {
+      state.isDelete = true
+    },
+
     resetFile: state => {
       state.file = NV.NULL_FILE()
     },

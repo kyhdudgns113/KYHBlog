@@ -10,9 +10,15 @@ export const useDirectoryActions = () => {
 
   return {
     initDirectories: () => dispatch(directorySlice.actions.initDirectories()),
+    initDirOId_addDir: () => dispatch(directorySlice.actions.initDirOId_addDir()),
+    initDirOId_addFile: () => dispatch(directorySlice.actions.initDirOId_addFile()),
     initFileRows: () => dispatch(directorySlice.actions.initFileRows()),
+    // ::
+    setDirOId_addDir: (dirOId_addDir: string) => dispatch(directorySlice.actions.setDirOId_addDir(dirOId_addDir)),
+    setDirOId_addFile: (dirOId_addFile: string) => dispatch(directorySlice.actions.setDirOId_addFile(dirOId_addFile)),
     setRootDir: (rootDir: ST.DirectoryType) => dispatch(directorySlice.actions.setRootDir(rootDir)),
     setRootDirOId: (rootDirOId: string) => dispatch(directorySlice.actions.setRootDirOId(rootDirOId)),
+    // ::
     writeExtraDirectory: (extraDir: ST.ExtraDirObjectType) => dispatch(directorySlice.actions.writeExtraDirectory(extraDir)),
     writeExtraFileRow: (extraFileRow: ST.ExtraFileRowObjectType) => dispatch(directorySlice.actions.writeExtraFileRow(extraFileRow))
   }
