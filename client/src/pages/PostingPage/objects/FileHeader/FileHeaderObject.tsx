@@ -1,3 +1,5 @@
+import {HeaderBtnRowGroup, HeaderTitleGroup} from '../../groups'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
@@ -8,7 +10,8 @@ type FileHeaderObjectProps = DivCommonProps & {}
 export const FileHeaderObject: FC<FileHeaderObjectProps> = ({className, ...props}) => {
   return (
     <div className={`FileHeader_Object ${className || ''}`} {...props}>
-      FileHeaderObject
+      <HeaderBtnRowGroup />
+      <HeaderTitleGroup />
     </div>
   )
 }

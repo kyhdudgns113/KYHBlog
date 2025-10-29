@@ -8,6 +8,8 @@ export const useModalActions = () => {
 
   return {
     closeModal: () => dispatch(modalSlice.actions.closeModal()),
+    openEditDirModal: () => dispatch(modalSlice.actions.openEditDirModal()),
+    openEditFileModal: () => dispatch(modalSlice.actions.openEditFileModal()),
     openLogInModal: () => dispatch(modalSlice.actions.openLogInModal()),
     openSignUpModal: () => dispatch(modalSlice.actions.openSignUpModal())
   }

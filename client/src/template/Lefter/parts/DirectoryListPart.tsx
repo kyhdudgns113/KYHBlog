@@ -13,7 +13,7 @@ export const DirectoryListPart: FC<DirectoryListPartProps> = ({className, ...pro
   const {rootDir} = useDirectoryStates()
 
   return (
-    <div className={`DirectoryList_Part ${className || ''}`} {...props}>
+    <div className={`DirectoryList_Part SCROLL_SAKURA ${className || ''}`} {...props}>
       <div className="_container_part">
         {/* 1. 루트 폴더의 자식 폴더 목록 */}
         {rootDir.subDirOIdsArr.map((dirOId, dirIdx) => {

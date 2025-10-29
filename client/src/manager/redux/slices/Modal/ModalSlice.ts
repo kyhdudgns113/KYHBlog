@@ -20,6 +20,12 @@ export const modalSlice = createSlice({
     closeModal: state => {
       state.modalName = ''
     },
+    openEditDirModal: state => {
+      state.modalName = V.MODAL_EDIT_DIR
+    },
+    openEditFileModal: state => {
+      state.modalName = V.MODAL_EDIT_FILE
+    },
     openLogInModal: state => {
       state.modalName = V.MODAL_LOG_IN
     },

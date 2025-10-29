@@ -12,10 +12,19 @@ export const useDirectoryActions = () => {
     initDirectories: () => dispatch(directorySlice.actions.initDirectories()),
     initDirOId_addDir: () => dispatch(directorySlice.actions.initDirOId_addDir()),
     initDirOId_addFile: () => dispatch(directorySlice.actions.initDirOId_addFile()),
+    initDirOId_editDir: () => dispatch(directorySlice.actions.initDirOId_editDir()),
+    initFileOId_editFile: () => dispatch(directorySlice.actions.initFileOId_editFile()),
     initFileRows: () => dispatch(directorySlice.actions.initFileRows()),
+    // ::
+    resetMoveDirOId: () => dispatch(directorySlice.actions.resetMoveDirOId()),
+    resetMoveFileOId: () => dispatch(directorySlice.actions.resetMoveFileOId()),
     // ::
     setDirOId_addDir: (dirOId_addDir: string) => dispatch(directorySlice.actions.setDirOId_addDir(dirOId_addDir)),
     setDirOId_addFile: (dirOId_addFile: string) => dispatch(directorySlice.actions.setDirOId_addFile(dirOId_addFile)),
+    setDirOId_editDir: (dirOId_editDir: string) => dispatch(directorySlice.actions.setDirOId_editDir(dirOId_editDir)),
+    setFileOId_editFile: (fileOId_editFile: string) => dispatch(directorySlice.actions.setFileOId_editFile(fileOId_editFile)),
+    setMoveDirOId: (moveDirOId: string) => dispatch(directorySlice.actions.setMoveDirOId(moveDirOId)),
+    setMoveFileOId: (moveFileOId: string) => dispatch(directorySlice.actions.setMoveFileOId(moveFileOId)),
     setRootDir: (rootDir: ST.DirectoryType) => dispatch(directorySlice.actions.setRootDir(rootDir)),
     setRootDirOId: (rootDirOId: string) => dispatch(directorySlice.actions.setRootDirOId(rootDirOId)),
     // ::

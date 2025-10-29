@@ -28,29 +28,6 @@
 
       width: 100%;
 
-      // 스크롤바 스타일링
-      scrollbar-width: 8px; // Firefox
-      scrollbar-color: v.$SAKURA_BORDER v.$SAKURA_BG; // Firefox
-
-      // Webkit 브라우저용 스크롤바 스타일
-      &::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: v.$SAKURA_BG;
-        border-radius: 3px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: v.$SAKURA_BORDER;
-        border-radius: 3px;
-
-        &:hover {
-          background: v.$SAKURA_BORDER_50;
-        }
-      }
-
       &:hover {
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
       }

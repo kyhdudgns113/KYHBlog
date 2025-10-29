@@ -13,7 +13,7 @@ export const ManageStructurePart: FC<ManageStructurePartProps> = ({className, ..
   const {dirOId_addDir, dirOId_addFile, rootDir, rootDirOId} = useDirectoryStates()
 
   return (
-    <div className={`ManageStructure_Part ${className || ''}`} {...props}>
+    <div className={`ManageStructure_Part SCROLL_SAKURA ${className || ''}`} {...props}>
       {/* 1. 헤더 버튼 행 */}
       <HeaderRowObject />
 
@@ -23,7 +23,7 @@ export const ManageStructurePart: FC<ManageStructurePartProps> = ({className, ..
       })}
 
       {/* 3. 루트 폴더의 자식 폴더 생성 행 */}
-      {dirOId_addDir === rootDirOId && <AddDirectoryObject />}
+      {dirOId_addDir === rootDirOId && <AddDirectoryObject dirOId={rootDirOId} />}
 
       {/* 4. 루트 폴더의 자식 파일들 */}
       {rootDir.fileOIdsArr.map((fileOId, fileIdx) => {
@@ -31,7 +31,7 @@ export const ManageStructurePart: FC<ManageStructurePartProps> = ({className, ..
       })}
 
       {/* 5. 루트 폴더의 자식 파일 생성 행 */}
-      {dirOId_addFile === rootDirOId && <AddFileObject />}
+      {dirOId_addFile === rootDirOId && <AddFileObject dirOId={rootDirOId} />}
     </div>
   )
 }

@@ -6,6 +6,7 @@ import * as P from './pages'
 import * as SV from '@shareValue'
 
 import './base/styles/App.css'
+import './base/styles/App.scss'
 
 function App() {
   return (

@@ -1,9 +1,13 @@
 .Template {
   .PostingPage {
     .FileHeader_Object {
+      border-color: #888888;
+      border-bottom-width: 2px;
+
       display: flex;
-      flex-direction: row;
-      height: 100%;
+      flex-direction: column;
+
+      width: 100%;
     }
   }
 }
