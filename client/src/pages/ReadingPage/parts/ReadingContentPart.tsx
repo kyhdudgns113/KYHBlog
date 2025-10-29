@@ -82,7 +82,35 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, styl
   // 초기화: stringArr
   useEffect(() => {
     if (fileOId) {
-      setStringArr(file.content.split('\n'))
+      setStringArr(
+        file.content.split('\n').map(str => {
+          if (!str) {
+            return ''
+          } // ::
+          else if (str === '  ') {
+            // return '  ' // 아무일도 일어나지 않음
+            // return '' // 아무일도 일어나지 않음
+            // return '&nbsp;' // 3줄 띄어짐
+            // return '<span />' // 3줄 띄어짐
+            // return '<p />' // 이후 리스트 이상하게 적용됨
+            // return '   ' // 아무일도 안 일어남
+            // return '\n' // 아무일도 안 일어남
+            // return '\n\n' // 마크다운 밀림
+            // return '  \n' // 아무일도 일어나지 않음?
+            // return '  <br />' // 4칸 띄어짐
+            // return '<br />' // 4칸 띄어짐
+            // return ' ' // 아무일 X
+            // return '<></>' // 이런것들 싹 다 그대로 출력됨.
+            // return '<div />' // 마크다운 에러남
+            // return '<b></b>' // 3줄 띄어짐
+            return '  ' // 그냥 이거 쓰지 말자
+          } // ::
+          else if (str === '<br />') {
+            return '  <br />'
+          }
+          return str
+        })
+      )
     }
   }, [file, fileOId]) // eslint-disable-line react-hooks/exhaustive-deps
 

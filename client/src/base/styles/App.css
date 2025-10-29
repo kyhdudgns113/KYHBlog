@@ -16,10 +16,6 @@ button {
   user-select: none;
 }
 
-div {
-  white-space: pre-wrap;
-}
-
 input {
   outline: none;
 }
