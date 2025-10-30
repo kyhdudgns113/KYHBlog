@@ -1,0 +1,50 @@
+.Template {
+  .PostingPage {
+    .EditingFile_Part {
+      background-color: white;
+
+      border-color: #888888;
+      border-radius: 8px;
+      border-width: 2px;
+
+      display: flex;
+      flex-direction: column;
+
+      height: fit-content;
+
+      margin-left: 16px;
+
+      position: relative;
+
+      width: 1000px;
+
+      button {
+        background-color: transparent;
+
+        border-color: #888888;
+        border-radius: 8px;
+        border-width: 2px;
+
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+      }
+
+      button:hover {
+        background-color: #dddddd;
+
+        font-weight: 700;
+      }
+
+      button._isNoticeFile {
+        background-color: #fff0f0;
+        color: #ff4040;
+      }
+      button._isHiddenFile {
+        background-color: #eeeeee;
+        color: #dddddd;
+      }
+    }
+  }
+}

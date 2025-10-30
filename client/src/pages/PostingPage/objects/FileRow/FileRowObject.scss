@@ -1,0 +1,10 @@
+.Template {
+  .PostingPage {
+    .FileRow_Object {
+      display: flex;
+      flex-direction: column;
+
+      user-select: none;
+    }
+  }
+}

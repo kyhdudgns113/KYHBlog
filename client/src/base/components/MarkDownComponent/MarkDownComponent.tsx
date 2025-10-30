@@ -4,7 +4,7 @@ import type {RefObject} from 'react'
 import type {Components} from 'react-markdown'
 
 /* eslint-disable */
-export const MarkDownComponent = (stringArr: string[]) => {
+export const MarkDownComponent = (stringArr: string[]): Components => {
   const ret: Components = {
     a({...props}) {
       return <a {...props} target="_blank" rel="noopener noreferrer" />

@@ -1,0 +1,15 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Righter {
+    .ButtonRow_Part {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      height: 48px;
+
+      padding-right: 8px;
+      width: 100%;
+    }
+  }
+}

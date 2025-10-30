@@ -1,0 +1,56 @@
+@use '../../../../base/styles/values.scss' as sv;
+
+.Template {
+  .ReadingPage {
+    .CommentContent_F {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      margin-top: 6px;
+
+      width: calc(100% - 24px);
+
+      ._commentContent {
+        border-color: #f0f0f0;
+        border-radius: 4px;
+        border-width: 2px;
+
+        // 최소 높이는 CommentContent_F.tsx 에서 관리한다.
+
+        font-size: 14px;
+        font-weight: 400;
+
+        padding-left: 8px;
+        padding-right: 8px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+
+        white-space: pre-line;
+        width: 100%;
+      }
+      textarea._commentContent {
+        border-color: sv.$SAKURA_BORDER;
+      }
+
+      ._editing_extra_row {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        margin-top: 8px;
+        width: 100%;
+
+        .__editing_comment_length {
+          display: flex;
+          flex-direction: row;
+
+          color: sv.$SAKURA_TEXT;
+          font-size: 14px;
+
+          margin-left: auto;
+          user-select: none;
+        }
+      }
+    }
+  }
+}

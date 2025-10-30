@@ -1,0 +1,42 @@
+.Template {
+  .PageArea {
+    .MainPage {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      min-height: 100%;
+
+      padding-top: 48px;
+
+      width: 100%;
+
+      ._pageWrapper {
+        align-items: center;
+
+        border-color: #f0f0f0;
+        border-radius: 12px;
+        border-width: 2px;
+
+        display: flex;
+        flex-direction: column;
+
+        height: fit-content;
+
+        min-height: 700px;
+
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+
+        transition: box-shadow 0.3s ease-in-out;
+
+        width: 900px;
+      }
+      ._pageWrapper:hover {
+        box-shadow: inset 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}

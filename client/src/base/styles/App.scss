@@ -1,0 +1,26 @@
+@use './values.scss' as v;
+
+.SCROLL_SAKURA {
+  // 스크롤바 스타일링
+  scrollbar-width: 8px; // Firefox
+  scrollbar-color: v.$SAKURA_BORDER v.$SAKURA_BG; // Firefox
+
+  // Webkit 브라우저용 스크롤바 스타일
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: v.$SAKURA_BG;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: v.$SAKURA_BORDER;
+    border-radius: 3px;
+
+    &:hover {
+      background: v.$SAKURA_BORDER_50;
+    }
+  }
+}

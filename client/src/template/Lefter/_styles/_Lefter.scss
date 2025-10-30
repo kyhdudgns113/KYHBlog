@@ -1,0 +1,41 @@
+@use '../../../base/styles/values.scss' as v;
+
+$LEFTER_BODY_WIDTH: 220px;
+
+.Template {
+  .Lefter {
+    display: flex;
+    flex-direction: row;
+
+    height: fit-content;
+
+    left: 32px;
+    position: fixed;
+
+    top: 90px;
+    user-select: none;
+
+    width: fit-content;
+    z-index: v.$Sidebar_Z_Index;
+
+    ._body_lefter {
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      transform: translateX(0);
+      transition: 0.7s ease;
+
+      &._open {
+        opacity: 1;
+        transform: translateX(0);
+        width: $LEFTER_BODY_WIDTH;
+      }
+
+      &._close {
+        opacity: 0;
+        transform: translateX(-$LEFTER_BODY_WIDTH);
+        width: 0;
+      }
+    }
+  }
+}

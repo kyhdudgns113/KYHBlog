@@ -1,8 +1,8 @@
 import {useCallback} from 'react'
 import {useNavigate} from 'react-router-dom'
 
-import {useAuthCallbacksContext} from '@contexts/auth/_callbacks'
-import {AUTH_USER} from '@secret'
+import {useAuthCallbacksContext} from '@context'
+import * as SV from '@shareValue'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -16,7 +16,7 @@ export const CheckAuth: FC<PropsWithChildren<CheckAuthProps>> = ({children, reqA
   const navigate = useNavigate()
 
   const errCallback = useCallback(() => {
-    if (reqAuth === AUTH_USER) {
+    if (reqAuth === SV.AUTH_USER) {
       alert('로그인이 필요합니다.')
     } // ::
     else {

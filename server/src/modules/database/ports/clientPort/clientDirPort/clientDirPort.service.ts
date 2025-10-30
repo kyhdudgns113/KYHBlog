@@ -4,7 +4,7 @@ import {Injectable} from '@nestjs/common'
 import * as DTO from '@dto'
 import * as HTTP from '@httpDataType'
 import * as T from '@type'
-import * as SHARE from '@shareValue'
+import * as SV from '@shareValue'
 import * as U from '@util'
 import * as V from '@value'
 
@@ -44,7 +44,7 @@ export class ClientDirPortService {
       const {parentDirOId, dirName} = data
 
       // 2-1. 이름 길이 체크
-      if (!dirName || dirName.trim().length === 0 || dirName.length > SHARE.DIR_NAME_MAX_LENGTH) {
+      if (!dirName || dirName.trim().length === 0 || dirName.length > SV.DIR_NAME_MAX_LENGTH) {
         throw {
           gkd: {dirName: `디렉토리 이름은 비어있거나 20자 이상이면 안됨`},
           gkdErrCode: 'CLIENTDIRPORT_addDirectory_InvalidDirNameLength',
@@ -143,11 +143,11 @@ export class ClientDirPortService {
       }
 
       // 2-2. fileName 길이 체크
-      if (!fileName || fileName.trim().length === 0 || fileName.length > SHARE.FILE_NAME_MAX_LENGTH) {
+      if (!fileName || fileName.trim().length === 0 || fileName.length > SV.FILE_NAME_MAX_LENGTH) {
         throw {
-          gkd: {fileName: `파일 이름은 비어있거나 ${SHARE.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`},
+          gkd: {fileName: `파일 이름은 비어있거나 ${SV.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`},
           gkdErrCode: 'CLIENTDIRPORT_addFile_InvalidFileName',
-          gkdErrMsg: `파일 이름은 비어있거나 ${SHARE.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`,
+          gkdErrMsg: `파일 이름은 비어있거나 ${SV.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`,
           gkdStatus: {dirOId, fileName},
           statusCode: 400,
           where
@@ -210,11 +210,11 @@ export class ClientDirPortService {
       const {dirOId, dirName} = data
 
       // 2-1. 이름 길이 체크
-      if (!dirName || dirName.trim().length === 0 || dirName.length > SHARE.DIR_NAME_MAX_LENGTH) {
+      if (!dirName || dirName.trim().length === 0 || dirName.length > SV.DIR_NAME_MAX_LENGTH) {
         throw {
-          gkd: {dirName: `디렉토리 이름은 비어있거나 ${SHARE.DIR_NAME_MAX_LENGTH}자 이상이면 안됨`},
+          gkd: {dirName: `디렉토리 이름은 비어있거나 ${SV.DIR_NAME_MAX_LENGTH}자 이상이면 안됨`},
           gkdErrCode: 'CLIENTDIRPORT_changeDirName_InvalidDirNameLength',
-          gkdErrMsg: `디렉토리 이름은 비어있거나 ${SHARE.DIR_NAME_MAX_LENGTH}자 이상이면 안됨`,
+          gkdErrMsg: `디렉토리 이름은 비어있거나 ${SV.DIR_NAME_MAX_LENGTH}자 이상이면 안됨`,
           gkdStatus: {dirOId, dirName, dirNameLength: dirName.length},
           statusCode: 400,
           where
@@ -275,11 +275,11 @@ export class ClientDirPortService {
       // 2. 입력값 췍!!
       const {fileOId, fileName} = data
 
-      if (!fileName || fileName.trim().length === 0 || fileName.length > SHARE.FILE_NAME_MAX_LENGTH) {
+      if (!fileName || fileName.trim().length === 0 || fileName.length > SV.FILE_NAME_MAX_LENGTH) {
         throw {
-          gkd: {fileName: `파일 이름은 비어있거나 ${SHARE.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`},
+          gkd: {fileName: `파일 이름은 비어있거나 ${SV.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`},
           gkdErrCode: 'CLIENTDIRPORT_changeFileName_InvalidFileName',
-          gkdErrMsg: `파일 이름은 비어있거나 ${SHARE.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`,
+          gkdErrMsg: `파일 이름은 비어있거나 ${SV.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`,
           gkdStatus: {fileOId, fileName},
           statusCode: 400,
           where

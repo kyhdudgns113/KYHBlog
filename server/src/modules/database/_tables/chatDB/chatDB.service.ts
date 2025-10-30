@@ -237,7 +237,7 @@ export class ChatDBService {
       const resultRoomArr = resultRoom as RowDataPacket[]
       const lastChatDate = resultRoomArr[0].lastChatDate
 
-      const queryTargetUser = `SELECT userMail FROM users WHERE userOId = ?`
+      const queryTargetUser = `SELECT * FROM users WHERE userOId = ?`
       const [resultTargetUser] = await connection.execute(queryTargetUser, [resultArr[0].targetUserOId])
       const resultTargetUserArr = resultTargetUser as RowDataPacket[]
 
