@@ -9,8 +9,6 @@ type ChatRoomUserObjectProps = DivCommonProps & {}
 export const ChatRoomUserObject: FC<ChatRoomUserObjectProps> = ({className, style, ...props}) => {
   const {chatRoom} = useChatStates()
 
-  alert(`${JSON.stringify(chatRoom)}`)
-
   return (
     <div className={`ChatRoomUser_Object ${className || ''}`} style={style} {...props}>
       <div className="_name_id">
