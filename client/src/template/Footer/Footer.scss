@@ -1,0 +1,25 @@
+@use '../../base/styles/values.scss' as v;
+
+.Template {
+  .Footer {
+    align-items: center;
+
+    background-color: v.$SAKURA_BG;
+
+    color: v.$SAKURA_TEXT;
+    cursor: default;
+
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+
+    height: fit-content;
+
+    justify-content: center;
+
+    padding-top: 24px;
+    padding-bottom: 24px;
+
+    width: 100%;
+  }
+}
