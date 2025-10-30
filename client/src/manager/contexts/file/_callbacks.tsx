@@ -15,6 +15,7 @@ type ContextType = {
 
   loadComments: (fileOId: string) => Promise<boolean>
   loadFile: (fileOId: string) => Promise<boolean>
+  loadNoticeFile: () => Promise<boolean>
 }
 // prettier-ignore
 export const FileCallbacksContext = createContext<ContextType>({
@@ -23,12 +24,13 @@ export const FileCallbacksContext = createContext<ContextType>({
 
   loadComments: () => Promise.resolve(false),
   loadFile: () => Promise.resolve(false),
+  loadNoticeFile: () => Promise.resolve(false),
 })
 
 export const useFileCallbacksContext = () => useContext(FileCallbacksContext)
 
 export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setFile, setFileUser} = useFileActions()
+  const {setFile, setFileOId, setFileUser} = useFileActions()
   const {setCommentReplyArr} = useCommentActions()
   const {writeExtraDirectory, writeExtraFileRow} = useDirectoryActions()
 
@@ -148,6 +150,35 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     [setFile, setFileUser]
   )
 
+  const loadNoticeFile = useCallback(
+    async () => {
+      const url = `/client/file/loadNoticeFile`
+      const NULL_JWT = ''
+
+      return F.get(url, NULL_JWT)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+
+          if (ok) {
+            setFile(body.file)
+            setFileOId(body.file.fileOId) // 이거 안해주면 file useEffect 때문에 에러난다
+            setFileUser(body.user)
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
   // prettier-ignore
   const value: ContextType = {
     editFile,
@@ -155,6 +186,7 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     
     loadComments,
     loadFile,
+    loadNoticeFile,
   }
   return <FileCallbacksContext.Provider value={value}>{children}</FileCallbacksContext.Provider>
 }
