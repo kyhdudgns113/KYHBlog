@@ -241,7 +241,7 @@ export class ChatDBService {
       const [resultTargetUser] = await connection.execute(queryTargetUser, [resultArr[0].targetUserOId])
       const resultTargetUserArr = resultTargetUser as RowDataPacket[]
 
-      const targetUserId = resultTargetUserArr[0].userOId
+      const targetUserId = resultTargetUserArr[0].userId
       const targetUserName = resultTargetUserArr[0].userName
       const targetUserMail = resultTargetUserArr[0].userMail
 
