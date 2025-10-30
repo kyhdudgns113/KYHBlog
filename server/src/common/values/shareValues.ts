@@ -1,5 +1,6 @@
 export const CHAT_MAX_LENGTH = 1000
 export const COMMENT_MAX_LENGTH = 300
+export const DIR_NAME_MAX_LENGTH = 20
 export const FILE_NAME_MAX_LENGTH = 40
 
 export const PASSWORD_LENGTH_MIN = 8
