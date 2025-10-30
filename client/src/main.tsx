@@ -14,13 +14,17 @@ createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Provider store={store}>
       <C.AuthProvider>
-        <C.DirectoryProvider>
-          <C.FileProvider>
-            <C.CommentProvider>
-              <App />
-            </C.CommentProvider>
-          </C.FileProvider>
-        </C.DirectoryProvider>
+        <C.UserProvider>
+          <C.ChatProvider>
+            <C.DirectoryProvider>
+              <C.FileProvider>
+                <C.CommentProvider>
+                  <App />
+                </C.CommentProvider>
+              </C.FileProvider>
+            </C.DirectoryProvider>
+          </C.ChatProvider>
+        </C.UserProvider>
       </C.AuthProvider>
     </Provider>
   </BrowserRouter>

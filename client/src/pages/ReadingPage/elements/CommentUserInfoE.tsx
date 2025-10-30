@@ -1,11 +1,14 @@
 import {useEffect, useState} from 'react'
-import {NULL_USER} from '@nullValue'
+
 import {useAuthStatesContext, useUserCallbacksContext} from '@context'
+
+import {ChatUserButton} from '../buttons'
 
 import type {FC} from 'react'
 import type {CommentType, UserType} from '@shareType'
 import type {DivCommonProps} from '@prop'
-import {ChatUserButton} from '../buttons'
+
+import * as NV from '@nullValue'
 
 import './_styles/CommentUserInfoE.scss'
 
@@ -15,7 +18,7 @@ export const CommentUserInfoE: FC<CommentUserInfoEProps> = ({comment, className,
   const {userOId} = useAuthStatesContext()
   const {loadUserInfo} = useUserCallbacksContext()
 
-  const [targetUser, setTargetUser] = useState<UserType>(NULL_USER)
+  const [targetUser, setTargetUser] = useState<UserType>(NV.NULL_USER())
 
   const isMyComment = userOId === comment.userOId
 
@@ -26,6 +29,7 @@ export const CommentUserInfoE: FC<CommentUserInfoEProps> = ({comment, className,
       loadUserInfo(comment.userOId, setTargetUser) // ::
         .then(ok => {
           if (!ok) {
+            alert('에러가 떴다고?')
             const createdAt = new Date()
             const updatedAt = createdAt
             setTargetUser({

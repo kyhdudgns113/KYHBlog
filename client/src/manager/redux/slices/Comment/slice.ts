@@ -119,6 +119,7 @@ export const commentSlice = createSlice({
     },
     setCommentOId_user: (state, action: PayloadAction<string>) => {
       state.commentOId_user = action.payload
+      state.replyOId_user = ''
     },
     setCommentReplyArr: (state, action: PayloadAction<(ST.CommentType | ST.ReplyType)[]>) => {
       state.commentReplyArr = action.payload.map(elem => {
@@ -161,6 +162,7 @@ export const commentSlice = createSlice({
       state.replyOId_reply = action.payload
     },
     setReplyOId_user: (state, action: PayloadAction<string>) => {
+      state.commentOId_user = ''
       state.replyOId_user = action.payload
     }
   }

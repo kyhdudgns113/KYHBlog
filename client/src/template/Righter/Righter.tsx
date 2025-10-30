@@ -1,4 +1,4 @@
-import {useTemplateStates} from '@redux'
+import {useChatStates, useTemplateStates} from '@redux'
 
 import {ButtonRowPart, ChatRoomPart, ChatRoomListPart} from './parts'
 import {ToggleButton} from './buttons'
@@ -12,6 +12,7 @@ type RighterProps = DivCommonProps & {}
 
 export const Righter: FC<RighterProps> = ({className, ...props}) => {
   const {isRighterOpen} = useTemplateStates()
+  const {chatRoomOId} = useChatStates()
 
   return (
     <div className={`Righter ${className || ''}`} {...props}>
@@ -19,7 +20,7 @@ export const Righter: FC<RighterProps> = ({className, ...props}) => {
       <ToggleButton />
 
       {/* 2. 채팅방 */}
-      <ChatRoomPart />
+      {chatRoomOId && <ChatRoomPart />}
 
       {/* 3. Righter 본체 */}
       <div className={`_body_righter ${isRighterOpen ? '_open' : '_close'}`}>

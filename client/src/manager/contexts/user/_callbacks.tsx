@@ -19,7 +19,7 @@ export const UserCallbacksContext = createContext<ContextType>({
 export const useUserCallbacksContext = () => useContext(UserCallbacksContext)
 
 export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const loadUserInfo = useCallback((userOId: string, setTargetUser: T.Setter<ST.UserType>) => {
+  const loadUserInfo = useCallback(async (userOId: string, setTargetUser: T.Setter<ST.UserType>) => {
     const url = `/client/user/loadUserInfo/${userOId}`
     const NULL_JWT = ''
 
