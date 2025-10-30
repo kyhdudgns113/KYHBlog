@@ -5,7 +5,7 @@ import {Icon} from '@component'
 import type {FC, MouseEvent} from 'react'
 import type {SpanCommonProps} from '@prop'
 
-import '../_styles/Btn_Setting.scss'
+import './SettingButton.scss'
 
 type SettingButtonProps = SpanCommonProps & {}
 

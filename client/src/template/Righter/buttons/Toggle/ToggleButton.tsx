@@ -5,7 +5,7 @@ import {useTemplateActions, useTemplateStates} from '@redux'
 import type {FC, MouseEvent} from 'react'
 import type {SpanCommonProps} from '@prop'
 
-import '../_styles/Btn_Toggle.scss'
+import './ToggleButton.scss'
 
 type ToggleButtonProps = SpanCommonProps & {}
 

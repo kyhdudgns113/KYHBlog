@@ -6,7 +6,7 @@ import {ToggleButton} from './buttons'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import './_styles/_Righter.scss'
+import './Righter.scss'
 
 type RighterProps = DivCommonProps & {}
 

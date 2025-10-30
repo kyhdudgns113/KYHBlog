@@ -1,0 +1,29 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Righter {
+    .ChatRoom_Part {
+      background-color: #d0e0f0;
+      border-color: #808080;
+      border-radius: 8px;
+      border-width: 2px;
+
+      box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      flex-direction: column;
+
+      height: fit-content;
+      margin-top: 48px;
+      padding-top: 8px;
+      position: relative;
+      transition: box-shadow 0.3s ease;
+
+      width: 340px;
+
+      &:hover {
+        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}

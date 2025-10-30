@@ -1,3 +1,3 @@
-export * from './ButtonRowPart'
-export * from './ChatRoomPart'
-export * from './ChatRoomListPart'
+export * from './ButtonRow'
+export * from './ChatRoom'
+export * from './ChatRoomList'

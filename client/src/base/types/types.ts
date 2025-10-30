@@ -13,4 +13,4 @@ export type AuthBodyType = {
 export type CallbackType = () => void
 export type LockType = {nowNumber: number; maxNumber: number}
 export type Setter<T> = Dispatch<SetStateAction<T>>
-export type SocketType = typeof Socket
+export type SocketType = typeof Socket | null

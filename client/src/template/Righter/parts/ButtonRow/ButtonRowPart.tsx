@@ -1,9 +1,9 @@
-import {SettingButton} from '../buttons'
+import {SettingButton} from '../../buttons'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import '../_styles/Part_ButtonRow.scss'
+import './ButtonRowPart.scss'
 
 type ButtonRowPartProps = DivCommonProps & {}
 
