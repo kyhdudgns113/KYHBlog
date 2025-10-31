@@ -1,0 +1,92 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .AdminLogs_Page {
+    .GKDError_Object {
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
+
+      cursor: default;
+
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+
+      border-color: #8888ff;
+      border-radius: 4px;
+      border-width: 4px;
+
+      height: fit-content;
+      left: calc(100% - 8px);
+
+      padding-bottom: 6px;
+      padding-left: 6px;
+      padding-right: 6px;
+
+      position: absolute;
+      top: 50%;
+      user-select: text;
+      width: fit-content;
+      z-index: v.$AdminModal_Z_Index;
+
+      ._objects_title {
+        font-size: 18px;
+        font-weight: 700;
+
+        line-height: 32px;
+
+        margin-bottom: 4px;
+        width: 100%;
+      }
+
+      ._objects_table {
+        border-collapse: collapse;
+        border-color: #c0c0c0;
+        border-radius: 4px;
+        border-width: 3px;
+
+        user-select: text;
+        table-layout: fixed;
+
+        width: fit-content;
+
+        > thead {
+          border-color: #c0c0c0;
+          border-bottom-width: 6px;
+
+          th {
+            background-color: #f0f0f0;
+            border-color: #c0c0c0;
+            border-width: 2px;
+            font-size: 18px;
+            font-weight: 700;
+          }
+        }
+
+        > tbody {
+          border-color: #c0c0c0;
+          border-width: 2px;
+
+          td {
+            border-color: #c0c0c0;
+            border-width: 1px;
+          }
+        }
+      }
+
+      ._objects_message {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 26px;
+        margin-bottom: 4px;
+        width: 100%;
+      }
+
+      ._th_key {
+        width: 100px;
+      }
+      ._th_value {
+        width: 200px;
+      }
+    }
+  }
+}

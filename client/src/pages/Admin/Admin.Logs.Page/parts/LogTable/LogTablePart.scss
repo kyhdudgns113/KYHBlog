@@ -1,0 +1,83 @@
+.Template {
+  .AdminLogs_Page {
+    .LogTable_Part {
+      height: fit-content;
+      margin-top: 16px;
+
+      text-align: center;
+
+      width: fit-content;
+
+      > table {
+        border-collapse: collapse;
+        border-color: #888888;
+        border-radius: 4px;
+        border-width: 4px;
+
+        user-select: none;
+
+        width: fit-content;
+      }
+
+      > table > thead {
+        border-color: #888888;
+        border-bottom-width: 6px;
+
+        font-size: 20px;
+
+        th {
+          border-color: #888888;
+          border-width: 2px;
+          cursor: pointer;
+        }
+        th:hover {
+          background-color: #f0f0f0;
+        }
+
+        ._th_date {
+          width: 150px;
+        }
+        ._th_userId {
+          width: 150px;
+        }
+        ._th_gkdLog {
+          width: 300px;
+        }
+        ._th_gkdstatus {
+          width: 58px;
+        }
+        ._th_error {
+          width: 58px;
+        }
+      }
+
+      > table > tbody {
+        border-color: #888888;
+        border-width: 2px;
+
+        font-size: 14px;
+        line-height: 24px;
+
+        > tr:hover {
+          background-color: #f0f0f0;
+        }
+
+        > tr > td {
+          border-color: #888888;
+          border-width: 2px;
+        }
+
+        ._td_gkdstatus_icon_wrapper,
+        ._td_error_icon_wrapper {
+          height: 100%;
+          position: relative;
+          width: 100%;
+        }
+
+        ._icon_error {
+          color: #ee4444;
+        }
+      }
+    }
+  }
+}

@@ -10,7 +10,6 @@ lerna-debug.log*
 # Position directory
 **/_NOTE_BOOK/
 **/_SERVER_COM/
-**/GKDERROR*/
 **/build/
 **/static_files/
 _posts

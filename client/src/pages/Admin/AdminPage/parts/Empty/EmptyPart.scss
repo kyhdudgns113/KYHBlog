@@ -1,0 +1,72 @@
+.Template {
+  .AdminPage {
+    .EmptyPart {
+      align-items: center;
+
+      border-color: #888888;
+      border-radius: 8px;
+      border-width: 2px;
+
+      box-shadow: 0 0 10px 0 rgba(60, 60, 60, 0.2);
+
+      cursor: default;
+
+      display: flex;
+      flex-direction: column;
+
+      height: 300px;
+
+      transition: box-shadow 0.3s ease;
+
+      width: 480px;
+
+      &:hover {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+      }
+
+      ._part_title {
+        display: flex;
+        flex-direction: row;
+
+        font-size: 24px;
+        font-weight: 700;
+
+        height: 40px;
+
+        justify-content: center;
+
+        margin-bottom: 16px;
+        margin-top: 4px;
+
+        position: relative;
+
+        user-select: none;
+        width: 100%;
+
+        ._part_title_text {
+          cursor: pointer;
+          font-size: 24px;
+          width: fit-content;
+        }
+        ._part_title_text:hover {
+          font-size: 26px;
+        }
+        ._part_title_icon {
+          font-size: 24px;
+          height: 32px;
+
+          right: 8px;
+          position: absolute;
+          top: 4px;
+        }
+        ._part_title_icon:hover {
+          font-size: 28px;
+          height: 36px;
+          right: 6px;
+          position: absolute;
+          top: 2px;
+        }
+      }
+    }
+  }
+}
