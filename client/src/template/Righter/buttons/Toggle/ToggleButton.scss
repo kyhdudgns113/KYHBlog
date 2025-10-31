@@ -22,7 +22,7 @@
       justify-content: center;
 
       position: absolute;
-      right: 216px;
+      right: 266px;
       top: 54px;
 
       transition: box-shadow 0.3s ease, transform 0.7s ease;
@@ -40,7 +40,7 @@
       }
 
       &._close {
-        transform: translateX(200px);
+        transform: translateX(266px);
       }
     }
   }
