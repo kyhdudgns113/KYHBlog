@@ -6,10 +6,10 @@ import {AUTH_USER} from '@shareValue'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
 type SubmitReplyReplyButtonProps = ButtonCommonProps & {
-  reply: ReplyType
+  reply: LT.ReplyTypeLocal
   replyContent: string
 }
 
@@ -22,7 +22,7 @@ export const SubmitReplyReplyButton: FC<SubmitReplyReplyButtonProps> = ({reply, 
   const {resetReplyOId_reply} = useCommentActions()
 
   const onClickSubmit = useCallback(
-    (userAuth: number, userOId: string, userName: string, reply: ReplyType, replyContent: string) => (e: MouseEvent<HTMLButtonElement>) => {
+    (userAuth: number, userOId: string, userName: string, reply: LT.ReplyTypeLocal, replyContent: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
 
       if (userAuth < AUTH_USER) {

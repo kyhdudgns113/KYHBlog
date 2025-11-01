@@ -1,7 +1,8 @@
-import type {ChatRoomType, DirectoryType, FileType, UserType} from '@shareType'
-import type {AuthBodyType} from '@type'
+import * as LT from '@localizeType'
+import * as ST from '@shareType'
+import * as T from '@type'
 
-export const NULL_AUTH_BODY = (): AuthBodyType => ({
+export const NULL_AUTH_BODY = (): T.AuthBodyType => ({
   jwtFromServer: '',
   picture: '',
   userAuth: 0,
@@ -11,18 +12,18 @@ export const NULL_AUTH_BODY = (): AuthBodyType => ({
   userOId: ''
 })
 
-export const NULL_CHAT_ROOM = (): ChatRoomType => ({
+export const NULL_CHAT_ROOM = (): LT.ChatRoomTypeLocal => ({
   chatRoomOId: '',
   targetUserId: '',
   targetUserMail: '',
   targetUserOId: '',
   targetUserName: '',
-  lastChatDate: new Date(),
+  lastChatDateValue: 0,
   chatRoomName: '',
   unreadMessageCount: 0
 })
 
-export const NULL_DIR = (): DirectoryType => ({
+export const NULL_DIR = (): ST.DirectoryType => ({
   dirName: '',
   dirOId: '',
   fileOIdsArr: [],
@@ -30,22 +31,22 @@ export const NULL_DIR = (): DirectoryType => ({
   subDirOIdsArr: []
 })
 
-export const NULL_FILE = (): FileType => ({
+export const NULL_FILE = (): LT.FileTypeLocal => ({
   content: '',
-  createdAt: new Date(),
+  createdAtValue: 0,
   dirOId: '',
   fileIdx: 0,
   fileOId: '',
   fileStatus: 0,
   fileName: '',
-  updatedAt: new Date(),
+  updatedAtValue: 0,
   userName: '',
   userOId: ''
 })
 
-export const NULL_USER = (): UserType => ({
-  createdAt: new Date(),
-  updatedAt: new Date(),
+export const NULL_USER = (): LT.UserTypeLocal => ({
+  createdAtValue: 0,
+  updatedAtValue: 0,
   userAuth: 0,
   userId: '',
   userMail: '',

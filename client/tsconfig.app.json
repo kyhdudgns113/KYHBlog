@@ -31,6 +31,7 @@
       "@fetch": ["src/base/fetch"],
       "@httpType": ["src/base/types/httpTypes"],
       "@guard": ["src/base/guards"],
+      "@localizeType": ["src/base/types/localizeTypes"],
       "@nullValue": ["src/base/values/nullValues"],
       "@prop": ["src/base/types/props"],
       "@redux": ["src/manager/redux"],

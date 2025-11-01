@@ -1,0 +1,38 @@
+@use '../../../base/styles/values.scss' as v;
+
+.Template {
+  > .Body {
+    > .PageArea {
+      > .AdminLogs_Page {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        min-height: 800px;
+
+        padding-top: 20px;
+
+        width: 100%;
+
+        ._pageWrapper {
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+
+          height: fit-content;
+
+          min-width: 800px;
+
+          width: fit-content;
+
+          ._page_title {
+            cursor: pointer;
+            font-size: 32px;
+            font-weight: 700;
+            user-select: none;
+          }
+        }
+      }
+    }
+  }
+}

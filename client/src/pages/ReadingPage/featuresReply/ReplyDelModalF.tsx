@@ -2,11 +2,11 @@ import {CancelDelReplyButton, SubmitDelReplyButton} from '../buttons'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/ReplyDelModalF.scss'
 
-type ReplyDelModalFProps = DivCommonProps & {reply: ReplyType}
+type ReplyDelModalFProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 export const ReplyDelModalF: FC<ReplyDelModalFProps> = ({reply, className, style, ...props}) => {
   return (
     <div

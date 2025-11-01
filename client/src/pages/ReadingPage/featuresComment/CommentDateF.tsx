@@ -1,10 +1,10 @@
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/CommentDateF.scss'
 
-type CommentDateFProps = DivCommonProps & {comment: CommentType}
+type CommentDateFProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 
 /**
  * 댓글 작성 시간을 표시하는 컴포넌트이다.
@@ -17,7 +17,7 @@ export const CommentDateF: FC<CommentDateFProps> = ({comment, className, style, 
       style={style}
       {...props} // ::
     >
-      {new Date(comment.createdAt).toLocaleDateString('ko-KR', {
+      {new Date(comment.createdAtValue).toLocaleDateString('ko-KR', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',

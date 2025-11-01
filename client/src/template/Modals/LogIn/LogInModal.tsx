@@ -7,8 +7,8 @@ import {useLockStates, useModalActions} from '@redux'
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import './_styles/_ModalCommon.scss'
-import './_styles/LogInModal.scss'
+import '../_styles/_ModalCommon.scss'
+import './LogInModal.scss'
 
 type LogInModalProps = DivCommonProps & {}
 
@@ -29,7 +29,6 @@ export const LogInModal: FC<LogInModalProps> = ({className, ...props}) => {
       logIn(userId, password) // ::
         .then(res => {
           if (res) {
-            alert('로그인 성공!!')
             closeModal()
           }
         })

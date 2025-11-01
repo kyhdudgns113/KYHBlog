@@ -1,6 +1,6 @@
 @use '../../../base/styles/values.scss' as v;
 
-$LEFTER_BODY_WIDTH: 220px;
+$LEFTER_BODY_WIDTH: 250px;
 
 .Template {
   .Lefter {
@@ -23,7 +23,7 @@ $LEFTER_BODY_WIDTH: 220px;
       flex-direction: column;
       height: fit-content;
       transform: translateX(0);
-      transition: 0.7s ease;
+      transition: 0.8s ease;
 
       &._open {
         opacity: 1;

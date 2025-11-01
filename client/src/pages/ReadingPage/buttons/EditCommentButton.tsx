@@ -4,9 +4,9 @@ import {useCommentActions, useCommentStates} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
-type EditCommentButtonProps = ButtonCommonProps & {comment: CommentType}
+type EditCommentButtonProps = ButtonCommonProps & {comment: LT.CommentTypeLocal}
 
 /**
  * 댓글을 수정하는 컴포넌트로 전환하는 버튼이다.
@@ -18,7 +18,7 @@ export const EditCommentButton: FC<EditCommentButtonProps> = ({comment, classNam
   const {resetCommentOId_edit, setCommentOId_edit} = useCommentActions()
 
   const onClickEditComment = useCallback(
-    (userOId: string, commentOId_edit: string, comment: CommentType) => (e: MouseEvent<HTMLButtonElement>) => {
+    (userOId: string, commentOId_edit: string, comment: LT.CommentTypeLocal) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       e.stopPropagation()
 

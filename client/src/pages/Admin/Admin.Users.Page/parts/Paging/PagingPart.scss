@@ -1,0 +1,28 @@
+.Template {
+  .AdminUsersPage {
+    .Paging_Part {
+      align-items: center;
+
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      justify-content: center;
+
+      margin-top: 16px;
+
+      ._part_button {
+        cursor: pointer;
+        font-size: 32px;
+      }
+      ._part_index_button {
+        cursor: pointer;
+        font-size: 18px;
+        text-align: center;
+      }
+      ._part_index_button._nowIdx {
+        font-size: 20px;
+        font-weight: 900;
+      }
+    }
+  }
+}

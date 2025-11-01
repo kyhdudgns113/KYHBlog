@@ -9,6 +9,8 @@ import {ChatBlockMyGroup, ChatBlockOtherGroup} from '../../groups'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import * as LT from '@localizeType'
+
 import './ChatListObject.scss'
 
 type ChatListObjectProps = DivCommonProps & {}
@@ -60,7 +62,7 @@ export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...pr
       {showLoadBtn && <LoadChatButton />}
 
       {chatArr.map((chat, idx) => {
-        const chatDate = new Date(chat.createdAt)
+        const chatDate = new Date(chat.createdAtValue)
 
         const isSameUserWithLast = chat.userOId === lastUserOId
         const isSameMinute = chatDate.getMinutes() === lastMinute
@@ -73,10 +75,10 @@ export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...pr
         lastMinute = chatDate.getMinutes()
 
         if (chat.userOId === userOId) {
-          return <ChatBlockMyGroup chat={chat} isSameArea={isSameArea} key={idx} />
+          return <ChatBlockMyGroup chat={chat as LT.ChatTypeLocal} isSameArea={isSameArea} key={idx} />
         } // ::
         else {
-          return <ChatBlockOtherGroup chat={chat} isSameArea={isSameArea} key={idx} />
+          return <ChatBlockOtherGroup chat={chat as LT.ChatTypeLocal} isSameArea={isSameArea} key={idx} />
         }
       })}
     </div>

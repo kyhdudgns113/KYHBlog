@@ -5,11 +5,11 @@ import {ReplyLength} from '../components'
 
 import type {ChangeEvent, FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/ReplyNewReplyF.scss'
 
-type ReplyNewReplyFProps = DivCommonProps & {reply: ReplyType}
+type ReplyNewReplyFProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 export const ReplyNewReplyF: FC<ReplyNewReplyFProps> = ({reply, className, style, ...props}) => {
   const {replyContent} = useCommentStates()
   const {setReplyContent} = useCommentActions()

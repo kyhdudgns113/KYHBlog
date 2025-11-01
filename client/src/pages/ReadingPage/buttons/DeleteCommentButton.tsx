@@ -3,9 +3,9 @@ import {useCommentActions, useCommentStates} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
-type DeleteCommentButtonProps = ButtonCommonProps & {comment: CommentType}
+type DeleteCommentButtonProps = ButtonCommonProps & {comment: LT.CommentTypeLocal}
 
 /**
  * 댓글을 삭제할지 물어보는 모달을 띄우는 버튼이다.
@@ -16,7 +16,7 @@ export const DeleteCommentButton: FC<DeleteCommentButtonProps> = ({comment, clas
   const {resetCommentOId_delete, setCommentOId_delete} = useCommentActions()
 
   const onClickDeleteComment = useCallback(
-    (comment: CommentType, commentOId_delete: string) => (e: MouseEvent<HTMLButtonElement>) => {
+    (comment: LT.CommentTypeLocal, commentOId_delete: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       e.stopPropagation()
 

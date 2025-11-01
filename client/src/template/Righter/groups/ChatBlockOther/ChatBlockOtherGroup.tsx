@@ -2,11 +2,11 @@ import {Icon} from '@component'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {ChatType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './ChatBlockOtherGroup.scss'
 
-type ChatBlockOtherGroupProps = DivCommonProps & {chat: ChatType; isSameArea: boolean}
+type ChatBlockOtherGroupProps = DivCommonProps & {chat: LT.ChatTypeLocal; isSameArea: boolean}
 
 export const ChatBlockOtherGroup: FC<ChatBlockOtherGroupProps> = ({chat, isSameArea, className, style, ...props}) => {
   return (

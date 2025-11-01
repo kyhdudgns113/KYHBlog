@@ -7,8 +7,8 @@ import {useLockStates, useModalActions} from '@redux'
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import './_styles/_ModalCommon.scss'
-import './_styles/SignUpModal.scss'
+import '../_styles/_ModalCommon.scss'
+import './SignUpModal.scss'
 
 import * as SV from '@shareValue'
 
@@ -74,7 +74,6 @@ export const SignUpModal: FC<SignUpModalProps> = ({className, ...props}) => {
       signUp(userId, userMail, userName, password) // ::
         .then(res => {
           if (res) {
-            alert('회원가입 성공!!')
             closeModal()
           }
         })

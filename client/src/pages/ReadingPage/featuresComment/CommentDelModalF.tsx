@@ -2,11 +2,11 @@ import {CancelDelCommentButton, SubmitDelCommentButton} from '../buttons'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/CommentDelModalF.scss'
 
-type CommentDelModalFProps = DivCommonProps & {comment: CommentType}
+type CommentDelModalFProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 export const CommentDelModalF: FC<CommentDelModalFProps> = ({comment, className, style, ...props}) => {
   return (
     <div

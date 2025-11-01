@@ -6,18 +6,18 @@ import {COMMENT_MAX_LENGTH} from '@shareValue'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/SubmitEditCommentButton.scss'
 
-type SubmitEditCommentButtonProps = ButtonCommonProps & {comment: CommentType; content: string}
+type SubmitEditCommentButtonProps = ButtonCommonProps & {comment: LT.CommentTypeLocal; content: string}
 
 export const SubmitEditCommentButton: FC<SubmitEditCommentButtonProps> = ({comment, content, className, style, ...props}) => {
   const {editComment} = useCommentCallbacksContext()
   const {resetCommentContent} = useCommentActions()
 
   const onClickSubmitEditComment = useCallback(
-    (comment: CommentType, content: string) => (e: MouseEvent<HTMLButtonElement>) => {
+    (comment: LT.CommentTypeLocal, content: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
 
       /**

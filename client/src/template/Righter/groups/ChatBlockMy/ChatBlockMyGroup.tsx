@@ -1,10 +1,10 @@
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {ChatType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './ChatBlockMyGroup.scss'
 
-type ChatBlockMyGroupProps = DivCommonProps & {chat: ChatType; isSameArea: boolean}
+type ChatBlockMyGroupProps = DivCommonProps & {chat: LT.ChatTypeLocal; isSameArea: boolean}
 
 export const ChatBlockMyGroup: FC<ChatBlockMyGroupProps> = ({chat, isSameArea, className, style, ...props}) => {
   return (

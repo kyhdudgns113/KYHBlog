@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
+import * as LT from '@localizeType'
 import * as ST from '@shareType'
 
 // State 타입 정의
@@ -11,7 +12,7 @@ interface CommentState {
   commentOId_edit: string // 수정할 댓글의 OId
   commentOId_reply: string // 대댓글을 작성할 댓글의 OId
   commentOId_user: string // 작성된 유저가 선택된 댓글의 OId
-  commentReplyArr: (ST.CommentType | ST.ReplyType)[] // 현재 열려있는 파일의 댓글 및 대댓글 배열
+  commentReplyArr: (LT.CommentTypeLocal | LT.ReplyTypeLocal)[] // 현재 열려있는 파일의 댓글 및 대댓글 배열
   pageIdx: number // 현재 댓글 페이지 인덱스스
   pageTenIdx: number // 현재 10개 페이지 인덱스
   replyContent: string // 현재 열려있는 파일의 대댓글 내용
@@ -122,10 +123,14 @@ export const commentSlice = createSlice({
       state.replyOId_user = ''
     },
     setCommentReplyArr: (state, action: PayloadAction<(ST.CommentType | ST.ReplyType)[]>) => {
-      state.commentReplyArr = action.payload.map(elem => {
-        elem.createdAt = new Date(elem.createdAt)
-        return elem
+      const newCommentReplyArr = action.payload.map(elem => {
+        const {createdAt, ...rest} = elem
+        return {
+          ...rest,
+          createdAtValue: new Date(createdAt).valueOf()
+        }
       })
+      state.commentReplyArr = newCommentReplyArr
     },
     setPageIdx: (state, action: PayloadAction<number>) => {
       state.pageIdx = action.payload

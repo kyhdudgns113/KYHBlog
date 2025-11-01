@@ -2,16 +2,17 @@ import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
+import * as LT from '@localizeType'
 import * as NV from '@nullValue'
 import * as ST from '@shareType'
 
 // State 타입 정의
 interface FileState {
-  file: ST.FileType // 현재 열려있는 파일
+  file: LT.FileTypeLocal // 현재 열려있는 파일
   fileContent: string // 수정중인 파일의 내용
   fileName: string // 수정중인 파일의 이름
   fileOId: string // 현재 열려있는 파일의 OId
-  fileUser: ST.UserType // 현재 열려있는 파일의 작성자
+  fileUser: LT.UserTypeLocal // 현재 열려있는 파일의 작성자
   isDelete: boolean // 현재 열려있는 파일을 삭제할지 여부
   isFileUserSelected: boolean // 현재 열려있는 파일의 작성자가 선택되었는지 여부
 }
@@ -60,7 +61,8 @@ export const fileSlice = createSlice({
       state.isFileUserSelected = true
     },
     setFile: (state, action: PayloadAction<ST.FileType>) => {
-      state.file = {...action.payload, createdAt: new Date(action.payload.createdAt)}
+      const {createdAt, updatedAt, ...rest} = action.payload
+      state.file = {...rest, createdAtValue: new Date(createdAt).valueOf(), updatedAtValue: new Date(updatedAt).valueOf()}
     },
     setFileContent: (state, action: PayloadAction<string>) => {
       state.fileContent = action.payload
@@ -72,7 +74,8 @@ export const fileSlice = createSlice({
       state.fileOId = action.payload
     },
     setFileUser: (state, action: PayloadAction<ST.UserType>) => {
-      state.fileUser = action.payload
+      const {createdAt, updatedAt, ...rest} = action.payload
+      state.fileUser = {...rest, createdAtValue: new Date(createdAt).valueOf(), updatedAtValue: new Date(updatedAt).valueOf()}
     },
     // ::
     unselectFileUser: state => {

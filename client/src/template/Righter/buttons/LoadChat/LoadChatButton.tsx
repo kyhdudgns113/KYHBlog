@@ -1,5 +1,7 @@
 import {useCallback} from 'react'
-import {useChatCallbacksContext, useChatStatesContext} from '@context'
+
+import {useChatCallbacksContext} from '@context'
+import {useChatStates} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -7,7 +9,7 @@ import type {DivCommonProps} from '@prop'
 type LoadChatButtonProps = DivCommonProps & {}
 
 export const LoadChatButton: FC<LoadChatButtonProps> = ({className, style, ...props}) => {
-  const {chatArr, chatRoomOId} = useChatStatesContext()
+  const {chatArr, chatRoomOId} = useChatStates()
   const {loadChatArr} = useChatCallbacksContext()
 
   const onClickBtn = useCallback(

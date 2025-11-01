@@ -6,9 +6,9 @@ import {AUTH_GUEST} from '@shareValue'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
-type AddCommentReplyButtonProps = ButtonCommonProps & {comment: CommentType}
+type AddCommentReplyButtonProps = ButtonCommonProps & {comment: LT.CommentTypeLocal}
 
 /**
  * 대댓글을 작성하는 컴포넌트를 띄우는 버튼이다.
@@ -19,7 +19,7 @@ export const AddCommentReplyButton: FC<AddCommentReplyButtonProps> = ({comment, 
   const {setCommentOId_reply} = useCommentActions()
 
   const onClickAddReply = useCallback(
-    (userAuth: number, comment: CommentType) => (e: MouseEvent<HTMLButtonElement>) => {
+    (userAuth: number, comment: LT.CommentTypeLocal) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       e.stopPropagation()
 

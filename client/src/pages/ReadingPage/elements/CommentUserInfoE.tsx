@@ -5,20 +5,21 @@ import {useAuthStatesContext, useUserCallbacksContext} from '@context'
 import {ChatUserButton} from '../buttons'
 
 import type {FC} from 'react'
-import type {CommentType, UserType} from '@shareType'
+import type {UserTypeLocal} from '@localizeType'
 import type {DivCommonProps} from '@prop'
+import * as LT from '@localizeType'
 
 import * as NV from '@nullValue'
 
 import './_styles/CommentUserInfoE.scss'
 
-type CommentUserInfoEProps = DivCommonProps & {comment: CommentType}
+type CommentUserInfoEProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 
 export const CommentUserInfoE: FC<CommentUserInfoEProps> = ({comment, className, style, ...props}) => {
   const {userOId} = useAuthStatesContext()
   const {loadUserInfo} = useUserCallbacksContext()
 
-  const [targetUser, setTargetUser] = useState<UserType>(NV.NULL_USER())
+  const [targetUser, setTargetUser] = useState<UserTypeLocal>(NV.NULL_USER())
 
   const isMyComment = userOId === comment.userOId
 
@@ -30,11 +31,11 @@ export const CommentUserInfoE: FC<CommentUserInfoEProps> = ({comment, className,
         .then(ok => {
           if (!ok) {
             alert('에러가 떴다고?')
-            const createdAt = new Date()
-            const updatedAt = createdAt
+            const createdAtValue = Date.now()
+            const updatedAtValue = createdAtValue
             setTargetUser({
-              createdAt,
-              updatedAt,
+              createdAtValue: new Date(createdAtValue).valueOf(),
+              updatedAtValue: new Date(updatedAtValue).valueOf(),
               userOId,
               userName,
               userMail: 'NULL',

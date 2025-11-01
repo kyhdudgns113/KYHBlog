@@ -4,8 +4,7 @@ import {useFileStates} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-
-import * as ST from '@shareType'
+import * as LT from '@localizeType'
 import * as SV from '@shareValue'
 
 type HideFileButtonProps = ButtonCommonProps
@@ -17,7 +16,7 @@ export const HideFileButton: FC<HideFileButtonProps> = ({className, style, ...pr
   const isHidden = file.fileStatus === SV.FILE_HIDDEN
 
   const onClickHide = useCallback(
-    (file: ST.FileType) => (e: MouseEvent<HTMLButtonElement>) => {
+    (file: LT.FileTypeLocal) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       e.stopPropagation()
 

@@ -5,8 +5,7 @@ import {useFileStates} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-
-import * as ST from '@shareType'
+import * as LT from '@localizeType'
 import * as SV from '@shareValue'
 
 type NoticeFileButtonProps = ButtonCommonProps
@@ -18,7 +17,7 @@ export const NoticeFileButton: FC<NoticeFileButtonProps> = ({className, style, .
   const isNotice = file.fileStatus === SV.FILE_NOTICE
 
   const onClickNotice = useCallback(
-    (file: ST.FileType) => (e: MouseEvent<HTMLButtonElement>) => {
+    (file: LT.FileTypeLocal) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       e.stopPropagation()
 
