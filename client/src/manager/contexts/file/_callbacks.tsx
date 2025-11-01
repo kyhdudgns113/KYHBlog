@@ -51,6 +51,7 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
             writeExtraDirectory(extraDirs)
             writeExtraFileRow(extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
+            alert(`파일 수정 완료`)
             return true
           } // ::
           else {
@@ -80,6 +81,7 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           writeExtraFileRow(body.extraFileRows)
           setFile(body.file)
           U.writeJwtFromServer(jwtFromServer)
+          alert(`파일 상태 수정 완료`)
           return true
         } // ::
         else {
