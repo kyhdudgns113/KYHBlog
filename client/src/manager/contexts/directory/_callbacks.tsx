@@ -304,19 +304,27 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
       const oldParentDirOId = moveDir.parentDirOId ?? ''
       const oldParentDir = directories[oldParentDirOId]
+      const isSameParent = oldParentDirOId === newParentDirOId
 
       // 1. 기존 부모 폴더의 자식 폴더 배열에서 움직일 폴더 제거
       const oldParentChildArr = [...oldParentDir.subDirOIdsArr]
-      const prevIdx = oldParentChildArr.indexOf(moveDirOId)
-      oldParentChildArr.splice(prevIdx, 1)
 
       // 2. 새 부모 폴더의 자식 폴더 배열의 dirIdx 번째에 움직일 폴더 추가
       const newParentChildArr = [...newParentDir.subDirOIdsArr]
-      const idxOfNewParent = newParentChildArr.indexOf(moveDirOId)
-      if (idxOfNewParent !== -1) {
-        newParentChildArr.splice(idxOfNewParent, 1)
+      // newParentChildArr.splice(dirIdx ?? newParentChildArr.length, 0, moveDirOId)
+
+      if (isSameParent) {
+        const prevIdx = oldParentChildArr.indexOf(moveDirOId)
+        oldParentChildArr.splice(prevIdx, 1)
+        newParentChildArr.splice(prevIdx, 1)
+        oldParentChildArr.splice(dirIdx ?? newParentChildArr.length, 0, moveDirOId)
+        newParentChildArr.splice(dirIdx ?? newParentChildArr.length, 0, moveDirOId)
+      } // ::
+      else {
+        const prevIdx = oldParentChildArr.indexOf(moveDirOId)
+        oldParentChildArr.splice(prevIdx, 1)
+        newParentChildArr.splice(dirIdx ?? newParentChildArr.length, 0, moveDirOId)
       }
-      newParentChildArr.splice(dirIdx ?? newParentChildArr.length, 0, moveDirOId)
 
       /**
        * HTTP 요청
@@ -364,6 +372,8 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       const oldParentDirOId = fileRow.dirOId
       const oldParentDir = directories[oldParentDirOId]
 
+      const isSameParent = oldParentDirOId === newParentDirOId
+
       const samePrevIdx = newParentDir.fileOIdsArr.indexOf(moveFileOId)
 
       if (fileRow.dirOId === dirOId) {
@@ -384,16 +394,22 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
       // 1. 기존 부모 폴더의 자식 파일 배열에서 움직일 파일 제거
       const oldParentChildArr = [...oldParentDir.fileOIdsArr]
-      const prevIdx = oldParentChildArr.indexOf(moveFileOId)
-      oldParentChildArr.splice(prevIdx, 1)
 
       // 2. 새 부모 폴더의 자식 파일 배열의 fileIdx 번째에 움직일 파일 추가
       const newParentChildArr = [...newParentDir.fileOIdsArr]
-      const idxOfNewParent = newParentChildArr.indexOf(moveFileOId)
-      if (idxOfNewParent !== -1) {
-        newParentChildArr.splice(idxOfNewParent, 1)
+
+      if (isSameParent) {
+        const prevIdx = oldParentChildArr.indexOf(moveFileOId)
+        oldParentChildArr.splice(prevIdx, 1)
+        newParentChildArr.splice(prevIdx, 1)
+        oldParentChildArr.splice(fileIdx ?? newParentChildArr.length, 0, moveFileOId)
+        newParentChildArr.splice(fileIdx ?? newParentChildArr.length, 0, moveFileOId)
+      } // ::
+      else {
+        const prevIdx = oldParentChildArr.indexOf(moveFileOId)
+        oldParentChildArr.splice(prevIdx, 1)
+        newParentChildArr.splice(fileIdx ?? newParentChildArr.length, 0, moveFileOId)
       }
-      newParentChildArr.splice(fileIdx ?? newParentChildArr.length, 0, moveFileOId)
 
       const url = `/client/directory/moveFile`
       const data: HTTP.MoveFileType = {
