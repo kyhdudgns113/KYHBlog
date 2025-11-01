@@ -1,10 +1,10 @@
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/ReplyDateF.scss'
 
-type ReplyDateFProps = DivCommonProps & {reply: ReplyType}
+type ReplyDateFProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 
 /**
  * 댓글 작성 시간을 표시하는 컴포넌트이다.
@@ -17,7 +17,7 @@ export const ReplyDateF: FC<ReplyDateFProps> = ({reply, className, style, ...pro
       style={style}
       {...props} // ::
     >
-      {new Date(reply.createdAt).toLocaleDateString('ko-KR', {
+      {new Date(reply.createdAtValue).toLocaleDateString('ko-KR', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',

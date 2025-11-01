@@ -4,9 +4,9 @@ import {useCommentActions, useCommentStates} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
-type EditReplyButtonProps = ButtonCommonProps & {reply: ReplyType}
+type EditReplyButtonProps = ButtonCommonProps & {reply: LT.ReplyTypeLocal}
 
 /**
  * 대댓글을 수정하는 컴포넌트로 전환하는 버튼이다.
@@ -18,7 +18,7 @@ export const EditReplyButton: FC<EditReplyButtonProps> = ({reply, className, sty
   const {resetReplyOId_edit, setReplyOId_edit} = useCommentActions()
 
   const onClickEditReply = useCallback(
-    (userOId: string, replyOId_edit: string, reply: ReplyType) => (e: MouseEvent<HTMLButtonElement>) => {
+    (userOId: string, replyOId_edit: string, reply: LT.ReplyTypeLocal) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       e.stopPropagation()
 

@@ -3,9 +3,9 @@ import {useCommentActions, useCommentStates} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
-type DeleteReplyButtonProps = ButtonCommonProps & {reply: ReplyType}
+type DeleteReplyButtonProps = ButtonCommonProps & {reply: LT.ReplyTypeLocal}
 
 /**
  * 대댓글을 삭제할지 물어보는 모달을 띄우는 버튼이다.
@@ -16,7 +16,7 @@ export const DeleteReplyButton: FC<DeleteReplyButtonProps> = ({reply, className,
   const {resetReplyOId_delete, setReplyOId_delete} = useCommentActions()
 
   const onClickDeleteReply = useCallback(
-    (reply: ReplyType, replyOId_delete: string) => (e: MouseEvent<HTMLButtonElement>) => {
+    (reply: LT.ReplyTypeLocal, replyOId_delete: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       e.stopPropagation()
 

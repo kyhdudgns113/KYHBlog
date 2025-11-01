@@ -4,11 +4,11 @@ import {AddReplyReplyButton, EditReplyButton, DeleteReplyButton} from '../button
 import type {FC} from 'react'
 
 import type {DivCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/ReplyBtnRowF.scss'
 
-type ReplyBtnRowFProps = DivCommonProps & {reply: ReplyType}
+type ReplyBtnRowFProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 
 export const ReplyBtnRowF: FC<ReplyBtnRowFProps> = ({reply, className, style, ...props}) => {
   const {userOId} = useAuthStatesContext()

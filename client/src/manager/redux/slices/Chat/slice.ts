@@ -2,14 +2,15 @@ import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
+import * as LT from '@localizeType'
 import * as NV from '@nullValue'
 import * as ST from '@shareType'
 
 // State 타입 정의
 interface ChatState {
-  chatArr: ST.ChatType[]
-  chatRoom: ST.ChatRoomType
-  chatRoomArr: ST.ChatRoomType[]
+  chatArr: LT.ChatTypeLocal[]
+  chatRoom: LT.ChatRoomTypeLocal
+  chatRoomArr: LT.ChatRoomTypeLocal[]
   chatRoomOId: string
   goToBottom: boolean
   loadedChatRoomOId: string
@@ -31,10 +32,25 @@ export const chatSlice = createSlice({
   initialState,
   reducers: {
     pushFrontChatArr: (state, action: PayloadAction<ST.ChatType[]>) => {
-      state.chatArr = [...action.payload, ...state.chatArr]
+      const newChatArr = action.payload.map(elem => {
+        const {createdAt, ...rest} = elem
+        return {
+          ...rest,
+          createdAtValue: new Date(createdAt).valueOf()
+        }
+      })
+
+      state.chatArr = [...newChatArr, ...state.chatArr]
     },
     pushBackChatArr: (state, action: PayloadAction<ST.ChatType[]>) => {
-      state.chatArr = [...state.chatArr, ...action.payload]
+      const newChatArr = action.payload.map(elem => {
+        const {createdAt, ...rest} = elem
+        return {
+          ...rest,
+          createdAtValue: new Date(createdAt).valueOf()
+        }
+      })
+      state.chatArr = [...state.chatArr, ...newChatArr]
     },
     resetChatArr: state => {
       state.chatArr = []
@@ -60,16 +76,28 @@ export const chatSlice = createSlice({
     },
 
     setChatArr: (state, action: PayloadAction<ST.ChatType[]>) => {
-      state.chatArr = action.payload.map(elem => {
-        elem.createdAt = new Date(elem.createdAt)
-        return elem
+      const newChatArr = action.payload.map(elem => {
+        const {createdAt, ...rest} = elem
+        return {
+          ...rest,
+          createdAtValue: new Date(createdAt).valueOf()
+        }
       })
+      state.chatArr = newChatArr
     },
     setChatRoom: (state, action: PayloadAction<ST.ChatRoomType>) => {
-      state.chatRoom = action.payload
+      const {lastChatDate, ...rest} = action.payload
+      state.chatRoom = {...rest, lastChatDateValue: new Date(lastChatDate).valueOf()}
     },
     setChatRoomArr: (state, action: PayloadAction<ST.ChatRoomType[]>) => {
-      state.chatRoomArr = action.payload
+      const newChatRoomArr = action.payload.map(elem => {
+        const {lastChatDate, ...rest} = elem
+        return {
+          ...rest,
+          lastChatDateValue: new Date(lastChatDate).valueOf()
+        }
+      })
+      state.chatRoomArr = newChatRoomArr
     },
     setChatRoomOId: (state, action: PayloadAction<string>) => {
       state.chatRoomOId = action.payload

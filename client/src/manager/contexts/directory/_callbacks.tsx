@@ -259,7 +259,17 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
        */
       const newParentDirOId = parentDirOId
       const newParentDir = directories[parentDirOId]
+
+      if (!newParentDir) {
+        alert(`${parentDirOId}의 정보가 없습니다.`)
+        return false
+      }
+
       const moveDir = directories[moveDirOId]
+      if (!moveDir) {
+        alert(`${moveDirOId}의 정보가 없습니다.`)
+        return false
+      }
       const samePrevIdx = newParentDir.subDirOIdsArr.indexOf(moveDirOId)
 
       if (moveDir.parentDirOId === parentDirOId) {
@@ -267,6 +277,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
         const nullIsSameIdx = dirIdx === null && samePrevIdx === newParentDir.subDirOIdsArr.length - 1
 
         if (isSameIdx || nullIsSameIdx) {
+          alert(`Debug is ${isSameIdx} || ${nullIsSameIdx}`)
           return false
         }
       }
@@ -313,6 +324,15 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       // 2. 새 부모 폴더의 자식 폴더 배열의 dirIdx 번째에 움직일 폴더 추가
       const newParentChildArr = newParentDir.subDirOIdsArr
       newParentChildArr.splice(dirIdx ?? newParentChildArr.length, 0, moveDirOId)
+
+      let debugStr = ''
+
+      newParentChildArr.forEach(dirOId => {
+        const dir = directories[dirOId]
+        debugStr += `${dir.dirName} `
+      })
+
+      alert(`Debug info: ${debugStr}`)
 
       /**
        * HTTP 요청

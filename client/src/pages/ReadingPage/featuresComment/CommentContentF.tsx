@@ -5,11 +5,11 @@ import {COMMENT_MAX_LENGTH} from '@shareValue'
 
 import type {ChangeEvent, CSSProperties, FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/CommentContentF.scss'
 
-type CommentContentFProps = DivCommonProps & {comment: CommentType}
+type CommentContentFProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 
 /**
  * 댓글의 내용과 수정중이면 제출버튼을 표시하는 컴포넌트이다.

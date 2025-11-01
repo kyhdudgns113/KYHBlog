@@ -7,11 +7,11 @@ import {CancelCommentReplyButton, SubmitCommentReplyButton} from '../buttons'
 
 import type {ChangeEvent, FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/CommentNewReplyF.scss'
 
-type CommentNewReplyFProps = DivCommonProps & {comment: CommentType}
+type CommentNewReplyFProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 export const CommentNewReplyF: FC<CommentNewReplyFProps> = ({comment, className, style, ...props}) => {
   const {replyContent} = useCommentStates()
   const {setReplyContent} = useCommentActions()

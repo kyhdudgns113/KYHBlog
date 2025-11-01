@@ -5,11 +5,11 @@ import {COMMENT_MAX_LENGTH} from '@shareValue'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import * as SV from '@shareValue'
 
-type SubmitCommentReplyButtonProps = ButtonCommonProps & {comment: CommentType; replyContent: string}
+type SubmitCommentReplyButtonProps = ButtonCommonProps & {comment: LT.CommentTypeLocal; replyContent: string}
 
 /**
  * 댓글의 대댓글을 제출하는 버튼이다.
@@ -20,7 +20,7 @@ export const SubmitCommentReplyButton: FC<SubmitCommentReplyButtonProps> = ({com
   const {addReply} = useCommentCallbacksContext()
 
   const onClickSubmit = useCallback(
-    (userAuth: number, userOId: string, userName: string, comment: CommentType, replyContent: string) => (e: MouseEvent<HTMLButtonElement>) => {
+    (userAuth: number, userOId: string, userName: string, comment: LT.CommentTypeLocal, replyContent: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
 
       if (userAuth < SV.AUTH_USER) {

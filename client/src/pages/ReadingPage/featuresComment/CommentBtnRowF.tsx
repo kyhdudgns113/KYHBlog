@@ -4,11 +4,11 @@ import {AddCommentReplyButton, EditCommentButton, DeleteCommentButton} from '../
 import type {FC} from 'react'
 
 import type {DivCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/CommentBtnRowF.scss'
 
-type CommentBtnRowFProps = DivCommonProps & {comment: CommentType}
+type CommentBtnRowFProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 
 export const CommentBtnRowF: FC<CommentBtnRowFProps> = ({comment, className, style, ...props}) => {
   const {userOId} = useAuthStatesContext()

@@ -1,23 +1,25 @@
 import {useEffect, useState} from 'react'
 
-import {NULL_USER} from '@nullValue'
 import {useAuthStatesContext, useUserCallbacksContext} from '@context'
 
 import {ChatUserButton} from '../buttons'
 
 import type {FC} from 'react'
-import type {ReplyType, UserType} from '@shareType'
+import type {UserTypeLocal} from '@localizeType'
 import type {DivCommonProps} from '@prop'
+import * as LT from '@localizeType'
+
+import * as NV from '@nullValue'
 
 import './_styles/ReplyUserInfoE.scss'
 
-type ReplyUserInfoEProps = DivCommonProps & {reply: ReplyType}
+type ReplyUserInfoEProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 
 export const ReplyUserInfoE: FC<ReplyUserInfoEProps> = ({reply, className, style, ...props}) => {
   const {userOId} = useAuthStatesContext()
   const {loadUserInfo} = useUserCallbacksContext()
 
-  const [targetUser, setTargetUser] = useState<UserType>(NULL_USER)
+  const [targetUser, setTargetUser] = useState<UserTypeLocal>(NV.NULL_USER())
 
   const isMyReply = userOId === reply.userOId
 
@@ -28,19 +30,17 @@ export const ReplyUserInfoE: FC<ReplyUserInfoEProps> = ({reply, className, style
       loadUserInfo(reply.userOId, setTargetUser) // ::
         .then(ok => {
           if (!ok) {
-            const createdAt = new Date()
-            const updatedAt = createdAt
+            const createdAtValue = Date.now()
+            const updatedAtValue = createdAtValue
             setTargetUser({
-              createdAt,
-              updatedAt,
-              userOId,
-              userName,
-              userMail: 'NULL',
+              createdAtValue: new Date(createdAtValue).valueOf(),
+              updatedAtValue: new Date(updatedAtValue).valueOf(),
+              userAuth: 0,
               userId: 'NULL',
-              picture: 'NULL',
-              signUpType: 'common',
-              userAuth: 0
-            })
+              userMail: 'NULL',
+              userName,
+              userOId
+            } as LT.UserTypeLocal)
           }
         })
     }

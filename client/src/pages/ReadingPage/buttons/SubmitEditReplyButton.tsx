@@ -6,18 +6,18 @@ import {useCommentActions} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/SubmitEditReplyButton.scss'
 
-type SubmitEditReplyButtonProps = ButtonCommonProps & {reply: ReplyType; content: string}
+type SubmitEditReplyButtonProps = ButtonCommonProps & {reply: LT.ReplyTypeLocal; content: string}
 
 export const SubmitEditReplyButton: FC<SubmitEditReplyButtonProps> = ({reply, content, className, style, ...props}) => {
   const {editReply} = useCommentCallbacksContext()
   const {resetReplyContent} = useCommentActions()
 
   const onClickSubmitEditReply = useCallback(
-    (reply: ReplyType, content: string) => (e: MouseEvent<HTMLButtonElement>) => {
+    (reply: LT.ReplyTypeLocal, content: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
 
       /**

@@ -4,11 +4,11 @@ import {CommentUserInfoE} from '../elements'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/CommentUserNameF.scss'
 
-type CommentUserNameFProps = DivCommonProps & {comment: CommentType}
+type CommentUserNameFProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 
 export const CommentUserNameF: FC<CommentUserNameFProps> = ({comment, className, style, ...props}) => {
   const {commentOId_user} = useCommentStates()
@@ -17,7 +17,7 @@ export const CommentUserNameF: FC<CommentUserNameFProps> = ({comment, className,
   const isUserSelected = commentOId_user === comment.commentOId
 
   const onClickUserName = useCallback(
-    (comment: CommentType) => (e: MouseEvent<HTMLParagraphElement>) => {
+    (comment: LT.CommentTypeLocal) => (e: MouseEvent<HTMLParagraphElement>) => {
       e.preventDefault()
       e.stopPropagation()
       setCommentOId_user(comment.commentOId)

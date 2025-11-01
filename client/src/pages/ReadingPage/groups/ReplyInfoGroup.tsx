@@ -2,13 +2,13 @@ import {useCommentStates} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
 import * as F from '../featuresReply'
 
 import './_styles/ReplyInfoGroup.scss'
 
-type ReplyInfoGroupProps = DivCommonProps & {reply: ReplyType}
+type ReplyInfoGroupProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 
 export const ReplyInfoGroup: FC<ReplyInfoGroupProps> = ({reply, className, style, ...props}) => {
   const {replyOId_delete, replyOId_reply} = useCommentStates()

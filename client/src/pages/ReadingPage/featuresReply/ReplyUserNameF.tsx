@@ -4,11 +4,11 @@ import {ReplyUserInfoE} from '../elements'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/ReplyUserNameF.scss'
 
-type ReplyUserNameFProps = DivCommonProps & {reply: ReplyType}
+type ReplyUserNameFProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 
 export const ReplyUserNameF: FC<ReplyUserNameFProps> = ({reply, className, style, ...props}) => {
   const {replyOId_user} = useCommentStates()
@@ -17,7 +17,7 @@ export const ReplyUserNameF: FC<ReplyUserNameFProps> = ({reply, className, style
   const isUserSelected = replyOId_user === reply.replyOId
 
   const onClickUserName = useCallback(
-    (reply: ReplyType) => (e: MouseEvent<HTMLParagraphElement>) => {
+    (reply: LT.ReplyTypeLocal) => (e: MouseEvent<HTMLParagraphElement>) => {
       e.preventDefault()
       e.stopPropagation()
       setReplyOId_user(reply.replyOId)

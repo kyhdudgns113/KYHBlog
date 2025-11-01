@@ -3,11 +3,12 @@ import {useChatActions} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {ChatRoomType} from '@shareType'
+
+import * as LT from '@localizeType'
 
 import './ChatRoomRowObject.scss'
 
-type ChatRoomRowObjectProps = DivCommonProps & {chatRoom: ChatRoomType}
+type ChatRoomRowObjectProps = DivCommonProps & {chatRoom: LT.ChatRoomTypeLocal}
 
 export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, className, style, ...props}) => {
   const {selectChatRoom} = useChatActions()

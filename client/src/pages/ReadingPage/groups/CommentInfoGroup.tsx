@@ -4,11 +4,11 @@ import * as F from '../featuresComment'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {CommentType} from '@shareType'
+import * as LT from '@localizeType'
 
 import './_styles/CommentInfoGroup.scss'
 
-type CommentInfoGroupProps = DivCommonProps & {comment: CommentType}
+type CommentInfoGroupProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 
 export const CommentInfoGroup: FC<CommentInfoGroupProps> = ({comment, className, style, ...props}) => {
   const {commentOId_delete, commentOId_reply} = useCommentStates()

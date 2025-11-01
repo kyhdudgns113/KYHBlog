@@ -38,7 +38,7 @@ export const HeaderUserObject: FC<HeaderUserObjectProps> = ({className, style, .
         <p className="_userName" onClick={onClickUserName} onMouseDown={onMouseDownUserName}>
           {file.userName}
         </p>
-        <p className="_createdAt">{new Date(file.createdAt).toLocaleDateString('ko-KR')}</p>
+        <p className="_createdAt">{new Date(file.createdAtValue).toLocaleDateString('ko-KR')}</p>
 
         {isFileUserSelected && <HeaderUserModalGroup />}
       </div>

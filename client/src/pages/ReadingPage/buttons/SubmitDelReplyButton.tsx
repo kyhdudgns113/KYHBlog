@@ -4,16 +4,16 @@ import {AUTH_ADMIN} from '@secret'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
-import type {ReplyType} from '@shareType'
+import * as LT from '@localizeType'
 
-type SubmitDelReplyButtonProps = ButtonCommonProps & {reply: ReplyType}
+type SubmitDelReplyButtonProps = ButtonCommonProps & {reply: LT.ReplyTypeLocal}
 
 export const SubmitDelReplyButton: FC<SubmitDelReplyButtonProps> = ({reply, className, style, ...props}) => {
   const {userAuth, userOId} = useAuthStatesContext()
   const {deleteReply} = useCommentCallbacksContext()
 
   const onClickDelete = useCallback(
-    (userAuth: number, userOId: string, reply: ReplyType) => (e: MouseEvent<HTMLButtonElement>) => {
+    (userAuth: number, userOId: string, reply: LT.ReplyTypeLocal) => (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
 
       /**
