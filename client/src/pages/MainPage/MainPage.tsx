@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
-import {useFileStates} from '@redux'
+import {useBlogSelector} from '@redux'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkBreaks from 'remark-breaks'
@@ -20,7 +20,8 @@ type MainPageProps = DivCommonProps & {
 }
 
 export const MainPage: FC<MainPageProps> = ({reqAuth, className, ...props}) => {
-  const {file, fileOId} = useFileStates()
+  const file = useBlogSelector(state => state.file.file)
+  const fileOId = useBlogSelector(state => state.file.fileOId)
 
   const [stringArr, setStringArr] = useState<string[]>([])
 
