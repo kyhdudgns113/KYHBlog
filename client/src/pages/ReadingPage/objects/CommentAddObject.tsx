@@ -1,4 +1,4 @@
-import {useCommentStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {CommentLength} from '../components'
 import {CommentWrittingGroup} from '../groups'
@@ -22,7 +22,7 @@ type CommentAddObjectProps = DivCommonProps
  *   4. 댓글 작성 버튼
  */
 export const CommentAddObject: FC<CommentAddObjectProps> = ({className, style, ...props}) => {
-  const {commentContent} = useCommentStates()
+  const commentContent = useBlogSelector(state => state.comment.commentContent)
 
   return (
     <div className={`CommentAdd_Object ${className || ''}`} style={style} {...props}>

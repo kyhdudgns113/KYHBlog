@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react'
 
 import {useAdminCallbacksContext} from '@context'
-import {useAdminActions, useAdminStates} from '@redux'
+import {useAdminActions, useBlogSelector} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -14,7 +14,7 @@ type AdminLogsPageProps = DivCommonProps
 
 // prettier-ignore
 export const AdminLogsPage: FC<AdminLogsPageProps> = ({className, style, ...props}) => {
-  const {isLoadingLogArr} = useAdminStates()
+  const isLoadingLogArr = useBlogSelector(state => state.admin.isLoadingLogArr)
   const {setIsLoadingLogArr, resetLogOId_showError, resetLogOId_showStatus} = useAdminActions()
   const {loadLogArr} = useAdminCallbacksContext()
 

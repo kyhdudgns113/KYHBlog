@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useRef} from 'react'
 
-import {useCommentStates, useCommentActions} from '@redux'
+import {useBlogSelector, useCommentActions} from '@redux'
 
 import {CommentLength} from '../components'
 import {CancelCommentReplyButton, SubmitCommentReplyButton} from '../buttons'
@@ -13,7 +13,7 @@ import './_styles/CommentNewReplyF.scss'
 
 type CommentNewReplyFProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 export const CommentNewReplyF: FC<CommentNewReplyFProps> = ({comment, className, style, ...props}) => {
-  const {replyContent} = useCommentStates()
+  const replyContent = useBlogSelector(state => state.comment.replyContent)
   const {setReplyContent} = useCommentActions()
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)

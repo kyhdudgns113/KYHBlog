@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 
-import {useDirectoryStates} from '@redux'
+import {useBlogSelector} from '@redux'
 import {FILE_NORMAL, FILE_NOTICE, FILE_HIDDEN} from '@shareValue'
 
 import type {FC} from 'react'
@@ -11,7 +11,7 @@ import '../_styles/Btn_FileStatus.scss'
 type FileStatusButtonProps = DivCommonProps & {fileOId: string}
 
 export const FileStatusButton: FC<FileStatusButtonProps> = ({fileOId, className, style, ...props}) => {
-  const {fileRows} = useDirectoryStates()
+  const fileRows = useBlogSelector(state => state.directory.fileRows)
 
   const [fileStatus, setFileStatus] = useState<number>(FILE_NORMAL)
 

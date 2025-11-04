@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 
 import {Icon} from '@component'
-import {useFileActions, useFileStates} from '@redux'
+import {useBlogSelector, useFileActions} from '@redux'
 
 import {HeaderUserModalGroup} from '../groups'
 
@@ -13,7 +13,8 @@ import './_styles/HeaderUserObject.scss'
 type HeaderUserObjectProps = DivCommonProps
 
 export const HeaderUserObject: FC<HeaderUserObjectProps> = ({className, style, ...props}) => {
-  const {file, isFileUserSelected} = useFileStates()
+  const file = useBlogSelector(state => state.file.file)
+  const isFileUserSelected = useBlogSelector(state => state.file.isFileUserSelected)
   const {selectFileUser} = useFileActions()
 
   const onClickUserName = useCallback((e: MouseEvent<HTMLParagraphElement>) => {

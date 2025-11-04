@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
-import {useCommentStates} from '@redux'
+import {useBlogSelector} from '@redux'
 import {SubmitEditReplyButton} from '../buttons'
 import {COMMENT_MAX_LENGTH} from '@shareValue'
 
@@ -18,7 +18,7 @@ type ReplyContentFProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
  *   - 수정중이면 수정중인 내용, 댓글 길이, 제출버튼이 표시된다
  */
 export const ReplyContentF: FC<ReplyContentFProps> = ({reply, className, style, ...props}) => {
-  const {replyOId_edit} = useCommentStates()
+  const replyOId_edit = useBlogSelector(state => state.comment.replyOId_edit)
 
   const [content, setContent] = useState<string>('')
 

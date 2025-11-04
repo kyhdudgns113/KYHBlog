@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 
 import {useFileCallbacksContext} from '@context'
-import {useFileStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
@@ -11,7 +11,7 @@ import * as SV from '@shareValue'
 type NoticeFileButtonProps = ButtonCommonProps
 
 export const NoticeFileButton: FC<NoticeFileButtonProps> = ({className, style, ...props}) => {
-  const {file} = useFileStates()
+  const file = useBlogSelector(state => state.file.file)
   const {editFileStatus} = useFileCallbacksContext()
 
   const isNotice = file.fileStatus === SV.FILE_NOTICE

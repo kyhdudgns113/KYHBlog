@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 
-import {useAdminActions, useAdminStates} from '@redux'
+import {useAdminActions, useBlogSelector} from '@redux'
 import {ADMIN_USER_PER_PAGE} from '@value'
 
 import type {FC, MouseEvent} from 'react'
@@ -13,7 +13,8 @@ type UserTablePartProps = TableCommonProps & {
 }
 
 export const UserTablePart: FC<UserTablePartProps> = ({pageIdx, className, style, ...props}) => {
-  const {userArrFiltered, userArrSortType} = useAdminStates()
+  const userArrFiltered = useBlogSelector(state => state.admin.userArrFiltered)
+  const userArrSortType = useBlogSelector(state => state.admin.userArrSortType)
   const {sortUserArrFiltered} = useAdminActions()
 
   const onClickTh = useCallback(

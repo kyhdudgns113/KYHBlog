@@ -1,6 +1,6 @@
 import {useRef, useEffect, useCallback} from 'react'
 import {useChatCallbacksContext, useSocketStatesContext} from '@context'
-import {useChatStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import type {FC, KeyboardEvent, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -12,7 +12,7 @@ type ChatInputGroupProps = DivCommonProps & {value: string; setter: Setter<strin
 
 export const ChatInputGroup: FC<ChatInputGroupProps> = ({setter, value, className, style, ...props}) => {
   const {socket} = useSocketStatesContext()
-  const {chatRoomOId} = useChatStates()
+  const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
   const {submitChat} = useChatCallbacksContext()
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)

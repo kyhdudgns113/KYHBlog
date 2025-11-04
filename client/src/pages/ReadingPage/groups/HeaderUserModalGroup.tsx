@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 
 import {useAuthStatesContext} from '@context'
-import {useFileStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {ChatUserButton} from '../buttons'
 
@@ -22,7 +22,7 @@ type HeaderUserModalGroupProps = DivCommonProps
  */
 export const HeaderUserModalGroup: FC<HeaderUserModalGroupProps> = ({className, style, ...props}) => {
   const {userOId} = useAuthStatesContext()
-  const {fileUser} = useFileStates()
+  const fileUser = useBlogSelector(state => state.file.fileUser)
 
   const onClickDiv = useCallback((e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()

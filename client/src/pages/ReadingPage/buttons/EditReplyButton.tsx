@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {useAuthStatesContext} from '@context'
-import {useCommentActions, useCommentStates} from '@redux'
+import {useBlogSelector, useCommentActions} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
@@ -14,7 +14,7 @@ type EditReplyButtonProps = ButtonCommonProps & {reply: LT.ReplyTypeLocal}
  */
 export const EditReplyButton: FC<EditReplyButtonProps> = ({reply, className, style, ...props}) => {
   const {userOId} = useAuthStatesContext()
-  const {replyOId_edit} = useCommentStates()
+  const replyOId_edit = useBlogSelector(state => state.comment.replyOId_edit)
   const {resetReplyOId_edit, setReplyOId_edit} = useCommentActions()
 
   const onClickEditReply = useCallback(

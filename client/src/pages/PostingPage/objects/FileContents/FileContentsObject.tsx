@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 
 import {useFileCallbacksContext} from '@context'
-import {useFileActions, useFileStates} from '@redux'
+import {useBlogSelector, useFileActions} from '@redux'
 
 import type {ChangeEvent, FC, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -11,7 +11,9 @@ import './FileContentsObject.scss'
 type FileContentsObjectProps = DivCommonProps & {}
 
 export const FileContentsObject: FC<FileContentsObjectProps> = ({className, ...props}) => {
-  const {fileContent, fileName, fileOId} = useFileStates()
+  const fileContent = useBlogSelector(state => state.file.fileContent)
+  const fileName = useBlogSelector(state => state.file.fileName)
+  const fileOId = useBlogSelector(state => state.file.fileOId)
   const {setFileContent} = useFileActions()
   const {editFile} = useFileCallbacksContext()
 

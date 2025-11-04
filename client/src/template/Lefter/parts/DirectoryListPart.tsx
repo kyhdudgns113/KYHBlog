@@ -1,4 +1,4 @@
-import {useDirectoryStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {DirectoryRowObject, FileRowObject} from '../objects'
 
@@ -10,7 +10,7 @@ import '../_styles/Part_DirectoryList.scss'
 type DirectoryListPartProps = DivCommonProps & {}
 
 export const DirectoryListPart: FC<DirectoryListPartProps> = ({className, ...props}) => {
-  const {rootDir} = useDirectoryStates()
+  const rootDir = useBlogSelector(state => state.directory.rootDir)
 
   return (
     <div className={`DirectoryList_Part SCROLL_SAKURA ${className || ''}`} {...props}>

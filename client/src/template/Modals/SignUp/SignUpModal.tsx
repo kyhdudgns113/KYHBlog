@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react'
 
 import {Modal} from '@component'
 import {useAuthCallbacksContext} from '@context'
-import {useLockStates, useModalActions} from '@redux'
+import {useBlogSelector, useModalActions} from '@redux'
 
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -15,7 +15,7 @@ import * as SV from '@shareValue'
 type SignUpModalProps = DivCommonProps & {}
 
 export const SignUpModal: FC<SignUpModalProps> = ({className, ...props}) => {
-  const {signUpLock} = useLockStates()
+  const signUpLock = useBlogSelector(state => state.lock.signUpLock)
   const {closeModal} = useModalActions()
   const {signUp} = useAuthCallbacksContext()
 

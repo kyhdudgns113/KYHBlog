@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 
 import {useAdminCallbacksContext} from '@context'
 import {Icon} from '@component'
-import {useAdminActions, useAdminStates} from '@redux'
+import {useAdminActions, useBlogSelector} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -16,7 +16,8 @@ import './UsersPart.scss'
 type UsersPartProps = DivCommonProps & {}
 
 export const UsersPart: FC<UsersPartProps> = ({className, style, ...props}) => {
-  const {isLoadingUserArr, userArr} = useAdminStates()
+  const isLoadingUserArr = useBlogSelector(state => state.admin.isLoadingUserArr)
+  const userArr = useBlogSelector(state => state.admin.userArr)
   const {setIsLoadingUserArr} = useAdminActions()
   const {loadUserArr} = useAdminCallbacksContext()
 

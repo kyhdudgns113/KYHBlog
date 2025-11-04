@@ -1,5 +1,5 @@
 import {Icon} from '@component'
-import {useDirectoryStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {FileStatusButton} from '../buttons'
 
@@ -11,7 +11,7 @@ import '../_styles/Grp_FileInfo.scss'
 type FileInfoGroupProps = DivCommonProps & {fileOId: string}
 
 export const FileInfoGroup: FC<FileInfoGroupProps> = ({fileOId, className, ...props}) => {
-  const {fileRows} = useDirectoryStates()
+  const fileRows = useBlogSelector(state => state.directory.fileRows)
 
   return (
     <div className={`FileInfo_Group ${className || ''}`} {...props}>

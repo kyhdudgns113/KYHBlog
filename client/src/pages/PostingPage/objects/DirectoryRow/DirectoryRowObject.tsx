@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 
 import {useDirectoryCallbacksContext} from '@context'
-import {useDirectoryStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {DirectoryInfoGroup, DirectorySpaceGroup} from '../../groups'
 import {AddDirectoryObject, AddFileObject, FileRowObject} from '../'
@@ -21,7 +21,9 @@ type DirectoryRowObjectProps = DivCommonProps & {
 }
 
 export const DirectoryRowObject: FC<DirectoryRowObjectProps> = ({dirIdx, dirOId, parentDirOId, className, ...props}) => {
-  const {directories, dirOId_addDir, dirOId_addFile} = useDirectoryStates()
+  const directories = useBlogSelector(state => state.directory.directories)
+  const dirOId_addDir = useBlogSelector(state => state.directory.dirOId_addDir)
+  const dirOId_addFile = useBlogSelector(state => state.directory.dirOId_addFile)
   const {loadDirectory} = useDirectoryCallbacksContext()
 
   const [directory, setDirectory] = useState<ST.DirectoryType>(NV.NULL_DIR())

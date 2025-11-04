@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 
 import {MarkDownComponent} from '@component'
-import {useFileStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -15,7 +15,9 @@ import './_styles/ReadingContentPart.scss'
 type ReadingContentPartProps = DivCommonProps
 
 export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, style, ...props}) => {
-  const {fileOId, file} = useFileStates()
+  // fileUser 변경 시 리렌더링되지 않도록 file과 fileOId만 선택적으로 구독
+  const fileOId = useBlogSelector(state => state.file.fileOId)
+  const file = useBlogSelector(state => state.file.file)
 
   const [stringArr, setStringArr] = useState<string[]>([])
 
@@ -40,7 +42,7 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, styl
     target.hidden = true
   }, [])
 
-  const onDoubleClick = useCallback((e: Event) => {
+  const onDoubleClickBlock = useCallback((e: Event) => {
     e.stopPropagation()
     e.preventDefault()
 
@@ -122,12 +124,12 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, styl
 
     const blocks = container.querySelectorAll('[class*="block_"]')
     blocks.forEach(block => {
-      block.addEventListener('dblclick', onDoubleClick)
+      block.addEventListener('dblclick', onDoubleClickBlock)
     })
 
     return () => {
       blocks.forEach(block => {
-        block.removeEventListener('dblclick', onDoubleClick)
+        block.removeEventListener('dblclick', onDoubleClickBlock)
       })
     }
   }, [fileOId, stringArr]) // eslint-disable-line react-hooks/exhaustive-deps

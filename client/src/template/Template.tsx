@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {Outlet} from 'react-router-dom'
 
-import {useCommentActions, useDirectoryActions, useFileActions, useModalStates} from '@redux'
+import {useBlogSelector, useCommentActions, useDirectoryActions, useFileActions} from '@redux'
 
 import {Header} from './Header'
 import {Lefter} from './Lefter'
@@ -19,7 +19,7 @@ import './_styles/Template.scss'
 type TemplateProps = DivCommonProps & {}
 
 export const Template: FC<TemplateProps> = ({className, ...props}) => {
-  const {modalName} = useModalStates()
+  const modalName = useBlogSelector(state => state.modal.modalName)
   const {resetCommentOId_user, resetReplyOId_user, resetReplyOId_delete, resetReplyOId_edit} = useCommentActions()
   const {resetFileUser} = useFileActions()
   const {resetMoveDirOId, resetMoveFileOId} = useDirectoryActions()

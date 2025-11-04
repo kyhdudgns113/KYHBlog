@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 
 import {Icon} from '@component'
-import {useAdminActions, useAdminStates} from '@redux'
+import {useAdminActions, useBlogSelector} from '@redux'
 import {ADMIN_LOG_PER_PAGE} from '@value'
 
 import {GKDErrorObject, GKDStatusObject} from '../../objects'
@@ -16,7 +16,10 @@ type LogTablePartProps = TableCommonProps & {
 }
 
 export const LogTablePart: FC<LogTablePartProps> = ({pageIdx, className, style, ...props}) => {
-  const {logArr, logOId_showError, logOId_showStatus} = useAdminStates()
+  const logArr = useBlogSelector(state => state.admin.logArr)
+  const logOId_showError = useBlogSelector(state => state.admin.logOId_showError)
+  const logOId_showStatus = useBlogSelector(state => state.admin.logOId_showStatus)
+
   const {setLogOId_showError, setLogOId_showStatus} = useAdminActions()
 
   const onClickIconError = useCallback(

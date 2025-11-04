@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useMemo, useRef} from 'react'
 
 import {useAuthStatesContext} from '@context'
-import {useCommentActions, useCommentStates} from '@redux'
+import {useBlogSelector, useCommentActions} from '@redux'
 
 import * as SV from '@shareValue'
 
@@ -14,7 +14,7 @@ type CommentWrittingGroupProps = DivCommonProps
 
 export const CommentWrittingGroup: FC<CommentWrittingGroupProps> = ({className, style, ...props}) => {
   const {userAuth} = useAuthStatesContext()
-  const {commentContent} = useCommentStates()
+  const commentContent = useBlogSelector(state => state.comment.commentContent)
   const {setCommentContent} = useCommentActions()
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)

@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react'
 
 import {useDirectoryCallbacksContext} from '@context'
-import {useDirectoryActions, useDirectoryStates} from '@redux'
+import {useBlogSelector, useDirectoryActions} from '@redux'
 
 import type {DragEvent, FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -14,7 +14,8 @@ type DirectorySpaceGroupProps = DivCommonProps & {
 }
 
 export const DirectorySpaceGroup: FC<DirectorySpaceGroupProps> = ({parentDirOId, rowIdx, className, ...props}) => {
-  const {moveDirOId, moveFileOId} = useDirectoryStates()
+  const moveDirOId = useBlogSelector(state => state.directory.moveDirOId)
+  const moveFileOId = useBlogSelector(state => state.directory.moveFileOId)
   const {resetMoveDirOId} = useDirectoryActions()
   const {moveDirectory, moveFile} = useDirectoryCallbacksContext()
 
