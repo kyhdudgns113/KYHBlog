@@ -1,4 +1,4 @@
-import {useTemplateStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {ToggleButton} from './buttons'
 import {ButtonRowPart, DirectoryListPart} from './parts'
@@ -11,7 +11,7 @@ import './_styles/_Lefter.scss'
 type LefterProps = DivCommonProps & {}
 
 export const Lefter: FC<LefterProps> = ({className, ...props}) => {
-  const {isLefterOpen} = useTemplateStates()
+  const isLefterOpen = useBlogSelector(state => state.template.isLefterOpen)
 
   return (
     <div className={`Lefter ${className || ''}`} {...props}>

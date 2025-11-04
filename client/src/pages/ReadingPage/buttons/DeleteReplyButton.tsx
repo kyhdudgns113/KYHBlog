@@ -1,5 +1,5 @@
 import {useCallback} from 'react'
-import {useCommentActions, useCommentStates} from '@redux'
+import {useBlogSelector, useCommentActions} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
@@ -12,7 +12,7 @@ type DeleteReplyButtonProps = ButtonCommonProps & {reply: LT.ReplyTypeLocal}
  * - 실제 삭제는 SubmitDeleteReplyButton 이다.
  */
 export const DeleteReplyButton: FC<DeleteReplyButtonProps> = ({reply, className, style, ...props}) => {
-  const {replyOId_delete} = useCommentStates()
+  const replyOId_delete = useBlogSelector(state => state.comment.replyOId_delete)
   const {resetReplyOId_delete, setReplyOId_delete} = useCommentActions()
 
   const onClickDeleteReply = useCallback(

@@ -1,13 +1,14 @@
+import {useBlogSelector} from '@redux'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-import {useChatStates} from '@redux'
 
 import './ChatRoomUserObject.scss'
 
 type ChatRoomUserObjectProps = DivCommonProps & {}
 
 export const ChatRoomUserObject: FC<ChatRoomUserObjectProps> = ({className, style, ...props}) => {
-  const {chatRoom} = useChatStates()
+  const chatRoom = useBlogSelector(state => state.chat.chatRoom)
 
   return (
     <div className={`ChatRoomUser_Object ${className || ''}`} style={style} {...props}>

@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {Icon} from '@component'
-import {useAdminStates} from '@redux'
+import {useBlogSelector} from '@redux'
 import {ADMIN_LOG_PER_PAGE} from '@value'
 
 import type {FC, MouseEvent} from 'react'
@@ -17,7 +17,7 @@ type PagingPartProps = DivCommonProps & {
 }
 
 export const PagingPart: FC<PagingPartProps> = ({pageIdx, pageTenIdx, setPageIdx, setPageTenIdx, className, style, ...props}) => {
-  const {logArr} = useAdminStates()
+  const logArr = useBlogSelector(state => state.admin.logArr)
 
   /* eslint-disable */
   const onClickMoveTenIdx = useCallback(

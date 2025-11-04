@@ -1,4 +1,4 @@
-import {useDirectoryStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {HeaderRowObject, DirectoryRowObject, FileRowObject, AddDirectoryObject, AddFileObject} from '../../objects'
 
@@ -10,7 +10,10 @@ import './ManageStructurePart.scss'
 type ManageStructurePartProps = DivCommonProps & {}
 
 export const ManageStructurePart: FC<ManageStructurePartProps> = ({className, ...props}) => {
-  const {dirOId_addDir, dirOId_addFile, rootDir, rootDirOId} = useDirectoryStates()
+  const dirOId_addDir = useBlogSelector(state => state.directory.dirOId_addDir)
+  const dirOId_addFile = useBlogSelector(state => state.directory.dirOId_addFile)
+  const rootDir = useBlogSelector(state => state.directory.rootDir)
+  const rootDirOId = useBlogSelector(state => state.directory.rootDirOId)
 
   return (
     <div className={`ManageStructure_Part SCROLL_SAKURA ${className || ''}`} {...props}>

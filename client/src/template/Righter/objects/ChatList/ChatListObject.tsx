@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 
 import {useAuthStatesContext, useChatStatesContext} from '@context'
-import {useChatStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {LoadChatButton} from '../../buttons'
 import {ChatBlockMyGroup, ChatBlockOtherGroup} from '../../groups'
@@ -16,7 +16,7 @@ import './ChatListObject.scss'
 type ChatListObjectProps = DivCommonProps & {}
 
 export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...props}) => {
-  const {chatArr} = useChatStates()
+  const chatArr = useBlogSelector(state => state.chat.chatArr)
 
   const {userOId} = useAuthStatesContext()
   const {chatAreaRef} = useChatStatesContext()

@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 
 import {useAdminCallbacksContext} from '@context'
 import {Icon} from '@component'
-import {useAdminActions, useAdminStates} from '@redux'
+import {useAdminActions, useBlogSelector} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -15,7 +15,8 @@ import './LogsPart.scss'
 type LogsPartProps = DivCommonProps & {}
 
 export const LogsPart: FC<LogsPartProps> = ({className, style, ...props}) => {
-  const {isLoadingLogArr, logArr} = useAdminStates()
+  const isLoadingLogArr = useBlogSelector(state => state.admin.isLoadingLogArr)
+  const logArr = useBlogSelector(state => state.admin.logArr)
   const {setIsLoadingLogArr} = useAdminActions()
   const {loadLogArr} = useAdminCallbacksContext()
 

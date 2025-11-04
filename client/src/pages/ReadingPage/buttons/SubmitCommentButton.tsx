@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 
 import {useCommentCallbacksContext} from '@context'
-import {useCommentActions, useCommentStates, useFileStates, useLockActions, useLockStates} from '@redux'
+import {useBlogSelector, useCommentActions, useLockActions} from '@redux'
 import {AUTH_GUEST, COMMENT_MAX_LENGTH} from '@shareValue'
 
 import * as CT from '@context'
@@ -18,11 +18,11 @@ type SubmitCommentButtonProps = ButtonCommonProps
  */
 export const SubmitCommentButton: FC<SubmitCommentButtonProps> = ({className, style, ...props}) => {
   const {userAuth, userName, userOId} = CT.useAuthStatesContext()
-  const {fileOId} = useFileStates()
-  const {commentContent} = useCommentStates()
+  const fileOId = useBlogSelector(state => state.file.fileOId)
+  const commentContent = useBlogSelector(state => state.comment.commentContent)
   const {setCommentContent} = useCommentActions()
   const {addComment} = useCommentCallbacksContext()
-  const {commentLock} = useLockStates()
+  const commentLock = useBlogSelector(state => state.lock.commentLock)
   const {lockComment, unlockComment} = useLockActions()
 
   const onClickSubmit = useCallback(

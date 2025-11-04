@@ -1,4 +1,4 @@
-import {useCommentStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -11,7 +11,8 @@ import './_styles/ReplyInfoGroup.scss'
 type ReplyInfoGroupProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 
 export const ReplyInfoGroup: FC<ReplyInfoGroupProps> = ({reply, className, style, ...props}) => {
-  const {replyOId_delete, replyOId_reply} = useCommentStates()
+  const replyOId_delete = useBlogSelector(state => state.comment.replyOId_delete)
+  const replyOId_reply = useBlogSelector(state => state.comment.replyOId_reply)
 
   const isDelModalOpen = replyOId_delete === reply.replyOId
   const isReplyFOpen = replyOId_reply === reply.replyOId

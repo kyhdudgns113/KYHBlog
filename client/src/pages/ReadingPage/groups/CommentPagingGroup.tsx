@@ -1,5 +1,5 @@
 import {useCallback} from 'react'
-import {useCommentActions, useCommentStates} from '@redux'
+import {useBlogSelector, useCommentActions} from '@redux'
 import {Icon} from '@component'
 
 import type {FC, MouseEvent} from 'react'
@@ -10,7 +10,9 @@ import './_styles/CommentPagingGroup.scss'
 type CommentPagingGroupProps = DivCommonProps & {}
 
 export const CommentPagingGroup: FC<CommentPagingGroupProps> = ({className, style, ...props}) => {
-  const {commentReplyArr, pageIdx, pageTenIdx} = useCommentStates() // eslint-disable-line
+  const commentReplyArr = useBlogSelector(state => state.comment.commentReplyArr)
+  const pageIdx = useBlogSelector(state => state.comment.pageIdx)
+  const pageTenIdx = useBlogSelector(state => state.comment.pageTenIdx)
   const {decPageTenIdx, incPageTenIdx, setPageIdx} = useCommentActions()
 
   const isLeftActive = pageTenIdx > 0

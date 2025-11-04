@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import {useLocation} from 'react-router-dom'
 
-import {useFileActions, useFileStates} from '@redux'
+import {useBlogSelector, useFileActions} from '@redux'
 
 import {FileHeaderObject, FileContentsObject, CheckDeleteObject} from '../../objects'
 
@@ -13,7 +13,8 @@ import './EditingFilePart.scss'
 type EditingFilePartProps = DivCommonProps & {}
 
 export const EditingFilePart: FC<EditingFilePartProps> = ({className, ...props}) => {
-  const {fileOId, isDelete} = useFileStates()
+  const fileOId = useBlogSelector(state => state.file.fileOId)
+  const isDelete = useBlogSelector(state => state.file.isDelete)
   const {resetFileOId, setFileOId} = useFileActions()
 
   const location = useLocation()

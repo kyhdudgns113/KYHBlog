@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {useFileCallbacksContext} from '@context'
-import {useFileStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
@@ -10,7 +10,7 @@ import * as SV from '@shareValue'
 type HideFileButtonProps = ButtonCommonProps
 
 export const HideFileButton: FC<HideFileButtonProps> = ({className, style, ...props}) => {
-  const {file} = useFileStates()
+  const file = useBlogSelector(state => state.file.file)
   const {editFileStatus} = useFileCallbacksContext()
 
   const isHidden = file.fileStatus === SV.FILE_HIDDEN

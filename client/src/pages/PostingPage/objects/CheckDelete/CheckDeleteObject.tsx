@@ -2,7 +2,7 @@ import {useCallback} from 'react'
 import {useNavigate} from 'react-router-dom'
 
 import {useDirectoryCallbacksContext} from '@context'
-import {useFileActions, useFileStates} from '@redux'
+import {useBlogSelector, useFileActions} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -12,7 +12,7 @@ import './CheckDeleteObject.scss'
 type CheckDeleteObjectProps = DivCommonProps & {}
 
 export const CheckDeleteObject: FC<CheckDeleteObjectProps> = ({className, ...props}) => {
-  const {fileOId} = useFileStates()
+  const fileOId = useBlogSelector(state => state.file.fileOId)
   const {offDeleteFile} = useFileActions()
   const {deleteFile} = useDirectoryCallbacksContext()
 

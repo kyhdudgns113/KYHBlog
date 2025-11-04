@@ -1,5 +1,5 @@
 import {CommentInfoGroup, CommentPagingGroup, ReplyInfoGroup} from '../groups'
-import {useCommentStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -9,7 +9,8 @@ import './_styles/CommentListObject.scss'
 type CommentListObjectProps = DivCommonProps
 
 export const CommentListObject: FC<CommentListObjectProps> = ({className, style, ...props}) => {
-  const {commentReplyArr, pageIdx} = useCommentStates()
+  const commentReplyArr = useBlogSelector(state => state.comment.commentReplyArr)
+  const pageIdx = useBlogSelector(state => state.comment.pageIdx)
 
   return (
     <div className={`CommentList_Object ${className || ''}`} style={style} {...props}>

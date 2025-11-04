@@ -1,6 +1,6 @@
 import {createContext, useCallback, useContext} from 'react'
 
-import {useDirectoryActions, useDirectoryStates} from '@redux'
+import {useBlogSelector, useDirectoryActions} from '@redux'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -44,7 +44,9 @@ export const DirectoryCallbacksContext = createContext<ContextType>({
 export const useDirectoryCallbacksContext = () => useContext(DirectoryCallbacksContext)
 
 export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {directories, fileRows} = useDirectoryStates()
+  const directories = useBlogSelector(state => state.directory.directories)
+  const fileRows = useBlogSelector(state => state.directory.fileRows)
+
   const {initDirectories, initFileRows, setRootDirOId, writeExtraDirectory, writeExtraFileRow} = useDirectoryActions()
 
   // POST AREA:

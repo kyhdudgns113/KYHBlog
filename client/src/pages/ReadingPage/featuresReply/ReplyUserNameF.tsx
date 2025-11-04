@@ -1,5 +1,5 @@
 import {useCallback} from 'react'
-import {useCommentStates, useCommentActions} from '@redux'
+import {useBlogSelector, useCommentActions} from '@redux'
 import {ReplyUserInfoE} from '../elements'
 
 import type {FC, MouseEvent} from 'react'
@@ -11,7 +11,7 @@ import './_styles/ReplyUserNameF.scss'
 type ReplyUserNameFProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 
 export const ReplyUserNameF: FC<ReplyUserNameFProps> = ({reply, className, style, ...props}) => {
-  const {replyOId_user} = useCommentStates()
+  const replyOId_user = useBlogSelector(state => state.comment.replyOId_user)
   const {setReplyOId_user} = useCommentActions()
 
   const isUserSelected = replyOId_user === reply.replyOId

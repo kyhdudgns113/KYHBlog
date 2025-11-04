@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {Icon} from '@component'
 import {useDirectoryCallbacksContext} from '@context'
-import {useDirectoryActions, useDirectoryStates} from '@redux'
+import {useBlogSelector, useDirectoryActions} from '@redux'
 
 import {FileStatus} from '../../components'
 import {SetFileButton} from '../../buttons'
@@ -19,7 +19,9 @@ type FileRowInfoGroupProps = DivCommonProps & {
 }
 
 export const FileRowInfoGroup: FC<FileRowInfoGroupProps> = ({fileIdx, fileOId, parentDirOId, className, ...props}) => {
-  const {fileRows, moveDirOId, moveFileOId} = useDirectoryStates()
+  const fileRows = useBlogSelector(state => state.directory.fileRows)
+  const moveDirOId = useBlogSelector(state => state.directory.moveDirOId)
+  const moveFileOId = useBlogSelector(state => state.directory.moveFileOId)
   const {resetMoveFileOId, setMoveFileOId} = useDirectoryActions()
 
   const {moveDirectory, moveFile} = useDirectoryCallbacksContext()

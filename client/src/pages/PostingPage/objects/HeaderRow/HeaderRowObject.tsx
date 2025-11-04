@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 
-import {useDirectoryActions, useDirectoryStates} from '@redux'
+import {useBlogSelector, useDirectoryActions} from '@redux'
 
 import {AddDirButton, AddFileButton, RefreshButton} from '../../buttons'
 
@@ -12,7 +12,7 @@ import './HeaderRowObject.scss'
 type HeaderRowObjectProps = DivCommonProps & {}
 
 export const HeaderRowObject: FC<HeaderRowObjectProps> = ({className, ...props}) => {
-  const {rootDirOId} = useDirectoryStates()
+  const rootDirOId = useBlogSelector(state => state.directory.rootDirOId)
   const {resetMoveDirOId} = useDirectoryActions()
 
   const onDrop = useCallback((e: DragEvent<HTMLDivElement>) => {

@@ -1,4 +1,4 @@
-import {useChatStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {ChatRoomRowObject} from '../../objects'
 
@@ -10,7 +10,7 @@ import './ChatRoomListPart.scss'
 type ChatRoomListPartProps = DivCommonProps & {}
 
 export const ChatRoomListPart: FC<ChatRoomListPartProps> = ({className, ...props}) => {
-  const {chatRoomArr} = useChatStates()
+  const chatRoomArr = useBlogSelector(state => state.chat.chatRoomArr)
 
   return (
     <div

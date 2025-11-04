@@ -1,4 +1,4 @@
-import {useChatStates, useTemplateStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import {ButtonRowPart, ChatRoomPart, ChatRoomListPart} from './parts'
 import {ToggleButton} from './buttons'
@@ -11,8 +11,8 @@ import './Righter.scss'
 type RighterProps = DivCommonProps & {}
 
 export const Righter: FC<RighterProps> = ({className, ...props}) => {
-  const {isRighterOpen} = useTemplateStates()
-  const {chatRoomOId} = useChatStates()
+  const isRighterOpen = useBlogSelector(state => state.template.isRighterOpen)
+  const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
 
   return (
     <div className={`Righter ${className || ''}`} {...props}>

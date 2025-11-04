@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react'
 
 import {Icon} from '@component'
 import {useDirectoryCallbacksContext} from '@context'
-import {useDirectoryActions, useDirectoryStates} from '@redux'
+import {useBlogSelector, useDirectoryActions} from '@redux'
 
 import {AddDirButton, AddFileButton, SetDirButton} from '../../buttons'
 
@@ -25,7 +25,8 @@ type DirectoryInfoGroupProps = DivCommonProps & {
 }
 
 export const DirectoryInfoGroup: FC<DirectoryInfoGroupProps> = ({directory, dirOId, isOpen, setIsOpen, className, ...props}) => {
-  const {moveDirOId, moveFileOId} = useDirectoryStates()
+  const moveDirOId = useBlogSelector(state => state.directory.moveDirOId)
+  const moveFileOId = useBlogSelector(state => state.directory.moveFileOId)
   const {setMoveDirOId, setMoveFileOId} = useDirectoryActions()
   const {moveDirectory, moveFile} = useDirectoryCallbacksContext()
 

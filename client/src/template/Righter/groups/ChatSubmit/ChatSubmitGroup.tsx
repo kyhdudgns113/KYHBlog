@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {CHAT_MAX_LENGTH} from '@shareValue'
 import {useChatCallbacksContext, useSocketStatesContext} from '@context'
-import {useChatStates} from '@redux'
+import {useBlogSelector} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -13,7 +13,7 @@ type ChatSubmitGroupProps = DivCommonProps & {value: string; setter: Setter<stri
 
 export const ChatSubmitGroup: FC<ChatSubmitGroupProps> = ({value, setter, className, style, ...props}) => {
   const {socket} = useSocketStatesContext()
-  const {chatRoomOId} = useChatStates()
+  const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
   const {submitChat} = useChatCallbacksContext()
 
   const onClickSubmit = useCallback(
