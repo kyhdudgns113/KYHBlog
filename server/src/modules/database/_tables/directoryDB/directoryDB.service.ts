@@ -246,7 +246,7 @@ export class DirectoryDBService {
       const resultArr = result as RowDataPacket[]
 
       if (resultArr.length === 0) {
-        return {directory: null}
+        return {directory: null, fileRowArr: []}
       }
 
       const {dirName, parentDirOId} = resultArr[0]
@@ -568,6 +568,16 @@ export class DirectoryDBService {
       // ::
     } catch (errObj) {
       // ::
+      if (errObj.errno === 1062) {
+        throw {
+          gkd: {subFileOIdsArr: `자식 파일 이름 중복 있음`},
+          gkdErrCode: 'DIRECTORYDB_updateDirArr_File_Duplicate',
+          gkdErrMsg: `자식 파일 이름 중복 있음`,
+          gkdStatus: {subFileOIdsArr, dirOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
       throw errObj
       // ::
     } finally {

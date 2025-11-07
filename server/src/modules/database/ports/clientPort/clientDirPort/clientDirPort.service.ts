@@ -621,20 +621,26 @@ export class ClientDirPortService {
    * 코드 내용
    *
    *   1. 권한 췍!!
-   *   2. 같은 폴더 내에서 이동시
-   *     2-1. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
-   *     2-2. 새로운 부모폴더의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
+   *   2. OID 췍!!
+   *     2-1. 기존 부모폴더 존재하는지 췍!!
+   *     2-2. 새로운 부모폴더 존재하는지 췍!!
+   *     2-3. 이동 대상 파일 존재하는지 췍!!
+   *   3. 자식 파일 배열 췍!! (기존/새 부모 자식 목록 검증)
+   *   4. newParentChildArr 에 moveFileOId 가 있는지 췍!!
+   *   5. 같은 폴더 내에서 이동시
+   *     5-1. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
+   *     5-2. 새로운 부모폴더의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
    *       - 자식폴더의 정보는 전달하지 않는다.
    *       - 변경되지도 않았고, 이미 있을수도 있으며, 당장에 필요하지 않을수도 있다.
    *       - 그런 정보를 일일히 읽어오는건 낭비이다.
-   *   3. 다른 폴더로 이동시
-   *     3-1. oldParentDirOId 의 자식 파일 배열 업데이트 뙇!!
-   *     3-2. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
-   *     3-3. 두 폴더의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
+   *   6. 다른 폴더로 이동시
+   *     6-1. oldParentDirOId 의 자식 파일 배열 업데이트 뙇!!
+   *     6-2. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
+   *     6-3. 두 폴더의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
    *       - 자식폴더의 정보는 전달하지 않는다.
    *       - 변경되지도 않았고, 이미 있을수도 있으며, 당장에 필요하지 않을수도 있다.
    *       - 그런 정보를 일일히 읽어오는건 낭비이다.
-   *   4. 결과값 반환 뙇!!
+   *   7. 결과값 반환 뙇!!
    *
    * 리턴
    *
@@ -648,37 +654,162 @@ export class ClientDirPortService {
       // 1. 권한 췍!!
       await this.dbHubService.checkAuthAdmin(where, jwtPayload)
 
-      const {oldParentDirOId, newParentDirOId, oldParentChildArr, newParentChildArr} = data
+      const {moveFileOId, oldParentDirOId, newParentDirOId, oldParentChildArr, newParentChildArr} = data
+
+      /**
+       * 2. OID 췍!!
+       *   2-1. 기존 부모폴더 존재하는지 췍!!
+       *   2-2. 새로운 부모폴더 존재하는지 췍!!
+       *   2-3. 이동 대상 파일 존재하는지 췍!!
+       */
+      const [oldParentDir, newParentDir, moveFile] = await Promise.all([
+        this.dbHubService.readDirByDirOId(where, oldParentDirOId).then(result => {
+          const {directory} = result
+          if (!directory) {
+            throw {
+              gkd: {oldParentDirOId: `기존 부모폴더 존재하지 않음`},
+              gkdErrCode: 'CLIENTDIRPORT_moveFile_NoOldParentDir',
+              gkdErrMsg: `기존 부모폴더 존재하지 않음`,
+              gkdStatus: {oldParentDirOId, moveFileOId},
+              statusCode: 400,
+              where
+            } as T.ErrorObjType
+          }
+          return directory
+        }),
+        this.dbHubService.readDirByDirOId(where, newParentDirOId).then(result => {
+          const {directory} = result
+          if (!directory) {
+            throw {
+              gkd: {newParentDirOId: `새로운 부모폴더 존재하지 않음`},
+              gkdErrCode: 'CLIENTDIRPORT_moveFile_NoNewParentDir',
+              gkdErrMsg: `새로운 부모폴더 존재하지 않음`,
+              gkdStatus: {newParentDirOId, moveFileOId},
+              statusCode: 400,
+              where
+            } as T.ErrorObjType
+          }
+          return directory
+        }),
+        this.dbHubService.readFileByFileOId(where, moveFileOId).then(result => {
+          const {file} = result
+          if (!file) {
+            throw {
+              gkd: {moveFileOId: `이동 대상 파일이 존재하지 않음`},
+              gkdErrCode: 'CLIENTDIRPORT_moveFile_NoFile',
+              gkdErrMsg: `이동 대상 파일이 존재하지 않음`,
+              gkdStatus: {moveFileOId},
+              statusCode: 400,
+              where
+            } as T.ErrorObjType
+          }
+          return file
+        })
+      ])
+
+      // 3-1. 기존 부모폴더 자식 파일들이 맞는지 췍!!
+      for (let fileOId of oldParentChildArr) {
+        if (!oldParentDir.fileOIdsArr.includes(fileOId)) {
+          throw {
+            gkd: {oldParentChildArr: `기존 부모 폴더에 없는 파일을 입력으로 전달함`, fileOId: `${fileOId} 파일은 ${oldParentDirOId} 폴더에 없음`},
+            gkdErrCode: 'CLIENTDIRPORT_moveFile_NoFileInOldParentDir',
+            gkdErrMsg: `기존 부모 폴더에 없는 파일을 입력으로 전달함`,
+            gkdStatus: {oldParentDirOId, oldParentChildArr, fileOId},
+            statusCode: 400,
+            where
+          } as T.ErrorObjType
+        }
+      }
+
+      // 3-2. 새로운 부모폴더 자식 파일들이 맞는지 췍!!
+      for (let fileOId of newParentChildArr) {
+        if (!newParentDir.fileOIdsArr.includes(fileOId) && fileOId !== moveFileOId) {
+          throw {
+            gkd: {newParentChildArr: `새로운 부모 폴더에 없는 파일을 입력으로 전달함`, fileOId: `${fileOId} 파일은 ${newParentDirOId} 폴더에 없음`},
+            gkdErrCode: 'CLIENTDIRPORT_moveFile_NoFileInNewParentDir',
+            gkdErrMsg: `새로운 부모 폴더에 없는 파일을 입력으로 전달함`,
+            gkdStatus: {newParentDirOId, newParentChildArr, fileOId},
+            statusCode: 400,
+            where
+          } as T.ErrorObjType
+        }
+      }
+
+      // 4. newParentChildArr 에 moveFileOId 가 있는지 췍!!
+      if (!newParentChildArr.includes(moveFileOId)) {
+        throw {
+          gkd: {newParentChildArr: `새로운 부모 폴더 자식목록에 이동하는 파일 없음`},
+          gkdErrCode: 'CLIENTDIRPORT_moveFile_NoFileInNewParentChildArr',
+          gkdErrMsg: `새로운 부모 폴더 자식목록에 이동하는 파일 없음`,
+          gkdStatus: {newParentDirOId, newParentChildArr, moveFileOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
 
       const extraDirs: T.ExtraDirObjectType = V.NULL_extraDirs()
       const extraFileRows: T.ExtraFileRowObjectType = V.NULL_extraFileRows()
 
-      // 2. 같은 폴더 내에서 이동시
+      // 5. 같은 폴더 내에서 이동시
       if (oldParentDirOId === newParentDirOId) {
-        // 2-1. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
+        // 5-0. oldParentChildArr 와 newParentChildArr 가 같은지 췍!!
+        if (oldParentChildArr.length !== newParentChildArr.length) {
+          throw {
+            gkd: {oldParentChildArr: `자식파일 배열들 서로 같지 않음`},
+            gkdErrCode: 'CLIENTDIRPORT_moveFile_InvalidOldParentChildArrLen',
+            gkdErrMsg: `자식파일 배열들 서로 같지 않음`,
+            gkdStatus: {oldParentChildArr, newParentChildArr},
+            statusCode: 400,
+            where
+          } as T.ErrorObjType
+        }
+        if (oldParentChildArr.some((id, idx) => id !== newParentChildArr[idx])) {
+          throw {
+            gkd: {oldParentChildArr: `자식파일 배열들 서로 같지 않음`},
+            gkdErrCode: 'CLIENTDIRPORT_moveFile_InvalidOldParentChildArrSeq',
+            gkdErrMsg: `자식파일 배열들 서로 같지 않음`,
+            gkdStatus: {oldParentChildArr, newParentChildArr},
+            statusCode: 400,
+            where
+          } as T.ErrorObjType
+        }
+        // 5-1. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
         const {directoryArr, fileRowArr} = await this.dbHubService.updateDirArr_File(where, newParentDirOId, newParentChildArr)
 
-        // 2-2. 새로운 부모폴더와 자식폴더의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
+        // 5-2. 새로운 부모폴더와 자식폴더의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
         U.pushExtraDirs_Arr(where, extraDirs, directoryArr)
         U.pushExtraFileRows_Arr(where, extraFileRows, fileRowArr)
       } // ::
       else {
-        // 3. 다른 폴더로 이동시
+        // 6. 다른 폴더로 이동시
 
-        // 3-1. oldParentDirOId 의 자식 파일 배열 업데이트 뙇!!
-        // 3-2. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
+        // 6-0. oldParentChildArr 에 moveFileOId 가 있으면 안된다.
+        if (oldParentChildArr.includes(moveFileOId)) {
+          throw {
+            gkd: {oldParentChildArr: `기존 부모 폴더 자식목록에 이동하는 파일 있음`},
+            gkdErrCode: 'CLIENTDIRPORT_moveFile_FileInOldParentChildArr',
+            gkdErrMsg: `기존 부모 폴더 자식목록에 이동하는 파일 있음`,
+            gkdStatus: {oldParentDirOId, oldParentChildArr, moveFileOId},
+            statusCode: 400,
+            where
+          } as T.ErrorObjType
+        }
+
+        // 6-1. oldParentDirOId 의 자식 파일 배열 업데이트 뙇!!
+        // 6-2. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
         const [{directoryArr: _oDirArr, fileRowArr: _oFileRowArr}, {directoryArr: _nDirArr, fileRowArr: _nFileRowArr}] = await Promise.all([
           this.dbHubService.updateDirArr_File(where, oldParentDirOId, oldParentChildArr),
           this.dbHubService.updateDirArr_File(where, newParentDirOId, newParentChildArr)
         ])
 
-        // 3-3. 두 폴더와 자식 폴더들의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
+        // 6-3. 두 폴더와 자식 폴더들의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
         U.pushExtraDirs_Arr(where, extraDirs, _oDirArr)
         U.pushExtraFileRows_Arr(where, extraFileRows, _oFileRowArr)
         U.pushExtraDirs_Arr(where, extraDirs, _nDirArr)
         U.pushExtraFileRows_Arr(where, extraFileRows, _nFileRowArr)
       }
 
+      // 7. 결과값 반환 뙇!!
       return {extraDirs, extraFileRows}
       // ::
     } catch (errObj) {

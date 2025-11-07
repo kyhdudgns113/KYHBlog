@@ -31,6 +31,7 @@ export class ClientDirectoryModule extends GKDTestBase {
   private ChangeDirNameFunction: PUT.ChangeDirNameFunction
   private ChangeFileNameFunction: PUT.ChangeFileNameFunction
   private MoveDirectoryFunction: PUT.MoveDirectoryFunction
+  private MoveFileFunction: PUT.MoveFileFunction
 
   constructor(REQUIRED_LOG_LEVEL: number) {
     super(REQUIRED_LOG_LEVEL)
@@ -47,6 +48,7 @@ export class ClientDirectoryModule extends GKDTestBase {
     this.ChangeDirNameFunction = new PUT.ChangeDirNameFunction(REQUIRED_LOG_LEVEL + 1)
     this.ChangeFileNameFunction = new PUT.ChangeFileNameFunction(REQUIRED_LOG_LEVEL + 1)
     this.MoveDirectoryFunction = new PUT.MoveDirectoryFunction(REQUIRED_LOG_LEVEL + 1)
+    this.MoveFileFunction = new PUT.MoveFileFunction(REQUIRED_LOG_LEVEL + 1)
   }
 
   protected async beforeTest(db: mysql.Pool, logLevel: number) {}
@@ -64,9 +66,10 @@ export class ClientDirectoryModule extends GKDTestBase {
       await this.ChangeDirNameFunction.testOK(db, logLevel)
       await this.ChangeFileNameFunction.testOK(db, logLevel)
       await this.MoveDirectoryFunction.testOK(db, logLevel)
+      await this.MoveFileFunction.testOK(db, logLevel)
 
       const {FgGreen} = consoleColors
-      this.addFinalLog(`[ClientDirectoryModule] 함수 7개 테스트 완료`, FgGreen)
+      this.addFinalLog(`[ClientDirectoryModule] 함수 8개 테스트 완료`, FgGreen)
       // ::
     } catch (errObj) {
       // ::

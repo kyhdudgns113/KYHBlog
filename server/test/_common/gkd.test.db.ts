@@ -84,10 +84,10 @@ export class TestDB {
     return {chatRoomOId: TestDB.chatRoomRouters[userOId][targetUserOId]}
   }
   public getDirectory(dirOId: string) {
-    return {directory: TestDB.directories[dirOId]}
+    return {directory: {...TestDB.directories[dirOId]}}
   }
   public getFile(fileOId: string) {
-    return {file: TestDB.files[fileOId]}
+    return {file: {...TestDB.files[fileOId]}}
   }
   public getJwtPayload(userAuth: number, userIdx: number = 0) {
     const {signUpType, userId, userOId, userName} = this.getUserCommon(userAuth, userIdx).user
@@ -101,14 +101,14 @@ export class TestDB {
   }
   public getUserCommon(userAuth: number, userIdx: number = 0) {
     if (userAuth !== AUTH_USER || userIdx === 0) {
-      return {user: TestDB.usersCommon[userAuth][0]}
+      return {user: {...TestDB.usersCommon[userAuth][0]}}
     } // ::
     else {
-      return {user: TestDB.usersCommon[userAuth][userIdx]}
+      return {user: {...TestDB.usersCommon[userAuth][userIdx]}}
     }
   }
   public getRootDir() {
-    return {directory: TestDB.rootDir}
+    return {directory: {...TestDB.rootDir}}
   }
 
   public async resetBaseDB(resetFlag: number) {
