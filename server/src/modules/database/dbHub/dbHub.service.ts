@@ -328,8 +328,7 @@ export class DBHubService {
   }
   async updateDirArr_File(where: string, dirOId: string, subFileOIdsArr: string[]) {
     try {
-      const {directoryArr, fileRowArr} = await this.dirDBService.updateDirArr_File(where, dirOId, subFileOIdsArr)
-      return {directoryArr, fileRowArr}
+      await this.dirDBService.updateDirArr_File(where, dirOId, subFileOIdsArr)
       // ::
     } catch (errObj) {
       // ::

@@ -493,13 +493,6 @@ export class DirectoryDBService {
      * 순서
      *   1. (쿼리) 자식 파일들의 fileIdx 를 배열 내의 인덱스로 바꾼다.
      *   2. (쿼리) dirOId 디렉토리의 fileArrLen 을 subFileOIdsArr.length 로 바꾼다.
-     *   3. 정보 수정 쿼리 실행
-     *   4. (쿼리) 본인 정보를 읽는 쿼리
-     *   5. (쿼리) 자식 파일들의 파일 정보들 읽어오는 쿼리
-     *   6. (쿼리) 자식 폴더들의 dirOId 만 읽어오는 쿼리
-     *   7. 정보 읽기 쿼리 실행
-     *   8. 디렉토리 정보 생성
-     *   9. 파일행 배열 생성
      */
 
     const connection = await this.dbService.getConnection()
@@ -530,41 +523,6 @@ export class DirectoryDBService {
       const query2 = `UPDATE directories SET fileArrLen = ? WHERE dirOId = ?`
       const param2 = [subFileOIdsArr.length, dirOId]
       await connection.execute(query2, param2)
-
-      // 4. (쿼리) 본인 정보를 읽는 쿼리
-      const query4 = `SELECT * FROM directories WHERE dirOId = ?`
-      const param4 = [dirOId]
-      const [result4] = await connection.execute(query4, param4)
-
-      // 5. (쿼리) 자식 파일들의 파일 정보들 읽어오는 쿼리
-      const query5 = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ? ORDER BY fileIdx`
-      const param5 = [dirOId]
-      const [result5] = await connection.execute(query5, param5)
-
-      // 6. (쿼리) 자식 폴더들의 dirOId 만 읽어오는 쿼리
-      const query6 = `SELECT dirOId FROM directories WHERE parentDirOId = ? ORDER BY dirIdx`
-      const param6 = [dirOId]
-      const [result6] = await connection.execute(query6, param6)
-
-      const result4Arr = result4 as RowDataPacket[]
-      const result5Arr = result5 as RowDataPacket[]
-      const result6Arr = result6 as RowDataPacket[]
-
-      // 8. 디렉토리 정보 생성
-      const {dirName, parentDirOId} = result4Arr[0]
-      const subDirOIdsArr: string[] = result6Arr.map(row => row.dirOId)
-      const directory: DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: subFileOIdsArr, subDirOIdsArr}
-
-      // 9. 파일행 배열 생성
-      const fileRowArr: T.FileRowType[] = result5Arr.map(row => {
-        const {fileOId, fileName, fileStatus} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus}
-        return fileRow
-      })
-
-      const directoryArr: DirectoryType[] = [directory]
-
-      return {directoryArr, fileRowArr}
       // ::
     } catch (errObj) {
       // ::

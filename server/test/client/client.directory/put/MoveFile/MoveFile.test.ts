@@ -9,6 +9,7 @@ import {consoleColors} from '@util'
 
 import {CheckAuth} from './CheckAuth'
 import {WrongInput} from './WrongInput'
+import {WorkingScenario} from './WorkingScenario'
 
 import * as mysql from 'mysql2/promise'
 
@@ -21,12 +22,14 @@ const DEFAULT_REQUIRED_LOG_LEVEL = 3
 export class MoveFileFunction extends GKDTestBase {
   private CheckAuth: CheckAuth
   private WrongInput: WrongInput
+  private WorkingScenario: WorkingScenario
 
   constructor(REQUIRED_LOG_LEVEL: number) {
     super(REQUIRED_LOG_LEVEL)
 
     this.CheckAuth = new CheckAuth(REQUIRED_LOG_LEVEL + 1)
     this.WrongInput = new WrongInput(REQUIRED_LOG_LEVEL + 1)
+    this.WorkingScenario = new WorkingScenario(REQUIRED_LOG_LEVEL + 1)
   }
 
   protected async beforeTest(db: mysql.Pool, logLevel: number) {}
@@ -34,8 +37,7 @@ export class MoveFileFunction extends GKDTestBase {
     try {
       await this.CheckAuth.testOK(db, logLevel)
       await this.WrongInput.testOK(db, logLevel)
-
-      this.addFinalLog(`[MoveFile] Working Scenario 작성안됨`, consoleColors.FgGreen)
+      await this.WorkingScenario.testOK(db, logLevel)
       // ::
     } catch (errObj) {
       // ::

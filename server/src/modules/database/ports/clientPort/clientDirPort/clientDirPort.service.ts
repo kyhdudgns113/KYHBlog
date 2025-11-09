@@ -774,11 +774,12 @@ export class ClientDirPortService {
           } as T.ErrorObjType
         }
         // 5-1. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
-        const {directoryArr, fileRowArr} = await this.dbHubService.updateDirArr_File(where, newParentDirOId, newParentChildArr)
+        await this.dbHubService.updateDirArr_File(where, newParentDirOId, newParentChildArr)
 
         // 5-2. 새로운 부모폴더와 자식폴더의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
-        U.pushExtraDirs_Arr(where, extraDirs, directoryArr)
-        U.pushExtraFileRows_Arr(where, extraFileRows, fileRowArr)
+        const {directory: _nDir, fileRowArr: _nFileRowArr} = await this.dbHubService.readDirByDirOId(where, newParentDirOId)
+        U.pushExtraDirs_Single(where, extraDirs, _nDir)
+        U.pushExtraFileRows_Arr(where, extraFileRows, _nFileRowArr)
       } // ::
       else {
         // 6. 다른 폴더로 이동시
@@ -797,15 +798,18 @@ export class ClientDirPortService {
 
         // 6-1. oldParentDirOId 의 자식 파일 배열 업데이트 뙇!!
         // 6-2. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
-        const [{directoryArr: _oDirArr, fileRowArr: _oFileRowArr}, {directoryArr: _nDirArr, fileRowArr: _nFileRowArr}] = await Promise.all([
+        await Promise.all([
           this.dbHubService.updateDirArr_File(where, oldParentDirOId, oldParentChildArr),
           this.dbHubService.updateDirArr_File(where, newParentDirOId, newParentChildArr)
         ])
 
+        const {directory: _oDir, fileRowArr: _oFileRowArr} = await this.dbHubService.readDirByDirOId(where, oldParentDirOId)
+        const {directory: _nDir, fileRowArr: _nFileRowArr} = await this.dbHubService.readDirByDirOId(where, newParentDirOId)
+
         // 6-3. 두 폴더와 자식 폴더들의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
-        U.pushExtraDirs_Arr(where, extraDirs, _oDirArr)
+        U.pushExtraDirs_Single(where, extraDirs, _oDir)
         U.pushExtraFileRows_Arr(where, extraFileRows, _oFileRowArr)
-        U.pushExtraDirs_Arr(where, extraDirs, _nDirArr)
+        U.pushExtraDirs_Single(where, extraDirs, _nDir)
         U.pushExtraFileRows_Arr(where, extraFileRows, _nFileRowArr)
       }
 
