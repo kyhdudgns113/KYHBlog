@@ -42,9 +42,10 @@ export class CheckAuth extends GKDTestBase {
 
   protected async beforeTest(db: mysql.Pool, logLevel: number) {
     try {
-      const {dirOId} = this.testDB.getRootDir().directory
+      const {dirOId: rootDirOId} = this.testDB.getRootDir().directory
       const dirName = this.constructor.name
-      const {directory} = await this.testDB.createDirectoryLight(dirOId, dirName)
+      const dirOId = '0'.repeat(24 - this.constructor.name.length) + this.constructor.name
+      const {directory} = await this.testDB.createDirectoryLight(rootDirOId, dirOId, dirName)
       this.dirOId = directory.dirOId
       // ::
     } catch (errObj) {

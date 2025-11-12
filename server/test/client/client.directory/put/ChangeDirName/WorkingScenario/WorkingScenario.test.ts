@@ -52,7 +52,8 @@ export class WorkingScenario extends GKDTestBase {
 
     try {
       const {jwtPayload} = this.testDB.getJwtPayload(AUTH_ADMIN)
-      const {directory} = await this.testDB.createDirectoryLight(parentDirOId, dirName)
+      const dirOId = '0'.repeat(24 - this.constructor.name.length) + this.constructor.name
+      const {directory} = await this.testDB.createDirectoryLight(parentDirOId, dirOId, dirName)
       this.dirOId = directory.dirOId
 
       await this.portService.addDirectory(jwtPayload, {parentDirOId: this.dirOId, dirName: 'dir0'})

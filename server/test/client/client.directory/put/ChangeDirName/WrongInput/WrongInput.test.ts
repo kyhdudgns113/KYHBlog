@@ -45,7 +45,8 @@ export class WrongInput extends GKDTestBase {
     try {
       const {dirOId: parentDirOId} = this.testDB.getRootDir().directory
       const dirName = this.constructor.name
-      const {directory} = await this.testDB.createDirectoryLight(parentDirOId, dirName)
+      const dirOId = '0'.repeat(24 - this.constructor.name.length) + this.constructor.name
+      const {directory} = await this.testDB.createDirectoryLight(parentDirOId, dirOId, dirName)
       this.dirOId = directory.dirOId
       // ::
     } catch (errObj) {

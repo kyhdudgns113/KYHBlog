@@ -348,19 +348,10 @@ export class TestDB {
    *   - 쿼리를 직접 쓴다.
    *   - 부모 폴더를 건드리거나 하진 않는다.
    */
-  public async createDirectoryLight(parentDirOId: string, dirName: string) {
+  public async createDirectoryLight(parentDirOId: string, dirOId: string, dirName: string) {
     const connection = await TestDB.db.getConnection()
-    let dirOId = U.generateObjectId()
 
     try {
-      while (true) {
-        const query = `SELECT dirName FROM directories WHERE dirOId = ?`
-        const [result] = await connection.execute(query, [dirOId])
-        const resultArr = result as RowDataPacket[]
-        if (resultArr.length === 0) break
-        dirOId = U.generateObjectId()
-      }
-
       let dirIdx = 0
 
       const query = `INSERT INTO directories (dirOId, dirName, dirIdx, parentDirOId) VALUES (?, ?, ?, ?)`
@@ -402,20 +393,11 @@ export class TestDB {
    *   - 쿼리를 직접 쓴다.
    *   - 부모 폴더를 건드리거나 하진 않는다.
    */
-  public async createFileLight(dirOId: string, fileName: string) {
+  public async createFileLight(dirOId: string, fileOId: string, fileName: string) {
     const connection = await TestDB.db.getConnection()
-    let fileOId = U.generateObjectId()
     const {userOId, userName} = this.getUserCommon(AUTH_ADMIN).user
 
     try {
-      while (true) {
-        const query = `SELECT fileName FROM files WHERE fileOId = ?`
-        const [result] = await connection.execute(query, [fileOId])
-        const resultArr = result as RowDataPacket[]
-        if (resultArr.length === 0) break
-        fileOId = U.generateObjectId()
-      }
-
       let fileIdx = 0
 
       const query = `INSERT INTO files (fileOId, content, dirOId, fileIdx, fileName, fileStatus, userName, userOId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`

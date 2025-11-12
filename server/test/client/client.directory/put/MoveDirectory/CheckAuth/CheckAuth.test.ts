@@ -60,11 +60,13 @@ export class CheckAuth extends GKDTestBase {
 
       // 1. 루트 폴더에 폴더를 2개 쿼리로 생성한다.
       const {dirOId: rootDirOId} = this.testDB.getRootDir().directory
-      const {directory} = await this.testDB.createDirectoryLight(rootDirOId, dirName0)
-      this.dirOId0 = directory.dirOId
+      const dirOId0 = '0'.repeat(24 - dirName0.length) + dirName0
+      const dirOId1 = '0'.repeat(24 - dirName1.length) + dirName1
+      await this.testDB.createDirectoryLight(rootDirOId, dirOId0, dirName0)
+      this.dirOId0 = dirOId0
 
-      const {directory: directory1} = await this.testDB.createDirectoryLight(rootDirOId, dirName1)
-      this.dirOId1 = directory1.dirOId
+      await this.testDB.createDirectoryLight(rootDirOId, dirOId1, dirName1)
+      this.dirOId1 = dirOId1
 
       // 2. 각 폴더에 자식폴더 2개를 addDirectory 함수로 생성한다.
       const {jwtPayload} = this.testDB.getJwtPayload(AUTH_ADMIN)

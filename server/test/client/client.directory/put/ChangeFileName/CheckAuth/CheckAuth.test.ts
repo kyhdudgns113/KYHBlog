@@ -43,8 +43,9 @@ export class CheckAuth extends GKDTestBase {
     try {
       const {dirOId} = this.testDB.getRootDir().directory
       const fileName = this.constructor.name
-      const {file} = await this.testDB.createFileLight(dirOId, fileName)
-      this.fileOId = file.fileOId
+      const fileOId = '0'.repeat(24 - this.constructor.name.length) + this.constructor.name
+      await this.testDB.createFileLight(dirOId, fileOId, fileName)
+      this.fileOId = fileOId
       // ::
     } catch (errObj) {
       // ::

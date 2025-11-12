@@ -61,7 +61,8 @@ export class WorkingScenario extends GKDTestBase {
     try {
       const {dirOId: rootDirOId} = this.testDB.getRootDir().directory
       const dirName = 'TEST_DIR'
-      const {directory} = await this.testDB.createDirectoryLight(rootDirOId, dirName)
+      const dirOId = '0'.repeat(24 - this.constructor.name.length) + this.constructor.name
+      const {directory} = await this.testDB.createDirectoryLight(rootDirOId, dirOId, dirName)
       this.dirOIds[`root`] = directory.dirOId
 
       for (let i = 0; i < 5; i++) {
