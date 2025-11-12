@@ -9,6 +9,10 @@ import {consoleColors} from '@util'
 
 import * as mysql from 'mysql2/promise'
 
+import {CheckAuth} from './CheckAuth'
+import {WrongInput} from './WrongInput'
+import {WorkingScenario} from './WorkingScenario'
+
 /**
  * 이 클래스의 로그를 출력하기 위해 필요한 로그 레벨의 최소값이다.
  * 클래스의 깊이마다 1씩 수동으로 바꾼다
@@ -16,35 +20,31 @@ import * as mysql from 'mysql2/promise'
 const DEFAULT_REQUIRED_LOG_LEVEL = 3
 
 export class DeleteFileFunction extends GKDTestBase {
+  private CheckAuth: CheckAuth
+  private WrongInput: WrongInput
+  private WorkingScenario: WorkingScenario
+
   constructor(REQUIRED_LOG_LEVEL: number) {
     super(REQUIRED_LOG_LEVEL)
+
+    this.CheckAuth = new CheckAuth(REQUIRED_LOG_LEVEL + 1)
+    this.WrongInput = new WrongInput(REQUIRED_LOG_LEVEL + 1)
+    this.WorkingScenario = new WorkingScenario(REQUIRED_LOG_LEVEL + 1)
   }
 
-  protected async beforeTest(db: mysql.Pool, logLevel: number) {
-    try {
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-    }
-  }
+  protected async beforeTest(db: mysql.Pool, logLevel: number) {}
   protected async execTest(db: mysql.Pool, logLevel: number) {
     try {
-      this.addFinalLog(`[DeleteFileFunction] 테스트 작성 안됨`, consoleColors.FgGreen)
+      await this.CheckAuth.testOK(db, logLevel)
+      await this.WrongInput.testOK(db, logLevel)
+      await this.WorkingScenario.testOK(db, logLevel)
       // ::
     } catch (errObj) {
       // ::
       throw errObj
     }
   }
-  protected async finishTest(db: mysql.Pool, logLevel: number) {
-    try {
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-    }
-  }
+  protected async finishTest(db: mysql.Pool, logLevel: number) {}
 }
 
 if (require.main === module) {
