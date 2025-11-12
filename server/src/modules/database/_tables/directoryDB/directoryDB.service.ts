@@ -795,6 +795,18 @@ export class DirectoryDBService {
       const paramRead = [dirOId]
       const [resultRead] = await connection.execute(queryRead, paramRead)
       const resultReadArr = resultRead as RowDataPacket[]
+
+      if (resultReadArr.length === 0) {
+        throw {
+          gkd: {dirOId: `존재하지 않는 디렉토리 ${dirOId}`},
+          gkdErrCode: 'DIRECTORYDB_deleteDir_InvalidDirOId',
+          gkdErrMsg: `존재하지 않는 디렉토리`,
+          gkdStatus: {dirOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType // ::
+      }
+
       const {dirName, dirOId: _pDirOId, parentDirOId} = resultReadArr[0]
 
       // 2. (쿼리) 부모의 자식 폴더들 OId 조회

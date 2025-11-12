@@ -183,7 +183,7 @@ export class WorkingScenario extends GKDTestBase {
       await this.memberOK(this.FatherSonTest.bind(this), db, logLevel)
       await this.memberOK(this.SiblingTest.bind(this), db, logLevel)
       await this.memberOK(this.SameDirTest.bind(this), db, logLevel)
-      this.addFinalLog(`[MoveFile] WorkingScenario 미완성`, consoleColors.FgGreen)
+
       // ::
     } catch (errObj) {
       // ::

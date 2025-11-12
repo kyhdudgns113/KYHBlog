@@ -8,6 +8,7 @@ import {GKDTestBase} from '@testCommon'
 import {consoleColors} from '@util'
 
 import * as mysql from 'mysql2/promise'
+import * as DELETE from './delete'
 import * as GET from './get'
 import * as POST from './post'
 import * as PUT from './put'
@@ -33,6 +34,10 @@ export class ClientDirectoryModule extends GKDTestBase {
   private MoveDirectoryFunction: PUT.MoveDirectoryFunction
   private MoveFileFunction: PUT.MoveFileFunction
 
+  // DELETE:
+  private DeleteDirectoryFunction: DELETE.DeleteDirectoryFunction
+  private DeleteFileFunction: DELETE.DeleteFileFunction
+
   constructor(REQUIRED_LOG_LEVEL: number) {
     super(REQUIRED_LOG_LEVEL)
 
@@ -49,6 +54,10 @@ export class ClientDirectoryModule extends GKDTestBase {
     this.ChangeFileNameFunction = new PUT.ChangeFileNameFunction(REQUIRED_LOG_LEVEL + 1)
     this.MoveDirectoryFunction = new PUT.MoveDirectoryFunction(REQUIRED_LOG_LEVEL + 1)
     this.MoveFileFunction = new PUT.MoveFileFunction(REQUIRED_LOG_LEVEL + 1)
+
+    // DELETE:
+    this.DeleteDirectoryFunction = new DELETE.DeleteDirectoryFunction(REQUIRED_LOG_LEVEL + 1)
+    this.DeleteFileFunction = new DELETE.DeleteFileFunction(REQUIRED_LOG_LEVEL + 1)
   }
 
   protected async beforeTest(db: mysql.Pool, logLevel: number) {}
@@ -67,6 +76,10 @@ export class ClientDirectoryModule extends GKDTestBase {
       await this.ChangeFileNameFunction.testOK(db, logLevel)
       await this.MoveDirectoryFunction.testOK(db, logLevel)
       await this.MoveFileFunction.testOK(db, logLevel)
+
+      // DELETE:
+      await this.DeleteDirectoryFunction.testOK(db, logLevel)
+      await this.DeleteFileFunction.testOK(db, logLevel)
 
       const {FgGreen} = consoleColors
       this.addFinalLog(`[ClientDirectoryModule] 함수 8개 테스트 완료`, FgGreen)
