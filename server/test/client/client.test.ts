@@ -9,6 +9,7 @@ import {GKDTestBase} from '@testCommon'
 import {ClientAuthModule} from './client.auth'
 import {ClientChatModule} from './client.chat'
 import {ClientDirectoryModule} from './client.directory'
+import {ClientFileModule} from './client.file/client.file.test'
 
 import * as mysql from 'mysql2/promise'
 
@@ -22,6 +23,7 @@ export class ClientModule extends GKDTestBase {
   private readonly clientAuthModule: ClientAuthModule
   private readonly clientChatModule: ClientChatModule
   private readonly clientDirectoryModule: ClientDirectoryModule
+  private readonly clientFileModule: ClientFileModule
 
   constructor(REQUIRED_LOG_LEVEL: number) {
     super(REQUIRED_LOG_LEVEL)
@@ -29,6 +31,7 @@ export class ClientModule extends GKDTestBase {
     this.clientAuthModule = new ClientAuthModule(REQUIRED_LOG_LEVEL + 1)
     this.clientChatModule = new ClientChatModule(REQUIRED_LOG_LEVEL + 1)
     this.clientDirectoryModule = new ClientDirectoryModule(REQUIRED_LOG_LEVEL + 1)
+    this.clientFileModule = new ClientFileModule(REQUIRED_LOG_LEVEL + 1)
   }
 
   protected async beforeTest(db: mysql.Pool, logLevel: number) {}
@@ -37,6 +40,7 @@ export class ClientModule extends GKDTestBase {
       await this.clientAuthModule.testOK(db, logLevel)
       await this.clientChatModule.testOK(db, logLevel)
       await this.clientDirectoryModule.testOK(db, logLevel)
+      await this.clientFileModule.testOK(db, logLevel)
       // ::
     } catch (errObj) {
       // ::

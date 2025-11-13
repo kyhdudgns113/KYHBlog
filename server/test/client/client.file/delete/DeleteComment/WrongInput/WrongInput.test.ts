@@ -8,6 +8,8 @@ import {GKDTestBase} from '@testCommon'
 import {consoleColors} from '@util'
 
 import * as mysql from 'mysql2/promise'
+import {ClientFilePortServiceTest} from '@modules/database'
+import {AUTH_ADMIN} from '@secret'
 
 /**
  * 이 클래스의 로그를 출력하기 위해 필요한 로그 레벨의 최소값이다.
@@ -15,13 +17,39 @@ import * as mysql from 'mysql2/promise'
  */
 const DEFAULT_REQUIRED_LOG_LEVEL = 4
 
+/**
+ * WrongInput
+ *   - ClientFilePort 의 deleteComment 함수 실행을 테스트한다.
+ *   - 잘못된 입력값을 넣었을 때 예외가 발생하는지 테스트
+ *   - 여러 서브 테스트를 점검해야 하므로 TestOK 로 실행한다
+ *
+ * 테스트 준비
+ *   - 파일에 댓글을 하나 생성한다.
+ *   - 이 댓글에 대해 시도한다.
+ *
+ * 서브 테스트
+ *   1. 존재하지 않는 댓글을 지우려는 경우
+ *   2. 이미 지워진 댓글을 지우려는 경우
+ *     - 준비단계에서 만든 댓글을 지운다.
+ *     - 따라서 이 테스트는 가장 마지막에 실행되어야 한다.
+ */
 export class WrongInput extends GKDTestBase {
+  private portService = ClientFilePortServiceTest.clientFilePortService
+
+  private commentOId: string = ''
+
   constructor(REQUIRED_LOG_LEVEL: number) {
     super(REQUIRED_LOG_LEVEL)
   }
 
   protected async beforeTest(db: mysql.Pool, logLevel: number) {
     try {
+      const {directory} = this.testDB.getRootDir()
+      const fileOId = directory.fileOIdsArr[0]
+      const {userOId} = this.testDB.getUserCommon(AUTH_ADMIN).user
+      const commentOId = '0'.repeat(24 - this.constructor.name.length) + this.constructor.name
+      const {comment} = await this.testDB.createComment(fileOId, userOId, commentOId, 'test comment')
+      this.commentOId = comment.commentOId
       // ::
     } catch (errObj) {
       // ::
@@ -30,6 +58,8 @@ export class WrongInput extends GKDTestBase {
   }
   protected async execTest(db: mysql.Pool, logLevel: number) {
     try {
+      await this.memberFail(this._1_DeleteNonExistentComment.bind(this), db, logLevel)
+      await this.memberFail(this._2_DeleteAlreadyDeletedComment.bind(this), db, logLevel)
       // ::
     } catch (errObj) {
       // ::
@@ -38,9 +68,52 @@ export class WrongInput extends GKDTestBase {
   }
   protected async finishTest(db: mysql.Pool, logLevel: number) {
     try {
+      if (this.commentOId) {
+        await this.testDB.deleteComment(this.commentOId)
+      }
       // ::
     } catch (errObj) {
       // ::
+      throw errObj
+    }
+  }
+
+  private async _1_DeleteNonExistentComment(db: mysql.Pool, logLevel: number) {
+    try {
+      const {jwtPayload} = this.testDB.getJwtPayload(AUTH_ADMIN)
+      const nonExistentCommentOId = '0'.repeat(24)
+      await this.portService.deleteComment(jwtPayload, nonExistentCommentOId)
+      // ::
+    } catch (errObj) {
+      // ::
+      // 댓글 권한 검증하려할때 댓글이 존재하지 않으므로 권한인증이 실패한다.
+      if (errObj.gkdErrCode !== 'DBHUB_checkAuth_Comment_noComment') {
+        return this.logErrorObj(errObj, 2)
+      }
+      throw errObj
+    }
+  }
+
+  private async _2_DeleteAlreadyDeletedComment(db: mysql.Pool, logLevel: number) {
+    try {
+      const {jwtPayload} = this.testDB.getJwtPayload(AUTH_ADMIN)
+      try {
+        await this.portService.deleteComment(jwtPayload, this.commentOId)
+        // ::
+      } catch (errObj) {
+        // ::
+        this.addFinalLog(`[DeleteComment] WrongInput/ 2번째 테스트에서 첫번째 댓글 삭제할때 에러가 발생했다.`, consoleColors.FgRed)
+        return this.logErrorObj(errObj, 2)
+      }
+
+      await this.portService.deleteComment(jwtPayload, this.commentOId)
+      // ::
+    } catch (errObj) {
+      // ::
+      // 댓글 권한 검증하려할때 댓글이 존재하지 않으므로 권한인증이 실패한다.
+      if (errObj.gkdErrCode !== 'DBHUB_checkAuth_Comment_noComment') {
+        return this.logErrorObj(errObj, 2)
+      }
       throw errObj
     }
   }
@@ -52,4 +125,3 @@ if (require.main === module) {
   const testModule = new WrongInput(DEFAULT_REQUIRED_LOG_LEVEL) // __Test 대신에 모듈 이름 넣는다.
   testModule.testOK(null, LOG_LEVEL).finally(() => exit()) // NOTE: 이거 OK 인지 Fail 인지 확인
 }
-

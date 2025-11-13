@@ -44,7 +44,6 @@ export class DeleteCommentFunction extends GKDTestBase {
       await this.CheckAuth.testOK(db, logLevel)
       await this.WrongInput.testOK(db, logLevel)
       await this.WorkingScenario.testOK(db, logLevel)
-      this.addFinalLog(`[DeleteCommentFunction] 테스트 작성 안됨`, consoleColors.FgYellow)
       // ::
     } catch (errObj) {
       // ::

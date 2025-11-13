@@ -61,19 +61,19 @@ export class ClientFileModule extends GKDTestBase {
       await this.deleteCommentFunction.testOK(db, logLevel)
       await this.deleteReplyFunction.testOK(db, logLevel)
 
-      await this.loadCommentsFunction.testOK(db, logLevel)
-      await this.loadFileFunction.testOK(db, logLevel)
-      await this.loadNoticeFileFunction.testOK(db, logLevel)
+      // await this.loadCommentsFunction.testOK(db, logLevel)
+      // await this.loadFileFunction.testOK(db, logLevel)
+      // await this.loadNoticeFileFunction.testOK(db, logLevel)
 
-      await this.addCommentFunction.testOK(db, logLevel)
-      await this.addReplyFunction.testOK(db, logLevel)
+      // await this.addCommentFunction.testOK(db, logLevel)
+      // await this.addReplyFunction.testOK(db, logLevel)
 
-      await this.editCommentFunction.testOK(db, logLevel)
-      await this.editReplyFunction.testOK(db, logLevel)
-      await this.editFileFunction.testOK(db, logLevel)
-      await this.editFileStatusFunction.testOK(db, logLevel)
+      // await this.editCommentFunction.testOK(db, logLevel)
+      // await this.editReplyFunction.testOK(db, logLevel)
+      // await this.editFileFunction.testOK(db, logLevel)
+      // await this.editFileStatusFunction.testOK(db, logLevel)
 
-      this.addFinalLog(`[ClientFileModule] 함수 12개 테스트 작성중 0/12`, consoleColors.FgYellow)
+      this.addFinalLog(`[ClientFileModule] 함수 12개 테스트 작성중 1/12`, consoleColors.FgYellow)
       // ::
     } catch (errObj) {
       // ::
