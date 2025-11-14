@@ -84,10 +84,10 @@ export class TestDB {
     return {chatRoomOId: TestDB.chatRoomRouters[userOId][targetUserOId]}
   }
   public getDirectory(dirOId: string) {
-    return {directory: TestDB.directories[dirOId]}
+    return {directory: {...TestDB.directories[dirOId]}}
   }
   public getFile(fileOId: string) {
-    return {file: TestDB.files[fileOId]}
+    return {file: {...TestDB.files[fileOId]}}
   }
   public getJwtPayload(userAuth: number, userIdx: number = 0) {
     const {signUpType, userId, userOId, userName} = this.getUserCommon(userAuth, userIdx).user
@@ -101,14 +101,14 @@ export class TestDB {
   }
   public getUserCommon(userAuth: number, userIdx: number = 0) {
     if (userAuth !== AUTH_USER || userIdx === 0) {
-      return {user: TestDB.usersCommon[userAuth][0]}
+      return {user: {...TestDB.usersCommon[userAuth][0]}}
     } // ::
     else {
-      return {user: TestDB.usersCommon[userAuth][userIdx]}
+      return {user: {...TestDB.usersCommon[userAuth][userIdx]}}
     }
   }
   public getRootDir() {
-    return {directory: TestDB.rootDir}
+    return {directory: {...TestDB.rootDir}}
   }
 
   public async resetBaseDB(resetFlag: number) {
@@ -328,6 +328,47 @@ export class TestDB {
 
   // AREA5: Create, Delete Function Area
 
+  public async createComment(fileOId: string, userOId: string, commentOId: string, content: string) {
+    const connection = await TestDB.db.getConnection()
+    try {
+      // userName 을 먼저 가져온다.
+      const queryUser = `SELECT userName FROM users WHERE userOId = ?`
+      const paramUser = [userOId]
+      const [result] = await connection.execute(queryUser, paramUser)
+      const resultArr = result as RowDataPacket[]
+      if (resultArr.length === 0) {
+        throw `[TestDB/createComment] 유저가 없습니다. (userOId: ${userOId})`
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 10))
+
+      const createdAt = new Date()
+      const userName = resultArr[0].userName
+
+      const queryComment = `INSERT INTO comments (commentOId, content, fileOId, userName, userOId, createdAt) VALUES (?, ?, ?, ?, ?, ?)`
+      const paramComment = [commentOId, content, fileOId, userName, userOId, createdAt]
+      await connection.execute(queryComment, paramComment)
+
+      const comment: T.CommentType = {
+        commentOId,
+        content,
+        fileOId,
+        userName,
+        userOId,
+        createdAt
+      }
+      return {comment}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
   /**
    * 디렉토리를 만든다.
    *   - DB 의 생성용 함수를 쓴다.
@@ -348,19 +389,10 @@ export class TestDB {
    *   - 쿼리를 직접 쓴다.
    *   - 부모 폴더를 건드리거나 하진 않는다.
    */
-  public async createDirectoryLight(parentDirOId: string, dirName: string) {
+  public async createDirectoryLight(parentDirOId: string, dirOId: string, dirName: string) {
     const connection = await TestDB.db.getConnection()
-    let dirOId = U.generateObjectId()
 
     try {
-      while (true) {
-        const query = `SELECT dirName FROM directories WHERE dirOId = ?`
-        const [result] = await connection.execute(query, [dirOId])
-        const resultArr = result as RowDataPacket[]
-        if (resultArr.length === 0) break
-        dirOId = U.generateObjectId()
-      }
-
       let dirIdx = 0
 
       const query = `INSERT INTO directories (dirOId, dirName, dirIdx, parentDirOId) VALUES (?, ?, ?, ?)`
@@ -402,20 +434,11 @@ export class TestDB {
    *   - 쿼리를 직접 쓴다.
    *   - 부모 폴더를 건드리거나 하진 않는다.
    */
-  public async createFileLight(dirOId: string, fileName: string) {
+  public async createFileLight(dirOId: string, fileOId: string, fileName: string) {
     const connection = await TestDB.db.getConnection()
-    let fileOId = U.generateObjectId()
     const {userOId, userName} = this.getUserCommon(AUTH_ADMIN).user
 
     try {
-      while (true) {
-        const query = `SELECT fileName FROM files WHERE fileOId = ?`
-        const [result] = await connection.execute(query, [fileOId])
-        const resultArr = result as RowDataPacket[]
-        if (resultArr.length === 0) break
-        fileOId = U.generateObjectId()
-      }
-
       let fileIdx = 0
 
       const query = `INSERT INTO files (fileOId, content, dirOId, fileIdx, fileName, fileStatus, userName, userOId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
@@ -446,6 +469,76 @@ export class TestDB {
     }
   }
 
+  public async createReply(commentOId: string, replyOId: string, content: string, fileOId: string, targetUserOId: string, userOId: string) {
+    const connection = await TestDB.db.getConnection()
+    try {
+      // targetUserName 을 가져온다.
+      const queryTargetUser = `SELECT userName FROM users WHERE userOId = ?`
+      const paramTargetUser = [targetUserOId]
+      const [resultTargetUser] = await connection.execute(queryTargetUser, paramTargetUser)
+      const resultArrTargetUser = resultTargetUser as RowDataPacket[]
+      if (resultArrTargetUser.length === 0) {
+        throw `[TestDB/createReply] 유저가 없습니다. (targetUserOId: ${targetUserOId})`
+      }
+      const targetUserName = resultArrTargetUser[0].userName
+
+      // userName 을 가져온다.
+
+      const queryUser = `SELECT userName FROM users WHERE userOId = ?`
+      const paramUser = [userOId]
+      const [resultUser] = await connection.execute(queryUser, paramUser)
+      const resultArrUser = resultUser as RowDataPacket[]
+      if (resultArrUser.length === 0) {
+        throw `[TestDB/createReply] 유저가 없습니다. (userOId: ${userOId})`
+      }
+      const userName = resultArrUser[0].userName
+
+      await new Promise(resolve => setTimeout(resolve, 10))
+
+      const createdAt = new Date()
+      const queryReply = `INSERT INTO replies (replyOId, commentOId, content, fileOId, targetUserOId, targetUserName, userName, userOId, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      const paramReply = [replyOId, commentOId, content, fileOId, targetUserOId, targetUserName, userName, userOId, createdAt]
+      await connection.execute(queryReply, paramReply)
+
+      const reply: T.ReplyType = {
+        replyOId,
+        commentOId,
+        content,
+        fileOId,
+        targetUserOId,
+        targetUserName,
+        userOId,
+        userName,
+        createdAt
+      }
+      return {reply}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  public async deleteComment(commentOId: string) {
+    const connection = await TestDB.db.getConnection()
+    try {
+      const queryDelete = `DELETE FROM comments WHERE commentOId = ?`
+      const paramDelete = [commentOId]
+      await connection.execute(queryDelete, paramDelete)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
   /**
    * 디렉토리를 삭제한다.
    *   - DB 의 삭제용 함수를 쓴다.
@@ -545,6 +638,22 @@ export class TestDB {
     try {
       const queryDelete = `DELETE FROM files WHERE dirOId = ?`
       const paramDelete = [parentDirOId]
+      await connection.execute(queryDelete, paramDelete)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+  public async deleteReply(replyOId: string) {
+    const connection = await TestDB.db.getConnection()
+    try {
+      const queryDelete = `DELETE FROM replies WHERE replyOId = ?`
+      const paramDelete = [replyOId]
       await connection.execute(queryDelete, paramDelete)
       // ::
     } catch (errObj) {

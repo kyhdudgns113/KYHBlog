@@ -76,11 +76,13 @@ export class WrongInput extends GKDTestBase {
       const {dirOId: rootDirOId} = this.testDB.getRootDir().directory
 
       // 1. 루트 폴더에 폴더를 2개 쿼리로 생성한다.
-      const {directory} = await this.testDB.createDirectoryLight(rootDirOId, dirName0)
-      this.dirOId0 = directory.dirOId
+      const dirOId0 = '0'.repeat(24 - dirName0.length) + dirName0
+      await this.testDB.createDirectoryLight(rootDirOId, dirOId0, dirName0)
+      this.dirOId0 = dirOId0
 
-      const {directory: directory1} = await this.testDB.createDirectoryLight(rootDirOId, dirName1)
-      this.dirOId1 = directory1.dirOId
+      const dirOId1 = '0'.repeat(24 - dirName1.length) + dirName1
+      await this.testDB.createDirectoryLight(rootDirOId, dirOId1, dirName1)
+      this.dirOId1 = dirOId1
 
       // 2. 각 폴더에 자식폴더 2개를 addDirectory 함수로 생성한다.
       const {extraDirs: extraDirs0_0} = await this.portService.addDirectory(jwtPayload, {parentDirOId: this.dirOId0, dirName: dirName0_0})

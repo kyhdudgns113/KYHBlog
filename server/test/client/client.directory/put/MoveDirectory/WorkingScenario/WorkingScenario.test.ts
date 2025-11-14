@@ -77,7 +77,7 @@ const DEFAULT_REQUIRED_LOG_LEVEL = 4
  */
 export class WorkingScenario extends GKDTestBase {
   // bind 된 함수들에서 portService 를 쓴다.
-  private portService = ClientDirPortServiceTest.clientDirPortService
+  private portService = ClientDirPortServiceTest.clientDirPortService // [강조] bind 된 함수들에서 portService 를 쓴다.
 
   private dirOIds = {}
 
@@ -165,8 +165,6 @@ export class WorkingScenario extends GKDTestBase {
       await this.memberOK(this.SameParent.bind(this), db, logLevel)
       await this.memberOK(this.GrandSibling.bind(this), db, logLevel)
       await this.memberOK(this.Uncle.bind(this), db, logLevel)
-
-      this.addFinalLog(`[MoveDirectory] WorkingScenario 테스트 미완성`, consoleColors.FgYellow)
       // ::
     } catch (errObj) {
       // ::

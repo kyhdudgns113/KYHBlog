@@ -49,10 +49,12 @@ export class WrongInput extends GKDTestBase {
     try {
       const {dirOId} = this.testDB.getRootDir().directory
       const fileName = this.constructor.name
-      const {file} = await this.testDB.createFileLight(dirOId, 'testFileName')
-      const {file: file2} = await this.testDB.createFileLight(dirOId, fileName)
-      this.fileOId = file.fileOId
-      this.fileOId2 = file2.fileOId
+      const fileOId = '0'.repeat(24 - 'testFileName'.length) + 'testFileName'
+      const fileOId2 = '0'.repeat(24 - fileName.length) + fileName
+      await this.testDB.createFileLight(dirOId, fileOId, 'testFileName')
+      await this.testDB.createFileLight(dirOId, fileOId2, fileName)
+      this.fileOId = fileOId
+      this.fileOId2 = fileOId2
       // ::
     } catch (errObj) {
       // ::

@@ -399,12 +399,12 @@ export class FileDBService {
       const [resultReadDir] = await connection.execute(queryReadDir, paramsReadDir)
 
       // 6. (쿼리) 부모 폴더의 자식 폴더들 조회
-      const queryReadDirArr = `SELECT dirOId FROM directories WHERE parentDirOId = ?`
+      const queryReadDirArr = `SELECT dirOId FROM directories WHERE parentDirOId = ? ORDER BY dirIdx ASC`
       const paramsReadDirArr = [dirOId]
       const [resultReadDirArr] = await connection.execute(queryReadDirArr, paramsReadDirArr)
 
       // 7. (쿼리) 부모 폴더의 자식 파일들 조회
-      const queryReadFileArr = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ?`
+      const queryReadFileArr = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ? ORDER BY fileIdx ASC`
       const paramsReadFileArr = [dirOId]
       const [resultReadFileArr] = await connection.execute(queryReadFileArr, paramsReadFileArr)
 

@@ -1,5 +1,5 @@
 CREATE TABLE `logs` (
-    date DATETIME NOT NULL, -- date 직접 넣어주는게 서버 프로그램에서 데이터 관리에 좋다.
+    date DATETIME(3) NOT NULL, -- date 직접 넣어주는게 서버 프로그램에서 데이터 관리에 좋다.
     gkdErrCode VARCHAR(127) DEFAULT NULL,
     gkdErrMsg VARCHAR(255) DEFAULT NULL,
     gkdLog TEXT NOT NULL,

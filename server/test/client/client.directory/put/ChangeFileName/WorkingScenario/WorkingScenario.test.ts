@@ -53,15 +53,17 @@ export class WorkingScenario extends GKDTestBase {
   protected async beforeTest(db: mysql.Pool, logLevel: number) {
     try {
       const {dirOId: rootDirOId} = this.testDB.getRootDir().directory
-      const {directory} = await this.testDB.createDirectoryLight(rootDirOId, this.constructor.name)
-      const {dirOId} = directory
+      const dirOId = '0'.repeat(24 - this.constructor.name.length) + this.constructor.name
+      const {directory} = await this.testDB.createDirectoryLight(rootDirOId, dirOId, this.constructor.name)
 
-      const {file} = await this.testDB.createFileLight(dirOId, 'file0')
-      const {file: file1} = await this.testDB.createFileLight(dirOId, 'file1')
+      const fileOId0 = '0'.repeat(19) + 'file0'
+      const fileOId1 = '0'.repeat(19) + 'file1'
+      await this.testDB.createFileLight(dirOId, fileOId0, 'file0')
+      await this.testDB.createFileLight(dirOId, fileOId1, 'file1')
 
       this.dirOId = dirOId
-      this.fileOId0 = file.fileOId
-      this.fileOId1 = file1.fileOId
+      this.fileOId0 = fileOId0
+      this.fileOId1 = fileOId1
       // ::
     } catch (errObj) {
       // ::
