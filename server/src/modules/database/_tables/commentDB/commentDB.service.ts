@@ -32,6 +32,8 @@ export class CommentDBService {
         commentOId = generateObjectId()
       }
 
+      await new Promise(resolve => setTimeout(resolve, 1))
+
       const query = `INSERT INTO comments (commentOId, content, fileOId, userName, userOId) VALUES (?, ?, ?, ?, ?)`
       const params = [commentOId, content, fileOId, userName, userOId]
       await connection.execute(query, params)
@@ -61,6 +63,8 @@ export class CommentDBService {
         if (resultArr.length === 0) break
         replyOId = generateObjectId()
       }
+
+      await new Promise(resolve => setTimeout(resolve, 1))
 
       const query = `
         INSERT INTO replies (

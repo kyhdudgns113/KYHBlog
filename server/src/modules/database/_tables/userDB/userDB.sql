@@ -1,8 +1,8 @@
 CREATE TABLE `users` (
 	userOId CHAR(24) PRIMARY KEY,
 
-  createdAt DATETIME NOT NULL,
-  updatedAt DATETIME NOT NULL,
+  createdAt DATETIME(3) NOT NULL,
+  updatedAt DATETIME(3) NOT NULL,
 
   hashedPassword VARCHAR(255) NOT NULL,
   picture VARCHAR(255) NULL,

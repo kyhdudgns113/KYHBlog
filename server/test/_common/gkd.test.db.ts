@@ -340,6 +340,8 @@ export class TestDB {
         throw `[TestDB/createComment] 유저가 없습니다. (userOId: ${userOId})`
       }
 
+      await new Promise(resolve => setTimeout(resolve, 10))
+
       const createdAt = new Date()
       const userName = resultArr[0].userName
 
@@ -491,9 +493,11 @@ export class TestDB {
       }
       const userName = resultArrUser[0].userName
 
+      await new Promise(resolve => setTimeout(resolve, 10))
+
       const createdAt = new Date()
-      const queryReply = `INSERT INTO replies (replyOId, commentOId, content, fileOId, targetUserOId, targetUserName, userOId, userName, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-      const paramReply = [replyOId, commentOId, content, fileOId, targetUserOId, targetUserName, userOId, userName, createdAt]
+      const queryReply = `INSERT INTO replies (replyOId, commentOId, content, fileOId, targetUserOId, targetUserName, userName, userOId, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      const paramReply = [replyOId, commentOId, content, fileOId, targetUserOId, targetUserName, userName, userOId, createdAt]
       await connection.execute(queryReply, paramReply)
 
       const reply: T.ReplyType = {
