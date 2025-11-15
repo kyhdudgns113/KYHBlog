@@ -4,7 +4,7 @@ import remarkBreaks from 'node_modules/remark-breaks/lib'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 
-import {MarkDownComponent} from '@component'
+import {MarkDownComponent, Modal} from '@component'
 import {useBlogSelector} from '@redux'
 
 import type {FC} from 'react'
@@ -20,6 +20,7 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, styl
   const file = useBlogSelector(state => state.file.file)
 
   const [stringArr, setStringArr] = useState<string[]>([])
+  const [previewImageSrc, setPreviewImageSrc] = useState<string | null>(null)
 
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -134,11 +135,19 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, styl
     }
   }, [fileOId, stringArr]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const handleImageClick = useCallback((src: string) => {
+    setPreviewImageSrc(src)
+  }, [])
+
+  const handleClosePreview = useCallback(() => {
+    setPreviewImageSrc(null)
+  }, [])
+
   return (
     <div className={`ReadingContent_Part ${className || ''}`} style={style} {...props}>
       <div className="MarkdownArea" key={fileOId || 'keys'} ref={containerRef}>
         <ReactMarkdown
-          components={MarkDownComponent(stringArr)}
+          components={MarkDownComponent(stringArr, handleImageClick)}
           rehypePlugins={[rehypeRaw]}
           remarkPlugins={[remarkGfm, remarkBreaks]}
           skipHtml={false} // ::
@@ -149,6 +158,12 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, styl
       </div>
 
       <div className="_bottomLine" />
+
+      {previewImageSrc && (
+        <Modal className="ImagePreviewModal" onClose={handleClosePreview}>
+          <img alt="미리보기" src={previewImageSrc} style={{maxHeight: '90vh', maxWidth: '90vw'}} />
+        </Modal>
+      )}
     </div>
   )
 }

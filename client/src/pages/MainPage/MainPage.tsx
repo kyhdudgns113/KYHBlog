@@ -5,7 +5,7 @@ import rehypeRaw from 'rehype-raw'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 
-import {MarkDownComponent} from '@component'
+import {MarkDownComponent, Modal} from '@component'
 import {CheckAuth} from '@guard'
 
 import type {FC} from 'react'
@@ -24,6 +24,7 @@ export const MainPage: FC<MainPageProps> = ({reqAuth, className, ...props}) => {
   const fileOId = useBlogSelector(state => state.file.fileOId)
 
   const [stringArr, setStringArr] = useState<string[]>([])
+  const [previewImageSrc, setPreviewImageSrc] = useState<string | null>(null)
 
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -138,6 +139,14 @@ export const MainPage: FC<MainPageProps> = ({reqAuth, className, ...props}) => {
     }
   }, [fileOId, stringArr]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const handleImageClick = useCallback((src: string) => {
+    setPreviewImageSrc(src)
+  }, [])
+
+  const handleClosePreview = useCallback(() => {
+    setPreviewImageSrc(null)
+  }, [])
+
   /* eslint-disable */
   return (
     <CheckAuth reqAuth={reqAuth || SV.AUTH_GUEST}>
@@ -145,7 +154,7 @@ export const MainPage: FC<MainPageProps> = ({reqAuth, className, ...props}) => {
         <div className="_pageWrapper">
           <div className="MarkdownArea" key={fileOId || 'keys'} ref={containerRef}>
             <ReactMarkdown
-              components={MarkDownComponent(stringArr)}
+              components={MarkDownComponent(stringArr, handleImageClick)}
               rehypePlugins={[rehypeRaw]}
               remarkPlugins={[remarkGfm, remarkBreaks]}
               skipHtml={false} // ::
@@ -155,6 +164,12 @@ export const MainPage: FC<MainPageProps> = ({reqAuth, className, ...props}) => {
             </ReactMarkdown>
           </div>
         </div>
+
+        {previewImageSrc && (
+          <Modal className="ImagePreviewModal" onClose={handleClosePreview}>
+            <img alt="미리보기" src={previewImageSrc} style={{maxHeight: '90vh', maxWidth: '90vw'}} />
+          </Modal>
+        )}
       </div>
     </CheckAuth>
   )
