@@ -1,17 +1,17 @@
-import {SignAreaPart, TitleAreaPart} from './parts'
+import {ButtonRowPart, TitlePart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import './_styles/_Header.scss'
+import './Header.scss'
 
 type HeaderProps = DivCommonProps & {}
 
-export const Header: FC<HeaderProps> = ({className, ...props}) => {
+export const Header: FC<HeaderProps> = ({...props}) => {
   return (
-    <div className={`Header ${className || ''}`} {...props}>
-      <SignAreaPart />
-      <TitleAreaPart />
+    <div className={`Header`} {...props}>
+      <ButtonRowPart />
+      <TitlePart />
     </div>
   )
 }

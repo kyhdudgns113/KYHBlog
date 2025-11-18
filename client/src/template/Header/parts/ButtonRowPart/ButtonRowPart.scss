@@ -1,0 +1,28 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Header {
+    .ButtonRow_Part {
+      display: flex;
+      flex-direction: row;
+
+      height: 48px;
+
+      position: absolute;
+
+      right: 8px;
+      top: 4px;
+
+      width: fit-content;
+
+      .wrapper_part {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        height: 100%;
+
+        width: fit-content;
+      }
+    }
+  }
+}
