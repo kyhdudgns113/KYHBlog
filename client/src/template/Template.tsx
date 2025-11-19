@@ -3,6 +3,7 @@ import {Outlet} from 'react-router-dom'
 import {Header} from './Header'
 import {Tabs} from './Tabs'
 import {Footer} from './Footer'
+import {Righter} from './Righter'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -18,6 +19,7 @@ export const Template: FC<TemplateProps> = ({...props}) => {
       <Tabs />
       <div className="Body_Template">
         <Outlet />
+        <Righter />
       </div>
       <Footer />
     </div>

@@ -1,0 +1,15 @@
+.Template {
+  .Righter {
+    display: flex;
+    flex-direction: column;
+
+    height: fit-content;
+
+    right: 20px;
+    position: fixed;
+
+    top: 90px;
+
+    width: fit-content;
+  }
+}
