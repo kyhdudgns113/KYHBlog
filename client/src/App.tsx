@@ -12,8 +12,9 @@ import './base/styles/App.scss'
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<P.RedirectMainPage />} />
+      <Route path="/" element={<P.RedirectHomePage />} />
       <Route path="/main/*" element={<Template />}>
+        <Route path="home" element={<P.HomePage />} />
         {/* <Route index element={<P.MainPage />} />
         <Route path="admin/*" element={<C.AdminProvider reqAuth={SV.AUTH_ADMIN} />}>
           <Route index element={<P.AdminPage />} />

@@ -18,7 +18,9 @@ export const Template: FC<TemplateProps> = ({...props}) => {
       <Header />
       <Tabs />
       <div className="Body_Template">
-        <Outlet />
+        <div className="PageArea_Template">
+          <Outlet />
+        </div>
         <Righter />
       </div>
       <Footer />

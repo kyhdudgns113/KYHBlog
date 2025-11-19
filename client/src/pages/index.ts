@@ -1,6 +1,3 @@
-export * from './Admin'
-export * from './MainPage'
+export * from './HomePage'
 export * from './NullPage'
-export * from './PostingPage'
-export * from './ReadingPage'
 export * from './Redirect'

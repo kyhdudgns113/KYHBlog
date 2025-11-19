@@ -23,7 +23,6 @@ $Delta_Left: 120px;
       cursor: pointer;
 
       font-size: 20px;
-      font-weight: 700;
 
       height: 100%;
 
@@ -43,7 +42,8 @@ $Delta_Left: 120px;
 
       &._selected {
         background-color: v.$SAKURA_BORDER;
-        color: v.$SAKURA_BG;
+        color: v.$SAKURA_TEXT_DEEP;
+        font-weight: 700;
         z-index: 50;
       }
     }

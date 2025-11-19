@@ -13,21 +13,23 @@ import './base/styles/index.css'
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Provider store={store}>
-      <C.SocketProvider>
-        <C.AuthProvider>
-          <C.UserProvider>
-            <C.ChatProvider>
-              <C.DirectoryProvider>
-                <C.FileProvider>
-                  <C.CommentProvider>
-                    <App />
-                  </C.CommentProvider>
-                </C.FileProvider>
-              </C.DirectoryProvider>
-            </C.ChatProvider>
-          </C.UserProvider>
-        </C.AuthProvider>
-      </C.SocketProvider>
+      <C.UrlProvider>
+        <C.SocketProvider>
+          <C.AuthProvider>
+            <C.UserProvider>
+              <C.ChatProvider>
+                <C.DirectoryProvider>
+                  <C.FileProvider>
+                    <C.CommentProvider>
+                      <App />
+                    </C.CommentProvider>
+                  </C.FileProvider>
+                </C.DirectoryProvider>
+              </C.ChatProvider>
+            </C.UserProvider>
+          </C.AuthProvider>
+        </C.SocketProvider>
+      </C.UrlProvider>
     </Provider>
   </BrowserRouter>
 )
