@@ -16,20 +16,119 @@ $SIGN_UP_PART_WIDTH: 300px;
 
       height: fit-content;
 
-      transition: 1s ease;
+      transition: opacity 1s ease, transform 1s ease;
 
       width: $SIGN_UP_PART_WIDTH;
 
       &._open {
         opacity: 1;
         transform: translateX(0);
-        width: $SIGN_UP_PART_WIDTH;
       }
 
       &._close {
         opacity: 0;
         transform: translateX($SIGN_UP_PART_WIDTH);
-        width: 0;
+      }
+
+      .title_part {
+        color: v.$SAKURA_TEXT;
+        font-size: 24px;
+        font-weight: 700;
+        text-align: center;
+        user-select: none;
+        width: 100%;
+        padding: 20px 0;
+        margin: 0;
+      }
+
+      .form_part {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 0 20px 20px 20px;
+        width: 100%;
+      }
+
+      .form_item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+
+        label {
+          color: v.$SAKURA_TEXT;
+          font-size: 18px;
+          font-weight: 600;
+          user-select: none;
+        }
+
+        input {
+          // background-color: v.$SAKURA_BG;
+          background-color: #ffffff;
+          border: 4px solid v.$SAKURA_BORDER_50;
+          border-radius: 6px;
+          color: v.$SAKURA_TEXT_DEEP;
+          font-size: 14px;
+          outline: none;
+          padding: 10px 12px;
+          transition: border-color 0.2s ease;
+          width: 100%;
+
+          &:focus {
+            border-color: v.$SAKURA_BORDER_DEEP_50;
+          }
+
+          &::placeholder {
+            color: v.$SAKURA_BORDER_50;
+          }
+        }
+      }
+
+      .form_button_row {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 8px;
+        width: 100%;
+
+        button {
+          background-color: v.$SAKURA_BG_DEEP_50;
+          border: 2px solid v.$SAKURA_BORDER;
+          border-radius: 6px;
+          color: v.$SAKURA_TEXT;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 600;
+          outline: none;
+          padding: 6px 12px;
+          transition: all 0.2s ease;
+          user-select: none;
+
+          &[type='submit'] {
+            background-color: v.$SAKURA_BORDER_DEEP_50;
+            color: v.$SAKURA_BG;
+
+            &:hover {
+              background-color: v.$SAKURA_BORDER_DEEP_100;
+              transform: translateY(-1px);
+            }
+
+            &:active {
+              transform: translateY(0);
+            }
+          }
+
+          &[type='button'] {
+            &:hover {
+              background-color: v.$SAKURA_BG_DEEP_100;
+              border-color: v.$SAKURA_BORDER_DEEP_50;
+            }
+
+            &:active {
+              transform: translateY(0);
+            }
+          }
+        }
       }
     }
   }

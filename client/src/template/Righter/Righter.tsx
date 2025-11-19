@@ -1,4 +1,4 @@
-import {useEffect, useEffectEvent, useState} from 'react'
+import {useCallback, useEffect, useEffectEvent, useState} from 'react'
 
 import {useBlogDispatch, useBlogSelector, useTemplateActions} from '@redux'
 
@@ -22,45 +22,60 @@ export const Righter: FC<RighterProps> = ({...props}) => {
 
   const dispatch = useBlogDispatch()
 
+  const closePart = useCallback(() => {
+    setCnLogIn('_close')
+    setCnSignUp('_close')
+    new Promise(resolve => {
+      setTimeout(() => {
+        setIsOpenLogIn(false)
+        setIsOpenSignUp(false)
+        dispatch(resetHeaderBtnClicked())
+        resolve(true)
+      }, 400)
+    })
+  }, [])
+
+  const openPart = useCallback((which: 'logIn' | 'signUp') => {
+    const isLogIn = which === 'logIn'
+    const isSignUp = which === 'signUp'
+
+    !isLogIn && setCnLogIn('_close')
+    !isSignUp && setCnSignUp('_close')
+
+    new Promise(resolve => {
+      setTimeout(() => {
+        setIsOpenLogIn(isLogIn)
+        setIsOpenSignUp(isSignUp)
+        resolve(true)
+      }, 400)
+    }) // ::
+      .then(() => {
+        setTimeout(() => {
+          isLogIn && setCnLogIn('_open')
+          isSignUp && setCnSignUp('_open')
+          dispatch(resetHeaderBtnClicked())
+        }, 10)
+      })
+  }, [])
+
   const righterChangeEvent = useEffectEvent(async (headerBtnClicked: string) => {
     if (headerBtnClicked === 'logIn') {
-      setCnSignUp('_close')
-      new Promise(resolve => {
-        setTimeout(() => {
-          setIsOpenSignUp(false)
-          setIsOpenLogIn(true)
-          resolve(true)
-        }, 400)
-      }) // ::
-        .then(() => {
-          setTimeout(() => {
-            setCnLogIn('_open')
-            dispatch(resetHeaderBtnClicked())
-          }, 10)
-        })
+      openPart('logIn')
     } // ::
     else if (headerBtnClicked === 'signUp') {
-      setCnLogIn('_close')
-      new Promise<boolean>(resolve =>
-        setTimeout(() => {
-          setIsOpenLogIn(false)
-          setIsOpenSignUp(true)
-          resolve(true)
-        }, 400)
-      ) // ::
-        .then(() => {
-          setTimeout(() => {
-            setCnSignUp('_open')
-            dispatch(resetHeaderBtnClicked())
-          }, 10)
-        })
+      openPart('signUp')
     } // ::
-    else {
-      setIsOpenLogIn(false)
-      setIsOpenSignUp(false)
-      setCnLogIn('_close')
-      setCnSignUp('_close')
-    }
+    /**
+     * 이거 안 두는게 좋다
+     * - 클릭된 버튼이 null 인건 아직 눌린 버튼이 없다는 뜻이다
+     * - 눌린 버튼이 없으면 아무것도 하면 안된다
+     */
+    // else {
+    //   setIsOpenLogIn(false)
+    //   setIsOpenSignUp(false)
+    //   setCnLogIn('_close')
+    //   setCnSignUp('_close')
+    // }
   })
 
   // 헤더 버큰 클릭 여부에 따라 로그인, 회원가입 파트 열기/닫기
@@ -72,8 +87,8 @@ export const Righter: FC<RighterProps> = ({...props}) => {
 
   return (
     <div className={`Righter`} {...props}>
-      {isOpenLogIn && <LogInPart className={cnLogIn} />}
-      {isOpenSignUp && <SignUpPart className={cnSignUp} />}
+      {isOpenLogIn && <LogInPart className={cnLogIn} closePart={closePart} />}
+      {isOpenSignUp && <SignUpPart className={cnSignUp} closePart={closePart} />}
     </div>
   )
 }
