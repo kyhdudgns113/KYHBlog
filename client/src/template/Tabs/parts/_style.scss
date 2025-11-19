@@ -1,0 +1,75 @@
+@use '../../../base/styles/values.scss' as v;
+
+$Width_Part: 160px;
+$Delta_Left: 120px;
+
+.Template {
+  .Tabs {
+    ._part_common {
+      align-content: center;
+
+      background-color: v.$SAKURA_BG;
+
+      border-color: v.$SAKURA_BORDER;
+
+      border-top-right-radius: 16px;
+      border-top-left-radius: 16px;
+
+      border-top-width: 4px;
+      border-right-width: 4px;
+      border-left-width: 4px;
+
+      color: v.$SAKURA_TEXT;
+      cursor: pointer;
+
+      font-size: 20px;
+      font-weight: 700;
+
+      height: 100%;
+
+      position: absolute;
+
+      text-align: center;
+      transition: height 0.3s ease, transform 0.3s ease;
+      user-select: none;
+
+      width: $Width_Part;
+
+      &:hover {
+        height: 110%;
+        transform: translateY(-10%);
+        z-index: 100;
+      }
+
+      &._selected {
+        background-color: v.$SAKURA_BORDER;
+        color: v.$SAKURA_BG;
+        z-index: 50;
+      }
+    }
+
+    .Home_Part {
+      left: 0;
+
+      z-index: 10;
+    }
+
+    .Blog_Part {
+      left: $Delta_Left;
+
+      z-index: 9;
+    }
+
+    .QnA_Part {
+      left: $Delta_Left * 2;
+
+      z-index: 8;
+    }
+
+    .Contact_Part {
+      left: $Delta_Left * 3;
+
+      z-index: 7;
+    }
+  }
+}

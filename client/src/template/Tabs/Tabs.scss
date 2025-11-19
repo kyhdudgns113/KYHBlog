@@ -1,6 +1,16 @@
 @use '../../base/styles/values.scss' as v;
 
-.Tabs {
-  // Tabs styles
-}
+.Template {
+  .Tabs {
+    border-color: v.$SAKURA_BORDER;
+    border-bottom-width: 4px;
 
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+
+    position: relative;
+
+    width: v.$Width_Template_Tabs;
+  }
+}

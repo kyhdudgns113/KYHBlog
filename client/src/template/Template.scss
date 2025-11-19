@@ -7,14 +7,14 @@
   flex-direction: column;
 
   min-height: 100vh;
-  width: calc(100vw - 16px);
+  width: 1900px;
 
   .Body_Template {
     display: flex;
     flex-direction: row;
     height: 100%;
 
-    min-height: 800px;
+    min-height: 700px;
     width: 100%;
   }
 }
