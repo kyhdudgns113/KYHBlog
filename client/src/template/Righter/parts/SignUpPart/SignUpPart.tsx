@@ -5,11 +5,10 @@ import './SignUpPart.scss'
 
 type SignUpPartProps = DivCommonProps & {}
 
-export const SignUpPart: FC<SignUpPartProps> = ({...props}) => {
+export const SignUpPart: FC<SignUpPartProps> = ({className, ...props}) => {
   return (
-    <div className={`SignUp_Part`} {...props}>
+    <div className={`SignUp_Part ${className || ''}`} {...props}>
       SignUpPart
     </div>
   )
 }
-
