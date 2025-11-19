@@ -1,6 +1,6 @@
 import {useAuthStatesContext} from '@context'
 
-import {LogInButton, LogOutButton, SignUpButton} from '../../buttons'
+import {AlarmButton, LogInButton, LogOutButton, SignUpButton, UserNameButton} from '../../buttons'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -17,6 +17,8 @@ export const ButtonRowPart: FC<ButtonRowPartProps> = ({...props}) => {
       {/* 1. 로그인 상태시 표시되는 컴포넌트들 */}
       {isLoggedIn && (
         <div className="wrapper_part">
+          <AlarmButton />
+          <UserNameButton />
           <LogOutButton />
         </div>
       )}

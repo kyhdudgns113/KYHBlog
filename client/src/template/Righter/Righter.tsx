@@ -8,12 +8,15 @@ import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import './Righter.scss'
+import {useAuthStatesContext} from '@context'
 
 type RighterProps = DivCommonProps & {}
 
 export const Righter: FC<RighterProps> = ({...props}) => {
   const headerBtnClicked = useBlogSelector(state => state.template.headerBtnClicked)
   const {resetHeaderBtnClicked} = useTemplateActions()
+
+  const {isLoggedIn} = useAuthStatesContext()
 
   const [cnLogIn, setCnLogIn] = useState<string>('_close')
   const [cnSignUp, setCnSignUp] = useState<string>('_close')
@@ -87,8 +90,8 @@ export const Righter: FC<RighterProps> = ({...props}) => {
 
   return (
     <div className={`Righter`} {...props}>
-      {isOpenLogIn && <LogInPart className={cnLogIn} closePart={closePart} />}
-      {isOpenSignUp && <SignUpPart className={cnSignUp} closePart={closePart} />}
+      {!isLoggedIn && isOpenLogIn && <LogInPart className={cnLogIn} closePart={closePart} />}
+      {!isLoggedIn && isOpenSignUp && <SignUpPart className={cnSignUp} closePart={closePart} />}
     </div>
   )
 }

@@ -1,0 +1,28 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Header {
+    .UserName_Button {
+      align-items: center;
+      background-color: white;
+      border-color: transparent;
+      border-radius: 8px;
+      border-width: 2px;
+
+      color: v.$SAKURA_TEXT;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      height: 32px;
+
+      justify-content: center;
+
+      padding-left: 8px;
+      padding-right: 8px;
+
+      transition: 0.2s;
+
+      width: fit-content;
+    }
+  }
+}
