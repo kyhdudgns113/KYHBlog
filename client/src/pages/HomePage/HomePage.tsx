@@ -8,7 +8,7 @@ type HomePageProps = DivCommonProps & {}
 export const HomePage: FC<HomePageProps> = ({...props}) => {
   return (
     <div className={`HomePage`} {...props}>
-      <h1>HomePage</h1>
+      <p>홈 페이지는 어떻게 구성하지?</p>
     </div>
   )
 }

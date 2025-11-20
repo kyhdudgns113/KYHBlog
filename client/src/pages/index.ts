@@ -1,3 +1,6 @@
+export * from './BlogPage'
+export * from './ContactPage'
 export * from './HomePage'
 export * from './NullPage'
+export * from './QnAPage'
 export * from './Redirect'

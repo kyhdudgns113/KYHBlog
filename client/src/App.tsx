@@ -15,6 +15,9 @@ function App() {
       <Route path="/" element={<P.RedirectHomePage />} />
       <Route path="/main/*" element={<Template />}>
         <Route path="home" element={<P.HomePage />} />
+        <Route path="blog" element={<P.BlogPage />} />
+        <Route path="qna" element={<P.QnAPage />} />
+        <Route path="contact" element={<P.ContactPage />} />
         {/* <Route index element={<P.MainPage />} />
         <Route path="admin/*" element={<C.AdminProvider reqAuth={SV.AUTH_ADMIN} />}>
           <Route index element={<P.AdminPage />} />
