@@ -2,11 +2,13 @@ import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit'
 
+import * as T from '@type'
+
 // State 타입 정의
 interface TemplateState {
-  headerBtnClicked: 'logIn' | 'signUp' | null
+  headerBtnClicked: T.HeaderBtnClickedType
   isLefterOpen: boolean
-  nowTab: 'home' | 'blog' | 'qna' | 'contact' | null
+  nowTab: T.NowTabType
 }
 
 // 초기 상태
@@ -43,7 +45,7 @@ export const templateSlice = createSlice({
     resetNowTab: state => {
       state.nowTab = null
     },
-    setNowTab: (state, action: PayloadAction<'home' | 'blog' | 'qna' | 'contact'>) => {
+    setNowTab: (state, action: PayloadAction<T.NowTabType>) => {
       state.nowTab = action.payload
     }
   }

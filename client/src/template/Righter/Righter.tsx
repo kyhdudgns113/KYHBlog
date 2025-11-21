@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useEffectEvent, useState} from 'react'
 
+import {useAuthStatesContext} from '@context'
 import {useBlogDispatch, useBlogSelector, useTemplateActions} from '@redux'
 
 import {LogInPart, SignUpPart} from './parts'
@@ -7,8 +8,9 @@ import {LogInPart, SignUpPart} from './parts'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import * as T from '@type'
+
 import './Righter.scss'
-import {useAuthStatesContext} from '@context'
 
 type RighterProps = DivCommonProps & {}
 
@@ -38,7 +40,7 @@ export const Righter: FC<RighterProps> = ({...props}) => {
     })
   }, [])
 
-  const openPart = useCallback((which: 'logIn' | 'signUp') => {
+  const openPart = useCallback((which: T.HeaderBtnClickedType) => {
     const isLogIn = which === 'logIn'
     const isSignUp = which === 'signUp'
 
