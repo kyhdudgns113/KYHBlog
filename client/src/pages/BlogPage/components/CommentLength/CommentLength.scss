@@ -1,0 +1,27 @@
+.Template {
+  .BlogPage {
+    .CommentAdd_Object {
+      .CommentLength {
+        margin-bottom: 8px;
+        margin-left: auto;
+        margin-right: 12px;
+
+        user-select: none;
+
+        > ._length {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .CommentList_Object {
+      .CommentLength {
+        font-size: 14px;
+
+        margin-left: auto;
+        margin-right: 12px;
+      }
+    }
+  }
+}
+

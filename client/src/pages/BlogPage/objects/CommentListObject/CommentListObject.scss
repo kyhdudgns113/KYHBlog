@@ -1,0 +1,40 @@
+.Template {
+  .BlogPage {
+    .CommentList_Object {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      height: fit-content;
+
+      width: 100%;
+
+      ._commentReplyContainer {
+        align-items: center;
+
+        border-color: #c0c0c0;
+        border-radius: 3px;
+        border-top-width: 2px;
+        border-left-width: 2px;
+        border-right-width: 2px;
+
+        display: flex;
+        flex-direction: column;
+
+        height: fit-content;
+
+        transition: box-shadow 0.3s ease-in-out;
+
+        width: 90%;
+
+        &._last {
+          border-bottom-width: 2px;
+        }
+        &:hover {
+          box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+  }
+}
+

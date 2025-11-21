@@ -1,0 +1,26 @@
+.Template {
+  .BlogPage {
+    .CommentInfo_Group {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      padding-top: 6px;
+
+      width: 100%;
+
+      ._commentHeaderContainer {
+        display: flex;
+        flex-direction: row;
+        height: fit-content;
+
+        justify-content: center;
+
+        position: relative;
+
+        width: calc(100% - 24px);
+      }
+    }
+  }
+}
+

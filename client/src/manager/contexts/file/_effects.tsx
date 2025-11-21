@@ -50,8 +50,8 @@ export const FileEffectsProvider: FC<PropsWithChildren> = ({children}) => {
 
   // 자동 로딩: 공지 파일
   useEffect(() => {
-    // 주소창 /main 뒤에 아무것도 없으면 공지파일 로드
-    if (!location.pathname.split('/main')[1]) {
+    // 주소창 /main/blog 뒤에 아무것도 없으면 공지파일 로드
+    if (!location.pathname.split('/main/blog')[1]) {
       loadNoticeFile()
       loadRootDirectory()
     }

@@ -4,7 +4,7 @@ import {Template} from './template'
 
 // import * as C from '@context'
 import * as P from './pages'
-// import * as SV from '@shareValue'
+import * as SV from '@shareValue'
 
 import './base/styles/App.css'
 import './base/styles/App.scss'
@@ -15,7 +15,7 @@ function App() {
       <Route path="/" element={<P.RedirectHomePage />} />
       <Route path="/main/*" element={<Template />}>
         <Route path="home" element={<P.HomePage />} />
-        <Route path="blog" element={<P.BlogPage />} />
+        <Route path="blog/*" element={<P.BlogPage reqAuth={SV.AUTH_GUEST} />} />
         <Route path="qna" element={<P.QnAPage />} />
         <Route path="contact" element={<P.ContactPage />} />
         {/* <Route index element={<P.MainPage />} />

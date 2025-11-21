@@ -15,7 +15,7 @@ export const FileRowObj: FC<FileRowObjProps> = ({fileOId, className, ...props}) 
 
   const onClickFileRow = useCallback((e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
-    navigate(`/main/reading/${fileOId}`)
+    navigate(`/main/blog/${fileOId}`)
   }, []) // eslint-disable-line
 
   return (
@@ -24,5 +24,3 @@ export const FileRowObj: FC<FileRowObjProps> = ({fileOId, className, ...props}) 
     </div>
   )
 }
-
-

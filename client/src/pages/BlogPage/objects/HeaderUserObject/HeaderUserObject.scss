@@ -1,0 +1,48 @@
+.Template {
+  .BlogPage {
+    .HeaderUser_Object {
+      align-items: center;
+      cursor: default;
+      display: flex;
+      flex-direction: row;
+
+      height: fit-content;
+
+      padding-left: 8px;
+      padding-right: 12px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+
+      width: 100%;
+
+      ._icon {
+        font-size: 48px;
+      }
+      ._fileWrapper {
+        // background-color: #d0d0d0;
+        display: flex;
+        flex-direction: column;
+
+        padding-left: 6px;
+        padding-right: 6px;
+
+        position: relative;
+        width: fit-content;
+
+        ._userName {
+          cursor: pointer;
+          font-size: 20px;
+          font-weight: 600;
+
+          width: fit-content;
+        }
+        ._createdAt {
+          font-size: 16px;
+          font-weight: 400;
+          user-select: none;
+        }
+      }
+    }
+  }
+}
+

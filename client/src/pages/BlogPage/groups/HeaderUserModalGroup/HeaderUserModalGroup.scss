@@ -1,0 +1,78 @@
+.Template {
+  .BlogPage {
+    .HeaderUserModal_Group {
+      background-color: white;
+
+      border-color: #d0d0d0;
+      border-radius: 12px;
+      border-width: 2px;
+
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+      height: 150px;
+      position: absolute;
+      left: calc(100% + 12px);
+      top: -24px;
+      width: fit-content;
+
+      .__userNameId {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+
+        width: fit-content;
+
+        .__userName {
+          font-size: 20px;
+          font-weight: 600;
+          width: fit-content;
+        }
+        .__userId {
+          font-size: 14px;
+          font-weight: 400;
+          width: fit-content;
+        }
+      }
+      .__userMail {
+        font-size: 14px;
+        font-style: italic;
+        font-weight: 400;
+
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+
+        width: fit-content;
+      }
+
+      .__btn_row {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        justify-content: center;
+
+        margin-top: 8px;
+        width: 100%;
+
+        .ChatUserButton {
+          color: #44cc44;
+          cursor: pointer;
+          font-size: 30px;
+          width: fit-content;
+        }
+
+        ._btn:hover {
+          font-size: 33px;
+        }
+      }
+    }
+  }
+}
+
