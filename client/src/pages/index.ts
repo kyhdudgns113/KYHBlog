@@ -1,4 +1,4 @@
-export * from './BlogPage'
+export * from './Blog'
 export * from './ContactPage'
 export * from './HomePage'
 export * from './NullPage'

@@ -14,7 +14,10 @@ $BLOG_LEFTER_PART_WIDTH: 300px;
       display: flex;
       flex-direction: column;
 
-      height: fit-content;
+      height: 600px;
+
+      overflow-x: auto;
+      overflow-y: scroll;
 
       transition: opacity 1s ease, transform 1s ease;
 

@@ -15,7 +15,10 @@ function App() {
       <Route path="/" element={<P.RedirectHomePage />} />
       <Route path="/main/*" element={<Template />}>
         <Route path="home" element={<P.HomePage />} />
-        <Route path="blog/*" element={<P.BlogPage reqAuth={SV.AUTH_GUEST} />} />
+        <Route path="blog/*">
+          <Route index element={<P.BlogPage />} />
+          <Route path=":fileOId" element={<P.BlogReadingPage />} />
+        </Route>
         <Route path="qna" element={<P.QnAPage />} />
         <Route path="contact" element={<P.ContactPage />} />
         {/* <Route index element={<P.MainPage />} />
