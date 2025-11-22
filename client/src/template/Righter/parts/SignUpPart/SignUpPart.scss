@@ -16,7 +16,7 @@ $SIGN_UP_PART_WIDTH: 300px;
 
       height: fit-content;
 
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity 1s ease, transform 1s ease, box-shadow 0.3s ease-in-out;
 
       width: $SIGN_UP_PART_WIDTH;
 
@@ -28,6 +28,11 @@ $SIGN_UP_PART_WIDTH: 300px;
       &._close {
         opacity: 0;
         transform: translateX($SIGN_UP_PART_WIDTH);
+      }
+
+      &:hover,
+      &:focus-within {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
       }
 
       .title_part {

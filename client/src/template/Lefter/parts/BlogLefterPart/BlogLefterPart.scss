@@ -19,7 +19,7 @@ $BLOG_LEFTER_PART_WIDTH: 300px;
       overflow-x: auto;
       overflow-y: scroll;
 
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity 1s ease, transform 1s ease, box-shadow 0.3s ease-in-out;
 
       width: $BLOG_LEFTER_PART_WIDTH;
 
@@ -31,6 +31,10 @@ $BLOG_LEFTER_PART_WIDTH: 300px;
       &._close {
         opacity: 0;
         transform: translateX(-$BLOG_LEFTER_PART_WIDTH);
+      }
+
+      &:hover {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
       }
     }
   }
