@@ -1,6 +1,6 @@
 import {useBlogSelector} from '@redux'
 
-import {DirectoryRowObj, FileRowObj} from '../../objects'
+import {DirectoryRowRObject, FileRowRObject} from '../../objects'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -17,12 +17,12 @@ export const BlogLefterPart: FC<BlogLefterPartProps> = ({closePart, className, .
     <div className={`BlogLefter_Part SCROLL_SAKURA ${className || ''}`} {...props}>
       {/* 1. 루트 폴더의 자식 폴더 목록 */}
       {rootDir.subDirOIdsArr.map((dirOId, dirIdx) => {
-        return <DirectoryRowObj key={dirIdx} dirOId={dirOId} />
+        return <DirectoryRowRObject key={dirIdx} dirOId={dirOId} />
       })}
 
       {/* 2. 루트 폴더의 자식 파일 목록 */}
       {rootDir.fileOIdsArr.map((fileOId, fileIdx) => {
-        return <FileRowObj key={fileIdx} fileOId={fileOId} />
+        return <FileRowRObject key={fileIdx} fileOId={fileOId} />
       })}
     </div>
   )

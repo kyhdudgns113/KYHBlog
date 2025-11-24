@@ -6,11 +6,11 @@ import {FileInfoGroup} from '../../groups'
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import './FileRowObj.scss'
+import './FileRowRObject.scss'
 
-type FileRowObjProps = DivCommonProps & {fileOId: string}
+type FileRowRObjectProps = DivCommonProps & {fileOId: string}
 
-export const FileRowObj: FC<FileRowObjProps> = ({fileOId, className, ...props}) => {
+export const FileRowRObject: FC<FileRowRObjectProps> = ({fileOId, className, ...props}) => {
   const navigate = useNavigate()
 
   const onClickFileRow = useCallback((e: MouseEvent<HTMLDivElement>) => {
@@ -19,8 +19,9 @@ export const FileRowObj: FC<FileRowObjProps> = ({fileOId, className, ...props}) 
   }, []) // eslint-disable-line
 
   return (
-    <div className={`FileRow_Obj ${className || ''}`} onClick={onClickFileRow} {...props}>
+    <div className={`FileRow_RObject ${className || ''}`} onClick={onClickFileRow} {...props}>
       <FileInfoGroup fileOId={fileOId} />
     </div>
   )
 }
+

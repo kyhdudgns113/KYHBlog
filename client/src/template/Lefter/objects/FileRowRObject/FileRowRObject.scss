@@ -1,0 +1,17 @@
+.Template {
+  .Lefter {
+    .BlogLefter_Part {
+      .FileRow_RObject {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        min-width: 100%;
+        padding-top: 2px;
+        padding-bottom: 2px;
+
+        width: fit-content;
+      }
+    }
+  }
+}
+

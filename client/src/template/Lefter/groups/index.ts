@@ -1,2 +1,6 @@
 export * from './DirInfoGroup'
+export * from './DirectoryInfo'
+export * from './DirectorySpace'
 export * from './FileInfoGroup'
+export * from './FileRowInfo'
+export * from './FileRowSpace'
