@@ -151,8 +151,8 @@ export const MainPage: FC<MainPageProps> = ({reqAuth, className, ...props}) => {
   return (
     <CheckAuth reqAuth={reqAuth || SV.AUTH_GUEST}>
       <div className={`MainPage ${className || ''}`} {...props}>
-        <div className="_pageWrapper">
-          <div className="MarkdownArea" key={fileOId || 'keys'} ref={containerRef}>
+        <div className={`_pageWrapper`}>
+          <div className={`MarkdownArea`} key={fileOId || 'keys'} ref={containerRef}>
             <ReactMarkdown
               components={MarkDownComponent(stringArr, handleImageClick)}
               rehypePlugins={[rehypeRaw]}
@@ -166,7 +166,7 @@ export const MainPage: FC<MainPageProps> = ({reqAuth, className, ...props}) => {
         </div>
 
         {previewImageSrc && (
-          <Modal className="ImagePreviewModal" onClose={handleClosePreview}>
+          <Modal className={`ImagePreviewModal`} onClose={handleClosePreview}>
             <img alt="미리보기" src={previewImageSrc} style={{maxHeight: '90vh', maxWidth: '90vw'}} />
           </Modal>
         )}

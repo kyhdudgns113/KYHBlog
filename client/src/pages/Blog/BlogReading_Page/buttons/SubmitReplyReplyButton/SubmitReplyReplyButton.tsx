@@ -58,7 +58,7 @@ export const SubmitReplyReplyButton: FC<SubmitReplyReplyButtonProps> = ({reply, 
 
   return (
     <button
-      className="SubmitReplyReply_Button _button_reading_sakura"
+      className={`SubmitReplyReply_Button _button_reading_sakura`}
       onClick={onClickSubmit(userAuth, userOId, userName, reply, replyContent)}
       {...props} // ::
     >

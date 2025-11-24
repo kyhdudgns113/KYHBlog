@@ -34,7 +34,7 @@ export const ChatUserButton: FC<ChatUserButtonProps> = ({targetUserOId, ...props
 
   return (
     <Icon
-      className="ChatUserButton _btn"
+      className={`ChatUserButton _btn`}
       iconName="mail"
       onClick={onClickIcon(userOId, targetUserOId)}
       {...props} // ::

@@ -17,17 +17,17 @@ export const GKDErrorObject: FC<GKDErrorObjectProps> = ({log, className, style, 
       {...props} // ::
     >
       {/* 1. 타이틀 */}
-      <div className="_objects_title">에러 목록</div>
+      <div className={`_objects_title`}>에러 목록</div>
 
       {/* 2. 에러 메시지 */}
-      <div className="_objects_message">{log.where || '장소 미상'}</div>
+      <div className={`_objects_message`}>{log.where || '장소 미상'}</div>
 
       {/* 3. 에러 목록 테이블 */}
-      <table className="_objects_table">
+      <table className={`_objects_table`}>
         <thead>
           <tr>
-            <th className="_th_key">키</th>
-            <th className="_th_value">값</th>
+            <th className={`_th_key`}>키</th>
+            <th className={`_th_value`}>값</th>
           </tr>
         </thead>
         <tbody>

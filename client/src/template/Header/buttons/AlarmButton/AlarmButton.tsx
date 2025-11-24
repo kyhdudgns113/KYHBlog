@@ -8,5 +8,5 @@ import './AlarmButton.scss'
 type AlarmButtonProps = DivCommonProps & {}
 
 export const AlarmButton: FC<AlarmButtonProps> = ({...props}) => {
-  return <Icon iconName="notifications" className="Alarm_Button" id="Alarm_Button" {...props} />
+  return <Icon iconName="notifications" className={`Alarm_Button`} id="Alarm_Button" {...props} />
 }

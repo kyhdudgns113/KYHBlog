@@ -55,22 +55,22 @@ export const ReplyContentF: FC<ReplyContentFProps> = ({reply, ...props}) => {
   }, [content]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="ReplyContent_F" {...props}>
+    <div className={`ReplyContent_F`} {...props}>
       {/* 1. 댓글 내용(수정중이지 않은 경우) */}
       {!isEditing && (
-        <div className="_replyContent" style={styleContentHeight}>
+        <div className={`_replyContent`} style={styleContentHeight}>
           <b>{reply.targetUserName}</b>
           {reply.content}
         </div>
       )}
 
       {/* 2. 수정중인 댓글 내용(수정중인 경우) */}
-      {isEditing && <textarea className="_replyContent" onChange={onChangeContent} ref={textareaRef} style={styleContentHeight} value={content} />}
+      {isEditing && <textarea className={`_replyContent`} onChange={onChangeContent} ref={textareaRef} style={styleContentHeight} value={content} />}
 
       {/* 3. 댓글 길이 표시, 제출 버튼(수정중인 경우) */}
       {isEditing && (
-        <div className="_editing_extra_row">
-          <div className="__editing_reply_length">
+        <div className={`_editing_extra_row`}>
+          <div className={`__editing_reply_length`}>
             {content.length} / {COMMENT_MAX_LENGTH}
           </div>
           <SubmitEditReplyButton reply={reply} content={content} />

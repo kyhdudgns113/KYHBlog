@@ -18,8 +18,8 @@ export const ReplyInfoGroup: FC<ReplyInfoGroupProps> = ({reply, ...props}) => {
   const isReplyFOpen = replyOId_reply === reply.replyOId
 
   return (
-    <div className="ReplyInfo_Group" {...props}>
-      <div className="_replyHeaderContainer">
+    <div className={`ReplyInfo_Group`} {...props}>
+      <div className={`_replyHeaderContainer`}>
         <F.ReplyUserNameF reply={reply} />
         <F.ReplyBtnRowF reply={reply} />
 

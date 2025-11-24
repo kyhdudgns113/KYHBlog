@@ -15,10 +15,10 @@ export const ReplyDelModalF: FC<ReplyDelModalFProps> = ({reply, ...props}) => {
       {...props} // ::
     >
       {/* 1. Title */}
-      <p className="__title">삭제할까요?</p>
+      <p className={`__title`}>삭제할까요?</p>
 
       {/* 2. Button Row: 삭제, 취소 */}
-      <div className="_replyDelModalBtnRow">
+      <div className={`_replyDelModalBtnRow`}>
         <SubmitDelReplyButton reply={reply} />
         <CancelDelReplyButton />
       </div>

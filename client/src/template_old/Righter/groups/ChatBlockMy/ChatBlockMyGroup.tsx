@@ -9,8 +9,8 @@ type ChatBlockMyGroupProps = DivCommonProps & {chat: LT.ChatTypeLocal; isSameAre
 export const ChatBlockMyGroup: FC<ChatBlockMyGroupProps> = ({chat, isSameArea, className, style, ...props}) => {
   return (
     <div className={`ChatBlockMy_Group ${isSameArea ? '_sameArea' : ''} ${className || ''}`} style={style} {...props}>
-      <div className="_chatBlock">
-        <div className="_content">{`${chat.content}`}</div>
+      <div className={`_chatBlock`}>
+        <div className={`_content`}>{`${chat.content}`}</div>
       </div>
     </div>
   )

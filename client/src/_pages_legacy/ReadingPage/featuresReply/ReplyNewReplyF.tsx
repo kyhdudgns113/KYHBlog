@@ -36,16 +36,16 @@ export const ReplyNewReplyF: FC<ReplyNewReplyFProps> = ({reply, className, style
   return (
     <div className={`ReplyNewReply_F _newReplyContainer  ${className || ''}`} style={style} {...props}>
       {/* 1. 대댓글 대상자 표시 */}
-      <div className="_targetUserNameContainer">
-        <div className="_targetUserName">{reply.userName}</div>
+      <div className={`_targetUserNameContainer`}>
+        <div className={`_targetUserName`}>{reply.userName}</div>
         {`님에게`}
       </div>
 
       {/* 2. 대댓글 내용 */}
-      <textarea className="_newReplyContent" onChange={onChangeReplyContent} ref={textareaRef} value={replyContent} />
+      <textarea className={`_newReplyContent`} onChange={onChangeReplyContent} ref={textareaRef} value={replyContent} />
 
       {/* 3. 대댓글 길이, 제출 버튼, 취소 버튼 */}
-      <div className="_newReplyBottomRow">
+      <div className={`_newReplyBottomRow`}>
         <ReplyLength reply={replyContent} />
         <SubmitReplyReplyButton reply={reply} replyContent={replyContent} />
         <CancelReplyReplyButton />

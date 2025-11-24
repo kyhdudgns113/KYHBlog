@@ -145,7 +145,7 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, styl
 
   return (
     <div className={`ReadingContent_Part ${className || ''}`} style={style} {...props}>
-      <div className="MarkdownArea" key={fileOId || 'keys'} ref={containerRef}>
+      <div className={`MarkdownArea`} key={fileOId || 'keys'} ref={containerRef}>
         <ReactMarkdown
           components={MarkDownComponent(stringArr, handleImageClick)}
           rehypePlugins={[rehypeRaw]}
@@ -157,10 +157,10 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({className, styl
         </ReactMarkdown>
       </div>
 
-      <div className="_bottomLine" />
+      <div className={`_bottomLine`} />
 
       {previewImageSrc && (
-        <Modal className="ImagePreviewModal" onClose={handleClosePreview}>
+        <Modal className={`ImagePreviewModal`} onClose={handleClosePreview}>
           <img alt="미리보기" src={previewImageSrc} style={{maxHeight: '90vh', maxWidth: '90vw'}} />
         </Modal>
       )}

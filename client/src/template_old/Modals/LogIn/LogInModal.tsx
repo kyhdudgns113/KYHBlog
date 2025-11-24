@@ -67,28 +67,28 @@ export const LogInModal: FC<LogInModalProps> = ({className, ...props}) => {
   return (
     <Modal className={`LogIn_Modal _modal_template ${className || ''}`} onClose={onClose} onKeyDown={onKeyDown(userId, password)} {...props}>
       {/* 1. 타이틀 */}
-      <p className="_title_modal">로그인</p>
+      <p className={`_title_modal`}>로그인</p>
 
       {/* 2. 폼 */}
-      <form className="_form_modal" onSubmit={onSubmit(userId, password)}>
+      <form className={`_form_modal`} onSubmit={onSubmit(userId, password)}>
         {/* 2-1. ID */}
-        <div className="_form_item">
+        <div className={`_form_item`}>
           <label htmlFor="userId">ID</label>
           <input autoFocus type="text" id="userId" name="userId" required value={userId} onChange={e => setUserId(e.target.value)} tabIndex={1} />
         </div>
 
         {/* 2-2. 비밀번호 */}
-        <div className="_form_item">
+        <div className={`_form_item`}>
           <label htmlFor="password">비밀번호</label>
           <input type="password" id="password" name="password" required value={password} onChange={e => setPassword(e.target.value)} tabIndex={4} />
         </div>
 
         {/* 2-3. 버튼 */}
-        <div className="_form_button_row">
-          <button className="_button_form" type="submit" tabIndex={6}>
+        <div className={`_form_button_row`}>
+          <button className={`_button_form`} type="submit" tabIndex={6}>
             로그인
           </button>
-          <button className="_button_form" type="button" onClick={onClose} tabIndex={7}>
+          <button className={`_button_form`} type="button" onClick={onClose} tabIndex={7}>
             닫기
           </button>
         </div>

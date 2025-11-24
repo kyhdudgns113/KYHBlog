@@ -18,8 +18,8 @@ export const CommentInfoGroup: FC<CommentInfoGroupProps> = ({comment, ...props})
   const isReplyFOpen = commentOId_reply === comment.commentOId
 
   return (
-    <div className="CommentInfo_Group" {...props}>
-      <div className="_commentHeaderContainer">
+    <div className={`CommentInfo_Group`} {...props}>
+      <div className={`_commentHeaderContainer`}>
         <F.CommentUserNameF comment={comment} />
         <F.CommentBtnRowF comment={comment} />
 

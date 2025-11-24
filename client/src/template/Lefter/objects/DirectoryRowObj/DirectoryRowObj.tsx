@@ -39,7 +39,7 @@ export const DirectoryRowObj: FC<DirectoryRowObjProps> = ({dirOId, ...props}) =>
       {/* 1. 본인 정보 */}
       <DirInfoGroup dirName={directory?.dirName || 'ERROR'} isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <div className="_container_object">
+      <div className={`_container_object`}>
         {/* 2. 자식 폴더 목록 */}
         {isOpen &&
           directory.subDirOIdsArr.map((subDirOId, subDirIdx) => {

@@ -48,18 +48,18 @@ export const ReplyUserInfoE: FC<ReplyUserInfoEProps> = ({reply, ...props}) => {
 
   return (
     <div
-      className="ReplyUserInfo_E"
+      className={`ReplyUserInfo_E`}
       onClick={e => e.stopPropagation()}
       {...props} // ::
     >
-      <div className="__row_name_id">
-        <b className="__info_name">{targetUser.userName}</b>
-        <b className="__info_id">{`(${targetUser.userId})`}</b>
+      <div className={`__row_name_id`}>
+        <b className={`__info_name`}>{targetUser.userName}</b>
+        <b className={`__info_id`}>{`(${targetUser.userId})`}</b>
       </div>
-      <div className="__row_mail">
-        <p className="__info_mail">{targetUser.userMail}</p>
+      <div className={`__row_mail`}>
+        <p className={`__info_mail`}>{targetUser.userMail}</p>
       </div>
-      <div className="__row_button">{!isMyReply && <ChatUserButton targetUserOId={targetUser.userOId} />}</div>
+      <div className={`__row_button`}>{!isMyReply && <ChatUserButton targetUserOId={targetUser.userOId} />}</div>
     </div>
   )
 }

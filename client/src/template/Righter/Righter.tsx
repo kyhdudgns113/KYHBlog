@@ -4,7 +4,7 @@ import {useAuthStatesContext} from '@context'
 import {useBlogDispatch, useBlogSelector, useTemplateActions} from '@redux'
 
 import {OpenChatRoomListBtn} from './buttons'
-import {ChatRoomListPart, LogInPart, SignUpPart} from './parts'
+import {ChatRoomPart, ChatRoomListPart, LogInPart, SignUpPart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -17,6 +17,7 @@ type RighterProps = DivCommonProps & {}
 
 export const Righter: FC<RighterProps> = ({...props}) => {
   const headerBtnClicked = useBlogSelector(state => state.template.headerBtnClicked)
+  const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
   const {resetHeaderBtnClicked} = useTemplateActions()
 
   const {isLoggedIn} = useAuthStatesContext()
@@ -107,6 +108,7 @@ export const Righter: FC<RighterProps> = ({...props}) => {
       {!isLoggedIn && isOpenSignUp && <SignUpPart className={cnSignUp} closePart={closePart} />}
 
       {/* 2. 로그인 상태: 채팅방 목록 파트*/}
+      {isLoggedIn && chatRoomOId && <ChatRoomPart />}
       {isLoggedIn && isOpenChatRoomList && <ChatRoomListPart className={cnChatRoomList} />}
       {isLoggedIn && <OpenChatRoomListBtn closePart={closePart} isOpen={isOpenChatRoomList} openPart={openPart} />}
     </div>

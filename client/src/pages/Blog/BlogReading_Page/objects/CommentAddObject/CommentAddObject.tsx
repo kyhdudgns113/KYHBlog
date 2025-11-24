@@ -25,9 +25,9 @@ export const CommentAddObject: FC<CommentAddObjectProps> = ({...props}) => {
   const commentContent = useBlogSelector(state => state.comment.commentContent)
 
   return (
-    <div className="CommentAdd_Object" {...props}>
+    <div className={`CommentAdd_Object`} {...props}>
       {/* 1. 오브젝트 이름 */}
-      <p className="_title_object">댓글 작성</p>
+      <p className={`_title_object`}>댓글 작성</p>
 
       {/* 2. 댓글 작성 칸 */}
       <CommentWrittingGroup />

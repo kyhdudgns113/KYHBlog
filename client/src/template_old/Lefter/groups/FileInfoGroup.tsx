@@ -19,7 +19,7 @@ export const FileInfoGroup: FC<FileInfoGroupProps> = ({fileOId, className, ...pr
       <Icon iconName="article" style={{fontSize: '18px', marginLeft: '4px', marginRight: '4px'}} />
 
       {/* 2. 파일 이름 */}
-      <p className="_title_group">{fileRows[fileOId]?.fileName || 'ERROR'}</p>
+      <p className={`_title_group`}>{fileRows[fileOId]?.fileName || 'ERROR'}</p>
 
       {/* 3. 파일 상태 아이콘 */}
       <FileStatusButton fileOId={fileOId} />

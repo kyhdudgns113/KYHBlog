@@ -48,7 +48,7 @@ export const AddDirectoryObject: FC<AddDirectoryObjectProps> = ({dirOId, classNa
     <div className={`AddDirectory_Object _module ${className || ''}`} {...props}>
       <input
         autoFocus
-        className="_dir"
+        className={`_dir`}
         onBlur={onBlur(dirOId, dirName)}
         onChange={onChange}
         onKeyDown={onKeyDown}

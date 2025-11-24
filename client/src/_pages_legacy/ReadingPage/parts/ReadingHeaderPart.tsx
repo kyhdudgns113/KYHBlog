@@ -12,7 +12,7 @@ export const ReadingHeaderPart: FC<ReadingHeaderPartProps> = ({className, style,
     <div className={`ReadingHeader_Part ${className || ''}`} style={style} {...props}>
       <HeaderNameObject />
       <HeaderUserObject />
-      <div className="_bottomLine" />
+      <div className={`_bottomLine`} />
     </div>
   )
 }

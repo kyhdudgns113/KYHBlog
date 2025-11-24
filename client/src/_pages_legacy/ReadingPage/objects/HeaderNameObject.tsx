@@ -12,7 +12,7 @@ export const HeaderNameObject: FC<HeaderNameObjectProps> = ({className, style, .
 
   return (
     <div className={`HeaderName_Object ${className || ''}`} style={style} {...props}>
-      <p className="_fileName">{file.fileName}</p>
+      <p className={`_fileName`}>{file.fileName}</p>
     </div>
   )
 }

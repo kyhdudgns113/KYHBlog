@@ -26,8 +26,8 @@ export const CommentUserNameF: FC<CommentUserNameFProps> = ({comment, ...props})
   )
 
   return (
-    <div className="CommentUserName_F" {...props}>
-      <p className="_commentUserName" onClick={onClickUserName(comment)}>
+    <div className={`CommentUserName_F`} {...props}>
+      <p className={`_commentUserName`} onClick={onClickUserName(comment)}>
         {comment.userName}
       </p>
       {isUserSelected && <CommentUserInfoE comment={comment} />}

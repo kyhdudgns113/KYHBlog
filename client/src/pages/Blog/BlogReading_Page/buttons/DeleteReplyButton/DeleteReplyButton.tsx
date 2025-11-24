@@ -43,7 +43,7 @@ export const DeleteReplyButton: FC<DeleteReplyButtonProps> = ({reply, ...props})
 
   return (
     <button
-      className="DeleteReply_Button _button_reading"
+      className={`DeleteReply_Button _button_reading`}
       onClick={onClickDeleteReply(reply, replyOId_delete)}
       {...props} // ::
     >

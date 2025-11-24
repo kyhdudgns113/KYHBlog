@@ -20,7 +20,7 @@ export const RedirectHomePage: FC<RedirectHomePageProps> = ({className, ...props
 
   return (
     <div className={`RedirectHomePage ${className || ''}`} {...props}>
-      <p className="_title_page">잠시만 기다려주세요~~</p>
+      <p className={`_title_page`}>잠시만 기다려주세요~~</p>
     </div>
   )
 }

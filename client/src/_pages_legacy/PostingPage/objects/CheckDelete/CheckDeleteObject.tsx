@@ -38,11 +38,11 @@ export const CheckDeleteObject: FC<CheckDeleteObjectProps> = ({className, ...pro
 
   return (
     <div className={`CheckDelete_Object ${className || ''}`} {...props}>
-      <p className="_title_object" style={{fontSize: '22px', fontWeight: '700'}}>
+      <p className={`_title_object`} style={{fontSize: '22px', fontWeight: '700'}}>
         삭제하나요?
       </p>
 
-      <div className="_btn_row_object">
+      <div className={`_btn_row_object`}>
         <button onClick={onClickDelete(fileOId)}>삭제</button>
         <button onClick={onClickCancel}>취소</button>
       </div>

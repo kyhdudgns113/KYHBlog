@@ -41,9 +41,9 @@ export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, style, 
       style={style}
       {...props} // ::
     >
-      <p className="_chatRoomName">{chatRoom.chatRoomName}</p>
-      <p className="_chatRoomUserId">{` (${chatRoom.targetUserId})`}</p>
-      {chatRoom.unreadMessageCount > 0 && <p className="_unReadCnt">{unreadStr}</p>}
+      <p className={`_chatRoomName`}>{chatRoom.chatRoomName}</p>
+      <p className={`_chatRoomUserId`}>{` (${chatRoom.targetUserId})`}</p>
+      {chatRoom.unreadMessageCount > 0 && <p className={`_unReadCnt`}>{unreadStr}</p>}
     </div>
   )
 }

@@ -22,7 +22,7 @@ export const CancelDelCommentButton: FC<CancelDelCommentButtonProps> = ({...prop
 
   return (
     <button
-      className="CancelDelComment_Button _button_reading_sakura"
+      className={`CancelDelComment_Button _button_reading_sakura`}
       onClick={onClickDelete}
       {...props} // ::
     >

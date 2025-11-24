@@ -80,35 +80,35 @@ export const SignUpPart: FC<SignUpPartProps> = ({closePart, className, ...props}
       {...props}
     >
       {/* 1. 타이틀 */}
-      <p className="title_part">회원가입</p>
+      <p className={`title_part`}>회원가입</p>
 
-      <form className="form_part" onSubmit={onSubmit(signUpLock, userId, userMail, userName, password, passwordConfirm)}>
+      <form className={`form_part`} onSubmit={onSubmit(signUpLock, userId, userMail, userName, password, passwordConfirm)}>
         {/* 2. 입력: ID */}
-        <div className="form_item">
+        <div className={`form_item`}>
           <label htmlFor="userId">ID</label>
           <input autoFocus type="text" id="userId" name="userId" onChange={e => setUserId(e.target.value)} required value={userId} />
         </div>
 
         {/* 3. 입력: 이름 */}
-        <div className="form_item">
+        <div className={`form_item`}>
           <label htmlFor="userName">이름</label>
           <input type="text" id="userName" name="userName" onChange={e => setUserName(e.target.value)} required value={userName} />
         </div>
 
         {/* 4. 입력: 이메일 */}
-        <div className="form_item">
+        <div className={`form_item`}>
           <label htmlFor="userMail">이메일</label>
           <input type="email" id="userMail" name="userMail" onChange={e => setUserMail(e.target.value)} required value={userMail} />
         </div>
 
         {/* 5. 입력: 비밀번호 */}
-        <div className="form_item">
+        <div className={`form_item`}>
           <label htmlFor="password">비밀번호</label>
           <input type="password" id="password" name="password" onChange={e => setPassword(e.target.value)} required value={password} />
         </div>
 
         {/* 6. 입력: 비밀번호 확인 */}
-        <div className="form_item">
+        <div className={`form_item`}>
           <label htmlFor="passwordConfirm">비밀번호 확인</label>
           <input
             type="password"
@@ -121,7 +121,7 @@ export const SignUpPart: FC<SignUpPartProps> = ({closePart, className, ...props}
         </div>
 
         {/* 7. 버튼 행 */}
-        <div className="form_button_row">
+        <div className={`form_button_row`}>
           <button type="submit">Sign Up</button>
           <button type="button" onClick={onClickClose}>
             Close

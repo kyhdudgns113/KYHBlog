@@ -36,16 +36,16 @@ export const HeaderUserModalGroup: FC<HeaderUserModalGroupProps> = ({className, 
       {...props} // ::
     >
       {/* 1. 유저 이름, 유저 아이디 */}
-      <div className="__userNameId">
-        <p className="__userName">{`${fileUser.userName}`}</p>
-        <p className="__userId">{`${fileUser.userId}`}</p>
+      <div className={`__userNameId`}>
+        <p className={`__userName`}>{`${fileUser.userName}`}</p>
+        <p className={`__userId`}>{`${fileUser.userId}`}</p>
       </div>
 
       {/* 2. 유저 이메일 */}
-      <p className="__userMail">{fileUser.userMail}</p>
+      <p className={`__userMail`}>{fileUser.userMail}</p>
 
       {/* 3. 액션 버튼 */}
-      <div className="__btn_row">{userOId !== fileUser.userOId && <ChatUserButton targetUserOId={fileUser.userOId} />}</div>
+      <div className={`__btn_row`}>{userOId !== fileUser.userOId && <ChatUserButton targetUserOId={fileUser.userOId} />}</div>
     </div>
   )
 }

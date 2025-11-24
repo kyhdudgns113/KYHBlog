@@ -39,7 +39,7 @@ export const CommentPagingGroup: FC<CommentPagingGroupProps> = ({className, styl
   return (
     <div className={`CommentPaging_Group ${className || ''}`} style={style} {...props}>
       {/* 1. 버튼: 이전 10개 페이지 목록으로 */}
-      {isLeftActive && <Icon className="_left_button" iconName="arrow_left" onClick={onClickLeft} />}
+      {isLeftActive && <Icon className={`_left_button`} iconName="arrow_left" onClick={onClickLeft} />}
 
       {/* 2. 페이지 인덱스들 */}
       {Array(10)
@@ -65,7 +65,7 @@ export const CommentPagingGroup: FC<CommentPagingGroupProps> = ({className, styl
         })}
 
       {/* 3. 버튼: 다음 10개 페이지 목록으로 */}
-      {isRightActive && <Icon className="_right_button" iconName="arrow_right" onClick={onClickRight} />}
+      {isRightActive && <Icon className={`_right_button`} iconName="arrow_right" onClick={onClickRight} />}
     </div>
   )
 }

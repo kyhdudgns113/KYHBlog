@@ -33,13 +33,13 @@ export const HeaderUserObject: FC<HeaderUserObjectProps> = ({className, style, .
 
   return (
     <div className={`HeaderUser_Object ${className || ''}`} style={style} {...props}>
-      <Icon className="_icon" iconName="account_circle" />
+      <Icon className={`_icon`} iconName="account_circle" />
 
-      <div className="_fileWrapper">
-        <p className="_userName" onClick={onClickUserName} onMouseDown={onMouseDownUserName}>
+      <div className={`_fileWrapper`}>
+        <p className={`_userName`} onClick={onClickUserName} onMouseDown={onMouseDownUserName}>
           {file.userName}
         </p>
-        <p className="_createdAt">{new Date(file.createdAtValue).toLocaleDateString('ko-KR')}</p>
+        <p className={`_createdAt`}>{new Date(file.createdAtValue).toLocaleDateString('ko-KR')}</p>
 
         {isFileUserSelected && <HeaderUserModalGroup />}
       </div>

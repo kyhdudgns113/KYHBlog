@@ -42,9 +42,9 @@ export const AdminUsersPage: FC<AdminUsersPageProps> = ({className, style, ...pr
 
   return (
     <div className={`AdminUsersPage ${className || ''}`} style={style} {...props}>
-      <div className="_pageWrapper">
+      <div className={`_pageWrapper`}>
         {/* 1. 타이틀 */}
-        <p className="_page_title" onClick={onClickTitle(isLoadingUserArr)}>유저 관리 페이지</p>
+        <p className={`_page_title`} onClick={onClickTitle(isLoadingUserArr)}>유저 관리 페이지</p>
 
         {/* 2. 유저 목록 테이블 */}
         <P.UserTablePart pageIdx={pageIdx}/>

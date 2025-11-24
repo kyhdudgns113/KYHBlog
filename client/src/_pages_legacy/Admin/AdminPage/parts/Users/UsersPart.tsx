@@ -71,21 +71,21 @@ export const UsersPart: FC<UsersPartProps> = ({className, style, ...props}) => {
   return (
     <div className={`UsersPart _admin_part ${className || ''}`} style={style} {...props}>
       {/* 1. 타이틀 */}
-      <div className="_part_title">
-        <p className="_part_title_text" onClick={onClickTitle}>
+      <div className={`_part_title`}>
+        <p className={`_part_title_text`} onClick={onClickTitle}>
           Users
         </p>
-        <Icon className="_part_title_icon" iconName="refresh" onClick={onClickRefresh(isLoadingUserArr)} />
+        <Icon className={`_part_title_icon`} iconName="refresh" onClick={onClickRefresh(isLoadingUserArr)} />
       </div>
 
       {isLoadingUserArr && <p>Loading...</p>}
       {isLoadingUserArr === null && <A.LoadingError />}
 
       {/* 2. 전체 유저수 */}
-      <p className="_part_content">전체 유저수: {userArr.length}</p>
+      <p className={`_part_content`}>전체 유저수: {userArr.length}</p>
 
       {/* 3. 신규 유저 수 (1주일 이내 생성시) */}
-      <p className="_part_content">신규유저 수: {newUserArr.length}</p>
+      <p className={`_part_content`}>신규유저 수: {newUserArr.length}</p>
     </div>
   )
 }

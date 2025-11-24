@@ -37,7 +37,7 @@ export const AddReplyReplyButton: FC<AddReplyReplyButtonProps> = ({reply, ...pro
 
   return (
     <button
-      className="AddReplyReply_Button _button_reading"
+      className={`AddReplyReply_Button _button_reading`}
       onClick={onClickAddReply(userAuth, reply)}
       {...props} // ::
     >

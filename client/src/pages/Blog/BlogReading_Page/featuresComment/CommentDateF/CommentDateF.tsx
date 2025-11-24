@@ -12,7 +12,7 @@ type CommentDateFProps = DivCommonProps & {comment: LT.CommentTypeLocal}
 export const CommentDateF: FC<CommentDateFProps> = ({comment, ...props}) => {
   return (
     <div
-      className="CommentDate_F"
+      className={`CommentDate_F`}
       onMouseDown={e => e.preventDefault()}
       {...props} // ::
     >

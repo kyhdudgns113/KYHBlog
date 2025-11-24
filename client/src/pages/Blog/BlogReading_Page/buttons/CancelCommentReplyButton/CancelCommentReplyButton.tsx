@@ -26,7 +26,7 @@ export const CancelCommentReplyButton: FC<CancelCommentReplyButtonProps> = ({...
 
   return (
     <button
-      className="CancelCommentReply_Button _button_reading_sakura"
+      className={`CancelCommentReply_Button _button_reading_sakura`}
       onClick={onClickCancel}
       {...props} // ::
     >

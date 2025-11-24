@@ -12,7 +12,7 @@ export const ReadingCommentsPart: FC<ReadingCommentsPartProps> = ({className, st
     <div className={`ReadingComments_Part ${className || ''}`} style={style} {...props}>
       <CommentAddObject />
 
-      <div className="_bottomLine" />
+      <div className={`_bottomLine`} />
 
       <CommentListObject />
     </div>

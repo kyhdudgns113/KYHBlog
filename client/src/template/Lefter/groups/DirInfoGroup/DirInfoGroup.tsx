@@ -19,10 +19,10 @@ export const DirInfoGroup: FC<DirInfoGroupProps> = ({dirName, isOpen, setIsOpen,
   return (
     <div className={`DirInfo_Group`} onClick={onClickRow} {...props}>
       {/* 1. 오픈 여부 아이콘 */}
-      <Icon className="_icon_group" iconName={`${isOpen ? 'arrow_drop_down' : 'arrow_right'}`} />
+      <Icon className={`_icon_group`} iconName={`${isOpen ? 'arrow_drop_down' : 'arrow_right'}`} />
 
       {/* 2. 디렉토리 이름 */}
-      <p className="_name_group">{dirName}</p>
+      <p className={`_name_group`}>{dirName}</p>
     </div>
   )
 }

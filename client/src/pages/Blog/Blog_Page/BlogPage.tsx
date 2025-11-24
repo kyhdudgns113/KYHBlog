@@ -145,9 +145,9 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
   }, [])
 
   return (
-    <div className="BlogPage" {...props}>
-      <div className="_container_contents">
-        <div className="MarkdownArea" key={fileOId || 'keys'} ref={containerRef}>
+    <div className={`BlogPage`} {...props}>
+      <div className={`_container_contents`}>
+        <div className={`MarkdownArea`} key={fileOId || 'keys'} ref={containerRef}>
           <ReactMarkdown
             components={MarkDownComponent(stringArr, handleImageClick)}
             rehypePlugins={[rehypeRaw]}
@@ -161,7 +161,7 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
       </div>
 
       {previewImageSrc && (
-        <Modal className="ImagePreviewModal" onClose={handleClosePreview}>
+        <Modal className={`ImagePreviewModal`} onClose={handleClosePreview}>
           <img alt="미리보기" src={previewImageSrc} style={{maxHeight: '90vh', maxWidth: '90vw'}} />
         </Modal>
       )}

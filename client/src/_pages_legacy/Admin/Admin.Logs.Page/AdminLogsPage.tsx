@@ -48,9 +48,9 @@ export const AdminLogsPage: FC<AdminLogsPageProps> = ({className, style, ...prop
 
   return (
     <div className={`AdminLogs_Page ${className || ''}`} onClick={onClickPage} style={style} {...props}>
-      <div className="_pageWrapper">
+      <div className={`_pageWrapper`}>
         {/* 1. 타이틀 */}
-        <p className="_page_title" onClick={onClickTitle(isLoadingLogArr)}>로그 관리 페이지</p>
+        <p className={`_page_title`} onClick={onClickTitle(isLoadingLogArr)}>로그 관리 페이지</p>
 
         {/* 2. 로그 목록 테이블 */}
         <P.LogTablePart pageIdx={pageIdx} />

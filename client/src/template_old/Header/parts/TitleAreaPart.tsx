@@ -17,7 +17,7 @@ export const TitleAreaPart: FC<TitleAreaPartProps> = ({className, ...props}) => 
 
   return (
     <div className={`TitleArea_Part ${className || ''}`} {...props}>
-      <p className="_title_part" onClick={onClickTitle}>
+      <p className={`_title_part`} onClick={onClickTitle}>
         강영훈의 블로그
       </p>
     </div>

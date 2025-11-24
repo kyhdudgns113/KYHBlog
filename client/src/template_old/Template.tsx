@@ -64,9 +64,9 @@ export const Template: FC<TemplateProps> = ({className, ...props}) => {
     <div className={`Template ${className || ''}`} onClick={onClickTemplate} onDragStart={onDragStartTemplate} {...props}>
       {/* 1. 템플릿 레이아웃 영역 */}
       <Header />
-      <div className="Body">
+      <div className={`Body`}>
         <Lefter />
-        <div className="PageArea">
+        <div className={`PageArea`}>
           <Outlet />
         </div>
         <Righter />

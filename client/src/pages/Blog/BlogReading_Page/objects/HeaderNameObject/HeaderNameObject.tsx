@@ -11,8 +11,8 @@ export const HeaderNameObject: FC<HeaderNameObjectProps> = ({...props}) => {
   const file = useBlogSelector(state => state.file.file)
 
   return (
-    <div className="HeaderName_Object" {...props}>
-      <p className="_fileName">{file.fileName}</p>
+    <div className={`HeaderName_Object`} {...props}>
+      <p className={`_fileName`}>{file.fileName}</p>
     </div>
   )
 }

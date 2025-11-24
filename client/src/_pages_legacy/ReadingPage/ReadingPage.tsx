@@ -41,7 +41,7 @@ export const ReadingPage: FC<ReadingPageProps> = ({reqAuth, className, ...props}
   return (
     <CheckAuth reqAuth={reqAuth}>
       <div className={`ReadingPage ${className || ''}`} {...props}>
-        <div className="_container_page">
+        <div className={`_container_page`}>
           <ReadingHeaderPart />
           <ReadingContentPart />
           <ReadingCommentsPart />

@@ -41,7 +41,7 @@ export const EditReplyButton: FC<EditReplyButtonProps> = ({reply, ...props}) => 
 
   return (
     <button
-      className="EditReply_Button _button_reading"
+      className={`EditReply_Button _button_reading`}
       onClick={onClickEditReply(userOId, replyOId_edit, reply)}
       {...props} // ::
     >

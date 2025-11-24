@@ -39,7 +39,7 @@ export const BlogReadingPage: FC<BlogReadingPageProps> = ({className, ...props})
 
   return (
     <div className={`BlogReadingPage ${className || ''}`} {...props}>
-      <div className="_container_page">
+      <div className={`_container_page`}>
         <ReadingHeaderPart />
         <ReadingContentPart />
         <ReadingCommentsPart />

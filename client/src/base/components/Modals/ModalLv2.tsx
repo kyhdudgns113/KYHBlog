@@ -21,7 +21,7 @@ export const ModalLv2: FC<PropsWithChildren<ModalLv2Props>> = ({
   // 외부에서 style 조절하고 싶을때 마음껏 바꿀 수 있도록 한다.
   return (
     <div
-      className="MODAL_LV2"
+      className={`MODAL_LV2`}
       onClick={e => {
         e.stopPropagation()
         onClose()

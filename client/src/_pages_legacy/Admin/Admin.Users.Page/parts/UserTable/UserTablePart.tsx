@@ -28,19 +28,19 @@ export const UserTablePart: FC<UserTablePartProps> = ({pageIdx, className, style
 
   return (
     <div className={`UserTable_Part ${className || ''}`} style={style} {...props}>
-      <table className="_table">
+      <table className={`_table`}>
         <thead>
           <tr>
-            <th className="_th_id" onClick={onClickTh(userArrSortType, 'userId')}>
+            <th className={`_th_id`} onClick={onClickTh(userArrSortType, 'userId')}>
               ID
             </th>
-            <th className="_th_name" onClick={onClickTh(userArrSortType, 'userName')}>
+            <th className={`_th_name`} onClick={onClickTh(userArrSortType, 'userName')}>
               Name
             </th>
-            <th className="_th_email" onClick={onClickTh(userArrSortType, 'userMail')}>
+            <th className={`_th_email`} onClick={onClickTh(userArrSortType, 'userMail')}>
               Email
             </th>
-            <th className="_th_createdAt" onClick={onClickTh(userArrSortType, 'createdAt')}>
+            <th className={`_th_createdAt`} onClick={onClickTh(userArrSortType, 'createdAt')}>
               가입일
             </th>
           </tr>

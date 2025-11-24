@@ -12,7 +12,7 @@ type ReplyDateFProps = DivCommonProps & {reply: LT.ReplyTypeLocal}
 export const ReplyDateF: FC<ReplyDateFProps> = ({reply, ...props}) => {
   return (
     <div
-      className="ReplyDate_F"
+      className={`ReplyDate_F`}
       onMouseDown={e => e.preventDefault()}
       {...props} // ::
     >

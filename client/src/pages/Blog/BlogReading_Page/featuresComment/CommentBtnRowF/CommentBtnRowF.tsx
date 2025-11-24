@@ -14,7 +14,7 @@ export const CommentBtnRowF: FC<CommentBtnRowFProps> = ({comment, ...props}) => 
   const {userOId} = useAuthStatesContext()
 
   return (
-    <div className="CommentBtnRow_F" {...props}>
+    <div className={`CommentBtnRow_F`} {...props}>
       {userOId === comment.userOId && <EditCommentButton comment={comment} />}
       {userOId === comment.userOId && <DeleteCommentButton comment={comment} />}
       <AddCommentReplyButton comment={comment} />

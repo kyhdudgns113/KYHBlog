@@ -48,7 +48,7 @@ export const AddFileObject: FC<AddFileObjectProps> = ({dirOId, className, ...pro
     <div className={`AddFile_Object _module ${className || ''}`} {...props}>
       <input
         autoFocus
-        className="_file"
+        className={`_file`}
         onBlur={onBlur(dirOId, fileName)}
         onChange={onChange}
         onKeyDown={onKeyDown}

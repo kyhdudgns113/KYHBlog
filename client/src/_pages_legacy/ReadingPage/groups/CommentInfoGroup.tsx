@@ -19,7 +19,7 @@ export const CommentInfoGroup: FC<CommentInfoGroupProps> = ({comment, className,
 
   return (
     <div className={`CommentInfo_Group ${className || ''}`} style={style} {...props}>
-      <div className="_commentHeaderContainer">
+      <div className={`_commentHeaderContainer`}>
         <F.CommentUserNameF comment={comment} />
         <F.CommentBtnRowF comment={comment} />
 

@@ -50,14 +50,14 @@ export const LogTablePart: FC<LogTablePartProps> = ({pageIdx, className, style, 
 
   return (
     <div className={`LogTable_Part ${className || ''}`} style={style} {...props}>
-      <table className="_table">
+      <table className={`_table`}>
         <thead>
           <tr>
-            <th className="_th_date">날짜</th>
-            <th className="_th_userId">유저 ID</th>
-            <th className="_th_gkdLog">로그 메시지</th>
-            <th className="_th_gkdstatus">상태</th>
-            <th className="_th_error">에러</th>
+            <th className={`_th_date`}>날짜</th>
+            <th className={`_th_userId`}>유저 ID</th>
+            <th className={`_th_gkdLog`}>로그 메시지</th>
+            <th className={`_th_gkdstatus`}>상태</th>
+            <th className={`_th_error`}>에러</th>
           </tr>
         </thead>
         <tbody>
@@ -84,18 +84,18 @@ export const LogTablePart: FC<LogTablePartProps> = ({pageIdx, className, style, 
 
             return (
               <tr key={logIdx}>
-                <td className="_td_date">{dateString}</td>
-                <td className="_td_userId">{log.userId}</td>
-                <td className="_td_gkdLog">{log.gkdErrMsg || log.gkdLog}</td>
-                <td className="_td_gkdstatus">
-                  <div className="_td_gkdstatus_icon_wrapper">
+                <td className={`_td_date`}>{dateString}</td>
+                <td className={`_td_userId`}>{log.userId}</td>
+                <td className={`_td_gkdLog`}>{log.gkdErrMsg || log.gkdLog}</td>
+                <td className={`_td_gkdstatus`}>
+                  <div className={`_td_gkdstatus_icon_wrapper`}>
                     {isGKDStatus && <Icon iconName="info" onClick={onClickIconStatus(logOId_showStatus, log.logOId)} />}
                     {isGKDStatus && logOId_showStatus === log.logOId && <GKDStatusObject log={log} />}
                   </div>
                 </td>
-                <td className="_td_error">
-                  <div className="_td_error_icon_wrapper">
-                    {isError && <Icon className="_icon_error" iconName="error" onClick={onClickIconError(logOId_showError, log.logOId)} />}
+                <td className={`_td_error`}>
+                  <div className={`_td_error_icon_wrapper`}>
+                    {isError && <Icon className={`_icon_error`} iconName="error" onClick={onClickIconError(logOId_showError, log.logOId)} />}
                     {isError && logOId_showError === log.logOId && <GKDErrorObject log={log} />}
                   </div>
                 </td>

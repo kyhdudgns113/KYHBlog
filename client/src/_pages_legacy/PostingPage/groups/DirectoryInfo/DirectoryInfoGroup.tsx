@@ -96,13 +96,13 @@ export const DirectoryInfoGroup: FC<DirectoryInfoGroupProps> = ({directory, dirO
       {isOpen && <Icon draggable={false} iconName="arrow_drop_down" style={{fontSize: '30px'}} />}
       {!isOpen && <Icon draggable={false} iconName="arrow_right" style={{fontSize: '30px'}} />}
 
-      <p className="_title_group"> {directory?.dirName || '???'}</p>
+      <p className={`_title_group`}> {directory?.dirName || '???'}</p>
 
       {isHover && isOpen && (
         <>
-          <AddDirButton className="_icon_row" dirOId={dirOId} style={{marginLeft: 'auto'}} />
-          <AddFileButton className="_icon_row" dirOId={dirOId} style={{marginLeft: '4px'}} />
-          <SetDirButton className="_icon_row" dirOId={dirOId} style={{marginLeft: '4px'}} />
+          <AddDirButton className={`_icon_row`} dirOId={dirOId} style={{marginLeft: 'auto'}} />
+          <AddFileButton className={`_icon_row`} dirOId={dirOId} style={{marginLeft: '4px'}} />
+          <SetDirButton className={`_icon_row`} dirOId={dirOId} style={{marginLeft: '4px'}} />
         </>
       )}
     </div>

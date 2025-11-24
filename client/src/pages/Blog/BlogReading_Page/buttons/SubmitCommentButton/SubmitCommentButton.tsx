@@ -64,7 +64,7 @@ export const SubmitCommentButton: FC<SubmitCommentButtonProps> = ({...props}) =>
 
   return (
     <button
-      className="SubmitComment_Button _button_reading"
+      className={`SubmitComment_Button _button_reading`}
       onClick={onClickSubmit(userAuth, userOId, userName, fileOId, commentContent, commentLock)}
       {...props} // ::
     >

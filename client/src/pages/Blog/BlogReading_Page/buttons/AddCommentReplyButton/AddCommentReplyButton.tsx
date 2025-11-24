@@ -37,7 +37,7 @@ export const AddCommentReplyButton: FC<AddCommentReplyButtonProps> = ({comment, 
 
   return (
     <button
-      className="AddCommentReply_Button _button_reading"
+      className={`AddCommentReply_Button _button_reading`}
       onClick={onClickAddReply(userAuth, comment)}
       {...props} // ::
     >

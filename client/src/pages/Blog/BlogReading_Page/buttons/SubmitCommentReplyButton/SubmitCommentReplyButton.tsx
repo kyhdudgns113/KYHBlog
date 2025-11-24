@@ -56,7 +56,7 @@ export const SubmitCommentReplyButton: FC<SubmitCommentReplyButtonProps> = ({com
 
   return (
     <button
-      className="SubmitCommentReply_Button _button_reading_sakura"
+      className={`SubmitCommentReply_Button _button_reading_sakura`}
       onClick={onClickSubmit(userAuth, userOId, userName, comment, replyContent)}
       {...props} // ::
     >

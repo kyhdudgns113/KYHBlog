@@ -14,7 +14,7 @@ export const SignAreaPart: FC<SignAreaPartProps> = ({className, ...props}) => {
 
   return (
     <div className={`SignArea_Part ${className || ''}`} {...props}>
-      <div className="_button_row_part">
+      <div className={`_button_row_part`}>
         {isLoggedIn && <AlarmInfoObject />}
         {isLoggedIn && <UserNameObject />}
         {isLoggedIn && <LogOutObject />}

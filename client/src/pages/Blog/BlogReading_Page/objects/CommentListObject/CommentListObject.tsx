@@ -13,7 +13,7 @@ export const CommentListObject: FC<CommentListObjectProps> = ({...props}) => {
   const pageIdx = useBlogSelector(state => state.comment.pageIdx)
 
   return (
-    <div className="CommentList_Object" {...props}>
+    <div className={`CommentList_Object`} {...props}>
       {/* 1. 댓글 및 대댓글 배열 */}
       {commentReplyArr.map((element, elemIdx) => {
         const isNowIdx = pageIdx === Math.floor(elemIdx / 10)

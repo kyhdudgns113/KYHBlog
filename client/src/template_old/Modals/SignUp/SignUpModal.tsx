@@ -116,36 +116,36 @@ export const SignUpModal: FC<SignUpModalProps> = ({className, ...props}) => {
       {...props}
     >
       {/* 1. 타이틀 */}
-      <p className="_title_modal">회원가입</p>
+      <p className={`_title_modal`}>회원가입</p>
 
       {/* 2. 폼 */}
-      <form className="_form_modal" onSubmit={onSubmit(userId, userMail, userName, password, passwordConfirm)}>
+      <form className={`_form_modal`} onSubmit={onSubmit(userId, userMail, userName, password, passwordConfirm)}>
         {/* 2-1. ID */}
-        <div className="_form_item">
+        <div className={`_form_item`}>
           <label htmlFor="userId">ID</label>
           <input autoFocus type="text" id="userId" name="userId" required value={userId} onChange={e => setUserId(e.target.value)} tabIndex={1} />
         </div>
 
         {/* 2-2. Email */}
-        <div className="_form_item">
+        <div className={`_form_item`}>
           <label htmlFor="userMail">Email</label>
           <input type="email" id="userMail" name="userMail" required value={userMail} onChange={e => setUserMail(e.target.value)} tabIndex={2} />
         </div>
 
         {/* 2-3. 이름 */}
-        <div className="_form_item">
+        <div className={`_form_item`}>
           <label htmlFor="userName">이름</label>
           <input type="text" id="userName" name="userName" required value={userName} onChange={e => setUserName(e.target.value)} tabIndex={3} />
         </div>
 
         {/* 2-4. 비밀번호 */}
-        <div className="_form_item">
+        <div className={`_form_item`}>
           <label htmlFor="password">비밀번호</label>
           <input type="password" id="password" name="password" required value={password} onChange={e => setPassword(e.target.value)} tabIndex={4} />
         </div>
 
         {/* 2-5. 비밀번호 확인 */}
-        <div className="_form_item">
+        <div className={`_form_item`}>
           <label htmlFor="passwordConfirm">비밀번호 확인</label>
           <input
             type="password"
@@ -159,11 +159,11 @@ export const SignUpModal: FC<SignUpModalProps> = ({className, ...props}) => {
         </div>
 
         {/* 2-6. 버튼 */}
-        <div className="_form_button_row">
-          <button className="_button_form" type="submit" tabIndex={6}>
+        <div className={`_form_button_row`}>
+          <button className={`_button_form`} type="submit" tabIndex={6}>
             가입
           </button>
-          <button className="_button_form" type="button" onClick={onClose} tabIndex={7}>
+          <button className={`_button_form`} type="button" onClick={onClose} tabIndex={7}>
             취소
           </button>
         </div>

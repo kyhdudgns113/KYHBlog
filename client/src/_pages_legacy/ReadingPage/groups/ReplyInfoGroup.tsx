@@ -19,7 +19,7 @@ export const ReplyInfoGroup: FC<ReplyInfoGroupProps> = ({reply, className, style
 
   return (
     <div className={`ReplyInfo_Group ${className || ''}`} style={style} {...props}>
-      <div className="_replyHeaderContainer">
+      <div className={`_replyHeaderContainer`}>
         <F.ReplyUserNameF reply={reply} />
         <F.ReplyBtnRowF reply={reply} />
 

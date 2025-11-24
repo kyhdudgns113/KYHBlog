@@ -82,7 +82,7 @@ export const CommentWrittingGroup: FC<CommentWrittingGroupProps> = ({className, 
       {...props} // ::
     >
       <textarea
-        className="_writtingComment"
+        className={`_writtingComment`}
         disabled={userAuth === SV.AUTH_GUEST}
         onChange={onChangeComment}
         onClick={e => e.stopPropagation()}

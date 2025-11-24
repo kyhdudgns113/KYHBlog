@@ -14,7 +14,7 @@ export const ReplyBtnRowF: FC<ReplyBtnRowFProps> = ({reply, ...props}) => {
   const {userOId} = useAuthStatesContext()
 
   return (
-    <div className="ReplyBtnRow_F" {...props}>
+    <div className={`ReplyBtnRow_F`} {...props}>
       {userOId === reply.userOId && <EditReplyButton reply={reply} />}
       {userOId === reply.userOId && <DeleteReplyButton reply={reply} />}
       <AddReplyReplyButton reply={reply} />

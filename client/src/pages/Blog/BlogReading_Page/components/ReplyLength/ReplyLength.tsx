@@ -12,8 +12,8 @@ type ReplyLengthProps = DivCommonProps & {reply: string}
  */
 export const ReplyLength: FC<ReplyLengthProps> = ({reply, ...props}) => {
   return (
-    <div className="ReplyLength" {...props}>
-      <p className="_length">
+    <div className={`ReplyLength`} {...props}>
+      <p className={`_length`}>
         {reply.length ?? 0}/{COMMENT_MAX_LENGTH}
       </p>
     </div>

@@ -66,23 +66,23 @@ export const LogInPart: FC<LogInPartProps> = ({closePart, className, ...props}) 
   return (
     <div className={`LogIn_Part ${className || ''}`} onKeyDown={onKeyDown(logInLock, userId, password)} {...props}>
       {/* 1. 타이틀 */}
-      <p className="title_part">로그인</p>
+      <p className={`title_part`}>로그인</p>
 
-      <form className="form_part" onSubmit={onSubmit(logInLock, userId, password)}>
+      <form className={`form_part`} onSubmit={onSubmit(logInLock, userId, password)}>
         {/* 2. 입력: ID */}
-        <div className="form_item">
+        <div className={`form_item`}>
           <label htmlFor="userId">ID</label>
           <input autoFocus type="text" id="userId" name="userId" onChange={e => setUserId(e.target.value)} required value={userId} />
         </div>
 
         {/* 3. 입력: 비밀번호 */}
-        <div className="form_item">
+        <div className={`form_item`}>
           <label htmlFor="password">비밀번호</label>
           <input type="password" id="password" name="password" onChange={e => setPassword(e.target.value)} required value={password} />
         </div>
 
         {/* 4. 버튼 행 */}
-        <div className="form_button_row">
+        <div className={`form_button_row`}>
           <button type="submit">Log In</button>
           <button type="button" onClick={onClickClose}>
             Close

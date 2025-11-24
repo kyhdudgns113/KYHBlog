@@ -26,8 +26,8 @@ export const ReplyUserNameF: FC<ReplyUserNameFProps> = ({reply, ...props}) => {
   )
 
   return (
-    <div className="ReplyUserName_F" {...props}>
-      <p className="_replyUserName" onClick={onClickUserName(reply)}>
+    <div className={`ReplyUserName_F`} {...props}>
+      <p className={`_replyUserName`} onClick={onClickUserName(reply)}>
         {reply.userName}
       </p>
       {isUserSelected && <ReplyUserInfoE reply={reply} />}

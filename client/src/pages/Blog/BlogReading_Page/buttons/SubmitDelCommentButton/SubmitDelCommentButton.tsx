@@ -34,7 +34,7 @@ export const SubmitDelCommentButton: FC<SubmitDelCommentButtonProps> = ({comment
 
   return (
     <button
-      className="SubmitDelComment_Button _button_reading_sakura"
+      className={`SubmitDelComment_Button _button_reading_sakura`}
       onClick={onClickDelete(userAuth, userOId, comment)}
       {...props} // ::
     >

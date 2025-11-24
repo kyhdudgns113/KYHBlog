@@ -40,7 +40,7 @@ export const PagingPart: FC<PagingPartProps> = ({pageIdx, pageTenIdx, setPageIdx
   return (
     <div className={`Paging_Part ${className || ''}`} style={style} {...props}>
       {/* 1. 이전 pageTenIdx */}
-      {pageTenIdx > 0 && <Icon className="_part_button" iconName="arrow_left" onClick={onClickMoveTenIdx(pageTenIdx - 1)} />}
+      {pageTenIdx > 0 && <Icon className={`_part_button`} iconName="arrow_left" onClick={onClickMoveTenIdx(pageTenIdx - 1)} />}
 
       {/* 2. 현재 pageTenIdx */}
       {Array(10)
@@ -64,7 +64,7 @@ export const PagingPart: FC<PagingPartProps> = ({pageIdx, pageTenIdx, setPageIdx
 
       {/* 3. 다음 pageTenIdx */}
       {pageTenIdx < Math.floor(logArr.length / ADMIN_LOG_PER_PAGE) - 1 && (
-        <Icon className="_part_button" iconName="arrow_right" onClick={onClickMoveTenIdx(pageTenIdx + 1)} />
+        <Icon className={`_part_button`} iconName="arrow_right" onClick={onClickMoveTenIdx(pageTenIdx + 1)} />
       )}
     </div>
   )

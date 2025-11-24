@@ -56,19 +56,19 @@ export const LogsPart: FC<LogsPartProps> = ({className, style, ...props}) => {
   return (
     <div className={`LogsPart _admin_part ${className || ''}`} style={style} {...props}>
       {/* 1. 타이틀 */}
-      <div className="_part_title">
-        <p className="_part_title_text" onClick={onClickTitle}>
+      <div className={`_part_title`}>
+        <p className={`_part_title_text`} onClick={onClickTitle}>
           Logs
         </p>
-        <Icon className="_part_title_icon" iconName="refresh" onClick={onClickRefresh(isLoadingLogArr)} />
+        <Icon className={`_part_title_icon`} iconName="refresh" onClick={onClickRefresh(isLoadingLogArr)} />
       </div>
 
       {isLoadingLogArr && <p>Loading...</p>}
       {isLoadingLogArr === null && <A.LoadingError />}
 
       {/* 2. 전체 로그수 */}
-      <p className="_part_content">전체 로그수: {logArr.filter(log => (log.gkdErrMsg?.length || 0) === 0).length}</p>
-      <p className="_part_content">전체 에러수: {logArr.filter(log => (log.gkdErrMsg?.length || 0) > 0).length}</p>
+      <p className={`_part_content`}>전체 로그수: {logArr.filter(log => (log.gkdErrMsg?.length || 0) === 0).length}</p>
+      <p className={`_part_content`}>전체 에러수: {logArr.filter(log => (log.gkdErrMsg?.length || 0) > 0).length}</p>
     </div>
   )
 }
