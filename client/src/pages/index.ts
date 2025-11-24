@@ -1,3 +1,4 @@
+export * from './Admin'
 export * from './Blog'
 export * from './ContactPage'
 export * from './HomePage'

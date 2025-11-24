@@ -1,0 +1,27 @@
+.Template {
+  .Body_Template {
+    .PageArea_Template {
+      .AdminPage {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        padding-top: 20px;
+
+        width: 100%;
+
+        ._pageWrapper {
+          display: flex;
+          flex-direction: row;
+
+          height: fit-content;
+
+          justify-content: center;
+
+          min-height: 600px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

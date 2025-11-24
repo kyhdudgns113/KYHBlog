@@ -1,0 +1,125 @@
+@use '../../../base/styles/values.scss' as v;
+
+.Template {
+  .Body_Template {
+    .PageArea_Template {
+      .AdminPostingPage {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        padding-top: 20px;
+
+        width: 100%;
+
+        ._pageWrapper {
+          display: flex;
+          flex-direction: column;
+
+          height: fit-content;
+
+          justify-content: center;
+
+          min-height: 600px;
+          width: 100%;
+          max-width: 1200px;
+
+          ._contentArea {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+            padding: 24px;
+
+            border-color: #d0d0d0;
+            border-radius: 12px;
+            border-width: 2px;
+            background-color: white;
+
+            ._titleSection {
+              margin-bottom: 24px;
+
+              ._titleInput {
+                width: 100%;
+                padding: 12px 16px;
+                font-size: 24px;
+                font-weight: 600;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                outline: none;
+                transition: border-color 0.3s ease;
+
+                &:focus {
+                  border-color: #4a90e2;
+                }
+              }
+            }
+
+            ._contentSection {
+              margin-bottom: 24px;
+              flex: 1;
+
+              ._contentTextarea {
+                width: 100%;
+                min-height: 500px;
+                padding: 16px;
+                font-size: 16px;
+                line-height: 1.6;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                outline: none;
+                resize: vertical;
+                transition: border-color 0.3s ease;
+
+                &:focus {
+                  border-color: #4a90e2;
+                }
+              }
+            }
+
+            ._buttonSection {
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-end;
+              gap: 12px;
+
+              ._saveButton,
+              ._cancelButton {
+                padding: 10px 24px;
+                font-size: 16px;
+                font-weight: 600;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover {
+                  transform: translateY(-2px);
+                  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+                }
+              }
+
+              ._saveButton {
+                background-color: #4a90e2;
+                color: white;
+
+                &:hover {
+                  background-color: #357abd;
+                }
+              }
+
+              ._cancelButton {
+                background-color: #f0f0f0;
+                color: #333;
+
+                &:hover {
+                  background-color: #e0e0e0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
