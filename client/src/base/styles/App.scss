@@ -50,3 +50,27 @@
     }
   }
 }
+
+.SCROLL_WHITE {
+  scrollbar-width: 8px; // Firefox
+  scrollbar-color: #e0e0e0 #ffffff; // Firefox
+
+  // Webkit 브라우저용 스크롤바 스타일
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 3px;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+}

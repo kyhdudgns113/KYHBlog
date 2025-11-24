@@ -22,7 +22,7 @@ export const PostingPart: FC<PostingPartProps> = ({...props}) => {
         Posting
       </p>
 
-      {/* 2. 현황 */}
+      {/* 2. 게시글 현황 */}
       <PostingStatusObject />
 
       {/* 3. 포스팅 버튼 */}

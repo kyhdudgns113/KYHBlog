@@ -1,4 +1,4 @@
-import {PostingPart, ManagePart} from './parts'
+import {PostingPart, UsersPart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -12,7 +12,7 @@ export const AdminPage: FC<AdminPageProps> = ({...props}) => {
     <div className={`AdminPage`} {...props}>
       <div className="_pageWrapper">
         <PostingPart />
-        <ManagePart />
+        <UsersPart />
       </div>
     </div>
   )
