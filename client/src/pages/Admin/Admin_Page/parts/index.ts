@@ -1,2 +1,3 @@
-export * from './Posting'
-export * from './Users'
+export * from './LogsPart'
+export * from './PostingPart'
+export * from './UsersPart'
