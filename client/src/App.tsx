@@ -27,7 +27,7 @@ function App() {
 
         <Route path="admin/*" element={<C.AdminProvider reqAuth={SV.AUTH_ADMIN} />}>
           <Route index element={<P.AdminPage />} />
-          <Route path="posting" element={<P.AdminPostingPage />} />
+          <Route path="posting/*" element={<P.AdminPostingPage />} />
         </Route>
         {/* <Route index element={<P.MainPage />} />
         <Route path="admin/*" element={<C.AdminProvider reqAuth={SV.AUTH_ADMIN} />}>
