@@ -3,7 +3,8 @@ import {useCallback, useEffect, useEffectEvent, useState} from 'react'
 import {useAuthStatesContext} from '@context'
 import {useBlogDispatch, useBlogSelector, useTemplateActions} from '@redux'
 
-import {LogInPart, SignUpPart} from './parts'
+import {OpenChatRoomListBtn} from './buttons'
+import {ChatRoomListPart, LogInPart, SignUpPart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -20,8 +21,11 @@ export const Righter: FC<RighterProps> = ({...props}) => {
 
   const {isLoggedIn} = useAuthStatesContext()
 
+  const [cnChatRoomList, setCnChatRoomList] = useState<string>('_close')
   const [cnLogIn, setCnLogIn] = useState<string>('_close')
   const [cnSignUp, setCnSignUp] = useState<string>('_close')
+
+  const [isOpenChatRoomList, setIsOpenChatRoomList] = useState<boolean>(false)
   const [isOpenLogIn, setIsOpenLogIn] = useState<boolean>(false)
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false)
 
@@ -30,27 +34,32 @@ export const Righter: FC<RighterProps> = ({...props}) => {
   const closePart = useCallback(() => {
     setCnLogIn('_close')
     setCnSignUp('_close')
+    setCnChatRoomList('_close')
     new Promise(resolve => {
       setTimeout(() => {
         setIsOpenLogIn(false)
         setIsOpenSignUp(false)
+        setIsOpenChatRoomList(false)
         dispatch(resetHeaderBtnClicked())
         resolve(true)
       }, 400)
     })
   }, [])
 
-  const openPart = useCallback((which: T.HeaderBtnClickedType) => {
+  const openPart = useCallback((which: T.HeaderBtnClickedType | 'chatRoomList') => {
     const isLogIn = which === 'logIn'
     const isSignUp = which === 'signUp'
+    const isChatRoomList = which === 'chatRoomList'
 
     !isLogIn && setCnLogIn('_close')
     !isSignUp && setCnSignUp('_close')
+    !isChatRoomList && setCnChatRoomList('_close')
 
     new Promise(resolve => {
       setTimeout(() => {
         setIsOpenLogIn(isLogIn)
         setIsOpenSignUp(isSignUp)
+        setIsOpenChatRoomList(isChatRoomList)
         resolve(true)
       }, 400)
     }) // ::
@@ -58,6 +67,7 @@ export const Righter: FC<RighterProps> = ({...props}) => {
         setTimeout(() => {
           isLogIn && setCnLogIn('_open')
           isSignUp && setCnSignUp('_open')
+          isChatRoomList && setCnChatRoomList('_open')
           dispatch(resetHeaderBtnClicked())
         }, 10)
       })
@@ -92,8 +102,13 @@ export const Righter: FC<RighterProps> = ({...props}) => {
 
   return (
     <div className={`Righter`} {...props}>
+      {/* 1. 비로그인 상태: 로그인, 회원가입 파트 */}
       {!isLoggedIn && isOpenLogIn && <LogInPart className={cnLogIn} closePart={closePart} />}
       {!isLoggedIn && isOpenSignUp && <SignUpPart className={cnSignUp} closePart={closePart} />}
+
+      {/* 2. 로그인 상태: 채팅방 목록 파트*/}
+      {isLoggedIn && isOpenChatRoomList && <ChatRoomListPart className={cnChatRoomList} />}
+      {isLoggedIn && <OpenChatRoomListBtn closePart={closePart} isOpen={isOpenChatRoomList} openPart={openPart} />}
     </div>
   )
 }

@@ -1,0 +1,55 @@
+.Template {
+  .Righter {
+    .ChatRoomRow_Object {
+      align-items: center;
+      cursor: pointer;
+
+      display: flex;
+      flex-direction: row;
+
+      font-size: 18px;
+      font-weight: 500;
+
+      padding-bottom: 2px;
+      padding-left: 8px;
+      padding-right: 8px;
+      padding-top: 2px;
+
+      transition: box-shadow 0.3s ease;
+
+      ._chatRoomName {
+        color: #404040;
+      }
+      ._chatRoomUserId {
+        color: #808080;
+        font-size: 14px;
+      }
+
+      ._unReadCnt {
+        background-color: white;
+
+        border-color: #404040;
+        border-radius: 4px;
+        border-width: 2px;
+
+        font-size: 14px;
+
+        margin-left: auto;
+        margin-right: 8px;
+        min-width: 24px;
+
+        padding-left: 6px;
+        padding-right: 6px;
+
+        text-align: center;
+      }
+
+      &:hover {
+        background-color: #f0f0f0;
+        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
+        font-weight: 700;
+      }
+    }
+  }
+}
+
