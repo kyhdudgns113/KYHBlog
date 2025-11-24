@@ -1,6 +1,7 @@
 import {useEffect} from 'react'
 import {useLocation} from 'react-router-dom'
 
+import {CheckAuth} from '@guard'
 import {useFileActions} from '@redux'
 
 import {ReadingHeaderPart, ReadingContentPart, ReadingCommentsPart} from './parts'
@@ -11,9 +12,9 @@ import type {DivCommonProps} from '@prop'
 import './BlogReadingPage.scss'
 import '@styles/MarkdownStyles.scss'
 
-type BlogReadingPageProps = DivCommonProps & {}
+type BlogReadingPageProps = DivCommonProps & {reqAuth: number}
 
-export const BlogReadingPage: FC<BlogReadingPageProps> = ({className, ...props}) => {
+export const BlogReadingPage: FC<BlogReadingPageProps> = ({reqAuth, className, ...props}) => {
   const {setFileOId, resetFileOId} = useFileActions()
 
   const location = useLocation()
@@ -38,12 +39,14 @@ export const BlogReadingPage: FC<BlogReadingPageProps> = ({className, ...props})
   }, [location, resetFileOId, setFileOId])
 
   return (
-    <div className={`BlogReadingPage ${className || ''}`} {...props}>
-      <div className={`_container_page`}>
-        <ReadingHeaderPart />
-        <ReadingContentPart />
-        <ReadingCommentsPart />
+    <CheckAuth reqAuth={reqAuth}>
+      <div className={`BlogReadingPage ${className || ''}`} {...props}>
+        <div className={`_container_page`}>
+          <ReadingHeaderPart />
+          <ReadingContentPart />
+          <ReadingCommentsPart />
+        </div>
       </div>
-    </div>
+    </CheckAuth>
   )
 }

@@ -14,29 +14,29 @@ function App() {
     <Routes>
       <Route path="/" element={<P.RedirectHomePage />} />
       <Route path="/main/*" element={<Template />}>
+        {/* 1. Home 영역 */}
         <Route path="home" element={<P.HomePage />} />
 
+        {/* 2. Blog 영역 */}
         <Route path="blog/*">
           <Route index element={<P.BlogPage />} />
-          <Route path=":fileOId" element={<P.BlogReadingPage />} />
+          <Route path=":fileOId" element={<P.BlogReadingPage reqAuth={SV.AUTH_GUEST} />} />
         </Route>
 
+        {/* 3. QnA 영역 */}
         <Route path="qna" element={<P.QnAPage />} />
 
+        {/* 4. Contact 영역 */}
         <Route path="contact" element={<P.ContactPage />} />
 
+        {/* 5. Admin 영역 */}
         <Route path="admin/*" element={<C.AdminProvider reqAuth={SV.AUTH_ADMIN} />}>
           <Route index element={<P.AdminPage />} />
           <Route path="posting/*" element={<P.AdminPostingPage />} />
-        </Route>
-        {/* <Route index element={<P.MainPage />} />
-        <Route path="admin/*" element={<C.AdminProvider reqAuth={SV.AUTH_ADMIN} />}>
-          <Route index element={<P.AdminPage />} />
           <Route path="users" element={<P.AdminUsersPage />} />
           <Route path="logs" element={<P.AdminLogsPage />} />
+          <Route path="*" element={<P.NullPage />} />
         </Route>
-        <Route path="reading/*" element={<P.ReadingPage reqAuth={SV.AUTH_GUEST} />} />
-        <Route path="posting/*" element={<P.PostingPage reqAuth={SV.AUTH_ADMIN} />} /> */}
         <Route path="*" element={<P.NullPage />} />
       </Route>
       <Route path="*" element={<P.NullPage />} />
