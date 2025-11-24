@@ -10,7 +10,7 @@ type AdminPageProps = DivCommonProps & {}
 export const AdminPage: FC<AdminPageProps> = ({...props}) => {
   return (
     <div className={`AdminPage`} {...props}>
-      <div className="_pageWrapper">
+      <div className="_row_part">
         <PostingPart />
         <UsersPart />
       </div>

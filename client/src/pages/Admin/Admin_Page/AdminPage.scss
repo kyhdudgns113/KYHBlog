@@ -10,9 +10,10 @@
 
         width: 100%;
 
-        ._pageWrapper {
+        ._row_part {
           display: flex;
           flex-direction: row;
+          gap: 32px;
 
           height: fit-content;
 

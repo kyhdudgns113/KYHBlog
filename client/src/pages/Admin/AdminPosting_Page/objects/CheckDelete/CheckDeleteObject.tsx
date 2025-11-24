@@ -23,10 +23,15 @@ export const CheckDeleteObject: FC<CheckDeleteObjectProps> = ({className, ...pro
       e.preventDefault()
       e.stopPropagation()
 
-      deleteFile(fileOId)
-      navigate('/main/admin/posting')
+      deleteFile(fileOId) // ::
+        .then(() => {
+          navigate('/main/admin/posting')
+        })
+        .finally(() => {
+          offDeleteFile()
+        })
     },
-    []
+    [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const onClickCancel = useCallback((e: MouseEvent<HTMLButtonElement>) => {
@@ -34,7 +39,7 @@ export const CheckDeleteObject: FC<CheckDeleteObjectProps> = ({className, ...pro
     e.stopPropagation()
 
     offDeleteFile()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={`CheckDelete_Object ${className || ''}`} {...props}>
@@ -49,4 +54,3 @@ export const CheckDeleteObject: FC<CheckDeleteObjectProps> = ({className, ...pro
     </div>
   )
 }
-
