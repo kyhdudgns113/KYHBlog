@@ -1,12 +1,18 @@
+@use '../../../base/styles/values.scss' as sv;
+
 .Template {
-  > .Body {
-    > .PageArea {
-      > .AdminUsersPage {
+  .Body_Template {
+    .PageArea_Template {
+      .AdminUsersPage {
         align-items: center;
         display: flex;
         flex-direction: column;
 
+        justify-content: center;
+
         padding-top: 20px;
+
+        width: 100%;
 
         ._pageWrapper {
           align-items: center;
@@ -14,6 +20,8 @@
           flex-direction: column;
 
           height: fit-content;
+
+          justify-content: center;
 
           min-width: 800px;
 
@@ -30,4 +38,3 @@
     }
   }
 }
-

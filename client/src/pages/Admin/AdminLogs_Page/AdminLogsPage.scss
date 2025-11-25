@@ -1,7 +1,7 @@
 .Template {
-  > .Body {
-    > .PageArea {
-      > .AdminLogsPage {
+  .Body_Template {
+    .PageArea_Template {
+      .AdminLogsPage {
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -34,4 +34,3 @@
     }
   }
 }
-
