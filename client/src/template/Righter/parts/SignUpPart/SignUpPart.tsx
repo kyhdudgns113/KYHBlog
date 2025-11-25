@@ -6,6 +6,8 @@ import {useBlogSelector} from '@redux'
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import * as SV from '@shareValue'
+
 import './SignUpPart.scss'
 
 type SignUpPartProps = DivCommonProps & {
@@ -29,6 +31,32 @@ export const SignUpPart: FC<SignUpPartProps> = ({closePart, className, ...props}
         alert('회원가입 하고있어요')
         return
       }
+
+      if (userId.length < SV.USER_ID_LENGTH_MIN || userId.length > SV.USER_ID_LENGTH_MAX) {
+        alert(`ID는 ${SV.USER_ID_LENGTH_MIN}자 이상 ${SV.USER_ID_LENGTH_MAX}자 이하여야 합니다.`)
+        return
+      }
+
+      if (userName.length < SV.USER_NAME_LENGTH_MIN || userName.length > SV.USER_NAME_LENGTH_MAX) {
+        alert(`이름은 ${SV.USER_NAME_LENGTH_MIN}자 이상 ${SV.USER_NAME_LENGTH_MAX}자 이하여야 합니다.`)
+        return
+      }
+
+      if (!SV.REGIX_USER_MAIL.test(userMail)) {
+        alert(`이메일 형식이 올바르지 않습니다.`)
+        return
+      }
+
+      if (password.length < SV.PASSWORD_LENGTH_MIN || password.length > SV.PASSWORD_LENGTH_MAX) {
+        alert(`비밀번호는 ${SV.PASSWORD_LENGTH_MIN}자 이상 ${SV.PASSWORD_LENGTH_MAX}자 이하여야 합니다.`)
+        return
+      }
+
+      if (password !== passwordConfirm) {
+        alert(`비밀번호가 일치하지 않습니다.`)
+        return
+      }
+
       signUp(userId, userMail, userName, password) // ::
         .then(res => {
           if (res) {
