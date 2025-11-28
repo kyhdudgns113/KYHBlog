@@ -1,6 +1,7 @@
+import {useCallback} from 'react'
 import {Outlet} from 'react-router-dom'
 
-import {useBlogSelector} from '@redux'
+import {useAlarmActions, useBlogSelector} from '@redux'
 
 import {Header} from './Header'
 import {Tabs} from './Tabs'
@@ -9,7 +10,7 @@ import {Lefter} from './Lefter'
 import {Righter} from './Righter'
 import {ModalSetDirectory, ModalSetFile} from './Modals'
 
-import type {FC} from 'react'
+import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import * as V from '@value'
@@ -21,8 +22,14 @@ type TemplateProps = DivCommonProps & {}
 export const Template: FC<TemplateProps> = ({...props}) => {
   const modalName = useBlogSelector(state => state.modal.modalName)
 
+  const {closeAlarmObj} = useAlarmActions()
+
+  const onClickTemplate = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    closeAlarmObj()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <div className={`Template`} {...props}>
+    <div className={`Template`} onClick={onClickTemplate} {...props}>
       <Header />
       <Tabs />
       <div className={`Body_Template`}>

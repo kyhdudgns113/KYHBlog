@@ -6,6 +6,7 @@ import * as Slices from './slices'
 export const store = configureStore({
   reducer: {
     admin: Slices.adminSlice.reducer,
+    alarm: Slices.alarmSlice.reducer,
     chat: Slices.chatSlice.reducer,
     comment: Slices.commentSlice.reducer,
     directory: Slices.directorySlice.reducer,

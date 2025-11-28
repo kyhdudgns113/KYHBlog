@@ -1,4 +1,5 @@
 export * from './Admin'
+export * from './Alarm'
 export * from './Chat'
 export * from './Comment'
 export * from './Directory'

@@ -1,6 +1,9 @@
 import {useAuthStatesContext} from '@context'
 
+import {useBlogSelector} from '@redux'
+
 import {AdminButton, AlarmButton, LogInButton, LogOutButton, SignUpButton, UserNameButton} from '../../buttons'
+import {AlarmListObj} from '../../objects'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -14,6 +17,8 @@ type ButtonRowPartProps = DivCommonProps & {}
 export const ButtonRowPart: FC<ButtonRowPartProps> = ({...props}) => {
   const {isLoggedIn, userAuth} = useAuthStatesContext()
 
+  const isAlarmObjOpen = useBlogSelector(state => state.alarm.isAlarmObjOpen)
+
   return (
     <div className={`ButtonRow_Part`} {...props}>
       {/* 1. 로그인 상태시 표시되는 컴포넌트들 */}
@@ -25,6 +30,7 @@ export const ButtonRowPart: FC<ButtonRowPartProps> = ({...props}) => {
           {/* 1-2. 알람 영역 */}
           <div className="alarm_wrapper_part">
             <AlarmButton />
+            {isAlarmObjOpen && <AlarmListObj />}
           </div>
 
           {/* 1-3. 사용자 이름 버튼 */}
