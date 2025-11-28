@@ -22,6 +22,9 @@ export const alarmSlice = createSlice({
   name: 'alarm',
   initialState,
   reducers: {
+    deleteFromAlarmArr: (state, action: PayloadAction<string>) => {
+      state.alarmArr = state.alarmArr.filter(alarm => alarm.alarmOId !== action.payload)
+    },
     pushFrontAlarmArr: (state, action: PayloadAction<ST.AlarmType>) => {
       const {createdAt, ...rest} = action.payload
       const newElem: LT.AlarmTypeLocal = {

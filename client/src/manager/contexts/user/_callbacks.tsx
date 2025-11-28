@@ -15,13 +15,19 @@ import * as SV from '@shareValue'
 type ContextType = {
   checkNewAlarm: (alarmArr: LT.AlarmTypeLocal[]) => void
 
+  loadAlarmArr: (userOId: string) => Promise<boolean>
   loadUserInfo: (userOId: string, setTargetUser: T.Setter<LT.UserTypeLocal>) => Promise<boolean>
+
+  removeAlarm: (alarmOId: string) => Promise<boolean>
 }
 // prettier-ignore
 export const UserCallbacksContext = createContext<ContextType>({
   checkNewAlarm: () => {},
 
-  loadUserInfo: () => Promise.resolve(false)
+  loadAlarmArr: () => Promise.resolve(false),
+  loadUserInfo: () => Promise.resolve(false),
+
+  removeAlarm: () => Promise.resolve(false)
 })
 
 export const useUserCallbacksContext = () => useContext(UserCallbacksContext)
@@ -70,6 +76,31 @@ export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // GET AREA:
+
+  const loadAlarmArr = useCallback(async (userOId: string) => {
+    const url = `/client/user/loadAlarmArr/${userOId}`
+
+    return F.getWithJwt(url)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+
+        if (ok) {
+          setAlarmArr(body.alarmArr)
+          U.writeJwtFromServer(jwtFromServer)
+          return true
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return false
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return false
+      })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const loadUserInfo = useCallback(async (userOId: string, setTargetUser: T.Setter<LT.UserTypeLocal>) => {
     const url = `/client/user/loadUserInfo/${userOId}`
     const NULL_JWT = ''
@@ -94,11 +125,40 @@ export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // DELETE AREA:
+
+  const removeAlarm = useCallback(async (alarmOId: string) => {
+    const url = `/client/user/removeAlarm/${alarmOId}`
+
+    return F.delWithJwt(url)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+
+        if (ok) {
+          setAlarmArr(body.alarmArr)
+          U.writeJwtFromServer(jwtFromServer)
+          return true
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return false
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return false
+      })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   // prettier-ignore
   const value: ContextType = {
     checkNewAlarm,
-    
-    loadUserInfo
+
+    loadAlarmArr,
+      loadUserInfo,
+
+    removeAlarm
   }
   return <UserCallbacksContext.Provider value={value}>{children}</UserCallbacksContext.Provider>
 }

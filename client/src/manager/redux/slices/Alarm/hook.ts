@@ -9,6 +9,7 @@ export const useAlarmActions = () => {
   const dispatch = useBlogDispatch()
 
   return {
+    deleteFromAlarmArr: (alarmOId: string) => dispatch(alarmSlice.actions.deleteFromAlarmArr(alarmOId)),
     pushFrontAlarmArr: (alarm: ST.AlarmType) => dispatch(alarmSlice.actions.pushFrontAlarmArr(alarm)),
     resetAlarmArr: () => dispatch(alarmSlice.actions.resetAlarmArr()),
     setAlarmArr: (alarmArr: ST.AlarmType[]) => dispatch(alarmSlice.actions.setAlarmArr(alarmArr)),
