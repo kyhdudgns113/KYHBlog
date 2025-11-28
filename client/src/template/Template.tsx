@@ -25,6 +25,7 @@ export const Template: FC<TemplateProps> = ({...props}) => {
   const {closeAlarmObj} = useAlarmActions()
 
   const onClickTemplate = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    e.preventDefault()
     closeAlarmObj()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
