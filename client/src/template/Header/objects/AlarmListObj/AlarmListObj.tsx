@@ -1,5 +1,7 @@
+import {useEffect, useEffectEvent} from 'react'
 import {useBlogSelector} from '@redux'
 
+import {useAuthStatesContext, useUserCallbacksContext} from '@context'
 import {AlarmBlockGroup} from '../../groups'
 
 import type {FC} from 'react'
@@ -13,6 +15,20 @@ type AlarmListObjProps = DivCommonProps & {}
 
 export const AlarmListObj: FC<AlarmListObjProps> = ({...props}) => {
   const alarmArr = useBlogSelector(state => state.alarm.alarmArr)
+  const {userOId} = useAuthStatesContext()
+  const {checkNewAlarm, loadAlarmArr} = useUserCallbacksContext()
+
+  const _loadAlarmArr = useEffectEvent(() => {
+    loadAlarmArr(userOId)
+  })
+
+  useEffect(() => {
+    checkNewAlarm(alarmArr)
+
+    return () => {
+      _loadAlarmArr()
+    }
+  }, [alarmArr])
 
   return (
     <div className={`AlarmList_Object`} onClick={e => e.stopPropagation()} {...props}>

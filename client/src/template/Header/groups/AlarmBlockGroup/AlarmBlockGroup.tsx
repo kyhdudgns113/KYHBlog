@@ -1,6 +1,7 @@
 import {useCallback} from 'react'
 import {useNavigate} from 'react-router-dom'
 
+import {useUserCallbacksContext} from '@context'
 import {useAlarmActions} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
@@ -18,6 +19,7 @@ type AlarmBlockGroupProps = DivCommonProps & {
 export const AlarmBlockGroup: FC<AlarmBlockGroupProps> = ({alarm, className, ...props}) => {
   const navigate = useNavigate()
   const {closeAlarmObj} = useAlarmActions()
+  const {removeAlarm} = useUserCallbacksContext()
 
   const formatDate = (createdAtValue: number): string => {
     const date = new Date(createdAtValue)
@@ -46,6 +48,7 @@ export const AlarmBlockGroup: FC<AlarmBlockGroupProps> = ({alarm, className, ...
       e.preventDefault()
 
       navigate(`/main/blog/${alarm.fileOId}`)
+      removeAlarm(alarm.alarmOId)
       closeAlarmObj()
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
