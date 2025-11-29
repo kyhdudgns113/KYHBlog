@@ -106,6 +106,16 @@ export type LogType = {
   userOId: string
   where: string
 }
+export type QnAType = {
+  content: string
+  createdAt: Date
+  userName: string
+  userOId: string
+  qnAOId: string // Primary Key
+  title: string
+  updatedAt: Date
+  viewCount: number
+}
 export type ReplyType = {
   commentOId: string
   fileOId: string
