@@ -1,4 +1,4 @@
-@use '../../base/styles/values.scss' as v;
+@use '../../../base/styles/values.scss' as v;
 
 .Template {
   .QnAPage {
@@ -11,16 +11,13 @@
     width: 100%;
 
     ._wrapper_page {
-      border-color: v.$SAKURA_BORDER;
-      border-width: 2px;
-
       align-items: center;
       display: flex;
       flex-direction: column;
 
       height: fit-content;
 
-      margin-top: 48px;
+      margin-top: 24px;
 
       width: 600px;
     }
