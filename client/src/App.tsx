@@ -24,7 +24,11 @@ function App() {
         </Route>
 
         {/* 3. QnA 영역 */}
-        <Route path="qna" element={<P.QnAPage />} />
+        <Route path="qna/*">
+          <Route index element={<P.QnAPage />} />
+          <Route path="write" element={<P.QnAWritePage />} />
+          <Route path="read/:id" element={<P.QnAReadPage />} />
+        </Route>
 
         {/* 4. Contact 영역 */}
         <Route path="contact" element={<P.ContactPage />} />

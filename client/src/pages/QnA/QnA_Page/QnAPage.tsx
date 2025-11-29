@@ -1,3 +1,5 @@
+import {QnAHeaderPart, QnAListPart, QnAPagingPart} from './parts'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
@@ -8,8 +10,11 @@ type QnAPageProps = DivCommonProps & {}
 export const QnAPage: FC<QnAPageProps> = ({...props}) => {
   return (
     <div className={`QnAPage`} {...props}>
-      <p>Q&A 페이지</p>
+      <div className="_wrapper_page">
+        <QnAHeaderPart />
+        <QnAListPart />
+        <QnAPagingPart />
+      </div>
     </div>
   )
 }
-

@@ -1,0 +1,13 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAPage {
+    .QnAHeader_Part {
+      border-color: v.$SAKURA_BORDER;
+      border-width: 2px;
+
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
