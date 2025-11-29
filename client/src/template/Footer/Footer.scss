@@ -1,6 +1,25 @@
 @use '../../base/styles/values.scss' as v;
 
-.Footer {
-  // Footer styles
-}
+.Template {
+  .Footer {
+    align-items: center;
+    background-color: v.$SAKURA_BG;
 
+    display: flex;
+    flex-direction: row;
+
+    height: 60px;
+
+    justify-content: center;
+
+    margin-top: auto;
+
+    width: 100%;
+
+    ._title_footer {
+      color: v.$SAKURA_TEXT;
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
+}

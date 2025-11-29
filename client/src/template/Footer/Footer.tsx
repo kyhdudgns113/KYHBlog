@@ -8,7 +8,7 @@ type FooterProps = DivCommonProps & {}
 export const Footer: FC<FooterProps> = ({...props}) => {
   return (
     <div className={`Footer`} {...props}>
-      Footer
+      <p className="_title_footer">Footer</p>
     </div>
   )
 }
