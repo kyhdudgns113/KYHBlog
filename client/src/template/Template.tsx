@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {Outlet} from 'react-router-dom'
 
-import {useAlarmActions, useBlogSelector} from '@redux'
+import {useAlarmActions, useBlogSelector, useCommentActions} from '@redux'
 
 import {Header} from './Header'
 import {Tabs} from './Tabs'
@@ -23,10 +23,13 @@ export const Template: FC<TemplateProps> = ({...props}) => {
   const modalName = useBlogSelector(state => state.modal.modalName)
 
   const {closeAlarmObj} = useAlarmActions()
+  const {resetCommentOId_user, resetReplyOId_user} = useCommentActions()
 
   const onClickTemplate = useCallback((e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     closeAlarmObj()
+    resetCommentOId_user()
+    resetReplyOId_user()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
