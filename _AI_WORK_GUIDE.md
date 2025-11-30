@@ -6,8 +6,23 @@
 
 ### 1. 파일 및 폴더 구조
 - **컴포넌트 구조**: `parts`, `objects`, `buttons`, `groups`, `elements`, `features` 등으로 구분
-- **파일명**: PascalCase 사용 (예: `QnAHeaderPart.tsx`)
-- **폴더명**: PascalCase 사용 (예: `QnAHeaderPart/`)
+  - 사용하는 이름 목록은 다음과 같이 알파벳 순으로 있다.
+    - parts
+    - objects
+    - modules (잘 안씀)
+    - groups
+    - features (잘 안쓴다)
+    - elements (잘 안쓴다)
+    - components
+    - buttons (버튼들은 주로 이걸 쓴다)
+    - addons
+  - parts 는 parts, objects 나 그 외의 것들로 이루어질 수 있다.
+  - objects 는 parts 로 이루어질 수 없다.
+    - 알파벳 뒷 순서를 import 할 수 없다 (FSD 규칙)
+- **파일명**: PascalCase 사용, **반드시 Part/Object/Button 등의 접미사를 포함** (예: `QnAHeaderPart.tsx`, `HeaderButtonRowObject.tsx`)
+  - 폴더명에는 접미사가 없을 수 있지만, 파일명에는 반드시 포함되어야 함
+  - 예: 폴더명 `HeaderBtnRow/`, 파일명 `HeaderBtnRowPart.tsx`
+- **폴더명**: PascalCase 사용 (예: `QnAHeaderPart/` 또는 `HeaderBtnRow/`)
 - **각 컴포넌트 폴더 구조**:
   ```
   ComponentName/
@@ -126,8 +141,8 @@
 ### 7. 특수 규칙
 
 #### div 내부 텍스트
-- 원형 작업 시 div 내부 텍스트는 파일 이름으로 표시
-- 예: `<div>QnAReadPage</div>`
+- 원형 작업 시 div 내부 텍스트는 **파일명 전체(확장자 포함)**로 표시
+- 예: `<div>HeaderBtnRowPart.tsx</div>`, `<div>QnAWrittingPart.tsx</div>`
 
 #### className 처리
 - `className` prop이 있으면 `${className || ''}` 형식으로 병합
@@ -211,4 +226,5 @@
 
 - 생성일: 2025-11-30
 - 마지막 업데이트: 2025-11-30
+- 파일명 규칙 및 원형 작업 div 내용 규칙 추가: 2025-11-30
 
