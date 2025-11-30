@@ -1,0 +1,60 @@
+@use '../../base/styles/values.scss' as sv;
+
+.Template {
+  .ContactPage {
+    align-items: center;
+
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 600px;
+    padding: 48px 24px;
+    user-select: none;
+    width: 100%;
+
+    ._container_contact {
+      align-items: center;
+      background-color: white;
+
+      border-color: sv.$SAKURA_BORDER;
+      border-radius: 12px;
+      border-width: 2px;
+
+      box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.15);
+
+      display: flex;
+      flex-direction: column;
+      max-width: 600px;
+      padding: 48px 32px;
+      transition: box-shadow 0.3s ease-in-out;
+      width: 100%;
+
+      &:hover {
+        box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    ._title_contact {
+      color: sv.$SAKURA_TEXT_DEEP;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      text-align: center;
+    }
+
+    ._subtitle_contact {
+      color: sv.$SAKURA_TEXT_DEEP;
+      font-size: 16px;
+      margin: 0 0 40px 0;
+      text-align: center;
+    }
+
+    ._contact_items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+    }
+  }
+}

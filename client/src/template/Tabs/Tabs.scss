@@ -1,0 +1,18 @@
+@use '../../base/styles/values.scss' as v;
+
+.Template {
+  .Tabs {
+    border-color: v.$SAKURA_BORDER_DEEP_50;
+    border-bottom-width: 4px;
+
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+
+    margin-top: 24px;
+
+    position: relative;
+
+    width: v.$Width_Template_Tabs;
+  }
+}

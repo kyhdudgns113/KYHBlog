@@ -37,7 +37,7 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   // PUT AREA:
 
   const editFile = useCallback(
-    (fileOId: string, fileName: string, content: string) => {
+    async (fileOId: string, fileName: string, content: string) => {
       const url = `/client/file/editFile`
       const data: HTTP.EditFileType = {fileOId, fileName, content}
 

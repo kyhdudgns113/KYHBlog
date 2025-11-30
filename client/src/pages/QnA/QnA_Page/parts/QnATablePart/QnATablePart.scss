@@ -1,0 +1,39 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAPage {
+    .QnATable_Part {
+      border-collapse: collapse;
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 8px;
+      border-width: 2px;
+
+      cursor: default;
+
+      width: 100%;
+
+      thead {
+        border-color: v.$SAKURA_BORDER;
+        border-bottom-width: 6px;
+
+        color: v.$SAKURA_TEXT_DEEP;
+
+        font-size: 20px;
+      }
+
+      tbody {
+        border-color: v.$SAKURA_BORDER;
+        border-width: 2px;
+
+        color: v.$SAKURA_TEXT;
+
+        font-size: 16px;
+        line-height: 24px;
+
+        tr:hover {
+          background-color: v.$SAKURA_BG_50;
+        }
+      }
+    }
+  }
+}

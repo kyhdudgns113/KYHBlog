@@ -1,3 +1,4 @@
-export * from './AdminPage'
-export * from './Admin.Logs.Page'
-export * from './Admin.Users.Page'
+export * from './Admin_Page'
+export * from './AdminLogs_Page'
+export * from './AdminPosting_Page'
+export * from './AdminUsers_Page'

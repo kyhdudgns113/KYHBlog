@@ -1,0 +1,71 @@
+.Template {
+  .Body_Template {
+    .PageArea_Template {
+      .AdminPostingPage {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        padding-top: 20px;
+
+        width: 100%;
+
+        ._editingFilePart {
+          background-color: white;
+
+          border-color: #888888;
+          border-radius: 8px;
+          border-width: 2px;
+
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+
+          display: flex;
+          flex-direction: column;
+
+          height: fit-content;
+
+          margin-left: 16px;
+
+          position: relative;
+
+          transition: box-shadow 0.3s ease-in-out;
+
+          width: 1000px;
+
+          &:hover,
+          &:focus-within {
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+          }
+
+          button {
+            background-color: transparent;
+
+            border-color: #888888;
+            border-radius: 8px;
+            border-width: 2px;
+
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+          }
+
+          button:hover {
+            background-color: #dddddd;
+
+            font-weight: 700;
+          }
+
+          button._isNoticeFile {
+            background-color: #fff0f0;
+            color: #ff4040;
+          }
+          button._isHiddenFile {
+            background-color: #eeeeee;
+            color: #dddddd;
+          }
+        }
+      }
+    }
+  }
+}

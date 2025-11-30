@@ -16,7 +16,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
 }) => {
   return (
     <div
-      className="MODAL_Container"
+      className={`MODAL_Container`}
       onClick={e => {
         e.stopPropagation()
         onClose()

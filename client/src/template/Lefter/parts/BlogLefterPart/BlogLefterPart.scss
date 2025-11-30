@@ -1,0 +1,43 @@
+@use '../../../../base/styles/values.scss' as v;
+
+$BLOG_LEFTER_PART_WIDTH: 300px;
+
+.Template {
+  .Lefter {
+    .BlogLefter_Part {
+      background-color: v.$SAKURA_BG_50;
+
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 8px;
+      border-width: 4px;
+
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      flex-direction: column;
+
+      height: 600px;
+
+      overflow-x: auto;
+      overflow-y: scroll;
+
+      transition: opacity 1s ease, transform 1s ease, box-shadow 0.3s ease-in-out;
+
+      width: $BLOG_LEFTER_PART_WIDTH;
+
+      &._open {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      &._close {
+        opacity: 0;
+        transform: translateX(-$BLOG_LEFTER_PART_WIDTH);
+      }
+
+      &:hover {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}

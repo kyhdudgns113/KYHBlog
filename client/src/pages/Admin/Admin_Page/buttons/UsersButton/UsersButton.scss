@@ -1,0 +1,23 @@
+.Template {
+  .AdminPage {
+    .Users_Button {
+      align-content: center;
+      border-radius: 50%;
+      font-size: 48px;
+
+      height: 60px;
+      margin-top: auto;
+      margin-bottom: 12px;
+
+      text-align: center;
+      transition: font-size 0.2s ease-in-out;
+
+      width: 60px;
+
+      &:hover {
+        font-size: 54px;
+      }
+    }
+  }
+}
+

@@ -10,7 +10,7 @@ import './ChatRoomRowObject.scss'
 
 type ChatRoomRowObjectProps = DivCommonProps & {chatRoom: LT.ChatRoomTypeLocal}
 
-export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, className, style, ...props}) => {
+export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, style, ...props}) => {
   const {selectChatRoom} = useChatActions()
 
   const [unreadStr, setUnreadStr] = useState<string>('')
@@ -35,15 +35,15 @@ export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, classNa
 
   return (
     <div
-      className={`ChatRoomRow_Object ${className || ''}`}
+      className={`ChatRoomRow_Object`}
       onClick={onClickRow(chatRoom.chatRoomOId)}
       onMouseDown={e => e.preventDefault()}
       style={style}
       {...props} // ::
     >
-      <p className="_chatRoomName">{chatRoom.chatRoomName}</p>
-      <p className="_chatRoomUserId">{` (${chatRoom.targetUserId})`}</p>
-      {chatRoom.unreadMessageCount > 0 && <p className="_unReadCnt">{unreadStr}</p>}
+      <p className={`_chatRoomName`}>{chatRoom.chatRoomName}</p>
+      <p className={`_chatRoomUserId`}>{` (${chatRoom.targetUserId})`}</p>
+      {chatRoom.unreadMessageCount > 0 && <p className={`_unReadCnt`}>{unreadStr}</p>}
     </div>
   )
 }

@@ -1,0 +1,27 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Header {
+    .Admin_Button {
+      align-items: center;
+      background-color: white;
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 8px;
+      border-width: 2px;
+      display: flex;
+      justify-content: center;
+
+      color: v.$SAKURA_TEXT;
+      font-size: 24px;
+
+      height: 32px;
+      width: 32px;
+
+      padding: 0;
+
+      &:hover {
+        background-color: v.$SAKURA_BG_50;
+      }
+    }
+  }
+}

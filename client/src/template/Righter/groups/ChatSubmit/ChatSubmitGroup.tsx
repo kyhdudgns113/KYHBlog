@@ -28,10 +28,11 @@ export const ChatSubmitGroup: FC<ChatSubmitGroupProps> = ({value, setter, classN
 
   return (
     <div className={`ChatSubmit_Group ${className || ''}`} style={style} {...props}>
-      <p className="__length">{`${value.length} / ${CHAT_MAX_LENGTH}`}</p>
-      <button className="__submit AppButton_Grey" onClick={onClickSubmit(socket, chatRoomOId, value)}>
+      <p className={`__length`}>{`${value.length} / ${CHAT_MAX_LENGTH}`}</p>
+      <button className={`__submit AppButton_Grey`} onClick={onClickSubmit(socket, chatRoomOId, value)}>
         전송
       </button>
     </div>
   )
 }
+

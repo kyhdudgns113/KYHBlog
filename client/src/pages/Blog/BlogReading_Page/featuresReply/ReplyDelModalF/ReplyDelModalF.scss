@@ -1,0 +1,51 @@
+@use '../../../../../base/styles/values.scss' as sv;
+
+.Template {
+  .BlogReadingPage {
+    .ReplyDelModal_F {
+      align-items: center;
+
+      background-color: white;
+      border-color: sv.$SAKURA_BORDER;
+      border-radius: 12px;
+      border-width: 2px;
+
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      flex-direction: column;
+
+      height: fit-content;
+      left: calc(100% - 40px);
+
+      padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      padding-right: 8px;
+
+      position: absolute;
+      top: -12px;
+      user-select: none;
+      width: fit-content;
+
+      z-index: sv.$SubModal_Z_Index;
+
+      > .__title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-left: 8px;
+        margin-right: 8px;
+      }
+
+      > ._replyDelModalBtnRow {
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+        justify-content: center;
+
+        margin-top: 16px;
+      }
+    }
+  }
+}
+

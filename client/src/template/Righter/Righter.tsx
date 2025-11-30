@@ -1,35 +1,116 @@
-import {useBlogSelector} from '@redux'
+import {useCallback, useEffect, useEffectEvent, useState} from 'react'
 
-import {ButtonRowPart, ChatRoomPart, ChatRoomListPart} from './parts'
-import {ToggleButton} from './buttons'
+import {useAuthStatesContext} from '@context'
+import {useBlogDispatch, useBlogSelector, useTemplateActions} from '@redux'
+
+import {OpenChatRoomListBtn} from './buttons'
+import {ChatRoomPart, ChatRoomListPart, LogInPart, SignUpPart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
+
+import * as T from '@type'
 
 import './Righter.scss'
 
 type RighterProps = DivCommonProps & {}
 
-export const Righter: FC<RighterProps> = ({className, ...props}) => {
-  const isRighterOpen = useBlogSelector(state => state.template.isRighterOpen)
+export const Righter: FC<RighterProps> = ({...props}) => {
+  const headerBtnClicked = useBlogSelector(state => state.template.headerBtnClicked)
   const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
+  const {resetHeaderBtnClicked} = useTemplateActions()
+
+  const {isLoggedIn} = useAuthStatesContext()
+
+  const [cnChatRoomList, setCnChatRoomList] = useState<string>('_close')
+  const [cnLogIn, setCnLogIn] = useState<string>('_close')
+  const [cnSignUp, setCnSignUp] = useState<string>('_close')
+
+  const [isOpenChatRoomList, setIsOpenChatRoomList] = useState<boolean>(false)
+  const [isOpenLogIn, setIsOpenLogIn] = useState<boolean>(false)
+  const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false)
+
+  const dispatch = useBlogDispatch()
+
+  const closePart = useCallback(() => {
+    setCnLogIn('_close')
+    setCnSignUp('_close')
+    setCnChatRoomList('_close')
+    new Promise(resolve => {
+      setTimeout(() => {
+        setIsOpenLogIn(false)
+        setIsOpenSignUp(false)
+        setIsOpenChatRoomList(false)
+        dispatch(resetHeaderBtnClicked())
+        resolve(true)
+      }, 400)
+    })
+  }, [])
+
+  const openPart = useCallback((which: T.HeaderBtnClickedType | 'chatRoomList') => {
+    const isLogIn = which === 'logIn'
+    const isSignUp = which === 'signUp'
+    const isChatRoomList = which === 'chatRoomList'
+
+    !isLogIn && setCnLogIn('_close')
+    !isSignUp && setCnSignUp('_close')
+    !isChatRoomList && setCnChatRoomList('_close')
+
+    new Promise(resolve => {
+      setTimeout(() => {
+        setIsOpenLogIn(isLogIn)
+        setIsOpenSignUp(isSignUp)
+        setIsOpenChatRoomList(isChatRoomList)
+        resolve(true)
+      }, 400)
+    }) // ::
+      .then(() => {
+        setTimeout(() => {
+          isLogIn && setCnLogIn('_open')
+          isSignUp && setCnSignUp('_open')
+          isChatRoomList && setCnChatRoomList('_open')
+          dispatch(resetHeaderBtnClicked())
+        }, 10)
+      })
+  }, [])
+
+  const righterChangeEvent = useEffectEvent(async (headerBtnClicked: string) => {
+    if (headerBtnClicked === 'logIn') {
+      openPart('logIn')
+    } // ::
+    else if (headerBtnClicked === 'signUp') {
+      openPart('signUp')
+    } // ::
+    /**
+     * 이거 안 두는게 좋다
+     * - 클릭된 버튼이 null 인건 아직 눌린 버튼이 없다는 뜻이다
+     * - 눌린 버튼이 없으면 아무것도 하면 안된다
+     */
+    // else {
+    //   setIsOpenLogIn(false)
+    //   setIsOpenSignUp(false)
+    //   setCnLogIn('_close')
+    //   setCnSignUp('_close')
+    // }
+  })
+
+  // 헤더 버큰 클릭 여부에 따라 로그인, 회원가입 파트 열기/닫기
+  useEffect(() => {
+    if (headerBtnClicked) {
+      righterChangeEvent(headerBtnClicked)
+    }
+  }, [headerBtnClicked])
 
   return (
-    <div className={`Righter ${className || ''}`} {...props}>
-      {/* 1. 토글 버튼 */}
-      <ToggleButton />
+    <div className={`Righter`} {...props}>
+      {/* 1. 비로그인 상태: 로그인, 회원가입 파트 */}
+      {!isLoggedIn && isOpenLogIn && <LogInPart className={cnLogIn} closePart={closePart} />}
+      {!isLoggedIn && isOpenSignUp && <SignUpPart className={cnSignUp} closePart={closePart} />}
 
-      {/* 2. 채팅방 */}
-      {chatRoomOId && <ChatRoomPart />}
-
-      {/* 3. Righter 본체 */}
-      <div className={`_body_righter ${isRighterOpen ? '_open' : '_close'}`}>
-        {/* 3-1. 버튼 행 */}
-        <ButtonRowPart />
-
-        {/* 3-2. 채팅방 목록 */}
-        <ChatRoomListPart />
-      </div>
+      {/* 2. 로그인 상태: 채팅방 목록 파트*/}
+      {isLoggedIn && chatRoomOId && <ChatRoomPart />}
+      {isLoggedIn && isOpenChatRoomList && <ChatRoomListPart className={cnChatRoomList} />}
+      {isLoggedIn && <OpenChatRoomListBtn closePart={closePart} isOpen={isOpenChatRoomList} openPart={openPart} />}
     </div>
   )
 }

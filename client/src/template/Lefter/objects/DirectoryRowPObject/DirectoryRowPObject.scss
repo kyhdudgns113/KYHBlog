@@ -1,0 +1,13 @@
+.Template {
+  .Lefter {
+    .DirectoryRow_PObject {
+      display: flex;
+      flex-direction: column;
+
+      user-select: none;
+
+      width: 100%;
+    }
+  }
+}
+

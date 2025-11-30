@@ -1,0 +1,19 @@
+@use '../../../../base/styles/values.scss' as sv;
+
+.Template {
+  .Lefter {
+    .AddDirectory_Object {
+      input._dir {
+        border-color: sv.$SAKURA_BORDER;
+        border-width: 2px;
+
+        padding-bottom: 2px;
+        padding-top: 2px;
+        padding-left: 4px;
+
+        width: 100%;
+      }
+    }
+  }
+}
+

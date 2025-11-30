@@ -4,10 +4,7 @@ import type {RefObject} from 'react'
 import type {Components} from 'react-markdown'
 
 /* eslint-disable */
-export const MarkDownComponent = (
-  stringArr: string[],
-  onImageClick?: (src: string) => void
-): Components => {
+export const MarkDownComponent = (stringArr: string[], onImageClick?: (src: string) => void): Components => {
   const ret: Components = {
     a({...props}) {
       return <a {...props} target="_blank" rel="noopener noreferrer" />
@@ -24,7 +21,6 @@ export const MarkDownComponent = (
             }
           }}
           src={src}
-          style={{cursor: 'pointer', maxWidth: '100%', height: 'auto'}}
         />
       )
     },

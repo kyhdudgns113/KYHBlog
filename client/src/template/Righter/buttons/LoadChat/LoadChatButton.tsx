@@ -6,6 +6,8 @@ import {useBlogSelector} from '@redux'
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import './LoadChatButton.scss'
+
 type LoadChatButtonProps = DivCommonProps & {}
 
 export const LoadChatButton: FC<LoadChatButtonProps> = ({className, style, ...props}) => {
@@ -36,3 +38,4 @@ export const LoadChatButton: FC<LoadChatButtonProps> = ({className, style, ...pr
     </div>
   )
 }
+

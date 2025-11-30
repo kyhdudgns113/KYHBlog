@@ -84,3 +84,4 @@ export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...pr
     </div>
   )
 }
+

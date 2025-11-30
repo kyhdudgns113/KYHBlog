@@ -18,3 +18,4 @@ export const ChatSubmitObject: FC<ChatSubmitObjectProps> = ({className, style, .
     </div>
   )
 }
+

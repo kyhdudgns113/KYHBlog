@@ -1,0 +1,20 @@
+.Template {
+  .Body_Template {
+    .PageArea_Template {
+      .AdminPostingPage {
+        ._editingFilePart {
+          .FileHeader_Object {
+            border-color: #888888;
+            border-bottom-width: 2px;
+
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,13 @@
+@use '../../base/styles/values.scss' as v;
+
+.Header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  height: fit-content;
+
+  position: relative;
+
+  width: 100%;
+}

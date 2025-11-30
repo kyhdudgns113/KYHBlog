@@ -1,2 +1,2 @@
-export * from './SignAreaPart'
-export * from './TitleAreaPart'
+export * from './ButtonRowPart'
+export * from './TitlePart'

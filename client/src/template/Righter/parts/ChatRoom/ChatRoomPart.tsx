@@ -39,3 +39,4 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, ...props}) => {
     </div>
   )
 }
+

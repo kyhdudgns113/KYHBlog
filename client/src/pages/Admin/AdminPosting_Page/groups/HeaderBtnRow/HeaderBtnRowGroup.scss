@@ -1,0 +1,21 @@
+.Template {
+  .Body_Template {
+    .PageArea_Template {
+      .AdminPostingPage {
+        ._editingFilePart {
+          .HeaderBtnRow_Group {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+
+            margin-left: auto;
+            padding: 4px;
+            user-select: none;
+            width: fit-content;
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -14,3 +14,6 @@ export type CallbackType = () => void
 export type LockType = {nowNumber: number; maxNumber: number}
 export type Setter<T> = Dispatch<SetStateAction<T>>
 export type SocketType = typeof Socket | null
+
+export type HeaderBtnClickedType = 'logIn' | 'signUp' | null
+export type NowTabType = 'home' | 'blog' | 'qna' | 'contact' | null

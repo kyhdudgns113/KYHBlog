@@ -1,43 +1,19 @@
 @use '../../base/styles/values.scss' as v;
 
-$RIGHTER_BODY_WIDTH: 250px;
-
 .Template {
   .Righter {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     height: fit-content;
 
-    right: 32px;
+    right: 20px;
     position: fixed;
 
-    top: 90px;
+    top: 160px;
 
-    z-index: v.$Sidebar_Z_Index;
+    width: fit-content;
 
-    ._body_righter {
-      display: flex;
-      flex-direction: column;
-      height: fit-content;
-      transform: translateX(0);
-      transition: 0.8s ease;
-      position: relative;
-      user-select: none;
-
-      width: $RIGHTER_BODY_WIDTH;
-
-      &._open {
-        opacity: 1;
-        transform: translateX(0);
-        width: $RIGHTER_BODY_WIDTH;
-      }
-
-      &._close {
-        opacity: 0;
-        transform: translateX($RIGHTER_BODY_WIDTH);
-        width: 0;
-      }
-    }
+    z-index: v.$Z_Index_Template_Righter;
   }
 }

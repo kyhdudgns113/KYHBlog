@@ -1,0 +1,26 @@
+.Template {
+  .Body_Template {
+    .PageArea_Template {
+      .AdminPostingPage {
+        ._editingFilePart {
+          .HeaderTitle_Group {
+            input {
+              border-color: #888888;
+              border-top-width: 2px;
+
+              font-size: 24px;
+
+              padding-left: 8px;
+              padding-right: 8px;
+              padding-top: 4px;
+              padding-bottom: 4px;
+
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -31,3 +31,4 @@ export const CloseRoomButton: FC<CloseRoomButtonProps> = ({className, style, ...
     />
   )
 }
+

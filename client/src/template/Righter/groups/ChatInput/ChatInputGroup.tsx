@@ -75,10 +75,10 @@ export const ChatInputGroup: FC<ChatInputGroupProps> = ({setter, value, classNam
       onWheel={e => e.stopPropagation()}
       {...props} // ::
     >
-      <div className="_input_wrapper" onClick={onClickDiv} onScroll={e => e.stopPropagation()} onWheel={e => e.stopPropagation()}>
+      <div className={`_input_wrapper`} onClick={onClickDiv} onScroll={e => e.stopPropagation()} onWheel={e => e.stopPropagation()}>
         <textarea
           autoFocus
-          className="_input_chat"
+          className={`_input_chat`}
           onChange={e => setter(e.currentTarget.value)}
           onKeyDown={onKeyDownInput(socket, chatRoomOId, value)}
           ref={textareaRef}
@@ -88,3 +88,4 @@ export const ChatInputGroup: FC<ChatInputGroupProps> = ({setter, value, classNam
     </div>
   )
 }
+

@@ -1,0 +1,20 @@
+.Template {
+  .QnAPage {
+    .QnAHeader_Part {
+      .HeaderButtonRow_Object {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        justify-content: flex-end;
+
+        position: absolute;
+
+        right: 16px;
+        bottom: 4px;
+
+        width: 100%;
+      }
+    }
+  }
+}

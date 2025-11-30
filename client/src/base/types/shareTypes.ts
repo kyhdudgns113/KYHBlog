@@ -5,7 +5,7 @@ export type FileRowType = {
    */
   dirOId: string
   fileName: string
-  fileOId: string
+  fileOId: string // Primary Key
   fileStatus: number
 }
 
@@ -15,7 +15,7 @@ export type AlarmType = {
    * socketTypes 의 NewAlarmType 과 동일해야 한다.
    * 이거 바꾸면 그것도 바꿔준다.
    */
-  alarmOId: string
+  alarmOId: string // Primary Key
   alarmStatus: number
   alarmType: number
   content: string
@@ -38,7 +38,7 @@ export type ChatType = {
   userName: string // 보낸 유저
 }
 export type ChatRoomType = {
-  chatRoomOId: string
+  chatRoomOId: string // Primary Key
   chatRoomName: string // 보통은 targetUserName 이 들어간다.
   targetUserId: string
   targetUserMail: string
@@ -48,7 +48,7 @@ export type ChatRoomType = {
   lastChatDate: Date
 }
 export type CommentType = {
-  commentOId: string
+  commentOId: string // Primary Key
   content: string // 댓글 내용
   createdAt: Date
   fileOId: string
@@ -58,7 +58,7 @@ export type CommentType = {
 export type DirectoryType = {
   // dirIdx: number // 클라이언트는 정렬된것만 주고 받는다.
   dirName: string
-  dirOId: string
+  dirOId: string // Primary Key
   fileOIdsArr: string[]
   // isOpen?: boolean // 클라이언트에서 폴더 열렸는지 확인용 은 클라에서 따로 관리하자
   parentDirOId: string | null
@@ -85,7 +85,7 @@ export type FileType = {
   createdAt: Date
   dirOId: string
   fileIdx: number
-  fileOId: string
+  fileOId: string // Primary Key
   fileStatus: number
   fileName: string
   updatedAt: Date
@@ -100,18 +100,28 @@ export type LogType = {
   gkdErrMsg: string // 클라이언트에 띄울 에러메시지
   gkdLog: string // 로그 메시지
   gkdStatus: any // 로그가 발생했을때 저장된 상태
-  logOId: string
+  logOId: string // Primary Key
   userId: string
   userName: string
   userOId: string
   where: string
+}
+export type QnAType = {
+  content: string
+  createdAt: Date
+  userName: string
+  userOId: string
+  qnAOId: string // Primary Key
+  title: string
+  updatedAt: Date
+  viewCount: number
 }
 export type ReplyType = {
   commentOId: string
   fileOId: string
   createdAt: Date
   content: string // 대댓글 내용
-  replyOId: string
+  replyOId: string // Primary Key
   targetUserOId: string
   targetUserName: string
   userOId: string
@@ -126,5 +136,5 @@ export type UserType = {
   userId: string
   userMail: string
   userName: string
-  userOId: string
+  userOId: string // Primary Key
 }

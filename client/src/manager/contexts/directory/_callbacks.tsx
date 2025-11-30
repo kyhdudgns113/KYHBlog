@@ -16,6 +16,7 @@ type ContextType = {
   addFile: (dirOId: string, fileName: string) => Promise<boolean>
 
   changeDirName: (dirOId: string, dirName: string) => Promise<boolean>  
+  changeFileName: (fileOId: string, fileName: string) => Promise<boolean>
 
   loadDirectory: (dirOId: string) => Promise<boolean>
   loadRootDirectory: () => Promise<boolean>
@@ -31,6 +32,7 @@ export const DirectoryCallbacksContext = createContext<ContextType>({
   addFile: async () => false,
 
   changeDirName: async () => false,
+  changeFileName: async () => false,
 
   loadDirectory: async () => false,
   loadRootDirectory: async () => false,
@@ -190,6 +192,56 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
         })
     },
     [directories] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  const changeFileName = useCallback(
+    async (fileOId: string, fileName: string) => {
+      const url = `/client/directory/changeFileName`
+      const data: HTTP.ChangeFileNameType = {
+        fileName,
+        fileOId
+      }
+
+      // 입력값 검증: 파일 이름이 들어왔는가
+      if (!fileName.trim()) {
+        return Promise.resolve(false)
+      }
+
+      // 입력값 검증: 파일 이름이 20자 이하인가
+      if (fileName.length > SV.FILE_NAME_MAX_LENGTH) {
+        alert(`파일 이름은 ${SV.FILE_NAME_MAX_LENGTH}자 이하로 입력하세요`)
+        return Promise.resolve(false)
+      }
+
+      // 입력값 검증: 파일 이름이 안 바뀌었는가
+      const oldFileName = fileRows[fileOId].fileName
+      if (oldFileName === fileName) {
+        alert(`파일 이름이 바뀌지 않았어요`)
+        return Promise.resolve(false)
+      }
+
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+
+          if (ok) {
+            writeExtraDirectory(body.extraDirs)
+            writeExtraFileRow(body.extraFileRows)
+            U.writeJwtFromServer(jwtFromServer)
+            return true
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return false
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return false
+        })
+    },
+    [fileRows] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   // GET AREA:
@@ -513,7 +565,8 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
     addFile,
 
     changeDirName,
-
+    changeFileName,
+    
     loadDirectory,
     loadRootDirectory,
     moveDirectory,

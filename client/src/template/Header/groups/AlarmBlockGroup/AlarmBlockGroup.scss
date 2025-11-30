@@ -1,0 +1,68 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Header {
+    .AlarmBlock_Group {
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #f9f9f9;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &._item_new {
+        background-color: #fff5f5;
+        border-left: 3px solid #ff4444;
+
+        &:hover {
+          background-color: #ffe5e5;
+        }
+      }
+
+      &._item_old {
+        opacity: 0.8;
+      }
+
+      ._item_content_group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 8px;
+
+        ._item_type_group {
+          font-size: 11px;
+          color: #666;
+          font-weight: 500;
+          text-transform: uppercase;
+        }
+
+        ._item_text_group {
+          font-size: 14px;
+          color: #333;
+          line-height: 1.4;
+          word-break: break-word;
+        }
+
+        ._item_sender_group {
+          font-size: 12px;
+          color: #888;
+        }
+      }
+
+      ._item_time_group {
+        font-size: 11px;
+        color: #aaa;
+        align-self: flex-end;
+      }
+    }
+  }
+}

@@ -25,12 +25,6 @@ export const modalSlice = createSlice({
     },
     openEditFileModal: state => {
       state.modalName = V.MODAL_EDIT_FILE
-    },
-    openLogInModal: state => {
-      state.modalName = V.MODAL_LOG_IN
-    },
-    openSignUpModal: state => {
-      state.modalName = V.MODAL_SIGN_UP
     }
   }
 })

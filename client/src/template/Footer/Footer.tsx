@@ -1,17 +1,14 @@
+import './Footer.scss'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import './Footer.scss'
-
 type FooterProps = DivCommonProps & {}
 
-export const Footer: FC<FooterProps> = ({className, ...props}) => {
+export const Footer: FC<FooterProps> = ({...props}) => {
   return (
-    <div className={`Footer ${className || ''}`} {...props}>
-      <div className="_container_contact">
-        <p className="_email">E-mail: dudgns113@gmail.com</p>
-        <p className="_kakaotalk">Kakao ID: kyhdudgns113</p>
-      </div>
+    <div className={`Footer`} {...props}>
+      <p className="_title_footer">Footer</p>
     </div>
   )
 }
