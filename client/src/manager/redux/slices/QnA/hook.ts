@@ -3,12 +3,12 @@ import {qnaSlice} from './slice'
 
 import * as ST from '@shareType'
 
-export const useQnaStates = () => useBlogSelector(state => state.qna)
+export const useQnAStates = () => useBlogSelector(state => state.qna)
 
-export const useQnaActions = () => {
+export const useQnAActions = () => {
   const dispatch = useBlogDispatch()
 
   return {
-    setQnaArr: (qnaArr: ST.QnAType[]) => dispatch(qnaSlice.actions.setQnaArr(qnaArr))
+    setQnAArr: (qnAArr: ST.QnAType[]) => dispatch(qnaSlice.actions.setQnAArr(qnAArr))
   }
 }

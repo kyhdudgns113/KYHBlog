@@ -17,6 +17,13 @@ export type AddFileType = {
   fileName: string
 }
 
+export type AddQnAType = {
+  content: string
+  isPrivate: boolean
+  title: string
+  userOId: string
+}
+
 export type AddReplyType = {
   commentOId: string
   content: string
