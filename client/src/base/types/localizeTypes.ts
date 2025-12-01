@@ -62,6 +62,16 @@ export type LogTypeLocal = {
   userOId: string
   where: string
 }
+export type QnATypeLocal = {
+  content: string
+  createdAtValue: number
+  userName: string
+  userOId: string
+  qnAOId: string // Primary Key
+  title: string
+  updatedAtValue: number
+  viewCount: number
+}
 export type ReplyTypeLocal = {
   commentOId: string
   fileOId: string
