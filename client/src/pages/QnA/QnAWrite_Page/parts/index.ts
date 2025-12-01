@@ -1,3 +1,2 @@
-export * from './HeaderBtnRow'
-export * from './QnAWritting'
-
+export * from './Header'
+export * from './QnAForm'

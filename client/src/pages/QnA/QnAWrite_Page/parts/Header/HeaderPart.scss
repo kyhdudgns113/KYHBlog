@@ -1,0 +1,27 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAWritePage {
+    .Header_Part {
+      align-items: center;
+
+      display: flex;
+      flex-direction: column;
+
+      padding-bottom: 8px;
+
+      position: relative;
+      width: 100%;
+
+      ._title_page {
+        color: v.$SAKURA_TEXT;
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0;
+        text-align: center;
+        user-select: none;
+        width: 100%;
+      }
+    }
+  }
+}
