@@ -13,6 +13,7 @@ export const store = configureStore({
     file: Slices.fileSlice.reducer,
     lock: Slices.lockSlice.reducer,
     modal: Slices.modalSlice.reducer,
+    qna: Slices.qnaSlice.reducer,
     template: Slices.templateSlice.reducer,
     test: Slices.testSlice.reducer
   },

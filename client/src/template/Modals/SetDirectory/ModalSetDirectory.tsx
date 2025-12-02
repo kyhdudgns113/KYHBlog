@@ -5,6 +5,7 @@ import {useDirectoryCallbacksContext} from '@context'
 import {useBlogSelector, useDirectoryActions, useModalActions} from '@redux'
 
 import type {KeyboardEvent, MouseEvent} from 'react'
+import type {APIReturnType} from '@type'
 
 import './ModalSetDirectory.scss'
 
@@ -23,8 +24,8 @@ export function ModalSetDirectory() {
     (dirOId: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
       e.preventDefault()
-      deleteDir(dirOId).then(success => {
-        if (success) {
+      deleteDir(dirOId).then((res: APIReturnType) => {
+        if (res.isSuccess) {
           initDirOId_editDir()
           closeModal()
         }
@@ -39,8 +40,8 @@ export function ModalSetDirectory() {
       e.preventDefault()
 
       // 모달 닫기도 changeDirName 에서 실행한다.
-      changeDirName(dirOId, dirName).then(success => {
-        if (success) {
+      changeDirName(dirOId, dirName).then((res: APIReturnType) => {
+        if (res.isSuccess) {
           initDirOId_editDir()
           closeModal()
         } // ::

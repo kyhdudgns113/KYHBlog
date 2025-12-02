@@ -5,6 +5,7 @@ import {useBlogSelector} from '@redux'
 
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 import * as SV from '@shareValue'
 
@@ -58,8 +59,8 @@ export const SignUpPart: FC<SignUpPartProps> = ({closePart, className, ...props}
       }
 
       signUp(userId, userMail, userName, password) // ::
-        .then(res => {
-          if (res) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             closePart()
           }
         })

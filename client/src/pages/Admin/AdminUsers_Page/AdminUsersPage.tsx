@@ -6,6 +6,7 @@ import * as P from './parts'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 import './AdminUsersPage.scss'
 
@@ -30,8 +31,8 @@ export const AdminUsersPage: FC<AdminUsersPageProps> = ({className, style, ...pr
 
     setIsLoadingUserArr(true)
     loadUserArr(true)
-      .then(ok => {
-        if (ok) {
+      .then((res: APIReturnType) => {
+        if (res.isSuccess) {
             setIsLoadingUserArr(false)
         } // ::
         else {

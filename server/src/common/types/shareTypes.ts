@@ -109,6 +109,7 @@ export type LogType = {
 export type QnAType = {
   content: string
   createdAt: Date
+  isPrivate: boolean
   userName: string
   userOId: string
   qnAOId: string // Primary Key

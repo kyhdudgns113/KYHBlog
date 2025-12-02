@@ -7,6 +7,7 @@ import {ChatUserButton} from '../../buttons'
 import type {FC} from 'react'
 import type {UserTypeLocal} from '@localizeType'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 import * as LT from '@localizeType'
 
 import * as NV from '@nullValue'
@@ -28,8 +29,8 @@ export const CommentUserInfoE: FC<CommentUserInfoEProps> = ({comment, ...props})
     const {userOId, userName} = comment
     if (userOId) {
       loadUserInfo(comment.userOId, setTargetUser) // ::
-        .then(ok => {
-          if (!ok) {
+        .then((res: APIReturnType) => {
+          if (!res.isSuccess) {
             alert('에러가 떴다고?')
             const createdAtValue = Date.now()
             const updatedAtValue = createdAtValue

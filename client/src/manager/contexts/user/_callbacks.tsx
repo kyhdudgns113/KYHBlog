@@ -11,23 +11,25 @@ import * as T from '@type'
 import * as U from '@util'
 import * as SV from '@shareValue'
 
+import type {APIReturnType} from '@type'
+
 // prettier-ignore
 type ContextType = {
-  checkNewAlarm: (alarmArr: LT.AlarmTypeLocal[]) => void
+  checkNewAlarm: (alarmArr: LT.AlarmTypeLocal[]) => Promise<APIReturnType>
 
-  loadAlarmArr: (userOId: string) => Promise<boolean>
-  loadUserInfo: (userOId: string, setTargetUser: T.Setter<LT.UserTypeLocal>) => Promise<boolean>
+  loadAlarmArr: (userOId: string) => Promise<APIReturnType>
+  loadUserInfo: (userOId: string, setTargetUser: T.Setter<LT.UserTypeLocal>) => Promise<APIReturnType>
 
-  removeAlarm: (alarmOId: string) => Promise<boolean>
+  removeAlarm: (alarmOId: string) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const UserCallbacksContext = createContext<ContextType>({
-  checkNewAlarm: () => {},
+  checkNewAlarm: () => Promise.resolve({isSuccess: false}),
 
-  loadAlarmArr: () => Promise.resolve(false),
-  loadUserInfo: () => Promise.resolve(false),
+  loadAlarmArr: () => Promise.resolve({isSuccess: false}),
+  loadUserInfo: () => Promise.resolve({isSuccess: false}),
 
-  removeAlarm: () => Promise.resolve(false)
+  removeAlarm: () => Promise.resolve({isSuccess: false})
 })
 
 export const useUserCallbacksContext = () => useContext(UserCallbacksContext)
@@ -47,7 +49,7 @@ export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         }
       })
 
-    if (checkedAlarmArr.length === 0) return
+    if (checkedAlarmArr.length === 0) return {isSuccess: false}
 
     const url = `/client/user/checkNewAlarm`
     const data: HTTP.CheckNewAlarmType = {checkedAlarmArr}
@@ -62,16 +64,16 @@ export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
             setAlarmArr(body.alarmArr)
           }
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -88,16 +90,16 @@ export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         if (ok) {
           setAlarmArr(body.alarmArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -112,16 +114,16 @@ export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
         if (ok) {
           setTargetUser(body.user)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -138,16 +140,16 @@ export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         if (ok) {
           setAlarmArr(body.alarmArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 

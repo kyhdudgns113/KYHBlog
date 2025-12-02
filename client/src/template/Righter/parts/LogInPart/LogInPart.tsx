@@ -5,6 +5,7 @@ import {useBlogSelector} from '@redux'
 
 import type {FC, FormEvent, KeyboardEvent} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 import './LogInPart.scss'
 
@@ -27,8 +28,8 @@ export const LogInPart: FC<LogInPartProps> = ({closePart, className, ...props}) 
     }
 
     logIn(userId, password) // ::
-      .then(res => {
-        if (res) {
+      .then((res: APIReturnType) => {
+        if (res.isSuccess) {
           closePart()
         }
       })

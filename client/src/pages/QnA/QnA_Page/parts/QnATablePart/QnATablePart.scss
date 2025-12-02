@@ -19,6 +19,25 @@
         color: v.$SAKURA_TEXT_DEEP;
 
         font-size: 20px;
+        line-height: 20px;
+
+        th {
+          border: 1px solid v.$SAKURA_BORDER;
+          padding: 6px 12px;
+          text-align: center;
+
+          &._th_createdAt {
+            width: 120px;
+          }
+
+          &._th_title {
+            width: auto;
+          }
+
+          &._th_author {
+            width: 120px;
+          }
+        }
       }
 
       tbody {
@@ -28,10 +47,21 @@
         color: v.$SAKURA_TEXT;
 
         font-size: 16px;
-        line-height: 24px;
+        line-height: 20px;
 
-        tr:hover {
-          background-color: v.$SAKURA_BG_50;
+        tr {
+          &:hover {
+            background-color: v.$SAKURA_BG_50;
+          }
+        }
+
+        td {
+          border: 1px solid v.$SAKURA_BORDER;
+          padding: 4px 6px;
+
+          &._td_createdAt {
+            text-align: center;
+          }
         }
       }
     }

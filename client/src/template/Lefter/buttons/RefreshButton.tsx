@@ -5,6 +5,7 @@ import {useDirectoryCallbacksContext} from '@context'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 type RefreshButtonProps = DivCommonProps & {}
 
@@ -14,8 +15,8 @@ export const RefreshButton: FC<RefreshButtonProps> = ({className, style, ...prop
   const navigate = useNavigate()
   const onClickIcon = useCallback(() => {
     loadRootDirectory() // ::
-      .then(res => {
-        if (res) {
+      .then((res: APIReturnType) => {
+        if (res.isSuccess) {
           navigate('/main/admin/posting')
         }
       })

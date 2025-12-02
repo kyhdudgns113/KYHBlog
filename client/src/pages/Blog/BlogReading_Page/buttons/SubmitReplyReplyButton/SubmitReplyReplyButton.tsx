@@ -6,6 +6,7 @@ import {AUTH_USER} from '@shareValue'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 import * as LT from '@localizeType'
 
 import './SubmitReplyReplyButton.scss'
@@ -47,8 +48,8 @@ export const SubmitReplyReplyButton: FC<SubmitReplyReplyButtonProps> = ({reply, 
       const targetUserName = reply.userName
 
       addReply(userOId, userName, targetUserOId, targetUserName, reply.commentOId, replyContent) // ::
-        .then(isSuccess => {
-          if (isSuccess) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             resetReplyOId_reply()
           }
         })

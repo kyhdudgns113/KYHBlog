@@ -4,6 +4,7 @@ import {createSlice} from '@reduxjs/toolkit'
 interface LockState {
   commentLock: boolean
   logInLock: boolean
+  qnaWriteLock: boolean
   signUpLock: boolean
 }
 
@@ -11,6 +12,7 @@ interface LockState {
 const initialState: LockState = {
   commentLock: false,
   logInLock: false,
+  qnaWriteLock: false,
   signUpLock: false
 }
 
@@ -25,14 +27,21 @@ export const lockSlice = createSlice({
     lockLogIn: state => {
       state.logInLock = true
     },
+    lockQnaWrite: state => {
+      state.qnaWriteLock = true
+    },
     lockSignUp: state => {
       state.signUpLock = true
     },
+
     unlockComment: state => {
       state.commentLock = false
     },
     unlockLogIn: state => {
       state.logInLock = false
+    },
+    unlockQnaWrite: state => {
+      state.qnaWriteLock = false
     },
     unlockSignUp: state => {
       state.signUpLock = false

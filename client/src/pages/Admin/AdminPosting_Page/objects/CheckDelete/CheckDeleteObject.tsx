@@ -6,6 +6,7 @@ import {useBlogSelector, useFileActions} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 import './CheckDeleteObject.scss'
 

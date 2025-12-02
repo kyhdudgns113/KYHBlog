@@ -5,6 +5,7 @@ import {useBlogSelector} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 import * as LT from '@localizeType'
 import * as SV from '@shareValue'
 
@@ -28,8 +29,8 @@ export const NoticeFileButton: FC<NoticeFileButtonProps> = ({className, style, .
       }
 
       editFileStatus(file.fileOId, newFileStatus) // ::
-        .then(isSuccess => {
-          if (isSuccess) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             if (newFileStatus === SV.FILE_NOTICE) {
               alert('공지 설정이 완료되었습니다')
             } // ::

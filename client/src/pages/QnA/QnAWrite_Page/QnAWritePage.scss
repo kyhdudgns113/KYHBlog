@@ -8,17 +8,12 @@
     height: fit-content;
 
     margin-bottom: 48px;
-    min-height: 800px;
     padding-top: 48px;
 
     width: 100%;
 
     ._container_page {
       align-items: center;
-
-      border-color: #d0d0d0;
-      border-radius: 12px;
-      border-width: 2px;
 
       display: flex;
       flex-direction: column;
@@ -31,4 +26,3 @@
     }
   }
 }
-

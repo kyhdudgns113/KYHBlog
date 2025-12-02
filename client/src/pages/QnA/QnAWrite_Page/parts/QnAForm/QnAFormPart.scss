@@ -1,0 +1,183 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAWritePage {
+    .QnAForm_Part {
+      align-items: center;
+      border-color: v.$SAKURA_BORDER;
+      border-radius: 8px;
+      border-width: 4px;
+
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      flex-direction: column;
+
+      margin-top: 16px;
+
+      padding: 16px;
+
+      transition: box-shadow 0.3s ease;
+
+      width: 100%;
+
+      &:focus-within {
+        border-color: v.$SAKURA_BORDER_DEEP_50;
+      }
+
+      .form_part {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+      }
+
+      .form_item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+
+        label {
+          color: v.$SAKURA_TEXT;
+          font-size: 18px;
+          font-weight: 600;
+          user-select: none;
+        }
+
+        input[type='text'] {
+          background-color: #ffffff;
+          border: 4px solid v.$SAKURA_BORDER_50;
+          border-radius: 6px;
+          color: v.$SAKURA_TEXT_DEEP;
+          font-size: 14px;
+          outline: none;
+          padding: 10px 12px;
+          transition: border-color 0.2s ease;
+          width: 100%;
+
+          &:focus {
+            border-color: v.$SAKURA_BORDER_DEEP_50;
+          }
+
+          &::placeholder {
+            color: v.$SAKURA_BORDER_50;
+          }
+        }
+
+        textarea {
+          background-color: #ffffff;
+          border: 4px solid v.$SAKURA_BORDER_50;
+          border-radius: 6px;
+          color: v.$SAKURA_TEXT_DEEP;
+          font-size: 14px;
+          outline: none;
+          padding: 10px 12px;
+          transition: border-color 0.2s ease;
+          width: 100%;
+          resize: vertical;
+          font-family: inherit;
+
+          &:focus {
+            border-color: v.$SAKURA_BORDER_DEEP_50;
+          }
+
+          &::placeholder {
+            color: v.$SAKURA_BORDER_50;
+          }
+        }
+
+        .form_checkbox {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          input[type='checkbox'] {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            min-height: 20px;
+            cursor: pointer;
+            pointer-events: auto;
+            flex-shrink: 0;
+            margin: 0;
+            padding: 0;
+            border: 2px solid v.$SAKURA_BORDER_50;
+            border-radius: 4px;
+            background-color: #ffffff !important;
+            appearance: none;
+            // -webkit-appearance: none;
+            // -moz-appearance: none;
+            position: relative;
+            transition: all 0.2s ease;
+
+            &:checked {
+              background-color: v.$SAKURA_BORDER_DEEP_50 !important;
+              border-color: v.$SAKURA_BORDER_DEEP_50;
+
+              &::after {
+                content: '';
+                position: absolute;
+                left: 6px;
+                top: 2px;
+                width: 5px;
+                height: 10px;
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+              }
+            }
+
+            &:focus {
+              outline: 2px solid v.$SAKURA_BORDER_DEEP_50;
+              outline-offset: 2px;
+            }
+          }
+
+          label {
+            color: v.$SAKURA_TEXT;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 0;
+            user-select: none;
+            pointer-events: auto;
+          }
+        }
+      }
+
+      .form_button_row {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 8px;
+        width: 100%;
+
+        button {
+          background-color: v.$SAKURA_BORDER_DEEP_50;
+          border: 2px solid v.$SAKURA_BORDER;
+          border-radius: 6px;
+          color: v.$SAKURA_BG;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 600;
+          outline: none;
+          padding: 10px 20px;
+          transition: all 0.2s ease;
+          user-select: none;
+
+          &[type='submit'] {
+            &:hover {
+              background-color: v.$SAKURA_BORDER_DEEP_100;
+              transform: translateY(-1px);
+            }
+
+            &:active {
+              transform: translateY(0);
+            }
+          }
+        }
+      }
+    }
+  }
+}

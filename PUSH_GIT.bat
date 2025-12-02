@@ -1,3 +1,3 @@
 git add --all
-git commit -F ./_COMMIT_MESSAGE.md
+git commit -F ./_etc/_COMMIT_MESSAGE.md
 git push

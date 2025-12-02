@@ -25,6 +25,7 @@ export class DBHubService {
     private readonly dirDBService: DB.DirectoryDBService,
     private readonly fileDBService: DB.FileDBService,
     private readonly logDBService: DB.LogDBService,
+    private readonly qnaDBService: DB.QnaDBService,
     private readonly userDBService: DB.UserDBService
   ) {}
 
@@ -477,6 +478,50 @@ export class DBHubService {
   async deleteLogDateBefore(where: string, deleteDateBefore: Date) {
     try {
       await this.logDBService.deleteLogDateBefore(where, deleteDateBefore)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // AREA7: QnaDB Area
+  async createQnA(where: string, dto: DTO.CreateQnADTO) {
+    try {
+      const {qnA} = await this.qnaDBService.createQnA(where, dto)
+      return {qnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readQnAArr(where: string, userOId?: string) {
+    try {
+      const {qnAArr} = await this.qnaDBService.readQnAArr(where, userOId)
+      return {qnAArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readQnAByQnAOId(where: string, qnAOId: string) {
+    try {
+      const {qnA} = await this.qnaDBService.readQnAByQnAOId(where, qnAOId)
+      return {qnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async incrementQnAViewCount(where: string, qnAOId: string) {
+    try {
+      await this.qnaDBService.incrementViewCount(where, qnAOId)
       // ::
     } catch (errObj) {
       // ::

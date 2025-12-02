@@ -10,9 +10,12 @@ export const useLockActions = () => {
   return {
     lockComment: () => dispatch(lockSlice.actions.lockComment()),
     lockLogIn: () => dispatch(lockSlice.actions.lockLogIn()),
+    lockQnaWrite: () => dispatch(lockSlice.actions.lockQnaWrite()),
     lockSignUp: () => dispatch(lockSlice.actions.lockSignUp()),
+
     unlockComment: () => dispatch(lockSlice.actions.unlockComment()),
     unlockLogIn: () => dispatch(lockSlice.actions.unlockLogIn()),
+    unlockQnaWrite: () => dispatch(lockSlice.actions.unlockQnaWrite()),
     unlockSignUp: () => dispatch(lockSlice.actions.unlockSignUp())
   }
 }

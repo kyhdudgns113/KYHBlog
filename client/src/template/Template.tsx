@@ -10,7 +10,7 @@ import {Lefter} from './Lefter'
 import {Righter} from './Righter'
 import {ModalSetDirectory, ModalSetFile} from './Modals'
 
-import type {FC, MouseEvent} from 'react'
+import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import * as V from '@value'
@@ -25,8 +25,7 @@ export const Template: FC<TemplateProps> = ({...props}) => {
   const {closeAlarmObj} = useAlarmActions()
   const {resetCommentOId_user, resetReplyOId_user} = useCommentActions()
 
-  const onClickTemplate = useCallback((e: MouseEvent<HTMLDivElement>) => {
-    e.preventDefault()
+  const onClickTemplate = useCallback(() => {
     closeAlarmObj()
     resetCommentOId_user()
     resetReplyOId_user()

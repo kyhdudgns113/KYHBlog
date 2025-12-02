@@ -21,6 +21,7 @@ import * as P from './ports'
     P.ClientChatPortService,
     P.ClientDirPortService,
     P.ClientFilePortService,
+    P.ClientQnaPortService,
     P.ClientUserPortService,
 
     P.JwtPortService,
@@ -36,6 +37,7 @@ import * as P from './ports'
     P.ClientChatPortService,
     P.ClientDirPortService,
     P.ClientFilePortService,
+    P.ClientQnaPortService,
     P.ClientUserPortService,
 
     P.JwtPortService,

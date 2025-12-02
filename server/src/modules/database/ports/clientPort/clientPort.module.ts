@@ -5,6 +5,7 @@ import {ClientAuthPortModule, ClientAuthPortService} from './clientAuthPort'
 import {ClientChatPortModule, ClientChatPortService} from './clientChatPort'
 import {ClientDirPortModule, ClientDirPortService} from './clientDirPort'
 import {ClientFilePortModule, ClientFilePortService} from './clientFilePort'
+import {ClientQnaPortModule, ClientQnaPortService} from './clientQnaPort'
 import {ClientUserPortModule, ClientUserPortService} from './clientUserPort'
 import {DBHubModule} from '../../dbHub'
 import {GKDLockService} from '@modules/gkdLock'
@@ -16,6 +17,7 @@ import {GKDLockService} from '@modules/gkdLock'
     ClientChatPortModule,
     ClientDirPortModule,
     ClientFilePortModule,
+    ClientQnaPortModule,
     ClientUserPortModule,
     DBHubModule
   ],
@@ -26,6 +28,7 @@ import {GKDLockService} from '@modules/gkdLock'
     ClientChatPortService,
     ClientDirPortService,
     ClientFilePortService,
+    ClientQnaPortService,
     ClientUserPortService,
     GKDLockService
   ],
@@ -35,6 +38,7 @@ import {GKDLockService} from '@modules/gkdLock'
     ClientChatPortService,
     ClientDirPortService,
     ClientFilePortService,
+    ClientQnaPortService,
     ClientUserPortService
   ]
 })

@@ -11,6 +11,7 @@ import * as TABLE from '../_tables'
     TABLE.DirectoryDBModule, // ::
     TABLE.FileDBModule, // ::
     TABLE.LogDBModule, // ::
+    TABLE.QnaDBModule,
     TABLE.UserDBModule
   ],
   controllers: [],

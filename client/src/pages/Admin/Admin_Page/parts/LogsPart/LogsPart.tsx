@@ -8,6 +8,7 @@ import {LogsStatusObject} from '../../objects'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 import './LogsPart.scss'
 
@@ -31,8 +32,8 @@ export const LogsPart: FC<LogsPartProps> = ({className, style, ...props}) => {
       setIsLoadingLogArr(true)
 
       loadLogArr(true) // ::
-        .then(ok => {
-          if (ok) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             setIsLoadingLogArr(false)
           } // ::
           else {
