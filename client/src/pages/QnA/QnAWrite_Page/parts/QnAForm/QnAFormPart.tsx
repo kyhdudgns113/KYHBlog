@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom'
 
 import {useAuthStatesContext, useQnACallbacksContext} from '@context'
 import {useBlogSelector, useLockActions} from '@redux'
+import {QNA_CONTENT_LENGTH_MAX, QNA_TITLE_LENGTH_MAX} from '@shareValue'
 
 import type {FC, FormEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -37,8 +38,18 @@ export const QnAFormPart: FC<QnAFormPartProps> = ({...props}) => {
       return
     }
 
+    if (title.length > QNA_TITLE_LENGTH_MAX) {
+      alert(`제목은 ${QNA_TITLE_LENGTH_MAX}자 이하로 작성해주세요`)
+      return
+    }
+
     if (content.trim().length === 0) {
       alert('내용을 입력해주세요')
+      return
+    }
+
+    if (content.length > QNA_CONTENT_LENGTH_MAX) {
+      alert(`내용은 ${QNA_CONTENT_LENGTH_MAX}자 이하로 작성해주세요`)
       return
     }
 

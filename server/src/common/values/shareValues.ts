@@ -1,6 +1,5 @@
 export const CHAT_MAX_LENGTH = 1000
 export const COMMENT_MAX_LENGTH = 300
-export const DIR_NAME_MAX_LENGTH = 20
 export const FILE_NAME_MAX_LENGTH = 40
 
 export const PASSWORD_LENGTH_MIN = 8
@@ -17,6 +16,10 @@ export const [ALARM_TYPE_FILE_COMMENT, ALARM_TYPE_COMMENT_REPLY, ALARM_TYPE_TAG_
 export const [AUTH_ADMIN, AUTH_USER, AUTH_GUEST] = [100, 1, 0]
 
 export const [CHAT_ROOM_STATUS_INACTIVE, CHAT_ROOM_STATUS_ACTIVE] = [0, 1]
+
+export const [FILE_NORMAL, FILE_HIDDEN, FILE_NOTICE] = [0, 1, 2]
+
+export const [QNA_TITLE_LENGTH_MAX, QNA_CONTENT_LENGTH_MAX] = [32, 1000]
 
 export const REGIX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!-/:-@[-`{-~])[A-Za-z\d!-/:-@[-`{-~]+$/
 export const REGIX_USER_ID = /^[a-zA-Z0-9_.]+$/

@@ -5,6 +5,7 @@ import {AUTH_ADMIN} from '@secret'
 import * as DTO from '@dto'
 import * as HTTP from '@httpDataType'
 import * as T from '@type'
+import * as SV from '@shareValue'
 
 @Injectable()
 export class ClientQnaPortService {
@@ -48,6 +49,18 @@ export class ClientQnaPortService {
         } as T.ErrorObjType
       }
 
+      // 2-1-1. title 길이 체크
+      if (title.length > SV.QNA_TITLE_LENGTH_MAX) {
+        throw {
+          gkd: {title: `제목이 너무 김 (최대 ${SV.QNA_TITLE_LENGTH_MAX}자)`},
+          gkdErrCode: 'CLIENTQNAPORT_addQnAFile_TitleTooLong',
+          gkdErrMsg: `제목이 너무 김 (최대 ${SV.QNA_TITLE_LENGTH_MAX}자)`,
+          gkdStatus: {title, titleLength: title.length, maxLength: SV.QNA_TITLE_LENGTH_MAX},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
       // 2-2. content 체크
       if (!content || content.trim().length === 0) {
         throw {
@@ -55,6 +68,18 @@ export class ClientQnaPortService {
           gkdErrCode: 'CLIENTQNAPORT_addQnAFile_InvalidContent',
           gkdErrMsg: `내용이 없음`,
           gkdStatus: {content},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 2-2-1. content 길이 체크
+      if (content.length > SV.QNA_CONTENT_LENGTH_MAX) {
+        throw {
+          gkd: {content: `내용이 너무 김 (최대 ${SV.QNA_CONTENT_LENGTH_MAX}자)`},
+          gkdErrCode: 'CLIENTQNAPORT_addQnAFile_ContentTooLong',
+          gkdErrMsg: `내용이 너무 김 (최대 ${SV.QNA_CONTENT_LENGTH_MAX}자)`,
+          gkdStatus: {content, contentLength: content.length, maxLength: SV.QNA_CONTENT_LENGTH_MAX},
           statusCode: 400,
           where
         } as T.ErrorObjType
