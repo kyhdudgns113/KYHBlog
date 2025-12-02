@@ -24,8 +24,8 @@ export class ClientQnaController {
      *   - QnA 추가
      *
      * 출력
-     *   - qnAArr
-     *     - 전체 QnA 배열 (최신순, 사용자의 QnA만)
+     *   - qnAOId
+     *     - 생성된 QnA의 오브젝트 아이디
      */
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.clientService.addQnAFile(jwtPayload, data)

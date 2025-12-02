@@ -27,7 +27,7 @@ export const QnACallbacksContext = createContext<ContextType>({
 export const useQnACallbacksContext = () => useContext(QnACallbacksContext)
 
 export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setQnA, setQnAArr} = useQnAActions()
+  const {setQnA} = useQnAActions()
 
   // POST AREA:
   const addQnAFile = useCallback(async (userOId: string, title: string, content: string, isPrivate: boolean) => {
@@ -40,8 +40,7 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
 
         if (ok) {
-          const qnAOId = body.qnA.qnAOId
-          setQnAArr(body.qnAArr)
+          const qnAOId = body.qnAOId
           U.writeJwtFromServer(jwtFromServer)
           return {isSuccess: true, qnAOId}
         } // ::

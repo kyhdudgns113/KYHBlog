@@ -14,7 +14,7 @@ export class ClientQnaPortService {
 
   /**
    * addQnAFile
-   *  - QnA를 추가하고 전체 QnA 배열을 최신순으로 반환한다
+   *  - QnA를 추가하고 qnAOId를 반환한다
    *
    * ------
    *
@@ -23,7 +23,7 @@ export class ClientQnaPortService {
    *  1. 권한 췍!!
    *  2. 입력값 췍!!
    *  3. QnA 추가 뙇!!
-   *  4. 전체 QnA 배열 읽어오기 뙇!! (최신순)
+   *  4. qnAOId 반환 뙇!!
    */
   async addQnAFile(jwtPayload: T.JwtPayloadType, data: HTTP.AddQnAType) {
     const where = `/client/qna/addQnAFile`
@@ -77,10 +77,8 @@ export class ClientQnaPortService {
       // 3. QnA 추가 뙇!!
       const {qnA} = await this.dbHubService.createQnA(where, dto)
 
-      // 4. 전체 QnA 배열 읽어오기 뙇!! (최신순)
-      const {qnAArr} = await this.dbHubService.readQnAArr(where)
-
-      return {qnA, qnAArr}
+      // 4. qnAOId 반환 뙇!!
+      return {qnAOId: qnA.qnAOId}
       // ::
     } catch (errObj) {
       // ::
