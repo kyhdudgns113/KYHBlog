@@ -9,38 +9,40 @@ import * as HTTP from '@httpType'
 import * as SV from '@shareValue'
 import * as U from '@util'
 
+import type {APIReturnType} from '@type'
+
 // prettier-ignore
 type ContextType = {
 
-  addDirectory: (parentDirOId: string, dirName: string) => Promise<boolean>
-  addFile: (dirOId: string, fileName: string) => Promise<boolean>
+  addDirectory: (parentDirOId: string, dirName: string) => Promise<APIReturnType>
+  addFile: (dirOId: string, fileName: string) => Promise<APIReturnType>
 
-  changeDirName: (dirOId: string, dirName: string) => Promise<boolean>  
-  changeFileName: (fileOId: string, fileName: string) => Promise<boolean>
+  changeDirName: (dirOId: string, dirName: string) => Promise<APIReturnType>  
+  changeFileName: (fileOId: string, fileName: string) => Promise<APIReturnType>
 
-  loadDirectory: (dirOId: string) => Promise<boolean>
-  loadRootDirectory: () => Promise<boolean>
-  moveDirectory: (parentDirOId: string, moveDirOId: string, dirIdx: number | null) => Promise<boolean>
-  moveFile: (dirOId: string, moveFileOId: string, fileIdx: number | null) => Promise<boolean>
+  loadDirectory: (dirOId: string) => Promise<APIReturnType>
+  loadRootDirectory: () => Promise<APIReturnType>
+  moveDirectory: (parentDirOId: string, moveDirOId: string, dirIdx: number | null) => Promise<APIReturnType>
+  moveFile: (dirOId: string, moveFileOId: string, fileIdx: number | null) => Promise<APIReturnType>
 
-  deleteDir: (dirOId: string) => Promise<boolean>
-  deleteFile: (fileOId: string) => Promise<boolean>
+  deleteDir: (dirOId: string) => Promise<APIReturnType>
+  deleteFile: (fileOId: string) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const DirectoryCallbacksContext = createContext<ContextType>({
-  addDirectory: async () => false,
-  addFile: async () => false,
+  addDirectory: async () => ({isSuccess: false}),
+  addFile: async () => ({isSuccess: false}),
 
-  changeDirName: async () => false,
-  changeFileName: async () => false,
+  changeDirName: async () => ({isSuccess: false}),
+  changeFileName: async () => ({isSuccess: false}),
 
-  loadDirectory: async () => false,
-  loadRootDirectory: async () => false,
-  moveDirectory: async () => false,
-  moveFile: async () => false,
+  loadDirectory: async () => ({isSuccess: false}),
+  loadRootDirectory: async () => ({isSuccess: false}),
+  moveDirectory: async () => ({isSuccess: false}),
+  moveFile: async () => ({isSuccess: false}),
 
-  deleteDir: async () => false,
-  deleteFile: async () => false,
+  deleteDir: async () => ({isSuccess: false}),
+  deleteFile: async () => ({isSuccess: false}),
 })
 
 export const useDirectoryCallbacksContext = () => useContext(DirectoryCallbacksContext)
@@ -64,13 +66,13 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       // 입력값 검증: 폴더 이름이 들어왔는가
       if (!dirName.trim()) {
         alert(`폴더 이름을 입력하세요`)
-        return false
+        return {isSuccess: false}
       }
 
       // 입력값 검증: 폴더 이름이 32자 이하인가
       if (dirName.length > 32) {
         alert(`폴더 이름은 32자 이하로 입력하세요`)
-        return false
+        return {isSuccess: false}
       }
 
       return F.postWithJwt(url, data)
@@ -82,16 +84,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
             writeExtraDirectory(body.extraDirs)
             writeExtraFileRow(body.extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
@@ -108,13 +110,13 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       // 입력값 검증: 파일 이름이 들어왔는가
       if (!fileName.trim()) {
         alert(`파일 이름을 입력하세요`)
-        return false
+        return {isSuccess: false}
       }
 
       // 입력값 검증: 파일 이름이 20자 이하인가
       if (fileName.length > SV.FILE_NAME_MAX_LENGTH) {
         alert(`파일 이름은 ${SV.FILE_NAME_MAX_LENGTH}자 이하로 입력하세요`)
-        return false
+        return {isSuccess: false}
       }
 
       return F.postWithJwt(url, data)
@@ -126,16 +128,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
             writeExtraDirectory(body.extraDirs)
             writeExtraFileRow(body.extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
@@ -154,20 +156,20 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       // 입력값 검증: 폴더 이름이 들어왔는가
       if (!dirName.trim()) {
         alert(`폴더 이름을 입력하세요`)
-        return false
+        return {isSuccess: false}
       }
 
       // 입력값 검증: 폴더 이름이 32자 이하인가
       if (dirName.length > 32) {
         alert(`폴더 이름은 32자 이하로 입력하세요`)
-        return false
+        return {isSuccess: false}
       }
 
       // 입력값 검증: 폴더 이름이 안 바뀌었는가
       const oldDirName = directories[dirOId].dirName
       if (oldDirName === dirName) {
         alert(`폴더 이름이 바뀌지 않았어요`)
-        return false
+        return {isSuccess: false}
       }
 
       return F.putWithJwt(url, data)
@@ -179,16 +181,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
             writeExtraDirectory(body.extraDirs)
             writeExtraFileRow(body.extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [directories] // eslint-disable-line react-hooks/exhaustive-deps
@@ -204,20 +206,20 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
       // 입력값 검증: 파일 이름이 들어왔는가
       if (!fileName.trim()) {
-        return Promise.resolve(false)
+        return Promise.resolve({isSuccess: false})
       }
 
       // 입력값 검증: 파일 이름이 20자 이하인가
       if (fileName.length > SV.FILE_NAME_MAX_LENGTH) {
         alert(`파일 이름은 ${SV.FILE_NAME_MAX_LENGTH}자 이하로 입력하세요`)
-        return Promise.resolve(false)
+        return Promise.resolve({isSuccess: false})
       }
 
       // 입력값 검증: 파일 이름이 안 바뀌었는가
       const oldFileName = fileRows[fileOId].fileName
       if (oldFileName === fileName) {
         alert(`파일 이름이 바뀌지 않았어요`)
-        return Promise.resolve(false)
+        return Promise.resolve({isSuccess: false})
       }
 
       return F.putWithJwt(url, data)
@@ -229,16 +231,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
             writeExtraDirectory(body.extraDirs)
             writeExtraFileRow(body.extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [fileRows] // eslint-disable-line react-hooks/exhaustive-deps
@@ -258,16 +260,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
           if (ok) {
             writeExtraDirectory(body.extraDirs)
             writeExtraFileRow(body.extraFileRows)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [writeExtraDirectory, writeExtraFileRow]
@@ -289,16 +291,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
           setRootDirOId(body.rootDirOId)
           writeExtraDirectory(body.extraDirs)
           writeExtraFileRow(body.extraFileRows)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, [initDirectories, initFileRows, setRootDirOId, writeExtraDirectory, writeExtraFileRow])
 
@@ -321,7 +323,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
         const nullIsSameIdx = dirIdx === null && samePrevIdx === newParentDir.subDirOIdsArr.length - 1
 
         if (isSameIdx || nullIsSameIdx) {
-          return false
+          return {isSuccess: false}
         }
       }
 
@@ -336,7 +338,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       while (tempDir.dirOId !== null && tempDir.parentDirOId !== null) {
         if (tempDir.dirOId === moveDirOId) {
           alert(`자손 폴더로는 이동할 수 없습니다.`)
-          return false
+          return {isSuccess: false}
         }
 
         const nextOId = tempDir.parentDirOId
@@ -345,7 +347,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
 
         if (!tempDir) {
           alert(`${nextDirName}의 부모폴더 정보가 없습니다.`)
-          return false
+          return {isSuccess: false}
         }
       }
 
@@ -401,16 +403,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
             writeExtraDirectory(body.extraDirs)
             writeExtraFileRow(body.extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [directories] // eslint-disable-line react-hooks/exhaustive-deps
@@ -435,7 +437,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
         const nullIsSameIdx = fileIdx === null && samePrevIdx === newParentDir.fileOIdsArr.length - 1
 
         if (isSameIdx || nullIsSameIdx) {
-          return false
+          return {isSuccess: false}
         }
       }
 
@@ -483,16 +485,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
             writeExtraDirectory(body.extraDirs)
             writeExtraFileRow(body.extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [directories, fileRows] // eslint-disable-line react-hooks/exhaustive-deps
@@ -515,16 +517,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
             writeExtraDirectory(extraDirs)
             writeExtraFileRow(extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
@@ -544,16 +546,16 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
             writeExtraDirectory(body.extraDirs)
             writeExtraFileRow(body.extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps

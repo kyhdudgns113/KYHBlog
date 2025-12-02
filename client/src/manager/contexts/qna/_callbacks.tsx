@@ -8,13 +8,15 @@ import * as F from '@fetch'
 import * as HTTP from '@httpType'
 import * as U from '@util'
 
+import type {APIReturnType} from '@type'
+
 // prettier-ignore
 type ContextType = {
-  addQnAFile: (userOId: string, title: string, content: string, isPrivate: boolean) => Promise<boolean>
+  addQnAFile: (userOId: string, title: string, content: string, isPrivate: boolean) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const QnACallbacksContext = createContext<ContextType>({
-  addQnAFile: async () => false
+  addQnAFile: async () => ({isSuccess: false})
 })
 
 export const useQnACallbacksContext = () => useContext(QnACallbacksContext)
@@ -35,16 +37,16 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         if (ok) {
           setQnAArr(body.qnAArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, [])
 

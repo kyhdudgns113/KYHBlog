@@ -7,15 +7,17 @@ import type {FC, PropsWithChildren} from 'react'
 import * as F from '@fetch'
 import * as U from '@util'
 
+import type {APIReturnType} from '@type'
+
 // prettier-ignore
 type ContextType = {
-  loadLogArr: (isAlert: boolean) => Promise<boolean>
-  loadUserArr: (isAlert: boolean) => Promise<boolean>
+  loadLogArr: (isAlert: boolean) => Promise<APIReturnType>
+  loadUserArr: (isAlert: boolean) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const AdminCallbacksContext = createContext<ContextType>({
-  loadLogArr: () => Promise.resolve(false),
-  loadUserArr: () => Promise.resolve(false)
+  loadLogArr: () => Promise.resolve({isSuccess: false}),
+  loadUserArr: () => Promise.resolve({isSuccess: false})
 })
 
 export const useAdminCallbacksContext = () => useContext(AdminCallbacksContext)
@@ -32,20 +34,20 @@ export const AdminCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
         if (ok) {
           setLogArr(body.logArr)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           if (isAlert) {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
           }
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         if (isAlert) {
           U.alertErrors(url, errObj)
         }
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -59,20 +61,20 @@ export const AdminCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
         if (ok) {
           setUserArr(body.userArr)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           if (isAlert) {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
           }
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         if (isAlert) {
           U.alertErrors(url, errObj)
         }
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -8,23 +8,25 @@ import * as F from '@fetch'
 import * as HTTP from '@httpType'
 import * as U from '@util'
 
+import type {APIReturnType} from '@type'
+
 // prettier-ignore
 type ContextType = {
-  editFile: (fileOId: string, fileName: string, content: string) => Promise<boolean>
-  editFileStatus: (fileOId: string, newFileStatus: number) => Promise<boolean>    
+  editFile: (fileOId: string, fileName: string, content: string) => Promise<APIReturnType>
+  editFileStatus: (fileOId: string, newFileStatus: number) => Promise<APIReturnType>    
 
-  loadComments: (fileOId: string) => Promise<boolean>
-  loadFile: (fileOId: string) => Promise<boolean>
-  loadNoticeFile: () => Promise<boolean>
+  loadComments: (fileOId: string) => Promise<APIReturnType>
+  loadFile: (fileOId: string) => Promise<APIReturnType>
+  loadNoticeFile: () => Promise<APIReturnType>
 }
 // prettier-ignore
 export const FileCallbacksContext = createContext<ContextType>({
-  editFile: () => Promise.resolve(false),
-  editFileStatus: () => Promise.resolve(false),
+  editFile: () => Promise.resolve({isSuccess: false}),
+  editFileStatus: () => Promise.resolve({isSuccess: false}),
 
-  loadComments: () => Promise.resolve(false),
-  loadFile: () => Promise.resolve(false),
-  loadNoticeFile: () => Promise.resolve(false),
+  loadComments: () => Promise.resolve({isSuccess: false}),
+  loadFile: () => Promise.resolve({isSuccess: false}),
+  loadNoticeFile: () => Promise.resolve({isSuccess: false}),
 })
 
 export const useFileCallbacksContext = () => useContext(FileCallbacksContext)
@@ -52,16 +54,16 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
             writeExtraFileRow(extraFileRows)
             U.writeJwtFromServer(jwtFromServer)
             alert(`파일 수정 완료`)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
@@ -82,16 +84,16 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           setFile(body.file)
           U.writeJwtFromServer(jwtFromServer)
           alert(`파일 상태 수정 완료`)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -109,16 +111,16 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
           if (ok) {
             setCommentReplyArr(body.commentReplyArr)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
@@ -137,16 +139,16 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           if (ok) {
             setFile(body.file)
             setFileUser(body.user)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [setFile, setFileUser]
@@ -166,16 +168,16 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
             setFile(body.file)
             setFileOId(body.file.fileOId) // 이거 안해주면 file useEffect 때문에 에러난다
             setFileUser(body.user)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps

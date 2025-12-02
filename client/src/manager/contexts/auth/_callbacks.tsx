@@ -7,7 +7,7 @@ import {useLockActions} from '@redux'
 import {useAuthStatesContext} from './__states'
 
 import type {FC, PropsWithChildren} from 'react'
-import type {AuthBodyType, CallbackType} from '@type'
+import type {APIReturnType, AuthBodyType, CallbackType} from '@type'
 
 import * as HTTP from '@httpType'
 import * as NV from '@nullValue'
@@ -16,17 +16,17 @@ import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
-  logIn: (userId: string, password: string) => Promise<boolean>
+  logIn: (userId: string, password: string) => Promise<APIReturnType>
   logOut: () => void
   refreshToken: (authLevel: number, errCallback?: CallbackType) => Promise<number>
-  signUp: (userId: string, userMail: string, userName: string, password: string) => Promise<boolean>
+  signUp: (userId: string, userMail: string, userName: string, password: string) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const AuthCallbacksContext = createContext<ContextType>({
-  logIn: async () => false,
+  logIn: async () => ({isSuccess: false}),
   logOut: () => {},
   refreshToken: async () => 0,
-  signUp: async () => false
+  signUp: async () => ({isSuccess: false})
 })
 
 export const useAuthCallbacksContext = () => useContext(AuthCallbacksContext)
@@ -87,16 +87,16 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
               userOId
             }
             _writeAuthBodyObject(authBody)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
         .finally(() => unlockLogIn())
     },
@@ -195,16 +195,16 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
               userOId
             }
             _writeAuthBodyObject(authBody)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
         .finally(() => unlockSignUp())
     },

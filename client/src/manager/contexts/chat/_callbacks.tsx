@@ -9,19 +9,21 @@ import * as SCK from '@socketType'
 import * as T from '@type'
 import * as U from '@util'
 
+import type {APIReturnType} from '@type'
+
 // prettier-ignore
 type ContextType = {
-  loadChatArr: (chatRoomOId: string, firstIdx: number) => Promise<boolean>
-  loadChatRoomArr: (userOId: string) => Promise<boolean>
-  loadUserChatRoom: (userOId: string, targetUserOId: string) => Promise<boolean>
+  loadChatArr: (chatRoomOId: string, firstIdx: number) => Promise<APIReturnType>
+  loadChatRoomArr: (userOId: string) => Promise<APIReturnType>
+  loadUserChatRoom: (userOId: string, targetUserOId: string) => Promise<APIReturnType>
 
   submitChat: (socket: T.SocketType, chatRoomOId: string, content: string) => void
 }
 // prettier-ignore
 export const ChatCallbacksContext = createContext<ContextType>({
-  loadChatArr: () => Promise.resolve(false),
-  loadChatRoomArr: () => Promise.resolve(false),
-  loadUserChatRoom: () => Promise.resolve(false),
+  loadChatArr: () => Promise.resolve({isSuccess: false}),
+  loadChatRoomArr: () => Promise.resolve({isSuccess: false}),
+  loadUserChatRoom: () => Promise.resolve({isSuccess: false}),
 
   submitChat: () => {},
 })
@@ -51,16 +53,16 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           }
           setLoadedChatRoomOId(chatRoomOId)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -75,16 +77,16 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         if (ok) {
           setChatRoomArr(body.chatRoomArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -104,16 +106,16 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           setChatRoom(body.chatRoom)
           setChatRoomOId(body.chatRoom.chatRoomOId)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 

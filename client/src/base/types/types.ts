@@ -15,5 +15,9 @@ export type LockType = {nowNumber: number; maxNumber: number}
 export type Setter<T> = Dispatch<SetStateAction<T>>
 export type SocketType = typeof Socket | null
 
+export type APIReturnType = {
+  isSuccess: boolean
+  [key: string]: any
+}
 export type HeaderBtnClickedType = 'logIn' | 'signUp' | null
 export type NowTabType = 'home' | 'blog' | 'qna' | 'contact' | null

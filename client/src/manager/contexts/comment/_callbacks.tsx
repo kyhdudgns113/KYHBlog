@@ -8,27 +8,29 @@ import * as F from '@fetch'
 import * as HTTP from '@httpType'
 import * as U from '@util'
 
+import type {APIReturnType} from '@type'
+
 // prettier-ignore
 type ContextType = {
-  addComment: (userOId: string, userName: string, fileOId: string, content: string) => Promise<boolean>
-  addReply: (userOId: string, userName: string, targetUserOId: string, targetUserName: string, commentOId: string, content: string) => Promise<boolean>
+  addComment: (userOId: string, userName: string, fileOId: string, content: string) => Promise<APIReturnType>
+  addReply: (userOId: string, userName: string, targetUserOId: string, targetUserName: string, commentOId: string, content: string) => Promise<APIReturnType>
 
-  deleteComment: (commentOId: string) => Promise<boolean>
-  deleteReply: (replyOId: string) => Promise<boolean>
+  deleteComment: (commentOId: string) => Promise<APIReturnType>
+  deleteReply: (replyOId: string) => Promise<APIReturnType>
 
-  editComment: (commentOId: string, newContent: string) => Promise<boolean>
-  editReply: (replyOId: string, newContent: string) => Promise<boolean>
+  editComment: (commentOId: string, newContent: string) => Promise<APIReturnType>
+  editReply: (replyOId: string, newContent: string) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const CommentCallbacksContext = createContext<ContextType>({
-  addComment: () => Promise.resolve(false),
-  addReply: () => Promise.resolve(false),
+  addComment: () => Promise.resolve({isSuccess: false}),
+  addReply: () => Promise.resolve({isSuccess: false}),
 
-  deleteComment: () => Promise.resolve(false),
-  deleteReply: () => Promise.resolve(false),
+  deleteComment: () => Promise.resolve({isSuccess: false}),
+  deleteReply: () => Promise.resolve({isSuccess: false}),
 
-  editComment: () => Promise.resolve(false),
-  editReply: () => Promise.resolve(false)
+  editComment: () => Promise.resolve({isSuccess: false}),
+  editReply: () => Promise.resolve({isSuccess: false})
 })
 
 export const useCommentCallbacksContext = () => useContext(CommentCallbacksContext)
@@ -49,16 +51,16 @@ export const CommentCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           alert(`댓글 작성이 완료되었습니다`)
           setCommentReplyArr(body.commentReplyArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -75,16 +77,16 @@ export const CommentCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           if (ok) {
             setCommentReplyArr(body.commentReplyArr)
             U.writeJwtFromServer(jwtFromServer)
-            return true
+            return {isSuccess: true}
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return false
+            return {isSuccess: false}
           }
         })
         .catch(errObj => {
           U.alertErrors(url, errObj)
-          return false
+          return {isSuccess: false}
         })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
@@ -102,16 +104,16 @@ export const CommentCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           alert(`댓글 삭제가 완료되었습니다`)
           setCommentReplyArr(body.commentReplyArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -127,16 +129,16 @@ export const CommentCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           alert(`대댓글 삭제가 완료되었습니다`)
           setCommentReplyArr(body.commentReplyArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -152,16 +154,16 @@ export const CommentCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         if (ok) {
           setCommentReplyArr(body.commentReplyArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -177,16 +179,16 @@ export const CommentCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         if (ok) {
           setCommentReplyArr(body.commentReplyArr)
           U.writeJwtFromServer(jwtFromServer)
-          return true
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          return false
+          return {isSuccess: false}
         }
       })
       .catch(errObj => {
         U.alertErrors(url, errObj)
-        return false
+        return {isSuccess: false}
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
