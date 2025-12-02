@@ -6,6 +6,7 @@ import {useBlogSelector, useLockActions} from '@redux'
 
 import type {FC, FormEvent} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 import './QnAFormPart.scss'
 
@@ -44,10 +45,11 @@ export const QnAFormPart: FC<QnAFormPartProps> = ({...props}) => {
     lockQnaWrite()
 
     addQnAFile(userOId, title, content, isPrivate) // ::
-      .then(isSuccess => {
+      .then((res: APIReturnType) => {
+        const {isSuccess, qnAOId} = res
         if (isSuccess) {
           alert('QnA 작성이 완료되었습니다')
-          navigate('/main/qna')
+          navigate(`/main/qna/${qnAOId}`)
         } // ::
         else {
           alert('QnA 작성에 실패했습니다')

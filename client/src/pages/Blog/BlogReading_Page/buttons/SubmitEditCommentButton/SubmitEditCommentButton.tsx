@@ -6,6 +6,7 @@ import {COMMENT_MAX_LENGTH} from '@shareValue'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 import * as LT from '@localizeType'
 
 import './SubmitEditCommentButton.scss'
@@ -45,8 +46,8 @@ export const SubmitEditCommentButton: FC<SubmitEditCommentButtonProps> = ({comme
       }
 
       editComment(comment.commentOId, content) // ::
-        .then(isSuccess => {
-          if (isSuccess) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             alert(`댓글 수정이 완료되었습니다`)
             resetCommentContent()
           }

@@ -6,6 +6,7 @@ import {useCommentActions} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 import * as LT from '@localizeType'
 
 import './SubmitEditReplyButton.scss'
@@ -45,8 +46,8 @@ export const SubmitEditReplyButton: FC<SubmitEditReplyButtonProps> = ({reply, co
       }
 
       editReply(reply.replyOId, content) // ::
-        .then(isSuccess => {
-          if (isSuccess) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             alert(`대댓글 수정이 완료되었습니다`)
             resetReplyContent()
           }

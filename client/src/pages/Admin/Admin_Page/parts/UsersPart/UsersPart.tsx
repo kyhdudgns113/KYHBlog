@@ -8,6 +8,7 @@ import {UsersStatusObject} from '../../objects'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 import './UsersPart.scss'
 
@@ -31,8 +32,8 @@ export const UsersPart: FC<UsersPartProps> = ({className, style, ...props}) => {
       setIsLoadingUserArr(true)
 
       loadUserArr(true) // ::
-        .then(ok => {
-          if (ok) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             setIsLoadingUserArr(false)
           } // ::
           else {

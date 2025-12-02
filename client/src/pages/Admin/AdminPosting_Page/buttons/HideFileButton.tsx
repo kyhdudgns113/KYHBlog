@@ -4,6 +4,7 @@ import {useBlogSelector} from '@redux'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 import * as LT from '@localizeType'
 import * as SV from '@shareValue'
 
@@ -27,8 +28,8 @@ export const HideFileButton: FC<HideFileButtonProps> = ({className, style, ...pr
       }
 
       editFileStatus(file.fileOId, newFileStatus) // ::
-        .then(isSuccess => {
-          if (isSuccess) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             if (newFileStatus === SV.FILE_HIDDEN) {
               alert('숨김 설정이 완료되었습니다')
             } // ::

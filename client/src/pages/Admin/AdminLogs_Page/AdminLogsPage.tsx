@@ -7,6 +7,7 @@ import * as P from './parts'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 
 import './AdminLogsPage.scss'
 
@@ -36,8 +37,8 @@ export const AdminLogsPage: FC<AdminLogsPageProps> = ({className, style, ...prop
 
     setIsLoadingLogArr(true)
     loadLogArr(true)
-      .then(ok => {
-        if (ok) {
+      .then((res: APIReturnType) => {
+        if (res.isSuccess) {
           setIsLoadingLogArr(false)
         } // ::
         else {

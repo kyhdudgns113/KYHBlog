@@ -5,6 +5,7 @@ import {COMMENT_MAX_LENGTH} from '@shareValue'
 
 import type {FC, MouseEvent} from 'react'
 import type {ButtonCommonProps} from '@prop'
+import type {APIReturnType} from '@type'
 import * as LT from '@localizeType'
 
 import * as SV from '@shareValue'
@@ -45,8 +46,8 @@ export const SubmitCommentReplyButton: FC<SubmitCommentReplyButtonProps> = ({com
       const targetUserName = comment.userName
 
       addReply(userOId, userName, targetUserOId, targetUserName, comment.commentOId, replyContent) // ::
-        .then(isSuccess => {
-          if (isSuccess) {
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
             resetCommentOId_reply()
           }
         })

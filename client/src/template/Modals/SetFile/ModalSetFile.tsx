@@ -5,6 +5,7 @@ import {useDirectoryCallbacksContext} from '@context'
 import {useBlogSelector, useDirectoryActions, useModalActions} from '@redux'
 
 import type {KeyboardEvent, MouseEvent} from 'react'
+import type {APIReturnType} from '@type'
 
 import './ModalSetFile.scss'
 
@@ -22,8 +23,8 @@ export function ModalSetFile() {
     (fileOId: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
       e.preventDefault()
-      deleteFile(fileOId).then(success => {
-        if (success) {
+      deleteFile(fileOId).then((res: APIReturnType) => {
+        if (res.isSuccess) {
           initFileOId_editFile()
           closeModal()
         }
@@ -38,8 +39,8 @@ export function ModalSetFile() {
       e.preventDefault()
 
       // 모달 닫기도 changeFileName 에서 실행한다.
-      changeFileName(fileOId, fileName).then(success => {
-        if (success) {
+      changeFileName(fileOId, fileName).then((res: APIReturnType) => {
+        if (res.isSuccess) {
           initFileOId_editFile()
           closeModal()
         } // ::

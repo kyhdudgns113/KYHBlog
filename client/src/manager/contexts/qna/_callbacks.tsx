@@ -35,9 +35,10 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
 
         if (ok) {
+          const qnAOId = body.qnA.qnAOId
           setQnAArr(body.qnAArr)
           U.writeJwtFromServer(jwtFromServer)
-          return {isSuccess: true}
+          return {isSuccess: true, qnAOId}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
