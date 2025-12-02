@@ -23,4 +23,20 @@ export class ClientQnaService {
       return U.getFailResponse(errObj)
     }
   }
+
+  // GET AREA:
+
+  async getQnA(jwtPayload: JwtPayloadType, qnAOId: string) {
+    /**
+     * qnAOId로 QnA를 조회한다
+     */
+    try {
+      const {qnA} = await this.portService.getQnA(jwtPayload, qnAOId)
+      return {ok: true, body: {qnA}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }

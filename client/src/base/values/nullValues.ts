@@ -44,6 +44,18 @@ export const NULL_FILE = (): LT.FileTypeLocal => ({
   userOId: ''
 })
 
+export const NULL_QNA = (): LT.QnATypeLocal => ({
+  content: '',
+  createdAtValue: 0,
+  isPrivate: false,
+  userName: '',
+  userOId: '',
+  qnAOId: '',
+  title: '',
+  updatedAtValue: 0,
+  viewCount: 0
+})
+
 export const NULL_USER = (): LT.UserTypeLocal => ({
   createdAtValue: 0,
   updatedAtValue: 0,

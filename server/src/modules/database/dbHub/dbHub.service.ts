@@ -508,6 +508,27 @@ export class DBHubService {
     }
   }
 
+  async readQnAByQnAOId(where: string, qnAOId: string) {
+    try {
+      const {qnA} = await this.qnaDBService.readQnAByQnAOId(where, qnAOId)
+      return {qnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async incrementQnAViewCount(where: string, qnAOId: string) {
+    try {
+      await this.qnaDBService.incrementViewCount(where, qnAOId)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA1: UserDB Area
   async createUser(where: string, dto: DTO.SignUpDTO) {
     try {

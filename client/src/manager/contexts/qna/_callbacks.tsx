@@ -6,6 +6,7 @@ import type {FC, PropsWithChildren} from 'react'
 
 import * as F from '@fetch'
 import * as HTTP from '@httpType'
+import * as NV from '@nullValue'
 import * as U from '@util'
 
 import type {APIReturnType} from '@type'
@@ -13,16 +14,20 @@ import type {APIReturnType} from '@type'
 // prettier-ignore
 type ContextType = {
   addQnAFile: (userOId: string, title: string, content: string, isPrivate: boolean) => Promise<APIReturnType>
+
+  getQnA: (qnAOId: string) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const QnACallbacksContext = createContext<ContextType>({
-  addQnAFile: async () => ({isSuccess: false})
+  addQnAFile: async () => ({isSuccess: false}),
+
+  getQnA: async () => ({isSuccess: false, qnA: NV.NULL_QNA()})
 })
 
 export const useQnACallbacksContext = () => useContext(QnACallbacksContext)
 
 export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setQnAArr} = useQnAActions()
+  const {setQnA, setQnAArr} = useQnAActions()
 
   // POST AREA:
   const addQnAFile = useCallback(async (userOId: string, title: string, content: string, isPrivate: boolean) => {
@@ -51,9 +56,38 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, [])
 
+  // GET AREA:
+  const getQnA = useCallback(
+    async (qnAOId: string) => {
+      const url = `/client/qna/getQnA/${qnAOId}`
+
+      return F.getWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+          if (ok) {
+            setQnA(body.qnA)
+            U.writeJwtFromServer(jwtFromServer)
+            return {isSuccess: true}
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return {isSuccess: false}
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return {isSuccess: false}
+        })
+    },
+    [setQnA]
+  )
+
   // prettier-ignore
   const value: ContextType = {
-    addQnAFile
+    addQnAFile,
+
+    getQnA,
   }
   return <QnACallbacksContext.Provider value={value}>{children}</QnACallbacksContext.Provider>
 }
