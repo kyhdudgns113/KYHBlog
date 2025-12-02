@@ -1,1 +1,0 @@
-cd ../GKD/KYHBlog/client && npm run build && node ./dist-run/ClientRun.js
