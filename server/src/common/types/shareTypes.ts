@@ -1,15 +1,3 @@
-// AREA1: 베이스 타입
-export type FileRowType = {
-  /**
-   * Lefter 같은곳에서 OId 랑 name 만 사용하기 위해 쓰는 타입
-   */
-  dirOId: string
-  fileName: string
-  fileOId: string // Primary Key
-  fileStatus: number
-}
-
-// AREA2: 일반 타입
 export type AlarmType = {
   /**
    * socketTypes 의 NewAlarmType 과 동일해야 한다.
@@ -92,6 +80,15 @@ export type FileType = {
   userName: string
   userOId: string
 }
+export type FileRowType = {
+  /**
+   * Lefter 같은곳에서 OId 랑 name 만 사용하기 위해 쓰는 타입
+   */
+  dirOId: string
+  fileName: string
+  fileOId: string // Primary Key
+  fileStatus: number
+}
 export type LogType = {
   date: Date
   errObj: any // 서버에서 throw 받은 에러 오브젝트
@@ -108,6 +105,21 @@ export type LogType = {
 }
 export type QnAType = {
   content: string
+  createdAt: Date
+  isPrivate: boolean
+  userName: string
+  userOId: string
+  qnAOId: string // Primary Key
+  title: string
+  updatedAt: Date
+  viewCount: number
+}
+export type QnARowType = {
+  /**
+   * QnA 페이지 등에서 질문글 목록만 표시하기 위해 있는 타입
+   * - content 는 빠진다.
+   */
+  // content: string // 이것만 빠진다.
   createdAt: Date
   isPrivate: boolean
   userName: string
