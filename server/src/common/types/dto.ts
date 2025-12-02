@@ -63,6 +63,14 @@ export type CreateReplyDTO = {
   userOId: string
 }
 
+export type CreateQnADTO = {
+  title: string
+  content: string
+  isPrivate: boolean
+  userName: string
+  userOId: string
+}
+
 export type SignUpDTO = {
   userId: string
   userMail: string

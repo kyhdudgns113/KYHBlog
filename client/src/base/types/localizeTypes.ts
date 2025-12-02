@@ -65,6 +65,7 @@ export type LogTypeLocal = {
 export type QnATypeLocal = {
   content: string
   createdAtValue: number
+  isPrivate: boolean
   userName: string
   userOId: string
   qnAOId: string // Primary Key
