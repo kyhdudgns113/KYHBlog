@@ -1,7 +1,7 @@
 import {useState, useCallback, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 
-import {useAuthStatesContext, useQnACallbacksContext} from '@context'
+import {useQnACallbacksContext} from '@context'
 import {useBlogSelector, useLockActions} from '@redux'
 import {QNA_CONTENT_LENGTH_MAX, QNA_TITLE_LENGTH_MAX} from '@shareValue'
 
@@ -19,7 +19,6 @@ export const QnAEditFormPart: FC<QnAEditFormPartProps> = ({...props}) => {
 
   const {lockQnaWrite, unlockQnaWrite} = useLockActions()
 
-  const {userOId} = useAuthStatesContext()
   const {modifyQnA} = useQnACallbacksContext()
 
   const [title, setTitle] = useState<string>('')
@@ -39,49 +38,52 @@ export const QnAEditFormPart: FC<QnAEditFormPartProps> = ({...props}) => {
     }
   }, [qnA])
 
-  const _executeSubmit = useCallback((qnaWriteLock: boolean, qnAOId: string, title: string, content: string, isPrivate: boolean) => {
-    if (qnaWriteLock) {
-      alert('QnA 수정 중입니다')
-      return
-    }
+  const _executeSubmit = useCallback(
+    (qnaWriteLock: boolean, qnAOId: string, title: string, content: string, isPrivate: boolean) => {
+      if (qnaWriteLock) {
+        alert('QnA 수정 중입니다')
+        return
+      }
 
-    if (title.trim().length === 0) {
-      alert('제목을 입력해주세요')
-      return
-    }
+      if (title.trim().length === 0) {
+        alert('제목을 입력해주세요')
+        return
+      }
 
-    if (title.length > QNA_TITLE_LENGTH_MAX) {
-      alert(`제목은 ${QNA_TITLE_LENGTH_MAX}자 이하로 작성해주세요`)
-      return
-    }
+      if (title.length > QNA_TITLE_LENGTH_MAX) {
+        alert(`제목은 ${QNA_TITLE_LENGTH_MAX}자 이하로 작성해주세요`)
+        return
+      }
 
-    if (content.trim().length === 0) {
-      alert('내용을 입력해주세요')
-      return
-    }
+      if (content.trim().length === 0) {
+        alert('내용을 입력해주세요')
+        return
+      }
 
-    if (content.length > QNA_CONTENT_LENGTH_MAX) {
-      alert(`내용은 ${QNA_CONTENT_LENGTH_MAX}자 이하로 작성해주세요`)
-      return
-    }
+      if (content.length > QNA_CONTENT_LENGTH_MAX) {
+        alert(`내용은 ${QNA_CONTENT_LENGTH_MAX}자 이하로 작성해주세요`)
+        return
+      }
 
-    lockQnaWrite()
+      lockQnaWrite()
 
-    modifyQnA(qnAOId, title, content, isPrivate) // ::
-      .then((res: APIReturnType) => {
-        const {isSuccess} = res
-        if (isSuccess) {
-          alert('QnA 수정이 완료되었습니다')
-          navigate(`/main/qna/read/${qnAOId}`)
-        } // ::
-        else {
-          alert('QnA 수정에 실패했습니다')
-        }
-      })
-      .finally(() => {
-        unlockQnaWrite()
-      })
-  }, [updateQnA, navigate, lockQnaWrite, unlockQnaWrite])
+      modifyQnA(qnAOId, title, content, isPrivate) // ::
+        .then((res: APIReturnType) => {
+          const {isSuccess} = res
+          if (isSuccess) {
+            alert('QnA 수정이 완료되었습니다')
+            navigate(`/main/qna/read/${qnAOId}`)
+          } // ::
+          else {
+            alert('QnA 수정에 실패했습니다')
+          }
+        })
+        .finally(() => {
+          unlockQnaWrite()
+        })
+    },
+    [navigate, lockQnaWrite, unlockQnaWrite]
+  )
 
   const onSubmit = useCallback(
     (qnaWriteLock: boolean, qnAOId: string, title: string, content: string, isPrivate: boolean) => (e: FormEvent<HTMLFormElement>) => {
@@ -94,7 +96,11 @@ export const QnAEditFormPart: FC<QnAEditFormPartProps> = ({...props}) => {
   )
 
   if (!qnA.qnAOId) {
-    return <div className={`QnAEditForm_Part`} {...props}>로딩 중...</div>
+    return (
+      <div className={`QnAEditForm_Part`} {...props}>
+        로딩 중...
+      </div>
+    )
   }
 
   return (
@@ -145,4 +151,3 @@ export const QnAEditFormPart: FC<QnAEditFormPartProps> = ({...props}) => {
     </div>
   )
 }
-

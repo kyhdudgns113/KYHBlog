@@ -2,7 +2,8 @@ import {useCallback} from 'react'
 import {useNavigate} from 'react-router-dom'
 
 import type {FC, MouseEvent} from 'react'
-import type {LT} from '@localizeType'
+
+import * as LT from '@localizeType'
 
 import './QnARowObject.scss'
 
@@ -45,4 +46,3 @@ export const QnARowObject: FC<QnARowObjectProps> = ({qnARow}) => {
     </tr>
   )
 }
-

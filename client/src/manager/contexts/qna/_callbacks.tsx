@@ -60,31 +60,28 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   }, [])
 
   // GET AREA:
-  const loadQnA = useCallback(
-    async (qnAOId: string) => {
-      const url = `/client/qna/loadQnA/${qnAOId}`
+  const loadQnA = useCallback(async (qnAOId: string) => {
+    const url = `/client/qna/loadQnA/${qnAOId}`
 
-      return F.getWithJwt(url)
-        .then(res => res.json())
-        .then(res => {
-          const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
-          if (ok) {
-            setQnA(body.qnA)
-            U.writeJwtFromServer(jwtFromServer)
-            return {isSuccess: true}
-          } // ::
-          else {
-            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-            return {isSuccess: false}
-          }
-        })
-        .catch(errObj => {
-          U.alertErrors(url, errObj)
+    return F.getWithJwt(url)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+        if (ok) {
+          setQnA(body.qnA)
+          U.writeJwtFromServer(jwtFromServer)
+          return {isSuccess: true}
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
           return {isSuccess: false}
-        })
-    },
-    [setQnA]
-  )
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return {isSuccess: false}
+      })
+  }, [])
 
   const loadQnARowArr = useCallback(async () => {
     const url = `/client/qna/loadQnARowArr`
@@ -109,30 +106,33 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   }, [])
 
   // PUT AREA:
-  const modifyQnA = useCallback(async (qnAOId: string, title: string, content: string, isPrivate: boolean) => {
-    const url = `/client/qna/modifyQnA`
-    const data: HTTP.ModifyQnAType = {qnAOId, title, content, isPrivate}
+  const modifyQnA = useCallback(
+    async (qnAOId: string, title: string, content: string, isPrivate: boolean) => {
+      const url = `/client/qna/modifyQnA`
+      const data: HTTP.ModifyQnAType = {qnAOId, title, content, isPrivate}
 
-    return F.putWithJwt(url, data)
-      .then(res => res.json())
-      .then(res => {
-        const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+      return F.putWithJwt(url, data)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
 
-        if (ok) {
-          setQnA(body.qnA)
-          U.writeJwtFromServer(jwtFromServer)
-          return {isSuccess: true}
-        } // ::
-        else {
-          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          if (ok) {
+            setQnA(body.qnA)
+            U.writeJwtFromServer(jwtFromServer)
+            return {isSuccess: true}
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return {isSuccess: false}
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
           return {isSuccess: false}
-        }
-      })
-      .catch(errObj => {
-        U.alertErrors(url, errObj)
-        return {isSuccess: false}
-      })
-  }, [setQnA])
+        })
+    },
+    [setQnA]
+  )
 
   // prettier-ignore
   const value: ContextType = {
