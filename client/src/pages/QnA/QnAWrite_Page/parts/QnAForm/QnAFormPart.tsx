@@ -14,6 +14,8 @@ import './QnAFormPart.scss'
 type QnAFormPartProps = DivCommonProps & {}
 
 export const QnAFormPart: FC<QnAFormPartProps> = ({...props}) => {
+  const qnaWriteLock = useBlogSelector(state => state.lock.qnaWriteLock)
+
   const {lockQnaWrite, unlockQnaWrite} = useLockActions()
 
   const {userOId} = useAuthStatesContext()
@@ -25,9 +27,7 @@ export const QnAFormPart: FC<QnAFormPartProps> = ({...props}) => {
 
   const navigate = useNavigate()
 
-  const _executeSubmit = useCallback((userOId: string, title: string, content: string, isPrivate: boolean) => {
-    const qnaWriteLock = useBlogSelector(state => state.lock.qnaWriteLock)
-
+  const _executeSubmit = useCallback((qnaWriteLock: boolean, userOId: string, title: string, content: string, isPrivate: boolean) => {
     if (qnaWriteLock) {
       alert('QnA 작성 중입니다')
       return
@@ -72,18 +72,18 @@ export const QnAFormPart: FC<QnAFormPartProps> = ({...props}) => {
   }, [])
 
   const onSubmit = useCallback(
-    (userOId: string, title: string, content: string, isPrivate: boolean) => (e: FormEvent<HTMLFormElement>) => {
+    (qnaWriteLock: boolean, userOId: string, title: string, content: string, isPrivate: boolean) => (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       e.stopPropagation()
 
-      _executeSubmit(userOId, title, content, isPrivate)
+      _executeSubmit(qnaWriteLock, userOId, title, content, isPrivate)
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   return (
     <div className={`QnAForm_Part`} {...props}>
-      <form className="form_part" onSubmit={onSubmit(userOId, title, content, isPrivate)}>
+      <form className="form_part" onSubmit={onSubmit(qnaWriteLock, userOId, title, content, isPrivate)}>
         {/* 1. 제목 입력 */}
         <div className="form_item">
           <label htmlFor="qnaTitle">제목</label>

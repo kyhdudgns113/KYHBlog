@@ -1,14 +1,20 @@
+import {CheckAuth} from '@guard'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import './QnAReadPage.scss'
 
-type QnAReadPageProps = DivCommonProps & {}
+type QnAReadPageProps = DivCommonProps & {
+  reqAuth: number
+}
 
-export const QnAReadPage: FC<QnAReadPageProps> = ({...props}) => {
+export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
   return (
-    <div className={`QnAReadPage`} {...props}>
-      <div>QnAReadPage</div>
-    </div>
+    <CheckAuth reqAuth={reqAuth}>
+      <div className={`QnAReadPage`} {...props}>
+        <div>QnAReadPage</div>
+      </div>
+    </CheckAuth>
   )
 }

@@ -26,8 +26,8 @@ function App() {
         {/* 3. QnA 영역 */}
         <Route path="qna/*">
           <Route index element={<P.QnAPage />} />
-          <Route path="write" element={<P.QnAWritePage />} />
-          <Route path="read/:id" element={<P.QnAReadPage />} />
+          <Route path="write" element={<P.QnAWritePage reqAuth={SV.AUTH_USER} />} />
+          <Route path="read/:id" element={<P.QnAReadPage reqAuth={SV.AUTH_GUEST} />} />
         </Route>
 
         {/* 4. Contact 영역 */}
