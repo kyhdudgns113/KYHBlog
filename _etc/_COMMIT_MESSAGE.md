@@ -1,6 +1,5 @@
-25.12.04 [Both] QnA 수정 기능 및 API 추가
+25.12.04 [Client] React 의존성 업데이트
 
-:construction: [Client] QnA 페이지 제작중...
-  - :construction: [Client] QnA 게시글 페이지 작성중...
-    - :art: QnA 작성 페이지 스타일 조정
-    - :heavy_plus_sign: QnA 수정 기능 및 API 추가
+:arrow_up: [Client] 패키지 의존성 업데이트
+  - :arrow_up: react 19.1.1 → 19.1.2
+  - :arrow_up: react-dom 19.1.1 → 19.1.2
