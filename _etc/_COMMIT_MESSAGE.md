@@ -1,6 +1,6 @@
-25.12.04 [Client] :sparkles: QnAReadPage 컴포넌트 추가
+25.12.04 [Both] QnA 수정 기능 및 API 추가
 
 :construction: [Client] QnA 페이지 제작중...
   - :construction: [Client] QnA 게시글 페이지 작성중...
-    - :sparkles: [Client] QnAReadPage 및 하위 Part 컴포넌트 생성 (Header, Content, Comment)
-    - :pencil2: [Client] 가이드 문서 업데이트 (SCSS 경로 계산 방법 추가)
+    - :art: QnA 작성 페이지 스타일 조정
+    - :heavy_plus_sign: QnA 수정 기능 및 API 추가

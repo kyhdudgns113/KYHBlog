@@ -24,6 +24,13 @@ export type AddQnAType = {
   userOId: string
 }
 
+export type ModifyQnAType = {
+  qnAOId: string
+  title?: string
+  content?: string
+  isPrivate?: boolean
+}
+
 export type AddReplyType = {
   commentOId: string
   content: string

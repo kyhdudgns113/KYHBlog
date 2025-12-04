@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Headers, Param, Post, UseGuards} from '@nestjs/common'
+import {Body, Controller, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
 import {ClientQnaService} from './client.qna.service'
 import {CheckJwtValidationGuard} from '@guard'
 
@@ -70,6 +70,30 @@ export class ClientQnaController {
      */
     const {ok, body, gkdErrMsg, statusCode} = await this.clientService.loadQnARowArr()
     return {ok, body, gkdErrMsg, statusCode}
+  }
+
+  // PUT AREA:
+
+  @Put('/modifyQnA')
+  @UseGuards(CheckJwtValidationGuard)
+  async modifyQnA(@Headers() headers: any, @Body() data: HTTP.ModifyQnAType) {
+    /**
+     * 입력
+     *   - qnAOId
+     *   - title (선택)
+     *   - content (선택)
+     *   - isPrivate (선택)
+     *
+     * 기능
+     *   - QnA 수정
+     *   - 작성자나 관리자만 수정 가능
+     *
+     * 출력
+     *   - qnA
+     */
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.modifyQnA(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 }
 

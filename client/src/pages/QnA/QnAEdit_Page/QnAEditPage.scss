@@ -1,7 +1,7 @@
 @use '../../../base/styles/values.scss' as v;
 
 .Template {
-  .QnAReadPage {
+  .QnAEditPage {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -15,10 +15,6 @@
     ._container_page {
       align-items: center;
 
-      border-color: #d0d0d0;
-      border-radius: 12px;
-      border-width: 2px;
-
       display: flex;
       flex-direction: column;
 
@@ -30,3 +26,4 @@
     }
   }
 }
+

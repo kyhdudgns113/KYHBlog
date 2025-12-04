@@ -529,6 +529,17 @@ export class DBHubService {
     }
   }
 
+  async updateQnA(where: string, qnAOId: string, title?: string, content?: string, isPrivate?: boolean) {
+    try {
+      const {qnA} = await this.qnaDBService.updateQnA(where, qnAOId, title, content, isPrivate)
+      return {qnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA1: UserDB Area
   async createUser(where: string, dto: DTO.SignUpDTO) {
     try {

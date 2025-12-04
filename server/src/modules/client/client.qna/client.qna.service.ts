@@ -53,4 +53,20 @@ export class ClientQnaService {
       return U.getFailResponse(errObj)
     }
   }
+
+  // PUT AREA:
+
+  async modifyQnA(jwtPayload: JwtPayloadType, data: HTTP.ModifyQnAType) {
+    /**
+     * QnA를 수정한다
+     */
+    try {
+      const {qnA} = await this.portService.modifyQnA(jwtPayload, data)
+      return {ok: true, body: {qnA}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }

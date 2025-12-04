@@ -17,13 +17,15 @@ type ContextType = {
 
   loadQnA: (qnAOId: string) => Promise<APIReturnType>
   loadQnARowArr: () => Promise<APIReturnType>
+  modifyQnA: (qnAOId: string, title: string, content: string, isPrivate: boolean) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const QnACallbacksContext = createContext<ContextType>({
   addQnAFile: async () => ({isSuccess: false}),
 
   loadQnA: async () => ({isSuccess: false, qnA: NV.NULL_QNA()}),
-  loadQnARowArr: async () => ({isSuccess: false, qnARowArr: []})
+  loadQnARowArr: async () => ({isSuccess: false, qnARowArr: []}),
+  modifyQnA: async () => ({isSuccess: false})
 })
 
 export const useQnACallbacksContext = () => useContext(QnACallbacksContext)
@@ -106,12 +108,39 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, [])
 
+  // PUT AREA:
+  const modifyQnA = useCallback(async (qnAOId: string, title: string, content: string, isPrivate: boolean) => {
+    const url = `/client/qna/modifyQnA`
+    const data: HTTP.ModifyQnAType = {qnAOId, title, content, isPrivate}
+
+    return F.putWithJwt(url, data)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+
+        if (ok) {
+          setQnA(body.qnA)
+          U.writeJwtFromServer(jwtFromServer)
+          return {isSuccess: true}
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return {isSuccess: false}
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return {isSuccess: false}
+      })
+  }, [setQnA])
+
   // prettier-ignore
   const value: ContextType = {
     addQnAFile,
 
     loadQnA,
     loadQnARowArr,
+    modifyQnA,
   }
   return <QnACallbacksContext.Provider value={value}>{children}</QnACallbacksContext.Provider>
 }
