@@ -1,6 +1,3 @@
-25.12.05 [Client] QnA 페이징 추가
+25.12.05 [Client] :art: QnA 페이지 스타일 조정
 
 :construction: [Client] QnA 페이지 제작중...
-  - :construction: [Client] QnA 게시글 페이지 페이징 추가중...
-    - :heavy_plus_sign: [Redux] QnA 페이징 관련 state 추가
-    - :heavy_plus_sign: QnA 페이징 컴포넌트 및 기능 추가
