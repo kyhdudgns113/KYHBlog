@@ -5,6 +5,7 @@ import {AUTH_ADMIN} from '@secret'
 import * as DTO from '@dto'
 import * as HTTP from '@httpDataType'
 import * as T from '@type'
+import * as ST from '@shareType'
 import * as SV from '@shareValue'
 
 @Injectable()
@@ -114,7 +115,7 @@ export class ClientQnaPortService {
   // GET AREA:
 
   /**
-   * getQnA
+   * loadQnA
    *  - qnAOId로 QnA를 조회한다
    *
    * ------
@@ -130,8 +131,8 @@ export class ClientQnaPortService {
    *  5. 조회수 증가 뙇!!
    *  6. QnA 반환 뙇!!
    */
-  async getQnA(jwtPayload: T.JwtPayloadType, qnAOId: string) {
-    const where = `/client/qna/getQnA`
+  async loadQnA(jwtPayload: T.JwtPayloadType, qnAOId: string) {
+    const where = `/client/qna/loadQnA`
 
     try {
       // 1. 권한 췍!! (유저 권한 체크)
@@ -145,7 +146,7 @@ export class ClientQnaPortService {
       if (!qnA) {
         throw {
           gkd: {qnAOId: `존재하지 않는 QnA`},
-          gkdErrCode: 'CLIENTQNAPORT_getQnA_InvalidQnAOId',
+          gkdErrCode: 'CLIENTQNAPORT_loadQnA_InvalidQnAOId',
           gkdErrMsg: `존재하지 않는 QnA`,
           gkdStatus: {qnAOId},
           statusCode: 400,
@@ -162,7 +163,7 @@ export class ClientQnaPortService {
         if (!isOwner && !isAdmin) {
           throw {
             gkd: {qnAOId: `권한이 없음`},
-            gkdErrCode: 'CLIENTQNAPORT_getQnA_NoPermission',
+            gkdErrCode: 'CLIENTQNAPORT_loadQnA_NoPermission',
             gkdErrMsg: `비공개 질문글은 작성자나 관리자만 볼 수 있습니다.`,
             gkdStatus: {qnAOId},
             statusCode: 403,
@@ -177,6 +178,46 @@ export class ClientQnaPortService {
 
       // 6. QnA 반환 뙇!!
       return {qnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
+   * loadQnARowArr
+   *  - QnA 목록을 조회한다
+   *
+   * ------
+   *
+   * 코드 내용
+   *
+   *  1. QnA 목록 조회 뙇!!
+   *     - 공개 QnA만 반환
+   *  2. QnA 목록 반환 뙇!!
+   */
+  async loadQnARowArr() {
+    const where = `/client/qna/loadQnARowArr`
+
+    try {
+      // 1. QnA 목록 조회 뙇!!
+      // 공개 QnA만 반환 (userOId를 전달하지 않음)
+      const {qnAArr} = await this.dbHubService.readQnAArr(where)
+
+      const qnARowArr: ST.QnARowType[] = qnAArr.map(qnA => ({
+        qnAOId: qnA.qnAOId,
+        title: qnA.title,
+        userName: qnA.userName,
+        userOId: qnA.userOId,
+        isPrivate: qnA.isPrivate,
+        viewCount: qnA.viewCount,
+        createdAt: qnA.createdAt,
+        updatedAt: qnA.updatedAt
+      }))
+
+      // 2. QnA 목록 반환 뙇!!
+      return {qnARowArr}
       // ::
     } catch (errObj) {
       // ::

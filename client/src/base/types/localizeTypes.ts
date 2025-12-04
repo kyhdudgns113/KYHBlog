@@ -73,6 +73,16 @@ export type QnATypeLocal = {
   updatedAtValue: number
   viewCount: number
 }
+export type QnARowTypeLocal = {
+  createdAtValue: number
+  isPrivate: boolean
+  userName: string
+  userOId: string
+  qnAOId: string // Primary Key
+  title: string
+  updatedAtValue: number
+  viewCount: number
+}
 export type ReplyTypeLocal = {
   commentOId: string
   fileOId: string

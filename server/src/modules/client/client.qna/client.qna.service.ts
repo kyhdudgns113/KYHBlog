@@ -26,13 +26,27 @@ export class ClientQnaService {
 
   // GET AREA:
 
-  async getQnA(jwtPayload: JwtPayloadType, qnAOId: string) {
+  async loadQnA(jwtPayload: JwtPayloadType, qnAOId: string) {
     /**
      * qnAOId로 QnA를 조회한다
      */
     try {
-      const {qnA} = await this.portService.getQnA(jwtPayload, qnAOId)
+      const {qnA} = await this.portService.loadQnA(jwtPayload, qnAOId)
       return {ok: true, body: {qnA}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async loadQnARowArr() {
+    /**
+     * QnA 목록을 조회한다
+     */
+    try {
+      const {qnARowArr} = await this.portService.loadQnARowArr()
+      return {ok: true, body: {qnARowArr}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::

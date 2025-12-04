@@ -1,10 +1,11 @@
-25.12.03 [Both] QnA API 최적화 및 검증 로직 추가
+
+25.12.04 [Both] :sparkles: QnA API 추가 및 메서드명 변경
 
 :construction: [Client] QnA 페이지 제작중...
-  - :construction: [Client] QnA 게시글 페이지 작성중...
-    - :zap: [Both] addQnAFile API 최적화: qnA와 qnAArr 대신 qnAOId만 반환하도록 변경
-      - [Client] addQnAFile 콜백에서 setQnAArr 제거, qnAOId만 처리하도록 수정
-      - [Server] addQnAFile 포트 서비스에서 readQnAArr 호출 제거, qnAOId만 반환하도록 수정
-    - :white_check_mark: [Server] QnA 제목/내용 길이 제한 검증 추가
-      - shareValue의 QNA_TITLE_LENGTH_MAX(32자), QNA_CONTENT_LENGTH_MAX(1000자) 검증 로직 추가
-  - :white_large_square: [Client] QnA 페이징 컴포넌트
+  :construction: [Client] QnA 게시글 페이지 작성중...
+  :sparkles: [Server] loadQnARowArr API 엔드포인트 추가 (공개 QnA 목록 조회)
+  :pencil2: [Both] getQnA를 loadQnA로 변경 (Port Service 네이밍 규칙 적용)
+    - :pencil2: [Server] Port Service, Service, Controller 메서드명 변경
+    - :pencil2: [Server] 엔드포인트 경로 변경 (/getQnA → /loadQnA)
+    - :pencil2: [Client] API 호출 URL 변경
+  :white_large_square: [Client] QnA 페이징 컴포넌트

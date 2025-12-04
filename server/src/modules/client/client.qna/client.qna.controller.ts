@@ -34,9 +34,9 @@ export class ClientQnaController {
 
   // GET AREA:
 
-  @Get('/getQnA/:qnAOId')
+  @Get('/loadQnA/:qnAOId')
   @UseGuards(CheckJwtValidationGuard)
-  async getQnA(@Headers() headers: any, @Param('qnAOId') qnAOId: string) {
+  async loadQnA(@Headers() headers: any, @Param('qnAOId') qnAOId: string) {
     /**
      * 입력
      *   - qnAOId (URL 파라미터)
@@ -51,8 +51,25 @@ export class ClientQnaController {
      *   - qnA
      */
     const {jwtFromServer, jwtPayload} = headers
-    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.getQnA(jwtPayload, qnAOId)
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.loadQnA(jwtPayload, qnAOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  @Get('/loadQnARowArr')
+  async loadQnARowArr() {
+    /**
+     * 입력
+     *   - 없음
+     *
+     * 기능
+     *   - QnA 목록을 조회한다
+     *   - 공개 QnA만 반환
+     *
+     * 출력
+     *   - qnARowArr
+     */
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.loadQnARowArr()
+    return {ok, body, gkdErrMsg, statusCode}
   }
 }
 

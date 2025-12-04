@@ -9,13 +9,13 @@ import * as ST from '@shareType'
 // State 타입 정의
 interface QnAState {
   qnA: LT.QnATypeLocal
-  qnAArr: LT.QnATypeLocal[]
+  qnARowArr: LT.QnARowTypeLocal[]
 }
 
 // 초기 상태
 const initialState: QnAState = {
   qnA: NV.NULL_QNA(),
-  qnAArr: []
+  qnARowArr: []
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)
@@ -27,8 +27,8 @@ export const qnaSlice = createSlice({
       const {createdAt, updatedAt, ...rest} = action.payload
       state.qnA = {...rest, createdAtValue: new Date(createdAt).valueOf(), updatedAtValue: new Date(updatedAt).valueOf()}
     },
-    setQnAArr: (state, action: PayloadAction<ST.QnAType[]>) => {
-      state.qnAArr = action.payload.map(elem => {
+    setQnARowArr: (state, action: PayloadAction<ST.QnARowType[]>) => {
+      state.qnARowArr = action.payload.map(elem => {
         const {createdAt, updatedAt, ...rest} = elem
         return {
           ...rest,

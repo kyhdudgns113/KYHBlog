@@ -10,6 +10,6 @@ export const useQnAActions = () => {
 
   return {
     setQnA: (qnA: ST.QnAType) => dispatch(qnaSlice.actions.setQnA(qnA)),
-    setQnAArr: (qnAArr: ST.QnAType[]) => dispatch(qnaSlice.actions.setQnAArr(qnAArr))
+    setQnARowArr: (qnARowArr: ST.QnARowType[]) => dispatch(qnaSlice.actions.setQnARowArr(qnARowArr))
   }
 }
