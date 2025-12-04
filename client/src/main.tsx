@@ -21,7 +21,9 @@ createRoot(document.getElementById('root')!).render(
                 <C.DirectoryProvider>
                   <C.FileProvider>
                     <C.CommentProvider>
-                      <App />
+                      <C.QnAProvider>
+                        <App />
+                      </C.QnAProvider>
                     </C.CommentProvider>
                   </C.FileProvider>
                 </C.DirectoryProvider>

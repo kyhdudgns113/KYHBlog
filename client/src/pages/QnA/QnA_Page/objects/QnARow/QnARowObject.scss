@@ -1,0 +1,26 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAPage {
+    .QnATable_Part {
+      tbody {
+        .QnARow_Object {
+          cursor: pointer;
+
+          ._td_title {
+            ._private_badge {
+              background-color: v.$SAKURA_BG;
+              border: 1px solid v.$SAKURA_BORDER;
+              border-radius: 4px;
+              color: v.$SAKURA_TEXT_DEEP;
+              display: inline-block;
+              font-size: 12px;
+              margin-right: 8px;
+              padding: 2px 6px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

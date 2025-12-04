@@ -200,6 +200,9 @@
       - 첫 번째 줄은 맨 왼쪽에 붙이고, 그 아래 자식 줄들은 들여쓰기를 활용한다.
     - :construction: 이모지가 붙은 행은 건드리지 않는다.
       - 그 줄과 관련된 작업내용이 있다면 바로 밑줄에 탭을 띄워 자식 줄을 만들고 내용을 작성한다.
+      - **중요**: `:construction:` 항목이 있는 경우, 해당 항목과 관련된 모든 작업은 반드시 그 항목의 하위 항목으로 배치해야 한다.
+        - 예: `:construction: [Client] QnA 게시글 페이지 작성중...` 항목이 있다면, QnA 게시글 페이지와 관련된 모든 작업(컴포넌트 추가, 수정 등)은 이 항목의 하위 항목으로 작성해야 한다.
+        - 트리 구조로 계층을 명확히 표현하여, 어떤 작업이 어떤 진행중인 작업의 일부인지 명확히 해야 한다.
 
 #### 커밋 메시지 예시
 
@@ -220,11 +223,28 @@
 :sparkles: [Server] 회원가입 API 추가
 ```
 
+또는 `:construction:` 항목이 있는 경우:
+
+```
+25.12.04 [Client] :sparkles: QnARow 컴포넌트 추가
+
+:construction: [Client] QnA 페이지 제작중...
+  - :construction: [Client] QnA 게시글 페이지 작성중...
+    - :sparkles: [Client] QnARow 컴포넌트 생성 (objects 폴더)
+      - :sparkles: [Client] QnARowObject.tsx 생성 (테이블 행 컴포넌트)
+      - :sparkles: [Client] 날짜 포맷팅 함수 추가
+    - :pencil2: [Client] QnATablePart 수정 (QnARowObject 사용)
+  - :white_large_square: [Client] QnA 페이징 컴포넌트
+```
+
+**주의**: `:construction:` 항목과 관련된 모든 작업은 반드시 해당 항목의 하위 항목으로 배치해야 한다.
+
 ---
 
 ## 업데이트 기록
 
 - 생성일: 2025-11-30
-- 마지막 업데이트: 2025-11-30
+- 마지막 업데이트: 2025-12-04
 - 파일명 규칙 및 원형 작업 div 내용 규칙 추가: 2025-11-30
+- 커밋 메시지 `:construction:` 항목 하위 작업 배치 규칙 추가: 2025-12-04
 
