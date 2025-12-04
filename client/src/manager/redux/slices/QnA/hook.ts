@@ -9,6 +9,9 @@ export const useQnAActions = () => {
   const dispatch = useBlogDispatch()
 
   return {
+    resetQnA: () => dispatch(qnaSlice.actions.resetQnA()),
+    resetQnARowArr: () => dispatch(qnaSlice.actions.resetQnARowArr()),
+    // ::
     setQnA: (qnA: ST.QnAType) => dispatch(qnaSlice.actions.setQnA(qnA)),
     setQnARowArr: (qnARowArr: ST.QnARowType[]) => dispatch(qnaSlice.actions.setQnARowArr(qnARowArr))
   }

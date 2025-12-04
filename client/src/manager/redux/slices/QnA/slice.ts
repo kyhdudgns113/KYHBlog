@@ -23,6 +23,13 @@ export const qnaSlice = createSlice({
   name: 'qna',
   initialState,
   reducers: {
+    resetQnA: state => {
+      state.qnA = NV.NULL_QNA()
+    },
+    resetQnARowArr: state => {
+      state.qnARowArr = []
+    },
+    // ::
     setQnA: (state, action: PayloadAction<ST.QnAType>) => {
       const {createdAt, updatedAt, ...rest} = action.payload
       state.qnA = {...rest, createdAtValue: new Date(createdAt).valueOf(), updatedAtValue: new Date(updatedAt).valueOf()}
