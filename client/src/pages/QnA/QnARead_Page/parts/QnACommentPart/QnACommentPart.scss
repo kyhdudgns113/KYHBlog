@@ -1,0 +1,76 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAReadPage {
+    .QnAComment_Part {
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      padding: 24px;
+      width: 100%;
+
+      ._title_object {
+        color: v.$SAKURA_TEXT_DEEP;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+      }
+
+      ._comment_form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+
+        ._comment_textarea {
+          background-color: white;
+          border: 1px solid v.$SAKURA_BORDER_50;
+          border-radius: 6px;
+          color: v.$SAKURA_TEXT;
+          font-family: inherit;
+          font-size: 14px;
+          padding: 12px;
+          resize: vertical;
+          width: 100%;
+
+          &:focus {
+            border-color: v.$SAKURA_BORDER;
+            outline: none;
+          }
+
+          &::placeholder {
+            color: v.$SAKURA_BORDER_50;
+          }
+        }
+
+        ._comment_footer {
+          align-items: center;
+          display: flex;
+          justify-content: space-between;
+
+          ._comment_length {
+            color: v.$SAKURA_TEXT;
+            font-size: 12px;
+          }
+
+          ._submit_button {
+            background-color: v.$SAKURA_BG;
+            border: 1px solid v.$SAKURA_BORDER;
+            border-radius: 6px;
+            color: v.$SAKURA_TEXT;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 20px;
+            transition: background-color 0.2s;
+
+            &:hover {
+              background-color: v.$SAKURA_BG_50;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,77 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAReadPage {
+    .QnAHeader_Part {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      padding: 24px;
+      width: 100%;
+
+      ._title_wrapper {
+        margin-bottom: 16px;
+        width: 100%;
+
+        ._title {
+          color: v.$SAKURA_TEXT_DEEP;
+          font-size: 24px;
+          font-weight: 600;
+          margin: 0;
+          word-break: break-word;
+        }
+      }
+
+      ._info_wrapper {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        ._author_info {
+          align-items: center;
+          display: flex;
+          gap: 8px;
+
+          ._author_name {
+            color: v.$SAKURA_TEXT;
+            font-size: 14px;
+          }
+
+          ._private_badge {
+            background-color: v.$SAKURA_TEXT_DEEP;
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+          }
+        }
+
+        ._edit_button {
+          background-color: v.$SAKURA_BG;
+          border: 1px solid v.$SAKURA_BORDER;
+          border-radius: 6px;
+          color: v.$SAKURA_TEXT;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 600;
+          padding: 6px 16px;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: v.$SAKURA_BG_50;
+          }
+        }
+      }
+
+      ._bottomLine {
+        background-color: v.$SAKURA_BORDER_50;
+        height: 1px;
+        margin-top: 16px;
+        width: calc(100% - 48px);
+      }
+    }
+  }
+}
+

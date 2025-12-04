@@ -35,11 +35,21 @@
 
 #### 경로 규칙
 - `@use` 경로는 항상 `src/base/styles/values.scss`를 기준으로 계산
-- 예시:
-  - `client/src/pages/QnA/QnA_Page/parts/QnAHeaderPart/QnAHeaderPart.scss`
-    → `@use '../../../../../base/styles/values.scss' as v;`
-  - `client/src/pages/QnA/QnA_Page/QnAPage.scss`
-    → `@use '../../../base/styles/values.scss' as v;`
+- **경로 계산 방법**:
+  1. 파일 위치에서 `src` 폴더까지의 폴더 깊이를 계산
+  2. 각 폴더 단계마다 `../` 하나씩 추가
+  3. `src` 다음에 `base/styles/values.scss` 경로 추가
+- **계산 예시**:
+  - `client/src/pages/QnA/QnARead_Page/parts/QnAHeaderPart/QnAHeaderPart.scss`
+    - 경로: `QnAHeaderPart` → `parts` → `QnARead_Page` → `QnA` → `pages` → `src` → `base/styles`
+    - 6단계 위로: `../../../../../base/styles/values.scss`
+  - `client/src/pages/QnA/QnARead_Page/QnAReadPage.scss`
+    - 경로: `QnARead_Page` → `QnA` → `pages` → `src` → `base/styles`
+    - 4단계 위로: `../../../../base/styles/values.scss`
+  - `client/src/pages/QnA/QnAWrite_Page/parts/QnAForm/QnAFormPart.scss`
+    - 경로: `QnAForm` → `parts` → `QnAWrite_Page` → `QnA` → `pages` → `src` → `base/styles`
+    - 6단계 위로: `../../../../../base/styles/values.scss`
+- **주의**: 경로 계산 시 실수가 발생하기 쉬우므로, 파일 위치를 정확히 확인하고 단계별로 계산해야 함
 
 #### 계층 구조
 - SCSS는 반드시 `.Template` 부터 시작하는 계층 구조 사용
@@ -173,6 +183,8 @@
 - **절대 추측하지 말 것**: 모르는 부분은 반드시 코드베이스 검색으로 확인
 - **일관성 유지**: 기존 패턴을 따라야 함
 - **경로 정확성**: SCSS `@use` 경로는 반드시 정확히 계산
+  - 파일 위치에서 `src`까지의 폴더 깊이를 정확히 세어서 계산
+  - 계산 후 다른 유사한 파일의 경로와 비교하여 검증
 - **계층 구조**: SCSS 계층 구조는 반드시 `.Template`부터 시작
 
 ### 11. 커밋 메시지 규칙
@@ -247,4 +259,5 @@
 - 마지막 업데이트: 2025-12-04
 - 파일명 규칙 및 원형 작업 div 내용 규칙 추가: 2025-11-30
 - 커밋 메시지 `:construction:` 항목 하위 작업 배치 규칙 추가: 2025-12-04
+- SCSS 경로 계산 방법 상세 설명 추가: 2025-12-04
 

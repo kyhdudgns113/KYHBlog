@@ -1,0 +1,36 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAReadPage {
+    .QnAContent_Part {
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      padding: 24px;
+      width: 100%;
+
+      ._content_wrapper {
+        min-height: 100px;
+        width: 100%;
+
+        ._content {
+          color: v.$SAKURA_TEXT;
+          font-family: inherit;
+          font-size: 16px;
+          line-height: 1.6;
+          margin: 0;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+      }
+
+      ._bottomLine {
+        background-color: v.$SAKURA_BORDER_50;
+        height: 1px;
+        margin-top: 24px;
+        width: calc(100% - 48px);
+      }
+    }
+  }
+}
+

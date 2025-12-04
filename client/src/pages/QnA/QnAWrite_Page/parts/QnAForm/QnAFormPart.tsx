@@ -60,7 +60,7 @@ export const QnAFormPart: FC<QnAFormPartProps> = ({...props}) => {
         const {isSuccess, qnAOId} = res
         if (isSuccess) {
           alert('QnA 작성이 완료되었습니다')
-          navigate(`/main/qna/${qnAOId}`)
+          navigate(`/main/qna/read/${qnAOId}`)
         } // ::
         else {
           alert('QnA 작성에 실패했습니다')

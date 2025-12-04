@@ -4,6 +4,8 @@ import {useLocation} from 'react-router-dom'
 import {CheckAuth} from '@guard'
 import {useQnAActions} from '@redux'
 
+import {QnAHeaderPart, QnAContentPart, QnACommentPart} from './parts'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
@@ -37,7 +39,16 @@ export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
   return (
     <CheckAuth reqAuth={reqAuth}>
       <div className={`QnAReadPage`} {...props}>
-        <div>QnAReadPage</div>
+        <div className="_container_page">
+          {/* 1. 헤더 영역 (제목, 작성자 정보, 수정 버튼) */}
+          <QnAHeaderPart />
+
+          {/* 2. 게시글 내용 영역 */}
+          <QnAContentPart />
+
+          {/* 3. 댓글 영역 */}
+          <QnACommentPart />
+        </div>
       </div>
     </CheckAuth>
   )
