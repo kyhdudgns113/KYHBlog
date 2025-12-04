@@ -4,6 +4,18 @@
   .QnAPage {
     .QnAPaging_Part {
       display: flex;
+      flex-direction: row;
+
+      gap: 10px;
+
+      ._page_index_part {
+        cursor: pointer;
+        font-size: 18px;
+        text-align: center;
+      }
+      ._page_index_part._nowIdx {
+        font-weight: 700;
+      }
     }
   }
 }

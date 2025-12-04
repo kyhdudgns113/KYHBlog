@@ -3,64 +3,69 @@
 .Template {
   .QnAPage {
     .QnATable_Part {
-      border-collapse: collapse;
-      border-color: v.$SAKURA_BORDER;
-      border-radius: 8px;
-      border-width: 2px;
+      height: 344px;
+      width: fit-content;
 
-      cursor: default;
-
-      width: 100%;
-
-      thead {
+      table {
+        border-collapse: collapse;
         border-color: v.$SAKURA_BORDER;
-        border-bottom-width: 6px;
-
-        color: v.$SAKURA_TEXT_DEEP;
-
-        font-size: 20px;
-        line-height: 20px;
-
-        th {
-          border: 1px solid v.$SAKURA_BORDER;
-          padding: 6px 12px;
-          text-align: center;
-
-          &._th_createdAt {
-            width: 120px;
-          }
-
-          &._th_title {
-            width: auto;
-          }
-
-          &._th_author {
-            width: 120px;
-          }
-        }
-      }
-
-      tbody {
-        border-color: v.$SAKURA_BORDER;
+        border-radius: 8px;
         border-width: 2px;
 
-        color: v.$SAKURA_TEXT;
+        cursor: default;
 
-        font-size: 16px;
-        line-height: 20px;
+        width: fit-content;
 
-        tr {
-          &:hover {
-            background-color: v.$SAKURA_BG_50;
+        thead {
+          border-color: v.$SAKURA_BORDER;
+          border-bottom-width: 6px;
+
+          color: v.$SAKURA_TEXT_DEEP;
+
+          font-size: 20px;
+          line-height: 20px;
+
+          th {
+            border: 1px solid v.$SAKURA_BORDER;
+            padding: 6px 12px;
+            text-align: center;
+
+            &._th_createdAt {
+              width: 120px;
+            }
+
+            &._th_title {
+              width: 400px;
+            }
+
+            &._th_author {
+              width: 120px;
+            }
           }
         }
 
-        td {
-          border: 1px solid v.$SAKURA_BORDER;
-          padding: 4px 6px;
+        tbody {
+          border-color: v.$SAKURA_BORDER;
+          border-width: 2px;
 
-          &._td_createdAt {
-            text-align: center;
+          color: v.$SAKURA_TEXT;
+
+          font-size: 16px;
+          line-height: 20px;
+
+          tr {
+            &:hover {
+              background-color: v.$SAKURA_BG_50;
+            }
+          }
+
+          td {
+            border: 1px solid v.$SAKURA_BORDER;
+            padding: 4px 6px;
+
+            &._td_createdAt {
+              text-align: center;
+            }
           }
         }
       }
