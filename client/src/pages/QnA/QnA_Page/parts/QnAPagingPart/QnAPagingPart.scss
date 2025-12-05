@@ -4,6 +4,20 @@
   .QnAPage {
     .QnAPaging_Part {
       display: flex;
+      flex-direction: row;
+
+      gap: 10px;
+
+      ._page_index_part {
+        color: v.$SAKURA_TEXT;
+        cursor: pointer;
+        font-size: 18px;
+        text-align: center;
+      }
+      ._page_index_part._nowIdx {
+        color: v.$SAKURA_TEXT_DEEP;
+        font-weight: 700;
+      }
     }
   }
 }

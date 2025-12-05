@@ -1,5 +1,5 @@
 import {useEffect} from 'react'
-import {useLocation} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 
 import {CheckAuth} from '@guard'
 import {useQnAActions} from '@redux'
@@ -21,6 +21,7 @@ export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
   const {resetQnA} = useQnAActions()
 
   const location = useLocation()
+  const navigate = useNavigate()
 
   /**
    * 초기화: qnAOId from url
@@ -28,7 +29,14 @@ export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
   useEffect(() => {
     const qnAOId = location.pathname.split('/main/qna/read/')[1]
     if (qnAOId) {
-      loadQnA(qnAOId)
+      loadQnA(qnAOId) // ::
+        .then(res => {
+          const {isSuccess} = res
+          if (!isSuccess) {
+            alert(`권한이 없어요`)
+            navigate('/main/qna')
+          }
+        })
     }
 
     return () => {

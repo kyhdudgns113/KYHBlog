@@ -1,8 +1,12 @@
 import {useCallback} from 'react'
 import {useNavigate} from 'react-router-dom'
 
+import {useAuthStatesContext} from '@context'
+import {useTemplateActions} from '@redux'
+
 import type {FC, MouseEvent} from 'react'
-import type {LT} from '@localizeType'
+
+import * as LT from '@localizeType'
 
 import './QnARowObject.scss'
 
@@ -11,6 +15,10 @@ type QnARowObjectProps = {
 }
 
 export const QnARowObject: FC<QnARowObjectProps> = ({qnARow}) => {
+  const {userOId} = useAuthStatesContext()
+
+  const {clickLogInBtn} = useTemplateActions()
+
   const navigate = useNavigate()
 
   const formatDate = useCallback((createdAtValue: number): string => {
@@ -27,15 +35,23 @@ export const QnARowObject: FC<QnARowObjectProps> = ({qnARow}) => {
   }, [])
 
   const onClickRow = useCallback(
-    (qnAOId: string) => (e: MouseEvent<HTMLTableRowElement>) => {
+    (userOId: string, qnAOId: string) => (e: MouseEvent<HTMLTableRowElement>) => {
       e.stopPropagation()
-      navigate(`/main/qna/read/${qnAOId}`)
+
+      if (!userOId) {
+        alert('로그인 후 이용해주세요.')
+        clickLogInBtn()
+        return
+      } // ::
+      else {
+        navigate(`/main/qna/read/${qnAOId}`)
+      }
     },
-    [navigate]
+    [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   return (
-    <tr className={`QnARow_Object`} onClick={onClickRow(qnARow.qnAOId)}>
+    <tr className={`QnARow_Object`} onClick={onClickRow(userOId, qnARow.qnAOId)}>
       <td className={`_td_createdAt`}>{formatDate(qnARow.createdAtValue)}</td>
       <td className={`_td_title`}>
         {qnARow.isPrivate && <span className={`_private_badge`}>비공개</span>}
@@ -45,4 +61,3 @@ export const QnARowObject: FC<QnARowObjectProps> = ({qnARow}) => {
     </tr>
   )
 }
-

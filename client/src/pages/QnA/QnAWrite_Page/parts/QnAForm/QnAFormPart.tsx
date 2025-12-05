@@ -116,7 +116,7 @@ export const QnAFormPart: FC<QnAFormPartProps> = ({...props}) => {
         {/* 3. 비공개 체크박스 */}
         <div className="form_item">
           <div className="form_checkbox">
-            <input type="checkbox" checked={isPrivate} onClick={() => setIsPrivate(prev => !prev)} id="qnaIsPrivate" name="qnaIsPrivate" />
+            <input type="checkbox" checked={isPrivate} onChange={e => setIsPrivate(e.target.checked)} id="qnaIsPrivate" name="qnaIsPrivate" />
             <label htmlFor="qnaIsPrivate">비공개 질문글로 작성하기</label>
           </div>
         </div>
