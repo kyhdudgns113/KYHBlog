@@ -18,6 +18,7 @@ type ContextType = {
   loadQnA: (qnAOId: string) => Promise<APIReturnType>
   loadQnARowArr: () => Promise<APIReturnType>
   modifyQnA: (qnAOId: string, title: string, content: string, isPrivate: boolean) => Promise<APIReturnType>
+  deleteQnA: (qnAOId: string) => Promise<APIReturnType>
 }
 // prettier-ignore
 export const QnACallbacksContext = createContext<ContextType>({
@@ -25,13 +26,14 @@ export const QnACallbacksContext = createContext<ContextType>({
 
   loadQnA: async () => ({isSuccess: false, qnA: NV.NULL_QNA()}),
   loadQnARowArr: async () => ({isSuccess: false, qnARowArr: []}),
-  modifyQnA: async () => ({isSuccess: false})
+  modifyQnA: async () => ({isSuccess: false}),
+  deleteQnA: async () => ({isSuccess: false})
 })
 
 export const useQnACallbacksContext = () => useContext(QnACallbacksContext)
 
 export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setQnA, setQnARowArr} = useQnAActions()
+  const {setQnA, setQnARowArr, resetQnA} = useQnAActions()
 
   // POST AREA:
   const addQnAFile = useCallback(async (userOId: string, title: string, content: string, isPrivate: boolean) => {
@@ -137,6 +139,34 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     [setQnA]
   )
 
+  // DELETE AREA:
+  const deleteQnA = useCallback(
+    async (qnAOId: string) => {
+      const url = `/client/qna/deleteQnA/${qnAOId}`
+
+      return F.delWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, statusCode, gkdErrMsg, message, jwtFromServer} = res
+
+          if (ok) {
+            resetQnA()
+            U.writeJwtFromServer(jwtFromServer)
+            return {isSuccess: true}
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return {isSuccess: false}
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return {isSuccess: false}
+        })
+    },
+    [resetQnA]
+  )
+
   // prettier-ignore
   const value: ContextType = {
     addQnAFile,
@@ -144,6 +174,7 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     loadQnA,
     loadQnARowArr,
     modifyQnA,
+    deleteQnA,
   }
   return <QnACallbacksContext.Provider value={value}>{children}</QnACallbacksContext.Provider>
 }

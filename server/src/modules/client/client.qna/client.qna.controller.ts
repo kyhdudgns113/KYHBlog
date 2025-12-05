@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
+import {Body, Controller, Delete, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common'
 import {ClientQnaService} from './client.qna.service'
 import {CheckJwtValidationGuard} from '@guard'
 
@@ -92,6 +92,27 @@ export class ClientQnaController {
      */
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.clientService.modifyQnA(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  // DELETE AREA:
+
+  @Delete('/deleteQnA/:qnAOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async deleteQnA(@Headers() headers: any, @Param('qnAOId') qnAOId: string) {
+    /**
+     * 입력
+     *   - qnAOId (URL 파라미터)
+     *
+     * 기능
+     *   - QnA 삭제
+     *   - 작성자나 관리자만 삭제 가능
+     *
+     * 출력
+     *   - 없음
+     */
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.deleteQnA(jwtPayload, qnAOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 }

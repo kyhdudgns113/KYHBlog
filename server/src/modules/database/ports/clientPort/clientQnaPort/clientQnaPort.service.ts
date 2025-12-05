@@ -233,54 +233,20 @@ export class ClientQnaPortService {
    *
    * 코드 내용
    *
-   *  1. 권한 췍!! (유저 권한 체크)
-   *  2. QnA 조회 뙇!!
-   *  3. QnA 존재 여부 체크 뙇!!
-   *  4. 작성자 권한 체크 뙇!!
+   *  1. 권한 췍!! (수정 권한 체크)
    *     - 작성자나 관리자만 수정 가능
-   *  5. 입력값 췍!!
-   *  6. QnA 수정 뙇!!
-   *  7. 수정된 QnA 반환 뙇!!
+   *  2. 입력값 췍!!
+   *  3. QnA 수정 뙇!!
+   *  4. 수정된 QnA 반환 뙇!!
    */
   async modifyQnA(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyQnAType) {
     const where = `/client/qna/modifyQnA`
 
     try {
-      // 1. 권한 췍!! (유저 권한 체크)
-      const {user} = await this.dbHubService.checkAuthUser(where, jwtPayload)
-      const {userOId} = jwtPayload
+      // 1. 권한 췍!! (수정 권한 체크)
+      await this.dbHubService.checkAuth_QnAEdit(where, jwtPayload, data.qnAOId)
 
-      // 2. QnA 조회 뙇!!
-      const {qnA} = await this.dbHubService.readQnAByQnAOId(where, data.qnAOId)
-
-      // 3. QnA 존재 여부 체크 뙇!!
-      if (!qnA) {
-        throw {
-          gkd: {qnAOId: `존재하지 않는 QnA`},
-          gkdErrCode: 'CLIENTQNAPORT_modifyQnA_InvalidQnAOId',
-          gkdErrMsg: `존재하지 않는 QnA`,
-          gkdStatus: {qnAOId: data.qnAOId},
-          statusCode: 400,
-          where
-        } as T.ErrorObjType
-      }
-
-      // 4. 작성자 권한 체크 뙇!!
-      const isOwner = qnA.userOId === userOId
-      const isAdmin = user.userAuth === AUTH_ADMIN
-
-      if (!isOwner && !isAdmin) {
-        throw {
-          gkd: {qnAOId: `권한이 없음`},
-          gkdErrCode: 'CLIENTQNAPORT_modifyQnA_NoPermission',
-          gkdErrMsg: `QnA는 작성자나 관리자만 수정할 수 있습니다.`,
-          gkdStatus: {qnAOId: data.qnAOId},
-          statusCode: 403,
-          where
-        } as T.ErrorObjType
-      }
-
-      // 5. 입력값 췍!!
+      // 2. 입력값 췍!!
       const {title, content, isPrivate} = data
 
       // 5-1. title 체크 (제공된 경우)
@@ -333,11 +299,43 @@ export class ClientQnaPortService {
         }
       }
 
-      // 6. QnA 수정 뙇!!
+      // 3. QnA 수정 뙇!!
       const {qnA: updatedQnA} = await this.dbHubService.updateQnA(where, data.qnAOId, title, content, isPrivate)
 
-      // 7. 수정된 QnA 반환 뙇!!
+      // 4. 수정된 QnA 반환 뙇!!
       return {qnA: updatedQnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // DELETE AREA:
+
+  /**
+   * deleteQnA
+   *  - QnA를 삭제한다
+   *
+   * ------
+   *
+   * 코드 내용
+   *
+   *  1. 권한 췍!! (삭제 권한 체크)
+   *     - 작성자나 관리자만 삭제 가능
+   *  2. QnA 삭제 뙇!!
+   */
+  async deleteQnA(jwtPayload: T.JwtPayloadType, qnAOId: string) {
+    const where = `/client/qna/deleteQnA`
+
+    try {
+      // 1. 권한 췍!! (삭제 권한 체크)
+      await this.dbHubService.checkAuth_QnAEdit(where, jwtPayload, qnAOId)
+
+      // 2. QnA 삭제 뙇!!
+      await this.dbHubService.deleteQnA(where, qnAOId)
+
+      return {}
       // ::
     } catch (errObj) {
       // ::

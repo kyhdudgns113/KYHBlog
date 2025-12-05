@@ -540,6 +540,17 @@ export class DBHubService {
     }
   }
 
+  async deleteQnA(where: string, qnAOId: string) {
+    try {
+      await this.qnaDBService.deleteQnA(where, qnAOId)
+      return {}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   // AREA1: UserDB Area
   async createUser(where: string, dto: DTO.SignUpDTO) {
     try {
@@ -868,6 +879,54 @@ export class DBHubService {
         } as T.ErrorObjType
       }
       return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async checkAuth_QnAEdit(where: string, jwtPayload: T.JwtPayloadType, qnAOId: string) {
+    const {qnA} = await this.readQnAByQnAOId(where, qnAOId)
+
+    try {
+      if (!qnA) {
+        throw {
+          gkd: {noQnA: `QnA가 없음`},
+          gkdErrCode: 'DBHUB_checkAuth_QnAEdit_noQnA',
+          gkdErrMsg: `QnA가 없습니다.`,
+          gkdStatus: {qnAOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const {user} = await this.readUserByUserOId(where, jwtPayload.userOId)
+      if (!user) {
+        throw {
+          gkd: {noUser: `유저가 없음`},
+          gkdErrCode: 'DBHUB_checkAuth_QnAEdit_noUser',
+          gkdErrMsg: `유저가 없습니다.`,
+          gkdStatus: {userOId: jwtPayload.userOId},
+          statusCode: 500,
+          where
+        } as T.ErrorObjType
+      }
+
+      const isOwner = qnA.userOId === jwtPayload.userOId
+      const isAdmin = user.userAuth === AUTH_ADMIN
+
+      if (!isOwner && !isAdmin) {
+        throw {
+          gkd: {noAuth: `권한이 없음`},
+          gkdErrCode: 'DBHUB_checkAuth_QnAEdit_noAuth',
+          gkdErrMsg: `QnA는 작성자나 관리자만 수정/삭제할 수 있습니다.`,
+          gkdStatus: {qnAOId, userOId: jwtPayload.userOId},
+          statusCode: 403,
+          where
+        } as T.ErrorObjType
+      }
+      return {qnA, user}
       // ::
     } catch (errObj) {
       // ::

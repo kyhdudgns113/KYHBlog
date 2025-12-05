@@ -69,4 +69,20 @@ export class ClientQnaService {
       return U.getFailResponse(errObj)
     }
   }
+
+  // DELETE AREA:
+
+  async deleteQnA(jwtPayload: JwtPayloadType, qnAOId: string) {
+    /**
+     * QnA를 삭제한다
+     */
+    try {
+      await this.portService.deleteQnA(jwtPayload, qnAOId)
+      return {ok: true, body: {}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }
