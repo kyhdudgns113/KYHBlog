@@ -63,7 +63,6 @@ export class ClientQnaController {
      *
      * 기능
      *   - QnA 목록을 조회한다
-     *   - 공개 QnA만 반환
      *
      * 출력
      *   - qnARowArr
@@ -96,4 +95,3 @@ export class ClientQnaController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 }
-

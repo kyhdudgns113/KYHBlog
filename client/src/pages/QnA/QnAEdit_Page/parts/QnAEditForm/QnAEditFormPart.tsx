@@ -27,17 +27,6 @@ export const QnAEditFormPart: FC<QnAEditFormPartProps> = ({...props}) => {
 
   const navigate = useNavigate()
 
-  /**
-   * 초기화: 기존 QnA 데이터 로드
-   */
-  useEffect(() => {
-    if (qnA.qnAOId) {
-      setTitle(qnA.title)
-      setContent(qnA.content)
-      setIsPrivate(qnA.isPrivate)
-    }
-  }, [qnA])
-
   const _executeSubmit = useCallback(
     (qnaWriteLock: boolean, qnAOId: string, title: string, content: string, isPrivate: boolean) => {
       if (qnaWriteLock) {
@@ -95,6 +84,17 @@ export const QnAEditFormPart: FC<QnAEditFormPartProps> = ({...props}) => {
     [_executeSubmit, modifyQnA, navigate, lockQnaWrite, unlockQnaWrite] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  /**
+   * 초기화: 기존 QnA 데이터 로드
+   */
+  useEffect(() => {
+    if (qnA.qnAOId) {
+      setTitle(qnA.title)
+      setContent(qnA.content)
+      setIsPrivate(qnA.isPrivate)
+    }
+  }, [qnA])
+
   if (!qnA.qnAOId) {
     return (
       <div className={`QnAEditForm_Part`} {...props}>
@@ -138,7 +138,7 @@ export const QnAEditFormPart: FC<QnAEditFormPartProps> = ({...props}) => {
         {/* 3. 비공개 체크박스 */}
         <div className="form_item">
           <div className="form_checkbox">
-            <input type="checkbox" checked={isPrivate} onClick={() => setIsPrivate(prev => !prev)} id="qnaIsPrivate" name="qnaIsPrivate" />
+            <input type="checkbox" checked={isPrivate} onChange={e => setIsPrivate(e.target.checked)} id="qnaIsPrivate" name="qnaIsPrivate" />
             <label htmlFor="qnaIsPrivate">비공개 질문글로 작성하기</label>
           </div>
         </div>

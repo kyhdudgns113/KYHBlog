@@ -194,7 +194,6 @@ export class ClientQnaPortService {
    * 코드 내용
    *
    *  1. QnA 목록 조회 뙇!!
-   *     - 공개 QnA만 반환
    *  2. QnA 목록 반환 뙇!!
    */
   async loadQnARowArr() {
@@ -202,7 +201,6 @@ export class ClientQnaPortService {
 
     try {
       // 1. QnA 목록 조회 뙇!!
-      // 공개 QnA만 반환 (userOId를 전달하지 않음)
       const {qnAArr} = await this.dbHubService.readQnAArr(where)
 
       const qnARowArr: ST.QnARowType[] = qnAArr.map(qnA => ({

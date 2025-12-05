@@ -141,7 +141,7 @@ export class QnaDBService {
         params = [userOId]
       } // ::
       else {
-        query = `SELECT * FROM qnas WHERE isPrivate = 0 ORDER BY createdAt DESC`
+        query = `SELECT * FROM qnas ORDER BY createdAt DESC`
         params = []
       }
 

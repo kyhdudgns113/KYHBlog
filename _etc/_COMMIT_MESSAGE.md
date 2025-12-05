@@ -1,5 +1,5 @@
-25.12.06 [Client] 비로그인 혹은 열람권한 없는 QnA 열람 시도시 액션 추가
+25.12.06 :hammer: [Client] QnA 작성,수정 페이지 이벤트 수정, [Server] QnA 목록 다 가져오도록 수정
 
 :construction: [Client] QnA 페이지 제작중...
-  - :hammer: QnA 게시글 열람 권한 없을때 navigate 조정
-  - :sparkles: 비 로그인시 QnA 게시글 보려면 로그인 하라고 모달 띄우게함
+  - :hammer: QnA 작성 및 수정 페이지에서 비공개 여부 클릭 이벤트 수정
+  - :hammer: QnA 목록 공개된것만 불러오던것 수정
