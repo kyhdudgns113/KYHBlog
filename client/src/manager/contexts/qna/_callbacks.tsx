@@ -61,6 +61,9 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   // GET AREA:
   const loadQnA = useCallback(async (qnAOId: string) => {
+    /**
+     * 토큰 초기화는 CheckAuth 컴포넌트에서 한다.
+     */
     const url = `/client/qna/loadQnA/${qnAOId}`
 
     return F.getWithJwt(url)
