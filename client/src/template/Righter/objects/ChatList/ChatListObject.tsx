@@ -42,7 +42,7 @@ export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...pr
     const el = chatAreaRef.current
     if (!el) return
 
-    const handleWheel = (e: WheelEvent) => {
+    const onWheel = (e: WheelEvent) => {
       const isAtTop = el.scrollTop === 0
       const isAtBottom = el.scrollTop + el.clientHeight === el.scrollHeight
       const scrollingUp = e.deltaY < 0
@@ -53,8 +53,8 @@ export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...pr
       }
     }
 
-    el.addEventListener('wheel', handleWheel, {passive: false})
-    return () => el.removeEventListener('wheel', handleWheel)
+    el.addEventListener('wheel', onWheel, {passive: false})
+    return () => el.removeEventListener('wheel', onWheel)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

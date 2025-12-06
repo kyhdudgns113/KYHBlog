@@ -136,11 +136,11 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
     }
   }, [fileOId, stringArr]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleImageClick = useCallback((src: string) => {
+  const onClickImage = useCallback((src: string) => {
     setPreviewImageSrc(src)
   }, [])
 
-  const handleClosePreview = useCallback(() => {
+  const onClosePreview = useCallback(() => {
     setPreviewImageSrc(null)
   }, [])
 
@@ -149,7 +149,7 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
       <div className={`_container_contents`}>
         <div className={`MarkdownArea`} key={fileOId || 'keys'} ref={containerRef}>
           <ReactMarkdown
-            components={MarkDownComponent(stringArr, handleImageClick)}
+            components={MarkDownComponent(stringArr, onClickImage)}
             rehypePlugins={[rehypeRaw]}
             remarkPlugins={[remarkGfm, remarkBreaks]}
             skipHtml={false} // ::
@@ -161,7 +161,7 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
       </div>
 
       {previewImageSrc && (
-        <Modal className={`ImagePreviewModal`} onClose={handleClosePreview}>
+        <Modal className={`ImagePreviewModal`} onClose={onClosePreview}>
           <img alt="미리보기" src={previewImageSrc} style={{maxHeight: '90vh', maxWidth: '90vw'}} />
         </Modal>
       )}

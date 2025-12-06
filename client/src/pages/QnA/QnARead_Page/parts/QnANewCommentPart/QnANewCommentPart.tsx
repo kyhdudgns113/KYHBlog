@@ -16,7 +16,7 @@ export const QnANewCommentPart: FC<QnANewCommentPartProps> = ({...props}) => {
    * 댓글 작성 핸들러 (원형)
    * TODO: API 연동 후 구현
    */
-  const handleSubmitComment = useCallback(
+  const onSubmitComment = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       e.stopPropagation()
@@ -41,7 +41,7 @@ export const QnANewCommentPart: FC<QnANewCommentPartProps> = ({...props}) => {
     [commentContent]
   )
 
-  const handleCommentChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onChangeComment = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value
     if (value.length <= COMMENT_MAX_LENGTH) {
       setCommentContent(value)
@@ -54,14 +54,8 @@ export const QnANewCommentPart: FC<QnANewCommentPartProps> = ({...props}) => {
       <p className="_title_object">댓글 작성</p>
 
       {/* 2. 댓글 작성 폼 */}
-      <form className="_comment_form" onSubmit={handleSubmitComment}>
-        <textarea
-          className="_comment_textarea"
-          value={commentContent}
-          onChange={handleCommentChange}
-          placeholder="댓글을 입력해주세요"
-          rows={4}
-        />
+      <form className="_comment_form" onSubmit={onSubmitComment}>
+        <textarea className="_comment_textarea" value={commentContent} onChange={onChangeComment} placeholder="댓글을 입력해주세요" rows={4} />
 
         {/* 3. 글자수 표시 및 제출 버튼 */}
         <div className="_comment_footer">
@@ -76,4 +70,3 @@ export const QnANewCommentPart: FC<QnANewCommentPartProps> = ({...props}) => {
     </div>
   )
 }
-
