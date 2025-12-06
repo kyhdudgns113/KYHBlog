@@ -4,7 +4,7 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import {CheckAuth} from '@guard'
 import {useQnAActions} from '@redux'
 
-import {QnAHeaderPart, QnAContentPart, QnACommentPart} from './parts'
+import {QnAHeaderPart, QnAContentPart, QnANewCommentPart, QnACommentListPart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -18,7 +18,7 @@ type QnAReadPageProps = DivCommonProps & {
 
 export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
   const {loadQnA} = useQnACallbacksContext()
-  const {resetQnA} = useQnAActions()
+  const {resetQnA, resetQnACommentArr} = useQnAActions()
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -41,6 +41,7 @@ export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
 
     return () => {
       resetQnA()
+      resetQnACommentArr()
     }
   }, [location])
 
@@ -54,8 +55,11 @@ export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
           {/* 2. 게시글 내용 영역 */}
           <QnAContentPart />
 
-          {/* 3. 댓글 영역 */}
-          <QnACommentPart />
+          {/* 3. 댓글 작성 영역 */}
+          <QnANewCommentPart />
+
+          {/* 4. 댓글 목록 영역 */}
+          <QnACommentListPart />
         </div>
       </div>
     </CheckAuth>

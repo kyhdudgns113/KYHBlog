@@ -19,7 +19,7 @@
 - :bug:
   - 버그 수정
 
-- :building_contruction:
+- :building_construction:
   - 아키텍쳐 수정
 
 - :bulb:

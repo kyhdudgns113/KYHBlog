@@ -1,4 +1,5 @@
-export * from './QnAHeaderPart/QnAHeaderPart'
-export * from './QnAContentPart/QnAContentPart'
-export * from './QnACommentPart/QnACommentPart'
+export * from './QnAHeaderPart'
+export * from './QnAContentPart'
+export * from './QnANewCommentPart'
+export * from './QnACommentListPart'
 

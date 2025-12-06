@@ -5,11 +5,11 @@ import {COMMENT_MAX_LENGTH} from '@shareValue'
 import type {FC, FormEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import './QnACommentPart.scss'
+import './QnANewCommentPart.scss'
 
-type QnACommentPartProps = DivCommonProps
+type QnANewCommentPartProps = DivCommonProps
 
-export const QnACommentPart: FC<QnACommentPartProps> = ({...props}) => {
+export const QnANewCommentPart: FC<QnANewCommentPartProps> = ({...props}) => {
   const [commentContent, setCommentContent] = useState<string>('')
 
   /**
