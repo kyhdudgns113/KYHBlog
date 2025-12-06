@@ -10,6 +10,7 @@ import * as V from '@value'
 // State 타입 정의
 interface QnAState {
   qnA: LT.QnATypeLocal
+  qnACommentArr: LT.QnACommentTypeLocal[]
   qnAPageIdx: number
   qnAPageTenIdx: number
   qnARowArr: LT.QnARowTypeLocal[]
@@ -18,6 +19,7 @@ interface QnAState {
 // 초기 상태
 const initialState: QnAState = {
   qnA: NV.NULL_QNA(),
+  qnACommentArr: [],
   qnAPageIdx: 0,
   qnAPageTenIdx: 0,
   qnARowArr: []
@@ -38,6 +40,9 @@ export const qnaSlice = createSlice({
     resetQnA: state => {
       state.qnA = NV.NULL_QNA()
     },
+    resetQnACommentArr: state => {
+      state.qnACommentArr = []
+    },
     resetQnARowArr: state => {
       state.qnARowArr = []
     },
@@ -45,6 +50,16 @@ export const qnaSlice = createSlice({
     setQnA: (state, action: PayloadAction<ST.QnAType>) => {
       const {createdAt, updatedAt, ...rest} = action.payload
       state.qnA = {...rest, createdAtValue: new Date(createdAt).valueOf(), updatedAtValue: new Date(updatedAt).valueOf()}
+    },
+    setQnACommentArr: (state, action: PayloadAction<ST.QnACommentType[]>) => {
+      state.qnACommentArr = action.payload.map(elem => {
+        const {createdAt, updatedAt, ...rest} = elem
+        return {
+          ...rest,
+          createdAtValue: new Date(createdAt).valueOf(),
+          updatedAtValue: new Date(updatedAt).valueOf()
+        }
+      })
     },
     setQnAPageIdx: (state, action: PayloadAction<number>) => {
       state.qnAPageIdx = action.payload
