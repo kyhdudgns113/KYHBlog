@@ -32,6 +32,29 @@ export class ClientQnaController {
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 
+  @Post('/addQnAComment')
+  @UseGuards(CheckJwtValidationGuard)
+  async addQnAComment(@Headers() headers: any, @Body() data: HTTP.AddQnACommentType) {
+    /**
+     * 입력
+     *   - qnAOId
+     *   - userOId
+     *   - userName
+     *   - content
+     *   - targetQCommentOId (null 가능)
+     *
+     * 기능
+     *   - QnA 댓글 추가
+     *
+     * 출력
+     *   - qnACommentArr
+     *     - 해당 QnA의 댓글 목록
+     */
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.addQnAComment(jwtPayload, data)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
   // GET AREA:
 
   @Get('/loadQnA/:qnAOId')
@@ -52,6 +75,26 @@ export class ClientQnaController {
      */
     const {jwtFromServer, jwtPayload} = headers
     const {ok, body, gkdErrMsg, statusCode} = await this.clientService.loadQnA(jwtPayload, qnAOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
+
+  @Get('/loadQnACommentArr/:qnAOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async loadQnACommentArr(@Headers() headers: any, @Param('qnAOId') qnAOId: string) {
+    /**
+     * 입력
+     *   - qnAOId (URL 파라미터)
+     *
+     * 기능
+     *   - qnAOId로 QnA 댓글 목록을 조회한다
+     *   - 비공개 질문글이면 당사자나 관리자만 읽을 수 있음
+     *   - 비공개 질문글이 아니면 유저 권한만 있으면 볼 수 있음
+     *
+     * 출력
+     *   - qnACommentArr
+     */
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.loadQnACommentArr(jwtPayload, qnAOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
 

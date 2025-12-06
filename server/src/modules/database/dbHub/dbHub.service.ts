@@ -521,7 +521,29 @@ export class DBHubService {
 
   async incrementQnAViewCount(where: string, qnAOId: string) {
     try {
-      await this.qnaDBService.incrementViewCount(where, qnAOId)
+      await this.qnaDBService.updateQnAViewCount(where, qnAOId)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async createQnAComment(where: string, dto: DTO.CreateQnACommentDTO) {
+    try {
+      const {qnAComment} = await this.qnaDBService.createQnAComment(where, dto)
+      return {qnAComment}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readQnACommentArrByQnAOId(where: string, qnAOId: string) {
+    try {
+      const {qnACommentArr} = await this.qnaDBService.readQnACommentArrByQnAOId(where, qnAOId)
+      return {qnACommentArr}
       // ::
     } catch (errObj) {
       // ::
@@ -879,6 +901,77 @@ export class DBHubService {
         } as T.ErrorObjType
       }
       return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async checkAuth_QnARead(where: string, jwtPayload: T.JwtPayloadType, qnAOId: string) {
+    try {
+      const {userOId} = jwtPayload
+
+      // 1. 유저 조회
+      const {user} = await this.readUserByUserOId(where, userOId)
+      if (!user) {
+        throw {
+          gkd: {noUser: `유저가 없음`},
+          gkdErrCode: 'DBHUB_checkAuth_QnARead_noUser',
+          gkdErrMsg: `유저가 없습니다.`,
+          gkdStatus: {userOId},
+          statusCode: 500,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 2. 유저 권한 체크
+      if (user.userAuth < AUTH_USER) {
+        throw {
+          gkd: {noAuth: `권한이 없음`},
+          gkdErrCode: 'DBHUB_checkAuth_QnARead_noAuth',
+          gkdErrMsg: `유저 권한이 없습니다.`,
+          gkdStatus: {userOId},
+          statusCode: 403,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 3. QnA 조회
+      const {qnA} = await this.readQnAByQnAOId(where, qnAOId)
+
+      // 4. QnA 존재 여부 체크
+      if (!qnA) {
+        throw {
+          gkd: {noQnA: `QnA가 없음`},
+          gkdErrCode: 'DBHUB_checkAuth_QnARead_noQnA',
+          gkdErrMsg: `존재하지 않는 QnA`,
+          gkdStatus: {qnAOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 5. 비공개 QnA 권한 체크
+      if (qnA.isPrivate) {
+        // 비공개 질문글이면: 당사자나 관리자만 읽을 수 있음
+        const isOwner = qnA.userOId === userOId
+        const isAdmin = user.userAuth === AUTH_ADMIN
+
+        if (!isOwner && !isAdmin) {
+          throw {
+            gkd: {noAuth: `권한이 없음`},
+            gkdErrCode: 'DBHUB_checkAuth_QnARead_noAuth',
+            gkdErrMsg: `비공개 질문글은 작성자나 관리자만 볼 수 있습니다.`,
+            gkdStatus: {qnAOId, userOId},
+            statusCode: 403,
+            where
+          } as T.ErrorObjType
+        }
+      }
+      // 비공개 질문글이 아니면: 유저 권한만 있으면 볼 수 있음 (이미 위에서 체크됨)
+
+      return {qnA, user}
       // ::
     } catch (errObj) {
       // ::

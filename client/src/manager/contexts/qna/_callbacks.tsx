@@ -14,8 +14,10 @@ import type {APIReturnType} from '@type'
 // prettier-ignore
 type ContextType = {
   addQnAFile: (userOId: string, title: string, content: string, isPrivate: boolean) => Promise<APIReturnType>
+  addQnAComment: (qnAOId: string, userOId: string, userName: string, content: string, targetQCommentOId: string | null) => Promise<APIReturnType>
 
   loadQnA: (qnAOId: string) => Promise<APIReturnType>
+  loadQnACommentArr: (qnAOId: string) => Promise<APIReturnType>
   loadQnARowArr: () => Promise<APIReturnType>
   modifyQnA: (qnAOId: string, title: string, content: string, isPrivate: boolean) => Promise<APIReturnType>
   deleteQnA: (qnAOId: string) => Promise<APIReturnType>
@@ -23,8 +25,10 @@ type ContextType = {
 // prettier-ignore
 export const QnACallbacksContext = createContext<ContextType>({
   addQnAFile: async () => ({isSuccess: false}),
+  addQnAComment: async () => ({isSuccess: false}),
 
   loadQnA: async () => ({isSuccess: false, qnA: NV.NULL_QNA()}),
+  loadQnACommentArr: async () => ({isSuccess: false}),
   loadQnARowArr: async () => ({isSuccess: false, qnARowArr: []}),
   modifyQnA: async () => ({isSuccess: false}),
   deleteQnA: async () => ({isSuccess: false})
@@ -33,7 +37,7 @@ export const QnACallbacksContext = createContext<ContextType>({
 export const useQnACallbacksContext = () => useContext(QnACallbacksContext)
 
 export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setQnA, setQnARowArr, resetQnA} = useQnAActions()
+  const {setQnA, setQnACommentArr, setQnARowArr, resetQnA} = useQnAActions()
 
   // POST AREA:
   const addQnAFile = useCallback(async (userOId: string, title: string, content: string, isPrivate: boolean) => {
@@ -49,6 +53,31 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           const qnAOId = body.qnAOId
           U.writeJwtFromServer(jwtFromServer)
           return {isSuccess: true, qnAOId}
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return {isSuccess: false}
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return {isSuccess: false}
+      })
+  }, [])
+
+  const addQnAComment = useCallback(async (qnAOId: string, userOId: string, userName: string, content: string, targetQCommentOId: string | null) => {
+    const url = `/client/qna/addQnAComment`
+    const data: HTTP.AddQnACommentType = {qnAOId, userOId, userName, content, targetQCommentOId}
+
+    return F.postWithJwt(url, data)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+
+        if (ok) {
+          setQnACommentArr(body.qnACommentArr)
+          U.writeJwtFromServer(jwtFromServer)
+          return {isSuccess: true}
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
@@ -87,6 +116,32 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         return {isSuccess: false}
       })
   }, [])
+
+  const loadQnACommentArr = useCallback(
+    async (qnAOId: string) => {
+      const url = `/client/qna/loadQnACommentArr/${qnAOId}`
+
+      return F.getWithJwt(url)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+          if (ok) {
+            setQnACommentArr(body.qnACommentArr)
+            U.writeJwtFromServer(jwtFromServer)
+            return {isSuccess: true}
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return {isSuccess: false}
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return {isSuccess: false}
+        })
+    },
+    [setQnACommentArr]
+  )
 
   const loadQnARowArr = useCallback(async () => {
     const url = `/client/qna/loadQnARowArr`
@@ -170,8 +225,10 @@ export const QnACallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   // prettier-ignore
   const value: ContextType = {
     addQnAFile,
+    addQnAComment,
 
     loadQnA,
+    loadQnACommentArr,
     loadQnARowArr,
     modifyQnA,
     deleteQnA,

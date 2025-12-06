@@ -1,5 +1,7 @@
 import {useState, useCallback} from 'react'
 
+import {useAuthStatesContext, useQnACallbacksContext} from '@context'
+import {useBlogSelector} from '@redux'
 import {COMMENT_MAX_LENGTH} from '@shareValue'
 
 import type {FC, FormEvent} from 'react'
@@ -12,12 +14,12 @@ type QnANewCommentPartProps = DivCommonProps
 export const QnANewCommentPart: FC<QnANewCommentPartProps> = ({...props}) => {
   const [commentContent, setCommentContent] = useState<string>('')
 
-  /**
-   * 댓글 작성 핸들러 (원형)
-   * TODO: API 연동 후 구현
-   */
+  const qnA = useBlogSelector(state => state.qna.qnA)
+  const {userOId, userName} = useAuthStatesContext()
+  const {addQnAComment} = useQnACallbacksContext()
+
   const onSubmitComment = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    (commentContent: string, qnAOId: string, userOId: string, userName: string) => (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       e.stopPropagation()
 
@@ -31,14 +33,26 @@ export const QnANewCommentPart: FC<QnANewCommentPartProps> = ({...props}) => {
         return
       }
 
-      // TODO: API 호출
-      console.log('댓글 작성:', commentContent)
-      alert('댓글 작성 기능은 아직 구현되지 않았습니다.')
+      if (!userOId || !userName) {
+        alert('로그인 후 이용해주세요')
+        return
+      }
 
-      // 작성 후 초기화
-      setCommentContent('')
+      if (!qnAOId) {
+        alert('QnA 정보를 불러올 수 없습니다')
+        return
+      }
+
+      addQnAComment(qnAOId, userOId, userName, commentContent, null) // ::
+        .then(res => {
+          const {isSuccess} = res
+          if (isSuccess) {
+            // 작성 후 초기화
+            setCommentContent('')
+          }
+        })
     },
-    [commentContent]
+    [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const onChangeComment = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -54,7 +68,7 @@ export const QnANewCommentPart: FC<QnANewCommentPartProps> = ({...props}) => {
       <p className="_title_object">댓글 작성</p>
 
       {/* 2. 댓글 작성 폼 */}
-      <form className="_comment_form" onSubmit={onSubmitComment}>
+      <form className="_comment_form" onSubmit={onSubmitComment(commentContent, qnA.qnAOId, userOId, userName)}>
         <textarea className="_comment_textarea" value={commentContent} onChange={onChangeComment} placeholder="댓글을 입력해주세요" rows={4} />
 
         {/* 3. 글자수 표시 및 제출 버튼 */}

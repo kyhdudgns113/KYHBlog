@@ -24,6 +24,20 @@ export class ClientQnaService {
     }
   }
 
+  async addQnAComment(jwtPayload: JwtPayloadType, data: HTTP.AddQnACommentType) {
+    /**
+     * QnA 댓글을 추가하고 댓글 목록을 반환한다
+     */
+    try {
+      const {qnACommentArr} = await this.portService.addQnAComment(jwtPayload, data)
+      return {ok: true, body: {qnACommentArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // GET AREA:
 
   async loadQnA(jwtPayload: JwtPayloadType, qnAOId: string) {
@@ -33,6 +47,20 @@ export class ClientQnaService {
     try {
       const {qnA} = await this.portService.loadQnA(jwtPayload, qnAOId)
       return {ok: true, body: {qnA}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async loadQnACommentArr(jwtPayload: JwtPayloadType, qnAOId: string) {
+    /**
+     * qnAOId로 QnA 댓글 목록을 조회한다
+     */
+    try {
+      const {qnACommentArr} = await this.portService.loadQnACommentArr(jwtPayload, qnAOId)
+      return {ok: true, body: {qnACommentArr}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::
