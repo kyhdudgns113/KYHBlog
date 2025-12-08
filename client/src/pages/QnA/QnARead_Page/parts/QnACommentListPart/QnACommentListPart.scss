@@ -1,0 +1,72 @@
+@use '../../../../../base/styles/values.scss' as v;
+
+.Template {
+  .QnAReadPage {
+    .QnACommentList_Part {
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      padding: 24px;
+      width: 100%;
+
+      ._title_object {
+        color: v.$SAKURA_TEXT_DEEP;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+      }
+
+      ._comment_list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+
+        ._empty_message {
+          color: v.$SAKURA_TEXT;
+          font-size: 14px;
+          padding: 24px;
+          text-align: center;
+        }
+
+        ._comment_item {
+          background-color: v.$SAKURA_BG_50;
+          border: 1px solid v.$SAKURA_BORDER_50;
+          border-radius: 6px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding: 16px;
+          width: 100%;
+
+          ._comment_content {
+            color: v.$SAKURA_TEXT;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+          }
+
+          ._comment_info {
+            align-items: center;
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+
+            ._comment_author {
+              color: v.$SAKURA_TEXT_DEEP;
+              font-size: 12px;
+              font-weight: 600;
+            }
+
+            ._comment_date {
+              color: v.$SAKURA_BORDER;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

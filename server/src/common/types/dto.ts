@@ -71,6 +71,14 @@ export type CreateQnADTO = {
   userOId: string
 }
 
+export type CreateQnACommentDTO = {
+  content: string
+  qnAOId: string
+  targetQCommentOId: string | null
+  userName: string
+  userOId: string
+}
+
 export type SignUpDTO = {
   userId: string
   userMail: string

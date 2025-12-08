@@ -73,6 +73,16 @@ export type QnATypeLocal = {
   updatedAtValue: number
   viewCount: number
 }
+export type QnACommentTypeLocal = {
+  content: string
+  createdAtValue: number
+  qCommentOId: string // Primary Key
+  qnAOId: string // 참조하는 QnA 글의 OId
+  targetQCommentOId: string | null // 참조하는 QnA 댓글이 없으면 null
+  updatedAtValue: number
+  userName: string
+  userOId: string
+}
 export type QnARowTypeLocal = {
   createdAtValue: number
   isPrivate: boolean

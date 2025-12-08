@@ -13,9 +13,11 @@ export const useQnAActions = () => {
     incQnAPageTenIdx: () => dispatch(qnaSlice.actions.incQnAPageTenIdx()),
 
     resetQnA: () => dispatch(qnaSlice.actions.resetQnA()),
+    resetQnACommentArr: () => dispatch(qnaSlice.actions.resetQnACommentArr()),
     resetQnARowArr: () => dispatch(qnaSlice.actions.resetQnARowArr()),
     // ::
     setQnA: (qnA: ST.QnAType) => dispatch(qnaSlice.actions.setQnA(qnA)),
+    setQnACommentArr: (qnACommentArr: ST.QnACommentType[]) => dispatch(qnaSlice.actions.setQnACommentArr(qnACommentArr)),
     setQnAPageIdx: (qnAPageIdx: number) => dispatch(qnaSlice.actions.setQnAPageIdx(qnAPageIdx)),
     setQnAPageTenIdx: (qnAPageTenIdx: number) => dispatch(qnaSlice.actions.setQnAPageTenIdx(qnAPageTenIdx)),
     setQnARowArr: (qnARowArr: ST.QnARowType[]) => dispatch(qnaSlice.actions.setQnARowArr(qnARowArr))

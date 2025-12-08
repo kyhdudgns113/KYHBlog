@@ -24,6 +24,14 @@ export type AddQnAType = {
   userOId: string
 }
 
+export type AddQnACommentType = {
+  content: string
+  qnAOId: string
+  targetQCommentOId: string | null
+  userName: string
+  userOId: string
+}
+
 export type ModifyQnAType = {
   qnAOId: string
   title?: string

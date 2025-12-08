@@ -114,6 +114,16 @@ export type QnAType = {
   updatedAt: Date
   viewCount: number
 }
+export type QnACommentType = {
+  content: string
+  createdAt: Date
+  qCommentOId: string // Primary Key
+  qnAOId: string // 참조하는 QnA 글의 OId
+  targetQCommentOId: string | null // 참조하는 QnA 댓글이 없으면 null
+  updatedAt: Date
+  userName: string
+  userOId: string
+}
 export type QnARowType = {
   /**
    * QnA 페이지 등에서 질문글 목록만 표시하기 위해 있는 타입
