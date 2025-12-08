@@ -167,7 +167,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SendSocketRoomMessage('new alarm')
   sendUserAlarm(alarm: T.AlarmType) {
     try {
-      const {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, senderUserName, senderUserOId, userOId} = alarm
+      const {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, qnAOId, senderUserName, senderUserOId, userOId} = alarm
 
       const server = this.server
       const roomId = userOId
@@ -178,6 +178,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
         content,
         createdAt,
         fileOId,
+        qnAOId,
         senderUserName,
         senderUserOId,
         userOId
