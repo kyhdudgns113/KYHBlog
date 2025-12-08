@@ -2,7 +2,8 @@ export type CreateAlarmDTO = {
   alarmType: number
   content: string
   createdAt: Date
-  fileOId: string
+  fileOId: string | null
+  qnAOId: string | null
   senderUserName: string
   senderUserOId: string
   userOId: string
