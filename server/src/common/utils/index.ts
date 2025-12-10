@@ -32,7 +32,7 @@ export const consoleColors = {
 }
 
 export const generateObjectId = (): string => {
-  // MongoDB ObjectId 비슷하게 24자리 hex string 생성
+  // 24자리 hex string 생성
   return Array.from({length: 24}, () => Math.floor(Math.random() * 16).toString(16)).join('')
 }
 

@@ -595,6 +595,16 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readUserArrByUserAuth(where: string, userAuth: number) {
+    try {
+      const {userArr} = await this.userDBService.readUserArrByUserAuth(where, userAuth)
+      return {userArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
   async readUserByUserIdAndPassword(where: string, userId: string, password: string) {
     try {
       const {user} = await this.userDBService.readUserByUserIdAndPassword(where, userId, password)

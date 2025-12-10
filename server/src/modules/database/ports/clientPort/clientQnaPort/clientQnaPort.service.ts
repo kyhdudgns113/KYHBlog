@@ -25,7 +25,8 @@ export class ClientQnaPortService {
    *  1. 권한 췍!!
    *  2. 입력값 췍!!
    *  3. QnA 추가 뙇!!
-   *  4. qnAOId 반환 뙇!!
+   *  4. 관리자에게 보낼 알람 생성 뙇!!
+   *  5. QnA 및 알람배열 반환 뙇!!
    */
   async addQnAFile(jwtPayload: T.JwtPayloadType, data: HTTP.AddQnAType) {
     const where = `/client/qna/addQnAFile`
@@ -103,8 +104,27 @@ export class ClientQnaPortService {
       // 3. QnA 추가 뙇!!
       const {qnA} = await this.dbHubService.createQnA(where, dto)
 
-      // 4. qnAOId 반환 뙇!!
-      return {qnAOId: qnA.qnAOId}
+      // 4. 관리자에게 보낼 알람 생성 뙇!!
+      const {userArr} = await this.dbHubService.readUserArrByUserAuth(where, AUTH_ADMIN)
+      const alarmArr = await Promise.all(
+        userArr.map(async user => {
+          const dtoAlarm: DTO.CreateAlarmDTO = {
+            alarmType: SV.ALARM_TYPE_QNA_NEW,
+            content: `새로운 QnA가 추가되었습니다.`,
+            createdAt: new Date(),
+            fileOId: null,
+            qnAOId: qnA.qnAOId,
+            senderUserName: userName,
+            senderUserOId: userOId,
+            userOId: user.userOId
+          }
+          const {alarm} = await this.dbHubService.createAlarm(where, dtoAlarm)
+          return alarm
+        })
+      )
+
+      // 5. qnAOId 반환 뙇!!
+      return {alarmArr, qnA}
       // ::
     } catch (errObj) {
       // ::

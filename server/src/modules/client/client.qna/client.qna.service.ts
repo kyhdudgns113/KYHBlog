@@ -1,21 +1,37 @@
 import {Injectable} from '@nestjs/common'
 import {JwtPayloadType} from '@type'
 import {ClientQnaPortService} from '@modules/database'
+import {SocketService} from '@modules/socket'
 import * as U from '@util'
 import * as HTTP from '@httpDataType'
 
 @Injectable()
 export class ClientQnaService {
-  constructor(private readonly portService: ClientQnaPortService) {}
+  constructor(
+    private readonly portService: ClientQnaPortService,
+    private readonly socketService: SocketService
+  ) {}
 
   // POST AREA:
 
   async addQnAFile(jwtPayload: JwtPayloadType, data: HTTP.AddQnAType) {
     /**
      * QnA를 추가하고 qnAOId를 반환한다
+     *
+     * 작동순서
+     *
+     *  1. QnA 추가
+     *  2. 관리자에게 알람을 보낸다.
+     *  3. qnAOId 반환
      */
     try {
-      const {qnAOId} = await this.portService.addQnAFile(jwtPayload, data)
+      // 1. QnA 추가
+      const {alarmArr, qnA} = await this.portService.addQnAFile(jwtPayload, data)
+      const {qnAOId} = qnA
+
+      // 2. 관리자에게 알람을 보낸다. (비동기로 처리한다.)
+      Promise.all(alarmArr.map(alarm => this.socketService.sendUserAlarm(alarm)))
+
       return {ok: true, body: {qnAOId}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {

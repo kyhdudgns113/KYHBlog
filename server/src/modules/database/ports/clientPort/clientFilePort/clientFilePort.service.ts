@@ -56,6 +56,7 @@ export class ClientFilePortService {
           content,
           createdAt,
           fileOId,
+          qnAOId: null,
           senderUserName: userName,
           senderUserOId: userOId,
           userOId: file.userOId
@@ -144,6 +145,7 @@ export class ClientFilePortService {
           content,
           createdAt,
           fileOId: comment.fileOId,
+          qnAOId: null,
           senderUserName: userName,
           senderUserOId: userOId,
           userOId: targetUserOId
@@ -157,6 +159,7 @@ export class ClientFilePortService {
             content,
             createdAt,
             fileOId: comment.fileOId,
+            qnAOId: null,
             senderUserName: userName,
             senderUserOId: userOId,
             userOId: comment.userOId

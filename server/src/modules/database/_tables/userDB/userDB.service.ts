@@ -115,6 +115,33 @@ export class UserDBService {
       connection.release()
     }
   }
+  async readUserArrByUserAuth(where: string, userAuth: number) {
+    where = where + '/readUserArrByUserAuth'
+
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const query = `SELECT * FROM users WHERE userAuth = ?`
+      const [result] = await connection.execute(query, [userAuth])
+      const resultArr = result as RowDataPacket[]
+
+      const userArr: UserType[] = resultArr.map(row => {
+        const {picture, signUpType, userAuth, userId, userMail, userOId, userName, createdAt, updatedAt} = row
+        const user: UserType = {picture, signUpType, userAuth, userId, userMail, userOId, userName, createdAt, updatedAt}
+        return user
+      })
+
+      return {userArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
   async readUserByUserIdAndPassword(where: string, userId: string, password: string) {
     where = where + '/readUserByUserId'
 
