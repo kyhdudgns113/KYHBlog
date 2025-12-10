@@ -9,6 +9,7 @@ import * as HTTP from '@httpType'
 import * as LT from '@localizeType'
 import * as T from '@type'
 import * as U from '@util'
+import * as ST from '@shareType'
 import * as SV from '@shareValue'
 
 import type {APIReturnType} from '@type'
@@ -39,7 +40,7 @@ export const UserCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   // PUT AREA:
   const checkNewAlarm = useCallback(async (alarmArr: LT.AlarmTypeLocal[]) => {
-    const checkedAlarmArr = alarmArr
+    const checkedAlarmArr: ST.AlarmType[] = alarmArr
       .filter(alarm => alarm.alarmStatus === SV.ALARM_STATUS_NEW)
       .map(alarm => {
         const {createdAtValue, ...rest} = alarm
