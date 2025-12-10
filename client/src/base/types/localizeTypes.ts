@@ -4,7 +4,8 @@ export type AlarmTypeLocal = {
   alarmType: number
   content: string
   createdAtValue: number
-  fileOId: string
+  fileOId: string | null
+  qnAOId: string | null
   senderUserName: string
   senderUserOId: string
   userOId: string
