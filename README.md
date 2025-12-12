@@ -8,7 +8,7 @@ KYHBlog는 NestJS 백엔드와 React 프론트엔드를 활용하여 개발된 �
 
 ### 주요 기능
 
-- 🔐 **인증/인가 시스템**: JWT 기반 인증, Google OAuth 2.0 연동
+- 🔐 **인증/인가 시스템**: GKDoubleJWT 기반 인증, Google OAuth 2.0 연동
 - 💬 **실시간 채팅**: Socket.io를 활용한 실시간 메시징
 - 📝 **블로그 관리**: 마크다운 지원, 파일 업로드/다운로드
 - 💭 **댓글 시스템**: 댓글 및 답글 기능
@@ -139,9 +139,19 @@ http://localhost:4123/api
 
 ```bash
 cd server
-npm test              # 단위 테스트
-npm run test:cov      # 커버리지 포함 테스트
-npm run test:e2e      # E2E 테스트
+npm run gkd:cov       # 커버리지 확인 테스트, LOG_LEVEL = 0 : 기초 로그만 나옴
+npm run gkd           # 테스트, LOG_LEVEL = 0: 기초 로그만 나옴
+npm run gkd1          # 테스트, LOG_LEVEL = 1
+npm run gkd2          # 테스트, LOG_LEVEL = 2
+npm run gkd3          # 테스트, LOG_LEVEL = 3
+npm run gkd4          # 테스트, LOG_LEVEL = 4
+npm run gkd5          # 테스트, LOG_LEVEL = 5
+npm run gkd6          # 테스트, LOG_LEVEL = 6
+npm run gkd7          # 테스트, LOG_LEVEL = 7
+npm run gkd8          # 테스트, LOG_LEVEL = 8
+npm run gkd9          # 테스트, LOG_LEVEL = 9
+npm run gkd10         # 테스트, LOG_LEVEL = 10
+npm run gkdDefault    # 기본 테스트
 ```
 
 ### 테스트 커버리지
