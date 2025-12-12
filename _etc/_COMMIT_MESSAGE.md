@@ -1,1 +1,1 @@
-25.12.11 [Document] :memo: Root README 수정
+25.12.12 [Document] :memo: Server 문서 추가
