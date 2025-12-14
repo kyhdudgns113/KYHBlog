@@ -26,8 +26,8 @@ export class AlarmDBService {
         alarmOId = generateObjectId()
       }
 
-      const query = `INSERT INTO alarms (alarmOId, alarmType, content, fileOId, senderUserName, senderUserOId, userOId) VALUES (?, ?, ?, ?, ?, ?, ?)`
-      const params = [alarmOId, dto.alarmType, dto.content, dto.fileOId, dto.senderUserName, dto.senderUserOId, dto.userOId]
+      const query = `INSERT INTO alarms (alarmOId, alarmType, content, fileOId, qnAOId, senderUserName, senderUserOId, userOId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+      const params = [alarmOId, dto.alarmType, dto.content, dto.fileOId, dto.qnAOId, dto.senderUserName, dto.senderUserOId, dto.userOId]
       await connection.execute(query, params)
 
       const alarm: T.AlarmType = {

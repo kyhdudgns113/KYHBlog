@@ -51,7 +51,7 @@ export const AlarmBlockGroup: FC<AlarmBlockGroupProps> = ({alarm, className, ...
         navigate(`/main/blog/${alarm.fileOId}`)
       } // ::
       else if (alarm.qnAOId) {
-        navigate(`/main/qna/${alarm.qnAOId}`)
+        navigate(`/main/qna/read/${alarm.qnAOId}`)
       } // ::
       removeAlarm(alarm.alarmOId)
       closeAlarmObj()
