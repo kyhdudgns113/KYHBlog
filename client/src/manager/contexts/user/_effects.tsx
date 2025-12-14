@@ -40,7 +40,7 @@ export const UserEffectsProvider: FC<PropsWithChildren> = ({children}) => {
       onSocket(socket, 'new alarm', (payload: SCK.NewAlarmType) => {
         const {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, qnAOId, senderUserName, senderUserOId, userOId} = payload
         const newAlarm: ST.AlarmType = {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, qnAOId, senderUserName, senderUserOId, userOId}
-        alert('알람 뙇!')
+
         pushFrontAlarmArr(newAlarm)
       })
 
