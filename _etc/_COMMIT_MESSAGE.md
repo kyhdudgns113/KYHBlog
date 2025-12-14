@@ -1,5 +1,3 @@
-25.12.14 [Client] 로그인시 채팅방 목록 로딩 추가 / 채팅방 목록 스타일 조정
+25.12.14 [Client] :sparkles: 채팅방 생성 시 실시간 알림 기능 추가
 
-:heavy_plus_sign: [Client] 로그인시 채팅방 목록 로딩 추가
-
-:art: [Client] Righter/채팅방 목록 스타일 조정
+:sparkles: [Client] 새 채팅방 생성 시 실시간 알림 기능 추가

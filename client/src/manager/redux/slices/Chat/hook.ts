@@ -1,6 +1,7 @@
 import {useBlogSelector, useBlogDispatch} from '@redux'
 import {chatSlice} from './slice'
 
+import type * as SCK from '@socketType'
 import type * as ST from '@shareType'
 
 export const useChatStates = () => useBlogSelector(state => state.chat)
@@ -9,8 +10,11 @@ export const useChatActions = () => {
   const dispatch = useBlogDispatch()
 
   return {
+    moveChatQueueToChatArr: () => dispatch(chatSlice.actions.moveChatQueueToChatArr()),
+
+    pushBackChatQueue: (chatQueue: SCK.NewChatType[]) => dispatch(chatSlice.actions.pushBackChatQueue(chatQueue)),
     pushFrontChatArr: (chatArr: ST.ChatType[]) => dispatch(chatSlice.actions.pushFrontChatArr(chatArr)),
-    pushBackChatArr: (chatArr: ST.ChatType[]) => dispatch(chatSlice.actions.pushBackChatArr(chatArr)),
+    pushFrontChatRoomArr: (chatRoom: SCK.NewChatRoomCreatedType) => dispatch(chatSlice.actions.pushFrontChatRoomArr(chatRoom)),
 
     resetChatArr: () => dispatch(chatSlice.actions.resetChatArr()),
     resetChatRoom: () => dispatch(chatSlice.actions.resetChatRoom()),
