@@ -122,8 +122,6 @@ export const Righter: FC<RighterProps> = ({...props}) => {
      * 가독성을 위해 일부러 저렇게 두는편이 나을것 같다
      */
     if (chatRoomOId && isLoggedIn) {
-      setCnChatRoom('_open')
-
       new Promise(resolve => {
         setTimeout(() => {
           setIsOpenChatRoom(true)
@@ -155,7 +153,7 @@ export const Righter: FC<RighterProps> = ({...props}) => {
       {!isLoggedIn && isOpenSignUp && <SignUpPart className={cnSignUp} closePart={closePart('signUp')} />}
 
       {/* 2. 로그인 상태: 채팅방 목록 파트*/}
-      {isLoggedIn && isOpenChatRoom && <ChatRoomPart className={cnChatRoom} />}
+      {isLoggedIn && isOpenChatRoom && <ChatRoomPart className={cnChatRoom} isChatRoomListOpen={isOpenChatRoomList} />}
       {isLoggedIn && isOpenChatRoomList && <ChatRoomListPart className={cnChatRoomList} />}
       {isLoggedIn && <OpenChatRoomListBtn closePart={closePart('chatRoomList')} isOpen={isOpenChatRoomList} openPart={openPart} />}
     </div>

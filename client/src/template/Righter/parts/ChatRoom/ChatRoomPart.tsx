@@ -10,9 +10,11 @@ import type {DivCommonProps} from '@prop'
 
 import './ChatRoomPart.scss'
 
-type ChatRoomPartProps = DivCommonProps & {}
+type ChatRoomPartProps = DivCommonProps & {
+  isChatRoomListOpen?: boolean
+}
 
-export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, ...props}) => {
+export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOpen = false, ...props}) => {
   const {resetChatRoomOId} = useChatActions()
 
   const onKeyDownChatRoom = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
@@ -25,7 +27,7 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, ...props}) => {
 
   return (
     <div
-      className={`ChatRoom_Part ${className || ''}`}
+      className={`ChatRoom_Part ${className || ''} ${isChatRoomListOpen ? '_withList' : '_withoutList'}`}
       onKeyDown={onKeyDownChatRoom}
       onScroll={e => e.stopPropagation()}
       onWheel={e => e.stopPropagation()}
@@ -39,4 +41,3 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, ...props}) => {
     </div>
   )
 }
-
