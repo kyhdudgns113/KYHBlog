@@ -160,12 +160,13 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           })
       } // ::
       else {
-        return _writeAuthBodyObject(NV.NULL_AUTH_BODY()).then(() => {
-          if (authLevel > SV.AUTH_GUEST && errCallback) {
-            errCallback()
-          }
-          return 0
-        })
+        return _writeAuthBodyObject(NV.NULL_AUTH_BODY()) // ::
+          .then(() => {
+            if (authLevel > SV.AUTH_GUEST && errCallback) {
+              errCallback()
+            }
+            return 0
+          })
       }
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps

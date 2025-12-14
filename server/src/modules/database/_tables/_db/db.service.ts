@@ -47,7 +47,9 @@ export class DBService implements OnModuleInit, OnModuleDestroy {
     }
 
     // 풀 연결 테스트
-    await this.pool.getConnection().then(conn => conn.release())
+    await this.pool
+      .getConnection() // ::
+      .then(conn => conn.release())
     console.log('\n  DB pool created & connected  \n')
   }
 
