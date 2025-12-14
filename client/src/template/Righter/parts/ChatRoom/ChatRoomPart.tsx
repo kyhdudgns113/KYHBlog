@@ -15,7 +15,7 @@ type ChatRoomPartProps = DivCommonProps & {
   isChatRoomListOpen: boolean
 }
 
-export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOpen = false, ...props}) => {
+export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOpen, ...props}) => {
   const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
   const loadedChatRoomOId = useBlogSelector(state => state.chat.loadedChatRoomOId)
 
@@ -30,18 +30,25 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 초기화: 채팅방 정보 불러오기
+  // 초기화: 채팅방 설정
+  useEffect(() => {
+    if (chatRoomOId) {
+      selectChatRoom(chatRoomOId)
+    }
+  }, [chatRoomOId])
+
+  // 초기화: 채팅 불러오기
   useEffect(() => {
     const isChatRoomOpened = chatRoomOId.length > 0
     const isChatArrNotLoaded = chatRoomOId !== loadedChatRoomOId
 
     if (isChatRoomOpened && isChatArrNotLoaded) {
-      selectChatRoom(chatRoomOId)
       loadChatArr(chatRoomOId, -1)
     }
 
     return () => {
-      if (isChatRoomOpened && isChatArrNotLoaded) {
+      if (isChatRoomOpened && !isChatArrNotLoaded) {
+        resetChatRoomOId()
         resetLoadedChatRoomOId()
         resetChatArr()
       }
