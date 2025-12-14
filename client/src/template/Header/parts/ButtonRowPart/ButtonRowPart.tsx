@@ -3,6 +3,7 @@ import {useAuthStatesContext} from '@context'
 import {useBlogSelector} from '@redux'
 
 import {AdminButton, AlarmButton, LogInButton, LogOutButton, SignUpButton, UserNameButton} from '../../buttons'
+import {AlarmCnt} from '../../components'
 import {AlarmListObj} from '../../objects'
 
 import type {FC} from 'react'
@@ -30,6 +31,7 @@ export const ButtonRowPart: FC<ButtonRowPartProps> = ({...props}) => {
           {/* 1-2. 알람 영역 */}
           <div className="alarm_wrapper_part">
             <AlarmButton />
+            <AlarmCnt />
             {isAlarmObjOpen && <AlarmListObj />}
           </div>
 

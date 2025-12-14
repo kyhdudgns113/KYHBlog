@@ -7,9 +7,9 @@ import * as S from '@socketType'
 export class SocketUserService {
   constructor(private readonly infoService: SocketInfoService) {}
 
-  userConnect(server: Server, socket: Socket, payload: S.UserConnectType) {
+  async userConnect(server: Server, socket: Socket, payload: S.UserConnectType) {
     try {
-      this.infoService.joinSocketToUser(socket, payload.userOId)
+      await this.infoService.joinSocketToUser(socket, payload.userOId)
       // ::
     } catch (errObj) {
       // ::

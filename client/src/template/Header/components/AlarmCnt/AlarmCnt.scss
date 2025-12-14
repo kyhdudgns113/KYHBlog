@@ -1,0 +1,23 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Header {
+    .Alarm_Cnt {
+      align-items: center;
+      background-color: oklch(0.55 0.22 25);
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      font-size: 12px;
+      font-weight: bold;
+      height: 20px;
+      justify-content: center;
+      min-width: 20px;
+      padding: 0 4px;
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      width: fit-content;
+    }
+  }
+}

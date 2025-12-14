@@ -87,9 +87,9 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('user connect')
   @UseGuards(CheckSocketJwtGuard)
-  userConnect(client: Socket, payload: S.UserConnectType) {
+  async userConnect(client: Socket, payload: S.UserConnectType) {
     try {
-      this.userService.userConnect(this.server, client, payload)
+      await this.userService.userConnect(this.server, client, payload)
       // ::
     } catch (errObj) {
       // ::
