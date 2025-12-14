@@ -35,7 +35,7 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   // GET AREA:
 
-  const loadChatArr = useCallback((chatRoomOId: string, firstIdx: number) => {
+  const loadChatArr = useCallback(async (chatRoomOId: string, firstIdx: number) => {
     const url = `/client/chat/loadChatArr/${chatRoomOId}/${firstIdx}`
 
     return F.getWithJwt(url)
@@ -66,7 +66,7 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const loadChatRoomArr = useCallback((userOId: string) => {
+  const loadChatRoomArr = useCallback(async (userOId: string) => {
     const url = `/client/chat/loadChatRoomArr/${userOId}`
 
     return F.getWithJwt(url)

@@ -24,6 +24,9 @@ export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, style, 
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  /**
+   * 초기화: 안 읽은 채팅 수
+   */
   useEffect(() => {
     if (chatRoom.unreadMessageCount < 100) {
       setUnreadStr(`${chatRoom.unreadMessageCount}`)
