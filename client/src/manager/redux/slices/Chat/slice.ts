@@ -97,7 +97,13 @@ export const chatSlice = createSlice({
     },
     // ::
     selectChatRoom: (state, action: PayloadAction<string>) => {
-      state.chatRoomOId = state.chatRoomOId === action.payload ? '' : action.payload
+      const newChatRoom = state.chatRoomArr.find(elem => elem.chatRoomOId === action.payload)
+      if (newChatRoom) {
+        state.chatRoom = newChatRoom
+      } // ::
+      else {
+        state.chatRoom = NV.NULL_CHAT_ROOM()
+      }
     },
 
     setChatArr: (state, action: PayloadAction<ST.ChatType[]>) => {
@@ -132,6 +138,13 @@ export const chatSlice = createSlice({
     },
     setLoadedChatRoomOId: (state, action: PayloadAction<string>) => {
       state.loadedChatRoomOId = action.payload
+    },
+
+    toggleChatRoomOId: (state, action: PayloadAction<string>) => {
+      /**
+       * 현재 열린 채팅방을 클릭하면 닫게 하려는 용도이다.
+       */
+      state.chatRoomOId = state.chatRoomOId === action.payload ? '' : action.payload
     }
   }
 })

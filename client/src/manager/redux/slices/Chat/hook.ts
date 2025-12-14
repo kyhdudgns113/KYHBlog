@@ -30,7 +30,8 @@ export const useChatActions = () => {
     setChatRoomArr: (chatRoomArr: ST.ChatRoomType[]) => dispatch(chatSlice.actions.setChatRoomArr(chatRoomArr)),
     setChatRoomOId: (chatRoomOId: string) => dispatch(chatSlice.actions.setChatRoomOId(chatRoomOId)),
     setGoToBottom: (goToBottom: boolean) => dispatch(chatSlice.actions.setGoToBottom(goToBottom)),
-    setLoadedChatRoomOId: (loadedChatRoomOId: string) => dispatch(chatSlice.actions.setLoadedChatRoomOId(loadedChatRoomOId))
+    setLoadedChatRoomOId: (loadedChatRoomOId: string) => dispatch(chatSlice.actions.setLoadedChatRoomOId(loadedChatRoomOId)),
     // ::
+    toggleChatRoomOId: (chatRoomOId: string) => dispatch(chatSlice.actions.toggleChatRoomOId(chatRoomOId))
   }
 }
