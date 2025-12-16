@@ -1,6 +1,6 @@
-import {useCallback, useEffect} from 'react'
+import {useCallback, useEffect, useEffectEvent} from 'react'
 
-import {useChatCallbacksContext} from '@context'
+import {useAuthStatesContext, useChatCallbacksContext, useSocketStatesContext} from '@context'
 import {useBlogSelector, useChatActions} from '@redux'
 
 import {CloseRoomButton} from '../../buttons'
@@ -20,7 +20,10 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
   const loadedChatRoomOId = useBlogSelector(state => state.chat.loadedChatRoomOId)
 
   const {resetChatArr, resetChatRoomOId, resetLoadedChatRoomOId, selectChatRoom} = useChatActions()
-  const {loadChatArr} = useChatCallbacksContext()
+
+  const {socket} = useSocketStatesContext()
+  const {userOId} = useAuthStatesContext()
+  const {chatRoomOpened, loadChatArr} = useChatCallbacksContext()
 
   const onKeyDownChatRoom = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape') {
@@ -29,6 +32,14 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
       resetChatRoomOId()
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const _chatRoomOpened = useEffectEvent(() => {
+    // socket 이랑 userOId 가 바뀔때마다 useEffect 실행되는걸 방지하고자 useEffectEvent 사용
+    // chatRoomOpened 함수에서 서버에 채팅방 읽기 성공했다고 소켓 메시지를 보낸다
+    if (socket && userOId) {
+      chatRoomOpened(socket, chatRoomOId, userOId)
+    }
+  })
 
   // 초기화: 채팅방 설정
   useEffect(() => {
@@ -46,7 +57,7 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
       loadChatArr(chatRoomOId, -1) // ::
         .then(res => {
           if (res.isSuccess) {
-            // 채팅 읽었다고 보내기
+            _chatRoomOpened()
           }
         })
     }

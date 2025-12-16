@@ -27,19 +27,19 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
 
   // AREA1: 소켓 리스너 영역
 
-  const _chatMessage = useEffectEvent(() => {
-    if (socket) {
-      socket.on('chat message', (payload: SCK.NewChatType) => {
-        pushBackChatQueue([payload])
-      })
-    }
-  })
-
   const _chatRoomOpened = useEffectEvent(() => {
     if (socket) {
       socket.on('chatRoom opened', (payload: SCK.ChatRoomOpenedType) => {
         const {chatRoomOId} = payload
         clearChatRoomUnreadMsgCnt(chatRoomOId)
+      })
+    }
+  })
+
+  const _newChat = useEffectEvent(() => {
+    if (socket) {
+      socket.on('new chat', (payload: SCK.NewChatType) => {
+        pushBackChatQueue([payload])
       })
     }
   })
@@ -66,8 +66,15 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
 
   // 초기화: 소켓 이벤트 리스너 부착
   useEffect(() => {
+    /**
+     * - socket 이 null 이 아닐때 부착해야 하므로 dependency array 에 socket 이 있는건 맞다.
+     * - 다음 이유로 이벤트 리스너는 useEffectEvent 로 선언한다.
+     *   - 이벤트 리스너마다 사용하는 state 가 있다
+     *     - 이 state 가 변할때마다 이벤트 리스너를 부착하면 오버헤드가 심해진다
+     *   - 이벤트 리스너를 별도의 코드로 관리하는게 좋다
+     */
     if (socket) {
-      _chatMessage()
+      _newChat()
       _chatRoomOpened()
       _newChatRoom()
     }
@@ -75,7 +82,11 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
 
   // 자동 변경: chatQueue 에서 chatArr 로
   useEffect(() => {
-    if (chatRoomOId && chatRoomOId === loadedChatRoomOId && chatQueue.length > 0) {
+    const isChatRoomOpened = chatRoomOId
+    const isChatArrLoaded = chatRoomOId === loadedChatRoomOId
+    const isChatQueueNotEmpty = chatQueue.length > 0
+
+    if (isChatRoomOpened && isChatArrLoaded && isChatQueueNotEmpty) {
       moveChatQueueToChatArr()
     }
   }, [chatQueue, chatRoomOId, loadedChatRoomOId])

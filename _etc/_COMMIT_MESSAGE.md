@@ -1,8 +1,7 @@
-25.12.16 [Client] 채팅방 열면 안 읽은 메시지 0으로 만드는 기능 추가
+25.12.16 [Client] :wrench: 채팅방 읽었다는 소켓 이벤트 종류 보정
 
 :construction: 채팅방 UI 완성
-  - :white_check_mark: 채팅방 열면 안 읽은 메시지 0으로 만들기(소켓 포함)
-  - :pencil2: [SocketType] 채팅방 열때 jwt 전송 안하도록 수정
+  - :wrench: 채팅방 읽었다는 소켓 이벤트 종류 보정
 
 TODO List
 
