@@ -81,36 +81,66 @@ export class QnaDBService {
       connection.release()
     }
   }
+  async createQnAComment(where: string, dto: DTO.CreateQnACommentDTO) {
+    where = where + '/createQnAComment'
 
-  async readQnAByQnAOId(where: string, qnAOId: string) {
-    where = where + '/readQnAByQnAOId'
+    const {content, qnAOId, targetQCommentOId, userName, userOId} = dto
 
     const connection = await this.dbService.getConnection()
 
-    try {
-      const query = `SELECT * FROM qnas WHERE qnAOId = ?`
-      const params = [qnAOId]
-      const [result] = await connection.execute(query, params)
-      const resultArr = result as RowDataPacket[]
+    /**
+     * 1. qCommentOId 생성 (미중복 나올때까지 반복)
+     * 2. QnA 댓글 추가
+     * 3. 생성된 QnA 댓글 반환
+     */
 
-      if (resultArr.length === 0) {
-        return {qnA: null}
+    try {
+      // 1. qCommentOId 생성 (미중복 나올때까지 반복)
+      let qCommentOId = generateObjectId()
+      while (true) {
+        const query = `SELECT qCommentOId FROM qnaComments WHERE qCommentOId = ?`
+        const [result] = await connection.execute(query, [qCommentOId])
+        const resultArr = result as RowDataPacket[]
+        if (resultArr.length === 0) break
+        qCommentOId = generateObjectId()
       }
 
-      const row = resultArr[0]
-      const qnA: T.QnAType = {
+      await new Promise(resolve => setTimeout(resolve, 1))
+
+      // 2. QnA 댓글 추가
+      const query = `INSERT INTO qnaComments (qCommentOId, qnAOId, targetQCommentOId, content, userName, userOId) VALUES (?, ?, ?, ?, ?, ?)`
+      const params = [qCommentOId, qnAOId, targetQCommentOId, content, userName, userOId]
+      await connection.execute(query, params)
+
+      // 3. 생성된 QnA 댓글 반환
+      const queryRead = `SELECT * FROM qnaComments WHERE qCommentOId = ?`
+      const [resultRead] = await connection.execute(queryRead, [qCommentOId])
+      const resultReadArr = resultRead as RowDataPacket[]
+
+      if (resultReadArr.length === 0) {
+        throw {
+          gkd: {qCommentOId: `QnA 댓글 생성 실패`},
+          gkdErrCode: 'QNADB_createQnAComment_Failed',
+          gkdErrMsg: `QnA 댓글 생성 실패`,
+          gkdStatus: {qCommentOId},
+          statusCode: 500,
+          where
+        } as T.ErrorObjType
+      }
+
+      const row = resultReadArr[0]
+      const qnAComment: T.QnACommentType = {
+        qCommentOId: row.qCommentOId,
         qnAOId: row.qnAOId,
-        title: row.title,
+        targetQCommentOId: row.targetQCommentOId,
         content: row.content,
-        isPrivate: row.isPrivate === 1,
         userName: row.userName,
         userOId: row.userOId,
-        viewCount: row.viewCount,
         createdAt: row.createdAt,
         updatedAt: row.updatedAt
       }
 
-      return {qnA}
+      return {qnAComment}
       // ::
     } catch (errObj) {
       // ::
@@ -171,7 +201,98 @@ export class QnaDBService {
       connection.release()
     }
   }
+  async readQnAByQnAOId(where: string, qnAOId: string) {
+    where = where + '/readQnAByQnAOId'
 
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const query = `SELECT * FROM qnas WHERE qnAOId = ?`
+      const params = [qnAOId]
+      const [result] = await connection.execute(query, params)
+      const resultArr = result as RowDataPacket[]
+
+      if (resultArr.length === 0) {
+        return {qnA: null}
+      }
+
+      const row = resultArr[0]
+      const qnA: T.QnAType = {
+        qnAOId: row.qnAOId,
+        title: row.title,
+        content: row.content,
+        isPrivate: row.isPrivate === 1,
+        userName: row.userName,
+        userOId: row.userOId,
+        viewCount: row.viewCount,
+        createdAt: row.createdAt,
+        updatedAt: row.updatedAt
+      }
+
+      return {qnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+  async readQnACommentArrByQnAOId(where: string, qnAOId: string) {
+    where = where + '/readQnACommentArrByQnAOId'
+
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const query = `SELECT * FROM qnaComments WHERE qnAOId = ? ORDER BY createdAt ASC`
+      const params = [qnAOId]
+      const [result] = await connection.execute(query, params)
+      const resultArr = result as RowDataPacket[]
+
+      const qnACommentArr: T.QnACommentType[] = resultArr.map(row => ({
+        qCommentOId: row.qCommentOId,
+        qnAOId: row.qnAOId,
+        targetQCommentOId: row.targetQCommentOId,
+        content: row.content,
+        userName: row.userName,
+        userOId: row.userOId,
+        createdAt: row.createdAt,
+        updatedAt: row.updatedAt
+      }))
+
+      return {qnACommentArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  async updateQnAViewCount(where: string, qnAOId: string) {
+    where = where + '/updateQnAViewCount'
+
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const query = `UPDATE qnas SET viewCount = viewCount + 1 WHERE qnAOId = ?`
+      const params = [qnAOId]
+      await connection.execute(query, params)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
   async updateQnA(where: string, qnAOId: string, title?: string, content?: string, isPrivate?: boolean) {
     where = where + '/updateQnA'
 
@@ -225,6 +346,8 @@ export class QnaDBService {
     }
   }
 
+  // DELETE AREA:
+
   async deleteQnA(where: string, qnAOId: string) {
     where = where + '/deleteQnA'
 
@@ -232,26 +355,6 @@ export class QnaDBService {
 
     try {
       const query = `DELETE FROM qnas WHERE qnAOId = ?`
-      const params = [qnAOId]
-      await connection.execute(query, params)
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-      // ::
-    } finally {
-      // ::
-      connection.release()
-    }
-  }
-
-  async incrementViewCount(where: string, qnAOId: string) {
-    where = where + '/incrementViewCount'
-
-    const connection = await this.dbService.getConnection()
-
-    try {
-      const query = `UPDATE qnas SET viewCount = viewCount + 1 WHERE qnAOId = ?`
       const params = [qnAOId]
       await connection.execute(query, params)
       // ::

@@ -2,7 +2,8 @@ export type CreateAlarmDTO = {
   alarmType: number
   content: string
   createdAt: Date
-  fileOId: string
+  fileOId: string | null
+  qnAOId: string | null
   senderUserName: string
   senderUserOId: string
   userOId: string
@@ -67,6 +68,14 @@ export type CreateQnADTO = {
   title: string
   content: string
   isPrivate: boolean
+  userName: string
+  userOId: string
+}
+
+export type CreateQnACommentDTO = {
+  content: string
+  qnAOId: string
+  targetQCommentOId: string | null
   userName: string
   userOId: string
 }

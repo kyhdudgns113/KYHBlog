@@ -14,6 +14,9 @@ import './Lefter.scss'
 
 type LefterProps = DivCommonProps & {}
 
+const DELAY_IS_OPEN = 400
+const DELAY_CN_CHANGE = 10
+
 export const Lefter: FC<LefterProps> = ({...props}) => {
   const nowTab = useBlogSelector(state => state.template.nowTab)
 
@@ -32,7 +35,7 @@ export const Lefter: FC<LefterProps> = ({...props}) => {
         setIsOpenBlog(false)
         setIsOpenAdminPosting(false)
         resolve(true)
-      }, 400)
+      }, DELAY_IS_OPEN)
     })
   }, [])
 
@@ -47,13 +50,14 @@ export const Lefter: FC<LefterProps> = ({...props}) => {
         setIsOpenBlog(isBlog)
         setIsOpenAdminPosting(isAdminPosting)
         resolve(true)
-      }, 400)
-    }).then(() => {
-      setTimeout(() => {
-        isBlog && setCnBlog('_open')
-        isAdminPosting && setCnAdminPosting('_open')
-      }, 10)
-    })
+      }, DELAY_IS_OPEN)
+    }) // ::
+      .then(() => {
+        setTimeout(() => {
+          isBlog && setCnBlog('_open')
+          isAdminPosting && setCnAdminPosting('_open')
+        }, DELAY_CN_CHANGE)
+      })
   }, [])
 
   const lefterChangeEvent = useEffectEvent(async (nowTab: T.NowTabType, location: ReturnType<typeof useLocation>) => {

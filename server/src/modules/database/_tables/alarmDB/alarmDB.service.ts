@@ -26,8 +26,8 @@ export class AlarmDBService {
         alarmOId = generateObjectId()
       }
 
-      const query = `INSERT INTO alarms (alarmOId, alarmType, content, fileOId, senderUserName, senderUserOId, userOId) VALUES (?, ?, ?, ?, ?, ?, ?)`
-      const params = [alarmOId, dto.alarmType, dto.content, dto.fileOId, dto.senderUserName, dto.senderUserOId, dto.userOId]
+      const query = `INSERT INTO alarms (alarmOId, alarmType, content, fileOId, qnAOId, senderUserName, senderUserOId, userOId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+      const params = [alarmOId, dto.alarmType, dto.content, dto.fileOId, dto.qnAOId, dto.senderUserName, dto.senderUserOId, dto.userOId]
       await connection.execute(query, params)
 
       const alarm: T.AlarmType = {
@@ -37,6 +37,7 @@ export class AlarmDBService {
         content: dto.content,
         createdAt: dto.createdAt,
         fileOId: dto.fileOId,
+        qnAOId: dto.qnAOId,
         senderUserName: dto.senderUserName,
         senderUserOId: dto.senderUserOId,
         userOId: dto.userOId
@@ -63,8 +64,8 @@ export class AlarmDBService {
       const resultArr = result as RowDataPacket[]
 
       const alarmArr: T.AlarmType[] = resultArr.map(row => {
-        const {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, senderUserName, senderUserOId, userOId} = row
-        const alarm: T.AlarmType = {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, senderUserName, senderUserOId, userOId}
+        const {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, qnAOId, senderUserName, senderUserOId, userOId} = row
+        const alarm: T.AlarmType = {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, qnAOId, senderUserName, senderUserOId, userOId}
         return alarm
       })
 
@@ -86,8 +87,8 @@ export class AlarmDBService {
         return {alarm: null}
       }
 
-      const {alarmStatus, alarmType, content, createdAt, fileOId, senderUserName, senderUserOId, userOId} = resultArr[0]
-      const alarm: T.AlarmType = {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, senderUserName, senderUserOId, userOId}
+      const {alarmStatus, alarmType, content, createdAt, fileOId, qnAOId, senderUserName, senderUserOId, userOId} = resultArr[0]
+      const alarm: T.AlarmType = {alarmOId, alarmStatus, alarmType, content, createdAt, fileOId, qnAOId, senderUserName, senderUserOId, userOId}
       return {alarm}
       // ::
     } catch (errObj) {

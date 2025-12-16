@@ -23,12 +23,13 @@ export function ModalSetFile() {
     (fileOId: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
       e.preventDefault()
-      deleteFile(fileOId).then((res: APIReturnType) => {
-        if (res.isSuccess) {
-          initFileOId_editFile()
-          closeModal()
-        }
-      })
+      deleteFile(fileOId) // ::
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
+            initFileOId_editFile()
+            closeModal()
+          }
+        })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
@@ -39,15 +40,16 @@ export function ModalSetFile() {
       e.preventDefault()
 
       // 모달 닫기도 changeFileName 에서 실행한다.
-      changeFileName(fileOId, fileName).then((res: APIReturnType) => {
-        if (res.isSuccess) {
-          initFileOId_editFile()
-          closeModal()
-        } // ::
-        else {
-          // changeFileName 에서 에러 메시지 출력
-        }
-      })
+      changeFileName(fileOId, fileName) // ::
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
+            initFileOId_editFile()
+            closeModal()
+          } // ::
+          else {
+            // changeFileName 에서 에러 메시지 출력
+          }
+        })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )

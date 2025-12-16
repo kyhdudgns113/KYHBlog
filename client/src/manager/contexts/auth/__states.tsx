@@ -9,6 +9,8 @@ import type {Setter} from '@type'
 type ContextType = {
   isLoggedIn: boolean, setIsLoggedIn: Setter<boolean>
   picture: string, setPicture: Setter<string>
+  socketValidated: boolean, setSocketValidated: Setter<boolean>
+
   userAuth: number, setUserAuth: Setter<number>
   userId: string, setUserId: Setter<string>
   userMail: string, setUserMail: Setter<string>
@@ -19,6 +21,8 @@ type ContextType = {
 export const AuthStatesContext = createContext<ContextType>({
   isLoggedIn: false, setIsLoggedIn: () => {},
   picture: '', setPicture: () => {},
+  socketValidated: false, setSocketValidated: () => {},
+
   userAuth: 0, setUserAuth: () => {},
   userId: '', setUserId: () => {},
   userMail: '', setUserMail: () => {},
@@ -31,6 +35,8 @@ export const useAuthStatesContext = () => useContext(AuthStatesContext)
 export const AuthStatesProvider: FC<PropsWithChildren> = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [picture, setPicture] = useState<string>('')
+  const [socketValidated, setSocketValidated] = useState<boolean>(false)
+
   const [userAuth, setUserAuth] = useState<number>(AUTH_GUEST)
   const [userId, setUserId] = useState<string>('')
   const [userMail, setUserMail] = useState<string>('')
@@ -41,6 +47,8 @@ export const AuthStatesProvider: FC<PropsWithChildren> = ({children}) => {
   const value: ContextType = {
     isLoggedIn, setIsLoggedIn,
     picture, setPicture,
+    socketValidated, setSocketValidated,
+
     userAuth, setUserAuth,
     userId, setUserId,
     userMail, setUserMail,

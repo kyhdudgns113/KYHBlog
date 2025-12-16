@@ -48,21 +48,6 @@
           }
         }
 
-        ._edit_button {
-          background-color: v.$SAKURA_BG;
-          border: 1px solid v.$SAKURA_BORDER;
-          border-radius: 6px;
-          color: v.$SAKURA_TEXT;
-          cursor: pointer;
-          font-size: 14px;
-          font-weight: 600;
-          padding: 6px 16px;
-          transition: background-color 0.2s;
-
-          &:hover {
-            background-color: v.$SAKURA_BG_50;
-          }
-        }
       }
 
       ._bottomLine {

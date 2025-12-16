@@ -11,7 +11,7 @@ import './ChatRoomRowObject.scss'
 type ChatRoomRowObjectProps = DivCommonProps & {chatRoom: LT.ChatRoomTypeLocal}
 
 export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, style, ...props}) => {
-  const {selectChatRoom} = useChatActions()
+  const {toggleChatRoomOId} = useChatActions()
 
   const [unreadStr, setUnreadStr] = useState<string>('')
 
@@ -19,11 +19,14 @@ export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, style, 
     (chatRoomOId: string) => (e: MouseEvent<HTMLDivElement>) => {
       e.stopPropagation()
       e.preventDefault()
-      selectChatRoom(chatRoomOId)
+      toggleChatRoomOId(chatRoomOId)
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  /**
+   * 초기화: 안 읽은 채팅 수
+   */
   useEffect(() => {
     if (chatRoom.unreadMessageCount < 100) {
       setUnreadStr(`${chatRoom.unreadMessageCount}`)
@@ -31,7 +34,7 @@ export const ChatRoomRowObject: FC<ChatRoomRowObjectProps> = ({chatRoom, style, 
     else {
       setUnreadStr('99+')
     }
-  }, [chatRoom.unreadMessageCount])
+  }, [chatRoom.unreadMessageCount]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div

@@ -25,7 +25,8 @@ export class ClientQnaPortService {
    *  1. 권한 췍!!
    *  2. 입력값 췍!!
    *  3. QnA 추가 뙇!!
-   *  4. qnAOId 반환 뙇!!
+   *  4. 관리자에게 보낼 알람 생성 뙇!!
+   *  5. QnA 및 알람배열 반환 뙇!!
    */
   async addQnAFile(jwtPayload: T.JwtPayloadType, data: HTTP.AddQnAType) {
     const where = `/client/qna/addQnAFile`
@@ -103,8 +104,129 @@ export class ClientQnaPortService {
       // 3. QnA 추가 뙇!!
       const {qnA} = await this.dbHubService.createQnA(where, dto)
 
-      // 4. qnAOId 반환 뙇!!
-      return {qnAOId: qnA.qnAOId}
+      // 4. 관리자에게 보낼 알람 생성 뙇!!
+      const {userArr} = await this.dbHubService.readUserArrByUserAuth(where, AUTH_ADMIN)
+      const alarmArr = await Promise.all(
+        userArr.map(async user => {
+          const dtoAlarm: DTO.CreateAlarmDTO = {
+            alarmType: SV.ALARM_TYPE_QNA_NEW,
+            content: `새로운 QnA가 추가되었습니다.`,
+            createdAt: new Date(),
+            fileOId: null,
+            qnAOId: qnA.qnAOId,
+            senderUserName: userName,
+            senderUserOId: userOId,
+            userOId: user.userOId
+          }
+          const {alarm} = await this.dbHubService.createAlarm(where, dtoAlarm)
+          return alarm
+        })
+      )
+
+      // 5. qnAOId 반환 뙇!!
+      return {alarmArr, qnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
+   * addQnAComment
+   *  - QnA 댓글을 추가한다
+   *
+   * ------
+   *
+   * 코드 내용
+   *
+   *  1. 권한 췍!!
+   *  2. 입력값 췍!!
+   *  3. QnA 존재 여부 체크 뙇!!
+   *  4. QnA 댓글 추가 뙇!!
+   *  5. 댓글 목록 조회 및 반환 뙇!!
+   */
+  async addQnAComment(jwtPayload: T.JwtPayloadType, data: HTTP.AddQnACommentType) {
+    const where = `/client/qna/addQnAComment`
+
+    try {
+      // 1. 권한 췍!!
+      await this.dbHubService.checkAuthUser(where, jwtPayload)
+      const {userName, userOId} = jwtPayload
+
+      // 2. 입력값 췍!!
+      const {content, qnAOId, targetQCommentOId} = data
+
+      // 2-1. content 체크
+      if (!content || content.trim().length === 0) {
+        throw {
+          gkd: {content: `댓글 내용이 없음`},
+          gkdErrCode: 'CLIENTQNAPORT_addQnAComment_InvalidContent',
+          gkdErrMsg: `댓글 내용이 없음`,
+          gkdStatus: {content},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 2-1-1. content 길이 체크
+      if (content.length > SV.COMMENT_MAX_LENGTH) {
+        throw {
+          gkd: {content: `댓글이 너무 김 (최대 ${SV.COMMENT_MAX_LENGTH}자)`},
+          gkdErrCode: 'CLIENTQNAPORT_addQnAComment_ContentTooLong',
+          gkdErrMsg: `댓글이 너무 김 (최대 ${SV.COMMENT_MAX_LENGTH}자)`,
+          gkdStatus: {content, contentLength: content.length, maxLength: SV.COMMENT_MAX_LENGTH},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 2-2. userOId 일치 체크
+      if (userOId !== data.userOId) {
+        throw {
+          gkd: {userOId: `유저 오브젝트 아이디가 일치하지 않음`},
+          gkdErrCode: 'CLIENTQNAPORT_addQnAComment_InvalidUserOId',
+          gkdErrMsg: `유저 오브젝트 아이디가 일치하지 않음`,
+          gkdStatus: {userOId: data.userOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 2-3. userName 일치 체크
+      if (userName !== data.userName) {
+        throw {
+          gkd: {userName: `유저 이름이 일치하지 않음`},
+          gkdErrCode: 'CLIENTQNAPORT_addQnAComment_InvalidUserName',
+          gkdErrMsg: `유저 이름이 일치하지 않음`,
+          gkdStatus: {userName: data.userName},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 3. QnA 존재 여부 체크 뙇!!
+      const {qnA} = await this.dbHubService.readQnAByQnAOId(where, qnAOId)
+      if (!qnA) {
+        throw {
+          gkd: {qnAOId: `존재하지 않는 QnA`},
+          gkdErrCode: 'CLIENTQNAPORT_addQnAComment_InvalidQnAOId',
+          gkdErrMsg: `존재하지 않는 QnA`,
+          gkdStatus: {qnAOId},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      const dto: DTO.CreateQnACommentDTO = {content, qnAOId, targetQCommentOId, userName, userOId}
+
+      // 4. QnA 댓글 추가 뙇!!
+      await this.dbHubService.createQnAComment(where, dto)
+
+      // 5. 댓글 목록 조회 및 반환 뙇!!
+      const {qnACommentArr} = await this.dbHubService.readQnACommentArrByQnAOId(where, qnAOId)
+
+      return {qnACommentArr}
       // ::
     } catch (errObj) {
       // ::
@@ -135,49 +257,45 @@ export class ClientQnaPortService {
     const where = `/client/qna/loadQnA`
 
     try {
-      // 1. 권한 췍!! (유저 권한 체크)
-      const {user} = await this.dbHubService.checkAuthUser(where, jwtPayload)
-      const {userOId} = jwtPayload
+      // 1. 권한 췍!! (해당 QnA를 읽을 권한이 있는지 확인)
+      const {qnA} = await this.dbHubService.checkAuth_QnARead(where, jwtPayload, qnAOId)
 
-      // 2. QnA 조회 뙇!!
-      const {qnA} = await this.dbHubService.readQnAByQnAOId(where, qnAOId)
-
-      // 3. QnA 존재 여부 체크 뙇!!
-      if (!qnA) {
-        throw {
-          gkd: {qnAOId: `존재하지 않는 QnA`},
-          gkdErrCode: 'CLIENTQNAPORT_loadQnA_InvalidQnAOId',
-          gkdErrMsg: `존재하지 않는 QnA`,
-          gkdStatus: {qnAOId},
-          statusCode: 400,
-          where
-        } as T.ErrorObjType
-      }
-
-      // 4. 비공개 QnA 권한 체크 뙇!!
-      if (qnA.isPrivate) {
-        // 비공개 질문글이면: 당사자나 관리자만 읽을 수 있음
-        const isOwner = qnA.userOId === userOId
-        const isAdmin = user.userAuth === AUTH_ADMIN
-
-        if (!isOwner && !isAdmin) {
-          throw {
-            gkd: {qnAOId: `권한이 없음`},
-            gkdErrCode: 'CLIENTQNAPORT_loadQnA_NoPermission',
-            gkdErrMsg: `비공개 질문글은 작성자나 관리자만 볼 수 있습니다.`,
-            gkdStatus: {qnAOId},
-            statusCode: 403,
-            where
-          } as T.ErrorObjType
-        }
-      }
-      // 비공개 질문글이 아니면: 유저 권한만 있으면 볼 수 있음 (이미 checkAuthUser로 체크됨)
-
-      // 5. 조회수 증가 뙇!!
+      // 2. 조회수 증가 뙇!!
       await this.dbHubService.incrementQnAViewCount(where, qnAOId)
 
-      // 6. QnA 반환 뙇!!
+      // 3. QnA 반환 뙇!!
       return {qnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  /**
+   * loadQnACommentArr
+   *  - qnAOId로 QnA 댓글 목록을 조회한다
+   *
+   * ------
+   *
+   * 코드 내용
+   *
+   *  1. 권한 췍!! (해당 QnA를 읽을 권한이 있는지 확인)
+   *  2. 댓글 목록 조회 뙇!!
+   *  3. 댓글 목록 반환 뙇!!
+   */
+  async loadQnACommentArr(jwtPayload: T.JwtPayloadType, qnAOId: string) {
+    const where = `/client/qna/loadQnACommentArr`
+
+    try {
+      // 1. 권한 췍!! (해당 QnA를 읽을 권한이 있는지 확인)
+      await this.dbHubService.checkAuth_QnARead(where, jwtPayload, qnAOId)
+
+      // 2. 댓글 목록 조회 뙇!!
+      const {qnACommentArr} = await this.dbHubService.readQnACommentArrByQnAOId(where, qnAOId)
+
+      // 3. 댓글 목록 반환 뙇!!
+      return {qnACommentArr}
       // ::
     } catch (errObj) {
       // ::
@@ -233,54 +351,20 @@ export class ClientQnaPortService {
    *
    * 코드 내용
    *
-   *  1. 권한 췍!! (유저 권한 체크)
-   *  2. QnA 조회 뙇!!
-   *  3. QnA 존재 여부 체크 뙇!!
-   *  4. 작성자 권한 체크 뙇!!
+   *  1. 권한 췍!! (수정 권한 체크)
    *     - 작성자나 관리자만 수정 가능
-   *  5. 입력값 췍!!
-   *  6. QnA 수정 뙇!!
-   *  7. 수정된 QnA 반환 뙇!!
+   *  2. 입력값 췍!!
+   *  3. QnA 수정 뙇!!
+   *  4. 수정된 QnA 반환 뙇!!
    */
   async modifyQnA(jwtPayload: T.JwtPayloadType, data: HTTP.ModifyQnAType) {
     const where = `/client/qna/modifyQnA`
 
     try {
-      // 1. 권한 췍!! (유저 권한 체크)
-      const {user} = await this.dbHubService.checkAuthUser(where, jwtPayload)
-      const {userOId} = jwtPayload
+      // 1. 권한 췍!! (수정 권한 체크)
+      await this.dbHubService.checkAuth_QnAEdit(where, jwtPayload, data.qnAOId)
 
-      // 2. QnA 조회 뙇!!
-      const {qnA} = await this.dbHubService.readQnAByQnAOId(where, data.qnAOId)
-
-      // 3. QnA 존재 여부 체크 뙇!!
-      if (!qnA) {
-        throw {
-          gkd: {qnAOId: `존재하지 않는 QnA`},
-          gkdErrCode: 'CLIENTQNAPORT_modifyQnA_InvalidQnAOId',
-          gkdErrMsg: `존재하지 않는 QnA`,
-          gkdStatus: {qnAOId: data.qnAOId},
-          statusCode: 400,
-          where
-        } as T.ErrorObjType
-      }
-
-      // 4. 작성자 권한 체크 뙇!!
-      const isOwner = qnA.userOId === userOId
-      const isAdmin = user.userAuth === AUTH_ADMIN
-
-      if (!isOwner && !isAdmin) {
-        throw {
-          gkd: {qnAOId: `권한이 없음`},
-          gkdErrCode: 'CLIENTQNAPORT_modifyQnA_NoPermission',
-          gkdErrMsg: `QnA는 작성자나 관리자만 수정할 수 있습니다.`,
-          gkdStatus: {qnAOId: data.qnAOId},
-          statusCode: 403,
-          where
-        } as T.ErrorObjType
-      }
-
-      // 5. 입력값 췍!!
+      // 2. 입력값 췍!!
       const {title, content, isPrivate} = data
 
       // 5-1. title 체크 (제공된 경우)
@@ -333,11 +417,43 @@ export class ClientQnaPortService {
         }
       }
 
-      // 6. QnA 수정 뙇!!
+      // 3. QnA 수정 뙇!!
       const {qnA: updatedQnA} = await this.dbHubService.updateQnA(where, data.qnAOId, title, content, isPrivate)
 
-      // 7. 수정된 QnA 반환 뙇!!
+      // 4. 수정된 QnA 반환 뙇!!
       return {qnA: updatedQnA}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  // DELETE AREA:
+
+  /**
+   * deleteQnA
+   *  - QnA를 삭제한다
+   *
+   * ------
+   *
+   * 코드 내용
+   *
+   *  1. 권한 췍!! (삭제 권한 체크)
+   *     - 작성자나 관리자만 삭제 가능
+   *  2. QnA 삭제 뙇!!
+   */
+  async deleteQnA(jwtPayload: T.JwtPayloadType, qnAOId: string) {
+    const where = `/client/qna/deleteQnA`
+
+    try {
+      // 1. 권한 췍!! (삭제 권한 체크)
+      await this.dbHubService.checkAuth_QnAEdit(where, jwtPayload, qnAOId)
+
+      // 2. QnA 삭제 뙇!!
+      await this.dbHubService.deleteQnA(where, qnAOId)
+
+      return {}
       // ::
     } catch (errObj) {
       // ::

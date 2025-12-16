@@ -47,7 +47,12 @@ export const AlarmBlockGroup: FC<AlarmBlockGroupProps> = ({alarm, className, ...
     (alarm: LT.AlarmTypeLocal) => (e: MouseEvent<HTMLDivElement>) => {
       e.preventDefault()
 
-      navigate(`/main/blog/${alarm.fileOId}`)
+      if (alarm.fileOId) {
+        navigate(`/main/blog/${alarm.fileOId}`)
+      } // ::
+      else if (alarm.qnAOId) {
+        navigate(`/main/qna/read/${alarm.qnAOId}`)
+      } // ::
       removeAlarm(alarm.alarmOId)
       closeAlarmObj()
     },

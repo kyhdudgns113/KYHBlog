@@ -24,12 +24,13 @@ export function ModalSetDirectory() {
     (dirOId: string) => (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
       e.preventDefault()
-      deleteDir(dirOId).then((res: APIReturnType) => {
-        if (res.isSuccess) {
-          initDirOId_editDir()
-          closeModal()
-        }
-      })
+      deleteDir(dirOId) // ::
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
+            initDirOId_editDir()
+            closeModal()
+          }
+        })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
@@ -40,15 +41,16 @@ export function ModalSetDirectory() {
       e.preventDefault()
 
       // 모달 닫기도 changeDirName 에서 실행한다.
-      changeDirName(dirOId, dirName).then((res: APIReturnType) => {
-        if (res.isSuccess) {
-          initDirOId_editDir()
-          closeModal()
-        } // ::
-        else {
-          // changeDirName 에서 에러 메시지 출력
-        }
-      })
+      changeDirName(dirOId, dirName) // ::
+        .then((res: APIReturnType) => {
+          if (res.isSuccess) {
+            initDirOId_editDir()
+            closeModal()
+          } // ::
+          else {
+            // changeDirName 에서 에러 메시지 출력
+          }
+        })
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )

@@ -8,7 +8,8 @@ export type AlarmType = {
   alarmType: number
   content: string
   createdAt: Date
-  fileOId: string
+  fileOId: string | null
+  qnAOId: string | null
   senderUserName: string
   senderUserOId: string
   userOId: string
@@ -113,6 +114,16 @@ export type QnAType = {
   title: string
   updatedAt: Date
   viewCount: number
+}
+export type QnACommentType = {
+  content: string
+  createdAt: Date
+  qCommentOId: string // Primary Key
+  qnAOId: string // 참조하는 QnA 글의 OId
+  targetQCommentOId: string | null // 참조하는 QnA 댓글이 없으면 null
+  updatedAt: Date
+  userName: string
+  userOId: string
 }
 export type QnARowType = {
   /**
