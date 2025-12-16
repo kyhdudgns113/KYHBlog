@@ -23,7 +23,7 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
 
   const {socket} = useSocketStatesContext()
   const {userOId} = useAuthStatesContext()
-  const {chatRoomOpened, loadChatArr} = useChatCallbacksContext()
+  const {chatRoomClosed, chatRoomOpened, loadChatArr} = useChatCallbacksContext()
 
   const onKeyDownChatRoom = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape') {
@@ -32,6 +32,13 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
       resetChatRoomOId()
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const _chatRoomClosed = useEffectEvent(() => {
+    const chatRoomOId = loadedChatRoomOId
+    if (socket && userOId && chatRoomOId) {
+      chatRoomClosed(socket, chatRoomOId, userOId)
+    }
+  })
 
   const _chatRoomOpened = useEffectEvent(() => {
     // socket 이랑 userOId 가 바뀔때마다 useEffect 실행되는걸 방지하고자 useEffectEvent 사용
@@ -64,6 +71,7 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
 
     return () => {
       if (isChatRoomOpened && !isChatArrNotLoaded) {
+        _chatRoomClosed()
         resetChatRoomOId()
         resetLoadedChatRoomOId()
         resetChatArr()

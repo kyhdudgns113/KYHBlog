@@ -12,8 +12,6 @@ export const useChatActions = () => {
   return {
     clearChatRoomUnreadMsgCnt: (chatRoomOId: string) => dispatch(chatSlice.actions.clearChatRoomUnreadMsgCnt(chatRoomOId)),
 
-    incChatRoomUnreadMsgCnt: (chatRoomOId: string) => dispatch(chatSlice.actions.incChatRoomUnreadMsgCnt(chatRoomOId)),
-
     moveChatQueueToChatArr: () => dispatch(chatSlice.actions.moveChatQueueToChatArr()),
 
     pushBackChatQueue: (chatQueue: SCK.NewChatType[]) => dispatch(chatSlice.actions.pushBackChatQueue(chatQueue)),
@@ -31,6 +29,7 @@ export const useChatActions = () => {
     // ::
     setChatArr: (chatArr: ST.ChatType[]) => dispatch(chatSlice.actions.setChatArr(chatArr)),
     setChatRoom: (chatRoom: ST.ChatRoomType) => dispatch(chatSlice.actions.setChatRoom(chatRoom)),
+    setChatRoomUnreadMsgCnt: (chatRoom: SCK.RefreshChatRoomType) => dispatch(chatSlice.actions.setChatRoomUnreadMsgCnt(chatRoom)),
     setChatRoomArr: (chatRoomArr: ST.ChatRoomType[]) => dispatch(chatSlice.actions.setChatRoomArr(chatRoomArr)),
     setChatRoomOId: (chatRoomOId: string) => dispatch(chatSlice.actions.setChatRoomOId(chatRoomOId)),
     setGoToBottom: (goToBottom: boolean) => dispatch(chatSlice.actions.setGoToBottom(goToBottom)),

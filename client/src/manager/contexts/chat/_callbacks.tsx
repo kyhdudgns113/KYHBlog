@@ -16,6 +16,7 @@ type ContextType = {
   loadChatRoomArr: (userOId: string) => Promise<T.APIReturnType>
   loadUserChatRoom: (userOId: string, targetUserOId: string) => Promise<T.APIReturnType>
 
+  chatRoomClosed: (socket: T.SocketType, chatRoomOId: string, userOId: string) => void
   chatRoomOpened: (socket: T.SocketType, chatRoomOId: string, userOId: string) => void
   submitChat: (socket: T.SocketType, chatRoomOId: string, content: string) => void
 }
@@ -25,6 +26,7 @@ export const ChatCallbacksContext = createContext<ContextType>({
   loadChatRoomArr: () => Promise.resolve({isSuccess: false}),
   loadUserChatRoom: () => Promise.resolve({isSuccess: false}),
 
+  chatRoomClosed: () => {},
   chatRoomOpened: () => {},
   submitChat: () => {},
 })
@@ -123,6 +125,13 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   // SOCKET AREA:
 
+  const chatRoomClosed = useCallback((socket: T.SocketType, chatRoomOId: string, userOId: string) => {
+    if (socket && chatRoomOId) {
+      const payload: SCK.ChatRoomDisconnectType = {chatRoomOId, userOId}
+      emitSocket(socket, 'chatRoom disconnect', payload)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const chatRoomOpened = useCallback((socket: T.SocketType, chatRoomOId: string, userOId: string) => {
     if (socket && chatRoomOId) {
       const payload: SCK.ChatRoomConnectType = {chatRoomOId, userOId}
@@ -143,6 +152,7 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     loadChatRoomArr,
     loadUserChatRoom,
 
+    chatRoomClosed,
     chatRoomOpened,
     submitChat,
   }

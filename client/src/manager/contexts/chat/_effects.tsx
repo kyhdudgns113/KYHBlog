@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useEffectEvent} from 'react'
 
-import {useChatActions, useChatStates} from '@redux'
+import {useBlogSelector, useChatActions} from '@redux'
 
 import {useAuthStatesContext} from '../auth'
 import {useSocketStatesContext} from '../socket'
@@ -18,8 +18,12 @@ export const ChatEffectsContext = createContext<ContextType>({})
 export const useChatEffectsContext = () => useContext(ChatEffectsContext)
 
 export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
-  const {chatQueue, chatRoomOId, loadedChatRoomOId} = useChatStates()
-  const {clearChatRoomUnreadMsgCnt, moveChatQueueToChatArr, pushBackChatQueue, pushFrontChatRoomArr, resetChatRoomArr} = useChatActions()
+  // const {chatQueue, chatRoomOId, loadedChatRoomOId} = useChatStates()
+  const chatQueue = useBlogSelector(state => state.chat.chatQueue)
+  const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
+  const loadedChatRoomOId = useBlogSelector(state => state.chat.loadedChatRoomOId)
+  const {clearChatRoomUnreadMsgCnt, setChatRoomUnreadMsgCnt, moveChatQueueToChatArr, pushBackChatQueue, pushFrontChatRoomArr, resetChatRoomArr} =
+    useChatActions()
 
   const {socket} = useSocketStatesContext()
   const {userOId} = useAuthStatesContext()
@@ -52,6 +56,14 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
     }
   })
 
+  const _refreshChatRoom = useEffectEvent(() => {
+    if (socket) {
+      socket.on('refresh chat room', (payload: SCK.RefreshChatRoomType) => {
+        setChatRoomUnreadMsgCnt(payload)
+      })
+    }
+  })
+
   // AREA2: useEffect 영역
 
   // 초기화: 로그인시 채팅방 목록 불러오기
@@ -74,9 +86,10 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
      *   - 이벤트 리스너를 별도의 코드로 관리하는게 좋다
      */
     if (socket) {
-      _newChat()
       _chatRoomOpened()
+      _newChat()
       _newChatRoom()
+      _refreshChatRoom()
     }
   }, [socket])
 

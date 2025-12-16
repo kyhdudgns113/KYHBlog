@@ -42,14 +42,6 @@ export const chatSlice = createSlice({
       }
     },
 
-    incChatRoomUnreadMsgCnt: (state, action: PayloadAction<string>) => {
-      const chatRoomOId = action.payload
-      const chatRoom = state.chatRoomArr.find(elem => elem.chatRoomOId === chatRoomOId)
-      if (chatRoom) {
-        chatRoom.unreadMessageCount += 1
-      }
-    },
-
     moveChatQueueToChatArr: state => {
       const insertedChatArr = state.chatQueue.filter(elem => elem.chatRoomOId === state.loadedChatRoomOId)
       state.chatQueue = []
@@ -135,6 +127,13 @@ export const chatSlice = createSlice({
     setChatRoom: (state, action: PayloadAction<ST.ChatRoomType>) => {
       const {lastChatDate, ...rest} = action.payload
       state.chatRoom = {...rest, lastChatDateValue: new Date(lastChatDate).valueOf()}
+    },
+    setChatRoomUnreadMsgCnt: (state, action: PayloadAction<SCK.RefreshChatRoomType>) => {
+      const {chatRoomOId, unreadMessageCount} = action.payload
+      const chatRoom = state.chatRoomArr.find(elem => elem.chatRoomOId === chatRoomOId)
+      if (chatRoom) {
+        chatRoom.unreadMessageCount = unreadMessageCount
+      }
     },
     setChatRoomArr: (state, action: PayloadAction<ST.ChatRoomType[]>) => {
       const newChatRoomArr = action.payload.map(elem => {
