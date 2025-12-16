@@ -9,7 +9,7 @@ export type ChatMessageType = {
 
 export type ChatRoomConnectType = {
   chatRoomOId: string
-  jwtFromClient: string
+  // jwtFromClient: string // 어차피 소켓 연결시 토큰 인증을 진행하기 때문에 여기서 할 필요가 없다.
   userOId: string
 }
 

@@ -10,6 +10,10 @@ export const useChatActions = () => {
   const dispatch = useBlogDispatch()
 
   return {
+    clearChatRoomUnreadMsgCnt: (chatRoomOId: string) => dispatch(chatSlice.actions.clearChatRoomUnreadMsgCnt(chatRoomOId)),
+
+    incChatRoomUnreadMsgCnt: (chatRoomOId: string) => dispatch(chatSlice.actions.incChatRoomUnreadMsgCnt(chatRoomOId)),
+
     moveChatQueueToChatArr: () => dispatch(chatSlice.actions.moveChatQueueToChatArr()),
 
     pushBackChatQueue: (chatQueue: SCK.NewChatType[]) => dispatch(chatSlice.actions.pushBackChatQueue(chatQueue)),

@@ -43,7 +43,12 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
     const isChatArrNotLoaded = chatRoomOId !== loadedChatRoomOId
 
     if (isChatRoomOpened && isChatArrNotLoaded) {
-      loadChatArr(chatRoomOId, -1)
+      loadChatArr(chatRoomOId, -1) // ::
+        .then(res => {
+          if (res.isSuccess) {
+            // 채팅 읽었다고 보내기
+          }
+        })
     }
 
     return () => {

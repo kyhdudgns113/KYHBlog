@@ -34,6 +34,22 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
+    clearChatRoomUnreadMsgCnt: (state, action: PayloadAction<string>) => {
+      const chatRoomOId = action.payload
+      const chatRoom = state.chatRoomArr.find(elem => elem.chatRoomOId === chatRoomOId)
+      if (chatRoom) {
+        chatRoom.unreadMessageCount = 0
+      }
+    },
+
+    incChatRoomUnreadMsgCnt: (state, action: PayloadAction<string>) => {
+      const chatRoomOId = action.payload
+      const chatRoom = state.chatRoomArr.find(elem => elem.chatRoomOId === chatRoomOId)
+      if (chatRoom) {
+        chatRoom.unreadMessageCount += 1
+      }
+    },
+
     moveChatQueueToChatArr: state => {
       const insertedChatArr = state.chatQueue.filter(elem => elem.chatRoomOId === state.loadedChatRoomOId)
       state.chatQueue = []

@@ -19,7 +19,7 @@ export const useChatEffectsContext = () => useContext(ChatEffectsContext)
 
 export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
   const {chatQueue, chatRoomOId, loadedChatRoomOId} = useChatStates()
-  const {moveChatQueueToChatArr, pushBackChatQueue, pushFrontChatRoomArr, resetChatRoomArr} = useChatActions()
+  const {clearChatRoomUnreadMsgCnt, moveChatQueueToChatArr, pushBackChatQueue, pushFrontChatRoomArr, resetChatRoomArr} = useChatActions()
 
   const {socket} = useSocketStatesContext()
   const {userOId} = useAuthStatesContext()
@@ -31,6 +31,15 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
     if (socket) {
       socket.on('chat message', (payload: SCK.NewChatType) => {
         pushBackChatQueue([payload])
+      })
+    }
+  })
+
+  const _chatRoomOpened = useEffectEvent(() => {
+    if (socket) {
+      socket.on('chatRoom opened', (payload: SCK.ChatRoomOpenedType) => {
+        const {chatRoomOId} = payload
+        clearChatRoomUnreadMsgCnt(chatRoomOId)
       })
     }
   })
@@ -59,6 +68,7 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
   useEffect(() => {
     if (socket) {
       _chatMessage()
+      _chatRoomOpened()
       _newChatRoom()
     }
   }, [socket])
