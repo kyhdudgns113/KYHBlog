@@ -209,11 +209,11 @@ export class ClientChatPortService {
       const adminUserOId = adminUser.userOId
 
       // 3. 관리자가 시도하는지 췍!!
-      if (user.userAuth !== SV.AUTH_ADMIN) {
+      if (user.userAuth === SV.AUTH_ADMIN) {
         throw {
-          gkd: {noAdmin: `관리자는 이런거 하지 마세요. 뭔가 잘못됐어요.`},
+          gkd: {noAdmin: `관리자는 이런거 하지 마세요.`},
           gkdErrCode: 'CLIENTCHATPORT_loadAdminChatRoom_noAdmin',
-          gkdErrMsg: `관리자는 이런거 하지 마세요. 뭔가 잘못됐어요.`,
+          gkdErrMsg: `관리자는 이런거 하지 마세요.`,
           gkdStatus: {userOId, userAuth: user.userAuth},
           statusCode: 400,
           where
