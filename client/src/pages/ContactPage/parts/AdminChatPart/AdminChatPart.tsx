@@ -1,5 +1,8 @@
 import {useCallback} from 'react'
 
+import {useAuthStatesContext, useChatCallbacksContext} from '@context'
+import {useTemplateActions, useChatActions} from '@redux'
+
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
 
@@ -10,21 +13,35 @@ import './AdminChatPart.scss'
 type AdminChatPartProps = DivCommonProps & {}
 
 export const AdminChatPart: FC<AdminChatPartProps> = ({...props}) => {
-  const onClickAdminChat = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      e.preventDefault()
-      e.stopPropagation()
+  const {clickLogInBtn} = useTemplateActions()
+  const {setChatRoomOId} = useChatActions()
 
-      // TODO: 관리자 userOId 가져오기
-      // TODO: loadUserChatRoom(userOId, adminUserOId) 호출하여 관리자와의 채팅방 열기
-      // TODO: 로그인 체크 필요
+  const {isLoggedIn, userOId} = useAuthStatesContext()
+  const {loadAdminChatRoom} = useChatCallbacksContext()
+
+  const onClickAdminChat = useCallback(
+    (isLoggedIn: boolean, userOId: string) => (e: MouseEvent<HTMLDivElement>) => {
+      e.preventDefault()
+
+      if (!isLoggedIn) {
+        alert('로그인 이후 이용해주세요.')
+        clickLogInBtn()
+        return
+      }
+
+      loadAdminChatRoom(userOId) // ::
+        .then(res => {
+          if (res.isSuccess) {
+            setChatRoomOId(res.chatRoomOId)
+          }
+        })
     },
-    []
+    [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   return (
     <div className={`AdminChat_Part`} {...props}>
-      <div className="_contact_item" onClick={onClickAdminChat}>
+      <div className="_contact_item" onClick={onClickAdminChat(isLoggedIn, userOId)}>
         <div className="_icon_wrapper">
           <Icon iconName="admin_panel_settings" className="_icon" />
         </div>
@@ -37,4 +54,3 @@ export const AdminChatPart: FC<AdminChatPartProps> = ({...props}) => {
     </div>
   )
 }
-

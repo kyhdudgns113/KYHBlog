@@ -12,6 +12,7 @@ import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
+  loadAdminChatRoom: (userOId: string) => Promise<T.APIReturnType>
   loadChatArr: (chatRoomOId: string, firstIdx: number) => Promise<T.APIReturnType>
   loadChatRoomArr: (userOId: string) => Promise<T.APIReturnType>
   loadUserChatRoom: (userOId: string, targetUserOId: string) => Promise<T.APIReturnType>
@@ -22,6 +23,7 @@ type ContextType = {
 }
 // prettier-ignore
 export const ChatCallbacksContext = createContext<ContextType>({
+  loadAdminChatRoom: () => Promise.resolve({isSuccess: false}),
   loadChatArr: () => Promise.resolve({isSuccess: false}),
   loadChatRoomArr: () => Promise.resolve({isSuccess: false}),
   loadUserChatRoom: () => Promise.resolve({isSuccess: false}),
@@ -38,6 +40,30 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   const {pushFrontChatArr, setChatArr, setChatRoom, setChatRoomArr, setGoToBottom, setChatRoomOId, setLoadedChatRoomOId} = useChatActions()
 
   // GET AREA:
+
+  const loadAdminChatRoom = useCallback(async (userOId: string) => {
+    const url = `/client/chat/loadAdminChatRoom/${userOId}`
+
+    return F.getWithJwt(url)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message, jwtFromServer} = res
+
+        if (ok) {
+          const chatRoomOId = body.chatRoomOId
+          U.writeJwtFromServer(jwtFromServer)
+          return {isSuccess: true, chatRoomOId} as T.APIReturnType
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return {isSuccess: false} as T.APIReturnType
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return {isSuccess: false} as T.APIReturnType
+      })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadChatArr = useCallback(async (chatRoomOId: string, firstIdx: number) => {
     const url = `/client/chat/loadChatArr/${chatRoomOId}/${firstIdx}`
@@ -148,6 +174,7 @@ export const ChatCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   // prettier-ignore
   const value: ContextType = {
+    loadAdminChatRoom,
     loadChatArr,
     loadChatRoomArr,
     loadUserChatRoom,

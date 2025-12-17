@@ -52,4 +52,21 @@ export class ClientChatService {
       return U.getFailResponse(errObj)
     }
   }
+
+  async loadAdminChatRoom(jwtPayload: JwtPayloadType, userOId: string) {
+    try {
+      const {chatRoom, isCreated} = await this.portService.loadAdminChatRoom(jwtPayload, userOId)
+
+      if (isCreated) {
+        // Payload 유저와 userOId 와 다를 수 있다.
+        this.socketService.sendUserChatRoomCreated(jwtPayload.userOId, chatRoom)
+      }
+
+      return {ok: true, body: {chatRoomOId: chatRoom.chatRoomOId}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }

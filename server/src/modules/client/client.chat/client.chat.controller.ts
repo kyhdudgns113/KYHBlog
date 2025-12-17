@@ -32,4 +32,12 @@ export class ClientChatController {
     const {ok, body, gkdErrMsg, statusCode} = await this.clientService.loadUserChatRoom(jwtPayload, userOId, targetUserOId)
     return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
   }
+
+  @Get('/loadAdminChatRoom/:userOId')
+  @UseGuards(CheckJwtValidationGuard)
+  async loadAdminChatRoom(@Headers() headers: any, @Param('userOId') userOId: string) {
+    const {jwtFromServer, jwtPayload} = headers
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.loadAdminChatRoom(jwtPayload, userOId)
+    return {ok, body, gkdErrMsg, statusCode, jwtFromServer}
+  }
 }

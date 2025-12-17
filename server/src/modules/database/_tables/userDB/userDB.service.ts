@@ -178,6 +178,49 @@ export class UserDBService {
       connection.release()
     }
   }
+  async readUserByUserId(where: string, userId: string) {
+    where = where + '/readUserByUserId'
+
+    const connection = await this.dbService.getConnection()
+
+    try {
+      const query = `SELECT * FROM users WHERE userId = ?`
+      const [result] = await connection.execute(query, [userId])
+
+      const resultArr = result as RowDataPacket[]
+
+      // 2명 이상인지 확인
+      if (resultArr.length > 1) {
+        throw {
+          gkd: {userId: `하나의 userId에 대해 2명 이상의 유저가 존재합니다.`},
+          gkdErrCode: 'USERDB_readUserByUserId',
+          gkdErrMsg: `userId 중복 오류`,
+          gkdStatus: {userId},
+          statusCode: 500,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 없으면 null 리턴
+      if (resultArr.length === 0) {
+        return {user: null}
+      }
+
+      // 유저 타입으로 변환 및 리턴
+      const {picture, signUpType, userAuth, userMail, userOId, userName, createdAt, updatedAt} = resultArr[0]
+      const user: UserType = {userOId, picture, signUpType, userAuth, userId, userMail, userName, createdAt, updatedAt}
+
+      return {user}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
   async readUserByUserOId(where: string, userOId: string) {
     where = where + '/readUserByUserOId'
     /**
