@@ -1,13 +1,21 @@
+import {useAuthStatesContext} from '@context'
+
 import {KakaoPart, EmailPart, AdminChatPart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
+
+import * as SV from '@shareValue'
 
 import './ContactPage.scss'
 
 type ContactPageProps = DivCommonProps & {}
 
 export const ContactPage: FC<ContactPageProps> = ({...props}) => {
+  const {userAuth} = useAuthStatesContext()
+
+  const isAdmin = userAuth === SV.AUTH_ADMIN
+
   return (
     <div className={`ContactPage`} {...props}>
       <div className="_container_contact">
@@ -21,7 +29,7 @@ export const ContactPage: FC<ContactPageProps> = ({...props}) => {
         <div className="_contact_items">
           <KakaoPart />
           <EmailPart />
-          <AdminChatPart />
+          {!isAdmin && <AdminChatPart />}
         </div>
       </div>
     </div>

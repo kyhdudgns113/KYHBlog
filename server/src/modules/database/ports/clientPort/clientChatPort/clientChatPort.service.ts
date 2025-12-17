@@ -4,6 +4,7 @@ import {GKDLockService} from '@modules/gkdLock'
 import {adminUserId} from '@secret'
 
 import * as DTO from '@dto'
+import * as SV from '@shareValue'
 import * as T from '@type'
 
 @Injectable()
@@ -174,10 +175,11 @@ export class ClientChatPortService {
    *
    *  1. 권한 췍!!
    *  2. 관리자 userOId 조회 뙇!!
-   *  3. 채팅방 생성 락 뙇!!
-   *  4. 채팅방 조회 뙇!!
-   *  5. 존재하지 않으면 생성 뙇!!
-   *  6. 리턴 뙇!!
+   *  3. 관리자가 시도하는지 췍!!
+   *  4. 채팅방 생성 락 뙇!!
+   *  5. 채팅방 조회 뙇!!
+   *  6. 존재하지 않으면 생성 뙇!!
+   *  7. 리턴 뙇!!
    *
    *  finally. 락 해제 뙇!!
    */
@@ -188,7 +190,7 @@ export class ClientChatPortService {
 
     try {
       // 1. 권한 췍!!
-      await this.dbHubService.checkAuth_User(where, jwtPayload, userOId)
+      const {user} = await this.dbHubService.checkAuth_User(where, jwtPayload, userOId)
 
       // 2. 관리자 userOId 조회 뙇!!
       const {user: adminUser} = await this.dbHubService.readUserByUserId(where, adminUserId)
@@ -206,13 +208,25 @@ export class ClientChatPortService {
 
       const adminUserOId = adminUser.userOId
 
-      // 3. 채팅방 생성 락 뙇!!
+      // 3. 관리자가 시도하는지 췍!!
+      if (user.userAuth !== SV.AUTH_ADMIN) {
+        throw {
+          gkd: {noAdmin: `관리자는 이런거 하지 마세요. 뭔가 잘못됐어요.`},
+          gkdErrCode: 'CLIENTCHATPORT_loadAdminChatRoom_noAdmin',
+          gkdErrMsg: `관리자는 이런거 하지 마세요. 뭔가 잘못됐어요.`,
+          gkdStatus: {userOId, userAuth: user.userAuth},
+          statusCode: 400,
+          where
+        } as T.ErrorObjType
+      }
+
+      // 4. 채팅방 생성 락 뙇!!
       lockString = await this.gkdLockService.readyLock(`createChatRoom`)
 
-      // 4. 채팅방 조회 뙇!!
+      // 5. 채팅방 조회 뙇!!
       const {chatRoom} = await this.dbHubService.readChatRoomByBothOId(where, userOId, adminUserOId)
 
-      // 5. 존재하지 않으면 생성 뙇!!
+      // 6. 존재하지 않으면 생성 뙇!!
       if (!chatRoom) {
         const dto: DTO.CreateChatRoomDTO = {
           userOId,
@@ -222,7 +236,7 @@ export class ClientChatPortService {
         return {chatRoom, isCreated: true}
       }
 
-      // 6. 리턴 뙇!!
+      // 7. 리턴 뙇!!
       return {chatRoom, isCreated: false}
       // ::
     } catch (errObj) {
