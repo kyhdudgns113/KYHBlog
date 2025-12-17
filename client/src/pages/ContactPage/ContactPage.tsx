@@ -1,4 +1,4 @@
-import {KakaoPart, EmailPart} from './parts'
+import {KakaoPart, EmailPart, AdminChatPart} from './parts'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -17,10 +17,11 @@ export const ContactPage: FC<ContactPageProps> = ({...props}) => {
         {/* 2. 서브타이틀 */}
         <p className="_subtitle_contact">문의사항이 있으시면 언제든지 연락주세요!</p>
 
-        {/* 3. 카카오톡, 이메일 아이템 */}
+        {/* 3. 카카오톡, 이메일, 관리자 채팅 파트 */}
         <div className="_contact_items">
           <KakaoPart />
           <EmailPart />
+          <AdminChatPart />
         </div>
       </div>
     </div>

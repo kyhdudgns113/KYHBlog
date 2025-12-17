@@ -1,0 +1,81 @@
+@use '../../../../base/styles/values.scss' as sv;
+
+.Template {
+  .ContactPage {
+    .AdminChat_Part {
+      ._contact_item {
+        align-items: center;
+        background-color: sv.$SAKURA_BG_50;
+        border-color: sv.$SAKURA_BORDER;
+        border-radius: 8px;
+        border-width: 1px;
+        color: sv.$SAKURA_TEXT;
+        cursor: pointer;
+        display: flex;
+        gap: 16px;
+        padding: 20px;
+        transition: all 0.2s ease-in-out;
+        width: 100%;
+
+        &:hover {
+          background-color: sv.$SAKURA_BG;
+          border-color: sv.$SAKURA_BORDER;
+          transform: translateY(-2px);
+          box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+
+      ._icon_wrapper {
+        align-items: center;
+        background-color: sv.$SAKURA_BG_50;
+        border-radius: 50%;
+        display: flex;
+        flex-shrink: 0;
+        height: 48px;
+        justify-content: center;
+        width: 48px;
+      }
+
+      ._icon {
+        color: sv.$SAKURA_TEXT;
+        font-size: 24px;
+      }
+
+      ._contact_info {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      ._contact_label {
+        color: sv.$SAKURA_TEXT_DEEP;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      ._contact_value {
+        color: sv.$SAKURA_TEXT;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      ._arrow_icon {
+        color: sv.$SAKURA_TEXT_DEEP;
+        flex-shrink: 0;
+        font-size: 20px;
+        transition: all 0.2s ease-in-out;
+
+        ._contact_item:hover & {
+          color: sv.$SAKURA_TEXT;
+          transform: translateX(4px);
+        }
+      }
+    }
+  }
+}
+
