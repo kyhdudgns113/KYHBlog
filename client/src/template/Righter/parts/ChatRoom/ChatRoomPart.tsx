@@ -19,7 +19,7 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
   const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
   const loadedChatRoomOId = useBlogSelector(state => state.chat.loadedChatRoomOId)
 
-  const {resetChatArr, resetChatRoomOId, resetLoadedChatRoomOId, selectChatRoom} = useChatActions()
+  const {resetChatArr, resetChatRoomOId, resetLoadedChatRoomOId, selectChatRoom, setGoToBottom} = useChatActions()
 
   const {socket} = useSocketStatesContext()
   const {userOId} = useAuthStatesContext()
@@ -65,6 +65,7 @@ export const ChatRoomPart: FC<ChatRoomPartProps> = ({className, isChatRoomListOp
         .then(res => {
           if (res.isSuccess) {
             _chatRoomOpened()
+            setGoToBottom(true)
           }
         })
     }

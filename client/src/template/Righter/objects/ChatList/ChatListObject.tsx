@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 
 import {useAuthStatesContext, useChatStatesContext} from '@context'
-import {useBlogSelector} from '@redux'
+import {useBlogSelector, useChatActions} from '@redux'
 
 import {LoadChatButton} from '../../buttons'
 import {ChatBlockMyGroup, ChatBlockOtherGroup} from '../../groups'
@@ -17,6 +17,9 @@ type ChatListObjectProps = DivCommonProps & {}
 
 export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...props}) => {
   const chatArr = useBlogSelector(state => state.chat.chatArr)
+  const goToBottom = useBlogSelector(state => state.chat.goToBottom)
+
+  const {setGoToBottom} = useChatActions()
 
   const {userOId} = useAuthStatesContext()
   const {chatAreaRef} = useChatStatesContext()
@@ -57,6 +60,17 @@ export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...pr
     return () => el.removeEventListener('wheel', onWheel)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // 자동: 스크롤 맨 밑으로 이동
+  useEffect(() => {
+    if (goToBottom && chatAreaRef.current) {
+      chatAreaRef.current.scrollTo({
+        top: chatAreaRef.current.scrollHeight
+        // behavior: 'smooth'
+      })
+      setGoToBottom(false)
+    }
+  }, [goToBottom])
+
   return (
     <div className={`ChatList_Object ${className || ''}`} ref={chatAreaRef} style={style} {...props}>
       {showLoadBtn && <LoadChatButton />}
@@ -84,4 +98,3 @@ export const ChatListObject: FC<ChatListObjectProps> = ({className, style, ...pr
     </div>
   )
 }
-

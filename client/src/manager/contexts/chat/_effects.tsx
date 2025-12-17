@@ -22,8 +22,15 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
   const chatQueue = useBlogSelector(state => state.chat.chatQueue)
   const chatRoomOId = useBlogSelector(state => state.chat.chatRoomOId)
   const loadedChatRoomOId = useBlogSelector(state => state.chat.loadedChatRoomOId)
-  const {clearChatRoomUnreadMsgCnt, setChatRoomUnreadMsgCnt, moveChatQueueToChatArr, pushBackChatQueue, pushFrontChatRoomArr, resetChatRoomArr} =
-    useChatActions()
+  const {
+    clearChatRoomUnreadMsgCnt,
+    setChatRoomUnreadMsgCnt,
+    moveChatQueueToChatArr,
+    pushBackChatQueue,
+    pushFrontChatRoomArr,
+    resetChatRoomArr,
+    setGoToBottom
+  } = useChatActions()
 
   const {socket} = useSocketStatesContext()
   const {userOId} = useAuthStatesContext()
@@ -101,6 +108,7 @@ export const ChatEffectsProvider: FC<PropsWithChildren> = ({children}) => {
 
     if (isChatRoomOpened && isChatArrLoaded && isChatQueueNotEmpty) {
       moveChatQueueToChatArr()
+      setGoToBottom(true)
     }
   }, [chatQueue, chatRoomOId, loadedChatRoomOId])
 
