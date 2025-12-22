@@ -2,17 +2,32 @@
 
 .Template {
   .Tabs {
+    align-items: end;
     border-color: v.$SAKURA_BORDER_DEEP_50;
-    border-bottom-width: 4px;
+    border-bottom-width: 6px;
 
     display: flex;
     flex-direction: row;
-    height: 70px;
+    height: 72px;
 
     margin-top: 24px;
 
+    overflow-y: hidden;
     position: relative;
 
     width: v.$Width_Template_Tabs;
+
+    &.home {
+      border-color: v.$TabColor_Home_Deep;
+    }
+    &.blog {
+      border-color: v.$TabColor_Blog_Deep;
+    }
+    &.qna {
+      border-color: v.$TabColor_QnA_Deep;
+    }
+    &.contact {
+      border-color: v.$TabColor_Contact_Deep;
+    }
   }
 }
