@@ -18,21 +18,9 @@ KYHBlog 프로젝트를 로컬 환경에서 실행하기 위한 상세 가이드
   - 설치 확인: `node --version`
   - 다운로드: [nodejs.org](https://nodejs.org/)
 
-- **npm**: Node.js와 함께 설치됨
-  - 설치 확인: `npm --version`
-
 - **MySQL**: 8.0 이상
   - 설치 확인: `mysql --version`
   - 다운로드: [mysql.com](https://dev.mysql.com/downloads/mysql/)
-
-- **Git**: 버전 관리
-  - 설치 확인: `git --version`
-  - 다운로드: [git-scm.com](https://git-scm.com/)
-
-### 선택적 소프트웨어
-
-- **VS Code**: 추천 에디터
-  - 다운로드: [code.visualstudio.com](https://code.visualstudio.com/)
 
 ## Secret 파일 설정
 

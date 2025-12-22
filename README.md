@@ -20,21 +20,20 @@ KYHBlog는 NestJS 백엔드와 React 프론트엔드를 활용하여 개발된 �
 ## 🛠 기술 스택
 
 ### Backend
-- **Framework**: NestJS 11.x
-- **Language**: TypeScript 5.7
+- **Framework**: NestJS
+- **Language**: TypeScript
 - **Database**: MySQL 8.0
-- **Authentication**: JWT, Passport.js, Google OAuth 2.0
-- **Real-time**: Socket.io
+- **Authentication**: GKDoubleJWT, Passport.js, Google OAuth 2.0
 - **API Documentation**: Swagger
-- **Testing**: Jest
+- **Testing**: Custom 모듈
 
 ### Frontend
-- **Framework**: React 19.x
-- **Language**: TypeScript 5.9
-- **Build Tool**: Vite 7.x
+- **Framework**: React
+- **Language**: TypeScript
+- **Build Tool**: Vite
 - **State Management**: Redux Toolkit
-- **Routing**: React Router DOM 7.x
-- **Styling**: SCSS, Tailwind CSS 4.x
+- **Routing**: React Router DOM
+- **Styling**: SCSS
 - **Markdown**: react-markdown, react-syntax-highlighter
 - **Real-time**: Socket.io Client
 
