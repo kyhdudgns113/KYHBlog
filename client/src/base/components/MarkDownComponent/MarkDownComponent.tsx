@@ -1,4 +1,6 @@
+import React from 'react'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import {emojify} from 'node-emoji'
 
 import type {RefObject} from 'react'
 import type {Components} from 'react-markdown'
@@ -6,6 +8,21 @@ import type {Components} from 'react-markdown'
 /* eslint-disable */
 export const MarkDownComponent = (stringArr: string[], onImageClick?: (src: string) => void): Components => {
   const ret: Components = {
+    p({children, ...props}) {
+      // children을 처리하여 이모지 코드를 실제 이모지로 변환
+      const processChildren = (child: React.ReactNode): React.ReactNode => {
+        if (typeof child === 'string') {
+          return emojify(child)
+        }
+        if (Array.isArray(child)) {
+          return child.map((c, i) => <React.Fragment key={i}>{processChildren(c)}</React.Fragment>)
+        }
+        return child
+      }
+
+      return <p {...props}>{processChildren(children)}</p>
+    },
+
     a({...props}) {
       return <a {...props} target="_blank" rel="noopener noreferrer" />
     },

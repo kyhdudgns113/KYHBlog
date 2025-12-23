@@ -1,6 +1,4 @@
-25.12.24 [Client] :art: Blog/게시글 제목 두껍게 조정
-
-:art: [Client] Blog/게시글 제목 두껍게 조정
+25.12.24 [Client] :sparkles: 게시글에 깃허브 이모지 사용 기능 추가
 
 TODO List
   :white_large_square: 홈 페이지

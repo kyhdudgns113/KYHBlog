@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkBreaks from 'node_modules/remark-breaks/lib'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
+import {emojify} from 'node-emoji'
 
 import {MarkDownComponent, Modal} from '@component'
 import {useBlogSelector} from '@redux'
@@ -84,7 +85,7 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({...props}) => {
 
   // 초기화: stringArr
   useEffect(() => {
-    if (fileOId) {
+    if (fileOId && file?.content) {
       setStringArr(
         file.content.split('\n').map(str => {
           if (!str) {
@@ -111,7 +112,8 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({...props}) => {
           else if (str === '<br />') {
             return '  <br />'
           }
-          return str
+          // 이모지 코드 변환 (:bug: -> 🐛)
+          return emojify(str)
         })
       )
     }
