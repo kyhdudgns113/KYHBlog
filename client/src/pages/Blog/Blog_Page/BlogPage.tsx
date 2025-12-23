@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkBreaks from 'node_modules/remark-breaks/lib'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
+import {emojify} from 'node-emoji'
 
 import {MarkDownComponent, Modal} from '@component'
 import {useBlogSelector} from '@redux'
@@ -112,7 +113,7 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
           else if (str === '<br />') {
             return '  <br />'
           }
-          return str
+          return emojify(str)
         })
       )
     }
