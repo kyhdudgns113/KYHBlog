@@ -32,7 +32,7 @@ export const FileCallbacksContext = createContext<ContextType>({
 export const useFileCallbacksContext = () => useContext(FileCallbacksContext)
 
 export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setFile, setFileOId, setFileUser} = useFileActions()
+  const {setFile, setFileOId, setFileUser, resetFile, resetFileUser} = useFileActions()
   const {setCommentReplyArr} = useCommentActions()
   const {writeExtraDirectory, writeExtraFileRow} = useDirectoryActions()
 
@@ -143,6 +143,8 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           } // ::
           else {
             U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            resetFile()
+            resetFileUser()
             return {isSuccess: false}
           }
         })

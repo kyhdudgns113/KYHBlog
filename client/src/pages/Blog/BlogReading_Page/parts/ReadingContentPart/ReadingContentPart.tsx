@@ -85,7 +85,7 @@ export const ReadingContentPart: FC<ReadingContentPartProps> = ({...props}) => {
 
   // 초기화: stringArr
   useEffect(() => {
-    if (fileOId && file?.content) {
+    if (fileOId && file.fileOId) {
       setStringArr(
         file.content.split('\n').map(str => {
           if (!str) {
