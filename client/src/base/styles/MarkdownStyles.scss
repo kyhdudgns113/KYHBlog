@@ -65,7 +65,7 @@
   $block_tp: 0.6;
   $block_tp_white: 0.7;
 
-  div[class^='block_'] {
+  div[class*='block_'] {
     background-color: oklch(
       var(--gkd-block-l-bg, #{$block_l_bg}) var(--gkd-block-c-bg, #{$block_c_bg}) var(--gkd-block-angle, 0deg) / var(--gkd-block-tp, 1)
     );
@@ -111,7 +111,7 @@
     }
   }
 
-  div[class^='block_']:hover {
+  div[class*='block_']:hover {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
   }
   div.block_red,
