@@ -15,14 +15,14 @@ $Delta_Left: 130px;
       border-right-width: 4px;
       border-left-width: 4px;
 
-      box-shadow: 4px 2px 4px 0 rgba(0, 0, 0, 0.4);
+      box-shadow: 3px 0px 4px 0 rgba(0, 0, 0, 0.3);
 
       color: v.$SAKURA_TEXT;
       cursor: pointer;
 
       font-size: 20px;
 
-      height: 80%;
+      height: 70%;
 
       position: absolute;
 
@@ -33,65 +33,81 @@ $Delta_Left: 130px;
       width: $Width_Part;
 
       &:hover {
-        height: 100%;
+        height: 87%;
       }
 
       &._selected {
         font-size: 24px;
         font-weight: 700;
-        height: 100%;
+        height: 87%;
       }
     }
 
     .Home_Part {
-      background-color: v.$TabColor_Home_Light;
-      border-color: v.$TabColor_Home_Deep;
-      color: v.$TabColor_Home_Deep;
+      // background-color: v.$TabColor_Home_Light;
+      // border-color: v.$TabColor_Home_Deep;
+      // color: v.$TabColor_Home_Deep;
+      background-color: v.$SAKURA_BG_50;
+      border-color: v.$SAKURA_BORDER_DEEP_30;
+      color: v.$SAKURA_TEXT;
       left: 0;
 
       z-index: 10;
 
       &._selected {
-        background-color: v.$TabColor_Home_Normal;
+        // background-color: v.$TabColor_Home_Normal;
+        background-color: v.$SAKURA_BG_DEEP_100;
       }
     }
 
     .Blog_Part {
-      background-color: v.$TabColor_Blog_Light;
-      border-color: v.$TabColor_Blog_Deep;
-      color: v.$TabColor_Blog_Deep;
+      // background-color: v.$TabColor_Blog_Light;
+      // border-color: v.$TabColor_Blog_Deep;
+      // color: v.$TabColor_Blog_Deep;
+      background-color: v.$SAKURA_BG;
+      border-color: v.$SAKURA_BORDER_DEEP_30;
+      color: v.$SAKURA_TEXT;
       left: $Delta_Left;
 
       z-index: 9;
 
       &._selected {
-        background-color: v.$TabColor_Blog_Normal;
+        // background-color: v.$TabColor_Blog_Normal;
+        background-color: v.$SAKURA_BG_DEEP_100;
       }
     }
 
     .QnA_Part {
-      background-color: v.$TabColor_QnA_Light;
-      border-color: v.$TabColor_QnA_Deep;
-      color: v.$TabColor_QnA_Deep;
+      // background-color: v.$TabColor_QnA_Light;
+      // border-color: v.$TabColor_QnA_Deep;
+      // color: v.$TabColor_QnA_Deep;
+      background-color: v.$SAKURA_BG;
+      border-color: v.$SAKURA_BORDER_DEEP_30;
+      color: v.$SAKURA_TEXT;
       left: $Delta_Left * 2;
 
       z-index: 8;
 
       &._selected {
-        background-color: v.$TabColor_QnA_Normal;
+        // background-color: v.$TabColor_QnA_Normal;
+        background-color: v.$SAKURA_BG_DEEP_100;
       }
     }
 
     .Contact_Part {
-      background-color: v.$TabColor_Contact_Light;
-      border-color: v.$TabColor_Contact_Deep;
-      color: v.$TabColor_Contact_Deep;
+      // background-color: v.$TabColor_Contact_Light;
+      // border-color: v.$TabColor_Contact_Deep;
+      // color: v.$TabColor_Contact_Deep;
+      background-color: v.$SAKURA_BG;
+      border-color: v.$SAKURA_BORDER_DEEP_30;
+      color: v.$SAKURA_TEXT;
       left: $Delta_Left * 3;
 
       z-index: 7;
 
       &._selected {
-        background-color: v.$TabColor_Contact_Normal;
+        // background-color: v.$TabColor_Contact_Normal;
+        background-color: v.$SAKURA_BG_DEEP_100;
       }
     }
   }
