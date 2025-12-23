@@ -22,7 +22,7 @@ $Delta_Left: 130px;
 
       font-size: 20px;
 
-      height: 70%;
+      height: 64%;
 
       position: absolute;
 
@@ -33,13 +33,13 @@ $Delta_Left: 130px;
       width: $Width_Part;
 
       &:hover {
-        height: 87%;
+        height: 90%;
       }
 
       &._selected {
         font-size: 24px;
         font-weight: 700;
-        height: 87%;
+        height: 90%;
       }
     }
 
