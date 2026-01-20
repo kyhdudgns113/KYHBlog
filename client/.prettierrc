@@ -2,8 +2,17 @@
   "arrowParens": "avoid",
   "bracketSameLine": false,
   "bracketSpacing": false,
+  "endOfLine": "lf",
+  "htmpWhitespaceSensitivity": "css",
+  "jsxSingleQuote": false,
+  "objectWrap": "preserve",
   "printWidth": 150,
-  "trailingComma": "none",
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
   "semi": false,
-  "singleQuote": true
+  "singleAttributePerLine": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "useTabs": false
 }
