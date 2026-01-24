@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common'
+import {Injectable, OnApplicationBootstrap} from '@nestjs/common'
 import {DBService} from '../_db'
 import {RowDataPacket} from 'mysql2'
 import {DirectoryType, FileRowType, FileType} from '@shareType'
@@ -6,12 +6,56 @@ import {FILE_NORMAL, FILE_NOTICE} from '@secret'
 import {generateObjectId} from '@util'
 
 import * as ST from '@shareType'
+import * as SV from '@shareValue'
 import * as T from '@type'
 import * as DTO from '@dto'
 
 @Injectable()
-export class FileDBService {
-  private recentFileArr: ST.FileType[] = []
+export class FileDBService implements OnApplicationBootstrap {
+  private readonly NUM_FILE = 10
+
+  private recentFileArr: ST.FileRowType[] = []
+
+  async onApplicationBootstrap() {
+    const where = 'FileDBService/onApplicationBootstrap'
+    const connection = await this.dbService.getConnection()
+    try {
+      // 1. 최근 10개 파일 조회
+      const query = `SELECT * FROM files WHERE fileStatus != ? ORDER BY updatedAt DESC LIMIT ${this.NUM_FILE}`
+      const params = [SV.FILE_HIDDEN]
+      const [result] = await connection.execute(query, params)
+      const resultArr = result as RowDataPacket[]
+
+      const fileRowArr: ST.FileRowType[] = resultArr.map(file => {
+        const {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt} = file
+        const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+        return fileRow
+      })
+
+      // 2. 생성된지 72시간이 지나지 않은 것만 필터링
+      const now = new Date()
+      const seventyTwoHoursAgo = new Date(now.getTime() - 72 * 60 * 60 * 1000)
+
+      this.recentFileArr = fileRowArr.filter(fileRow => {
+        const createdAt = new Date(fileRow.createdAt)
+        return createdAt >= seventyTwoHoursAgo
+      })
+      // ::
+    } catch (errObj) {
+      // ::
+      // 초기화 실패 시 빈 배열로 유지
+      console.log(`[FileDBService] 최근 게시물 목록 초기화 실패`)
+      console.log(errObj)
+      Object.keys(errObj).forEach(key => {
+        console.log(`   ${key}: ${errObj[key]}`)
+      })
+      this.recentFileArr = []
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
 
   constructor(private readonly dbService: DBService) {}
 
@@ -84,6 +128,8 @@ export class FileDBService {
       await connection.execute(query, params)
 
       // 5. 파일 타입으로 변환 및 리턴
+      const createdAt = new Date()
+      const updatedAt = new Date()
       const file: FileType = {
         fileOId,
         fileName,
@@ -93,9 +139,13 @@ export class FileDBService {
         userName,
         userOId,
         content: '',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt,
+        updatedAt,
       }
+
+      // 6. recentFileArr에 추가
+      const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus: 0, createdAt, updatedAt}
+      this._addToRecentFileArr(fileRow)
 
       return {file}
       // ::
@@ -178,33 +228,26 @@ export class FileDBService {
       connection.release()
     }
   }
-  async readFileRowArrByRecent(where: string, numFile: number) {
-    const connection = await this.dbService.getConnection()
+  async readFileRowArrByRecent(where: string) {
+    /**
+     * 최근 게시물 목록 조회
+     *
+     * 1. 최근 게시물 목록 조회
+     * 2. 리턴
+     *
+     * ------
+     *
+     * 리턴
+     *
+     *  - fileRowArr: 최근 게시물 행 배열
+     */
     try {
-      const query = `SELECT * FROM files ORDER BY updatedAt DESC LIMIT ?`
-      const [result] = await connection.execute(query, [numFile])
-      const resultArr = result as RowDataPacket[]
-
-      const fileArr: ST.FileType[] = resultArr.map(row => {
-        const {fileOId, fileName, dirOId, fileIdx, fileStatus, updatedAt, userName, userOId, content, createdAt} = row
-        const file: ST.FileType = {fileOId, fileName, dirOId, fileIdx, fileStatus, updatedAt, userName, userOId, content, createdAt}
-        return file
-      })
-      const fileRowArr: ST.FileRowType[] = fileArr.map(file => {
-        const {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt} = file
-        const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
-        return fileRow
-      })
-
+      const fileRowArr = this.recentFileArr
       return {fileRowArr}
       // ::
     } catch (errObj) {
       // ::
       throw errObj
-      // ::
-    } finally {
-      // ::
-      connection.release()
     }
   }
   async readFileRowArrByDirOId(where: string, dirOId: string) {
@@ -266,6 +309,9 @@ export class FileDBService {
       const {dirOId, fileStatus, createdAt, updatedAt} = resultArr[0]
 
       const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+
+      // 3. recentFileArr에 추가
+      this._addToRecentFileArr(fileRow)
 
       return {directoryArr: [], fileRowArr: [fileRow]}
       // ::
@@ -330,6 +376,9 @@ export class FileDBService {
       const {dirOId, fileStatus, createdAt, updatedAt} = resultArr[0]
 
       const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+
+      // 3. recentFileArr에 추가
+      this._addToRecentFileArr(fileRow)
 
       return {directoryArr: [], fileRowArr: [fileRow]}
       // ::
@@ -473,6 +522,48 @@ export class FileDBService {
     } finally {
       // ::
       connection.release()
+    }
+  }
+
+  // PRIVATE AREA:
+
+  /**
+   * recentFileArr에 파일 추가
+   * - 생성된지 72시간이 지나지 않은 것만 추가
+   * - 최대 NUM_FILE(10)개까지만 유지
+   * - updatedAt DESC 순서로 정렬
+   */
+  private _addToRecentFileArr(fileRow: ST.FileRowType) {
+    const now = new Date()
+    const seventyTwoHoursAgo = new Date(now.getTime() - 72 * 60 * 60 * 1000)
+    const createdAt = new Date(fileRow.createdAt)
+
+    // 생성된지 72시간이 지나지 않은 것만 추가
+    if (createdAt < seventyTwoHoursAgo) {
+      return
+    }
+
+    // 숨김 파일은 제외
+    if (fileRow.fileStatus === SV.FILE_HIDDEN) {
+      return
+    }
+
+    // 기존에 같은 fileOId가 있으면 제거
+    this.recentFileArr = this.recentFileArr.filter(item => item.fileOId !== fileRow.fileOId)
+
+    // 배열에 추가
+    this.recentFileArr.push(fileRow)
+
+    // updatedAt DESC로 정렬
+    this.recentFileArr.sort((a, b) => {
+      const aUpdatedAt = new Date(a.updatedAt).getTime()
+      const bUpdatedAt = new Date(b.updatedAt).getTime()
+      return bUpdatedAt - aUpdatedAt
+    })
+
+    // 최대 NUM_FILE(10)개까지만 유지
+    if (this.recentFileArr.length > this.NUM_FILE) {
+      this.recentFileArr = this.recentFileArr.slice(0, this.NUM_FILE)
     }
   }
 }
