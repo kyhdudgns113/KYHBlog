@@ -1,3 +1,5 @@
+import {IntroPart, NullPart, RecentPostsPart} from './parts'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
@@ -8,7 +10,13 @@ type HomePageProps = DivCommonProps & {}
 export const HomePage: FC<HomePageProps> = ({...props}) => {
   return (
     <div className={`HomePage`} {...props}>
-      <p>홈 페이지는 어떻게 구성하지?</p>
+      <IntroPart />
+
+      <div className="_recent_row_page">
+        <RecentPostsPart />
+        <NullPart />
+        <NullPart />
+      </div>
     </div>
   )
 }

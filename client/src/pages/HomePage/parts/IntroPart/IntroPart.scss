@@ -1,0 +1,18 @@
+@use '../../../../base/styles/values.scss' as sv;
+
+.Template {
+  .HomePage {
+    .Intro_Part {
+      align-items: center;
+
+      display: flex;
+      flex-direction: column;
+
+      min-height: 200px;
+
+      padding: 20px;
+
+      width: 100%;
+    }
+  }
+}

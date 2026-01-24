@@ -1,9 +1,29 @@
+@use '../../base/styles/values.scss' as v;
+
 .Template {
   .HomePage {
     align-items: center;
+
+    background-color: v.$SAKURA_BG_50;
+
     display: flex;
     flex-direction: column;
+
+    height: fit-content;
+
     justify-content: center;
     width: 100%;
+
+    ._recent_row_page {
+      display: flex;
+      flex-direction: row;
+      gap: 64px;
+
+      justify-content: center;
+
+      padding-bottom: 32px;
+
+      width: 100%;
+    }
   }
 }
