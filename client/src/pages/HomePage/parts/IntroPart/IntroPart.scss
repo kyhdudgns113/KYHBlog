@@ -1,4 +1,4 @@
-@use '../../../../base/styles/values.scss' as sv;
+@use '../../../../base/styles/values.scss' as v;
 
 .Template {
   .HomePage {
@@ -13,6 +13,14 @@
       padding: 20px;
 
       width: 100%;
+
+      ._title_part {
+        color: v.$SAKURA_TEXT;
+        font-size: 28px;
+        font-weight: 700;
+
+        user-select: none;
+      }
     }
   }
 }
