@@ -287,7 +287,9 @@ export class ClientFilePortService {
         dirOId: file.dirOId,
         fileName: file.fileName,
         fileOId: file.fileOId,
-        fileStatus: file.fileStatus
+        fileStatus: file.fileStatus,
+        createdAt: file.createdAt,
+        updatedAt: file.updatedAt
       }
 
       U.pushExtraFileRows_Single(where, extraFileRows, fileRow)

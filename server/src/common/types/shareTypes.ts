@@ -85,10 +85,12 @@ export type FileRowType = {
   /**
    * Lefter 같은곳에서 OId 랑 name 만 사용하기 위해 쓰는 타입
    */
+  createdAt: Date
   dirOId: string
   fileName: string
   fileOId: string // Primary Key
   fileStatus: number
+  updatedAt: Date
 }
 export type LogType = {
   date: Date

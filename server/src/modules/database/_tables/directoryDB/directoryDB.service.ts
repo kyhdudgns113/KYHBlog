@@ -149,7 +149,7 @@ export class DirectoryDBService {
 
       // 2. 모든 자식 폴더들의 자식 파일들 조회
       const queryFiles = `
-        SELECT dirOId, fileOId, fileName, fileStatus, fileIdx
+        SELECT dirOId, fileOId, fileName, fileStatus, fileIdx, createdAt, updatedAt
         FROM files
         WHERE dirOId IN (${dirOIds.map(() => '?').join(',')})
         ORDER BY fileIdx
@@ -161,8 +161,8 @@ export class DirectoryDBService {
       // 3. dirOId 별로 파일정보 그룹핑
       const fileMap = new Map<string, T.FileRowType[]>()
       fileArr.forEach(row => {
-        const {dirOId, fileOId, fileName, fileStatus} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus}
+        const {dirOId, fileOId, fileName, fileStatus, createdAt, updatedAt} = row
+        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         if (!fileMap.has(dirOId)) fileMap.set(dirOId, [])
         fileMap.get(dirOId).push(fileRow)
       })
@@ -252,7 +252,7 @@ export class DirectoryDBService {
       const {dirName, parentDirOId} = resultArr[0]
 
       // 2-1. 자식 파일들 조회 뙇!!
-      const queryFile = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ? ORDER BY fileIdx`
+      const queryFile = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx`
       const [resultFile] = await connection.execute(queryFile, [dirOId])
 
       const resultArrFile = resultFile as RowDataPacket[]
@@ -262,12 +262,14 @@ export class DirectoryDBService {
 
       // 2-3. 자식 파일들의 행 배열 뙇!!
       const fileRowArr: T.FileRowType[] = resultArrFile.map(row => {
-        const {fileName, fileOId, fileStatus} = row
+        const {fileName, fileOId, fileStatus, createdAt, updatedAt} = row
         const fileRow: T.FileRowType = {
           dirOId,
           fileName,
           fileOId,
-          fileStatus
+          fileStatus,
+          createdAt,
+          updatedAt
         }
         return fileRow
       })
@@ -317,7 +319,7 @@ export class DirectoryDBService {
       const {dirOId, dirName, parentDirOId} = resultArr[0]
 
       // 1. 루트 폴더의 자식 파일들 조회 뙇!!
-      const queryFile = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ? ORDER BY fileIdx`
+      const queryFile = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx`
       const [resultFile] = await connection.execute(queryFile, [dirOId])
       const resultArrFile = resultFile as RowDataPacket[]
 
@@ -326,8 +328,8 @@ export class DirectoryDBService {
       const fileRowArr: T.FileRowType[] = []
 
       resultArrFile.forEach(row => {
-        const {fileOId, fileName, fileStatus} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus}
+        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
+        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         fileRowArr.push(fileRow)
         fileOIdsArr.push(fileOId)
       })
@@ -410,7 +412,7 @@ export class DirectoryDBService {
       const [result5] = await connection.execute(query5, param5)
 
       // 5. (쿼리) 본인과 자식 폴더들의 파일 정보들 읽어오는 쿼리
-      const query7 = `SELECT dirOId, fileOId, fileName, fileStatus FROM files WHERE dirOId IN (?, ${subDirOIdsArr.map(() => '?').join(',')}) ORDER BY FIELD(fileOId, ?, ${subDirOIdsArr.map(() => '?').join(',')}), fileIdx ASC`
+      const query7 = `SELECT dirOId, fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId IN (?, ${subDirOIdsArr.map(() => '?').join(',')}) ORDER BY FIELD(fileOId, ?, ${subDirOIdsArr.map(() => '?').join(',')}), fileIdx ASC`
       const param7 = [dirOId, ...subDirOIdsArr, dirOId, ...subDirOIdsArr]
       const [result7] = await connection.execute(query7, param7)
 
@@ -426,14 +428,14 @@ export class DirectoryDBService {
 
       // 7. 파일행 배열 생성 및 자식파일 목록에 추가
       const fileRowArr: T.FileRowType[] = result7Arr.map(row => {
-        const {dirOId, fileOId, fileName, fileStatus} = row
+        const {dirOId, fileOId, fileName, fileStatus, createdAt, updatedAt} = row
 
         const index = directoryArr.findIndex(d => d.dirOId === dirOId)
         if (index !== -1) {
           directoryArr[index].fileOIdsArr.push(fileOId)
         }
 
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus}
+        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         return fileRow
       })
 
@@ -593,7 +595,7 @@ export class DirectoryDBService {
       }
 
       // 5. (쿼리) dirOId 디렉토리의 자식 파일들의 정보를 읽는다.
-      const queryFile = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ? ORDER BY fileIdx`
+      const queryFile = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx`
       const paramsFile = [dirOId]
       const [resultFile] = await connection.execute(queryFile, paramsFile)
 
@@ -608,8 +610,8 @@ export class DirectoryDBService {
 
       // 8. 파일행 배열 생성
       const fileRowArr: T.FileRowType[] = resultFileArr.map(row => {
-        const {fileOId, fileName, fileStatus} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus}
+        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
+        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         return fileRow
       })
 
@@ -677,7 +679,7 @@ export class DirectoryDBService {
       const resultMyArr = resultMy as RowDataPacket[]
 
       // 3. (쿼리) 본인 디렉토리의 자식 파일행 정보 조회
-      const queryReadFile = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ? ORDER BY fileIdx`
+      const queryReadFile = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx`
       const paramReadFile = [dirOId]
       const [resultReadFile] = await connection.execute(queryReadFile, paramReadFile)
 
@@ -689,8 +691,8 @@ export class DirectoryDBService {
 
       // 5. 파일행 배열 생성
       const fileRowArr: T.FileRowType[] = resultReadFileArr.map(row => {
-        const {fileOId, fileName, fileStatus} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus}
+        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
+        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         directory.fileOIdsArr.push(fileOId)
         return fileRow
       })
@@ -816,7 +818,7 @@ export class DirectoryDBService {
       const resultReadSubDirArr = resultReadSubDir as RowDataPacket[]
 
       // 3. (쿼리) 부모의 자식 파일들 행 정보 조회
-      const queryReadFile = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ? ORDER BY fileIdx`
+      const queryReadFile = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx`
       const paramReadFile = [_pDirOId]
       const [resultReadFile] = await connection.execute(queryReadFile, paramReadFile)
       const resultReadFileArr = resultReadFile as RowDataPacket[]
@@ -837,8 +839,8 @@ export class DirectoryDBService {
       const directory: DirectoryType = {dirOId: _pDirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr}
 
       const fileRowArr: T.FileRowType[] = resultReadFileArr.map(row => {
-        const {fileOId, fileName, fileStatus} = row
-        const fileRow: T.FileRowType = {dirOId: _pDirOId, fileName, fileOId, fileStatus}
+        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
+        const fileRow: T.FileRowType = {dirOId: _pDirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         directory.fileOIdsArr.push(fileOId)
         return fileRow
       })

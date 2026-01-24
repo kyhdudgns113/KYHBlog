@@ -49,6 +49,22 @@ export type FileTypeLocal = {
   userName: string
   userOId: string
 }
+export type ExtraFileRowObjectTypeLocal = {
+  /**
+   * 특정 FileRow만 수정할때 쓰는 타입
+   * - BFS 방식으로 저장한다.
+   */
+  fileOIdsArr: string[]
+  fileRows: {[fileOId: string]: FileRowTypeLocal}
+}
+export type FileRowTypeLocal = {
+  createdAtValue: number
+  dirOId: string
+  fileName: string
+  fileOId: string
+  fileStatus: number
+  updatedAtValue: number
+}
 export type LogTypeLocal = {
   dateValue: number
   errObj: any // 서버에서 throw 받은 에러 오브젝트

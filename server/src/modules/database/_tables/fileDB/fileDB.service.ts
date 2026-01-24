@@ -5,11 +5,14 @@ import {DirectoryType, FileRowType, FileType} from '@shareType'
 import {FILE_NORMAL, FILE_NOTICE} from '@secret'
 import {generateObjectId} from '@util'
 
+import * as ST from '@shareType'
 import * as T from '@type'
 import * as DTO from '@dto'
 
 @Injectable()
 export class FileDBService {
+  private recentFileArr: ST.FileType[] = []
+
   constructor(private readonly dbService: DBService) {}
 
   async createFile(where: string, dto: DTO.CreateFileDTO) {
@@ -62,7 +65,7 @@ export class FileDBService {
           gkdErrMsg: `존재하지 않는 디렉토리`,
           gkdStatus: {dirOId, fileName},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType // ::
       }
 
@@ -91,7 +94,7 @@ export class FileDBService {
         userOId,
         content: '',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       }
 
       return {file}
@@ -106,7 +109,7 @@ export class FileDBService {
             gkdErrMsg: `파일 이름이 겹침`,
             gkdStatus: {dirOId, fileName},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
       }
@@ -175,6 +178,35 @@ export class FileDBService {
       connection.release()
     }
   }
+  async readFileRowArrByRecent(where: string, numFile: number) {
+    const connection = await this.dbService.getConnection()
+    try {
+      const query = `SELECT * FROM files ORDER BY updatedAt DESC LIMIT ?`
+      const [result] = await connection.execute(query, [numFile])
+      const resultArr = result as RowDataPacket[]
+
+      const fileArr: ST.FileType[] = resultArr.map(row => {
+        const {fileOId, fileName, dirOId, fileIdx, fileStatus, updatedAt, userName, userOId, content, createdAt} = row
+        const file: ST.FileType = {fileOId, fileName, dirOId, fileIdx, fileStatus, updatedAt, userName, userOId, content, createdAt}
+        return file
+      })
+      const fileRowArr: ST.FileRowType[] = fileArr.map(file => {
+        const {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt} = file
+        const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+        return fileRow
+      })
+
+      return {fileRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
   async readFileRowArrByDirOId(where: string, dirOId: string) {
     const connection = await this.dbService.getConnection()
 
@@ -187,9 +219,9 @@ export class FileDBService {
       resultArr.sort((a, b) => a.fileIdx - b.fileIdx)
 
       const fileRowArr: FileRowType[] = resultArr.map(row => {
-        const {fileOId, fileName, dirOId, fileStatus} = row
+        const {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt} = row
 
-        const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus}
+        const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
 
         return fileRow
       })
@@ -227,13 +259,13 @@ export class FileDBService {
           gkdErrMsg: `존재하지 않는 파일`,
           gkdStatus: {fileOId, fileName},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType // ::
       }
 
-      const {dirOId, fileStatus} = resultArr[0]
+      const {dirOId, fileStatus, createdAt, updatedAt} = resultArr[0]
 
-      const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus}
+      const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
 
       return {directoryArr: [], fileRowArr: [fileRow]}
       // ::
@@ -247,7 +279,7 @@ export class FileDBService {
             gkdErrMsg: `파일 이름이 겹침`,
             gkdStatus: {fileOId, fileName},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
       }
@@ -278,7 +310,7 @@ export class FileDBService {
       await connection.execute(query, params)
 
       // 2. 파일행을 위한 파일 조회
-      const queryRead = `SELECT dirOId, fileStatus FROM files WHERE fileOId = ?`
+      const queryRead = `SELECT dirOId, fileStatus, createdAt, updatedAt FROM files WHERE fileOId = ?`
       const paramsRead = [fileOId]
       const [resultRead] = await connection.execute(queryRead, paramsRead)
 
@@ -291,13 +323,13 @@ export class FileDBService {
           gkdErrMsg: `존재하지 않는 파일`,
           gkdStatus: {fileOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType // ::
       }
 
-      const {dirOId, fileStatus} = resultArr[0]
+      const {dirOId, fileStatus, createdAt, updatedAt} = resultArr[0]
 
-      const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus}
+      const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
 
       return {directoryArr: [], fileRowArr: [fileRow]}
       // ::
@@ -378,7 +410,7 @@ export class FileDBService {
           gkdErrMsg: `존재하지 않는 파일`,
           gkdStatus: {fileOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType // ::
       }
       const {dirOId} = resultArr[0]
@@ -404,7 +436,7 @@ export class FileDBService {
       const [resultReadDirArr] = await connection.execute(queryReadDirArr, paramsReadDirArr)
 
       // 7. (쿼리) 부모 폴더의 자식 파일들 조회
-      const queryReadFileArr = `SELECT fileOId, fileName, fileStatus FROM files WHERE dirOId = ? ORDER BY fileIdx ASC`
+      const queryReadFileArr = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx ASC`
       const paramsReadFileArr = [dirOId]
       const [resultReadFileArr] = await connection.execute(queryReadFileArr, paramsReadFileArr)
 
@@ -423,12 +455,12 @@ export class FileDBService {
         dirOId,
         fileOIdsArr,
         parentDirOId,
-        subDirOIdsArr
+        subDirOIdsArr,
       }
 
       const fileRowArr: FileRowType[] = fileArr.map(row => {
-        const {fileOId, fileName, fileStatus} = row
-        const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus}
+        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
+        const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
         return fileRow
       })
 

@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
+import * as LT from '@localizeType'
 import * as NV from '@nullValue'
 import * as ST from '@shareType'
 
@@ -12,7 +13,7 @@ interface DirectoryState {
   dirOId_addFile: string
   dirOId_editDir: string
   fileOId_editFile: string
-  fileRows: {[fileOId: string]: ST.FileRowType}
+  fileRows: {[fileOId: string]: LT.FileRowTypeLocal}
   moveDirOId: string
   moveFileOId: string
   rootDir: ST.DirectoryType
@@ -102,7 +103,13 @@ export const directorySlice = createSlice({
     writeExtraFileRow: (state, action: PayloadAction<ST.ExtraFileRowObjectType>) => {
       const {fileOIdsArr, fileRows} = action.payload
       fileOIdsArr.forEach(fileOId => {
-        state.fileRows[fileOId] = fileRows[fileOId]
+        const fileRow = fileRows[fileOId]
+        const {createdAt, updatedAt, ...rest} = fileRow
+        state.fileRows[fileOId] = {
+          ...rest,
+          createdAtValue: new Date(createdAt).valueOf(),
+          updatedAtValue: new Date(updatedAt).valueOf()
+        }
       })
     }
   }
