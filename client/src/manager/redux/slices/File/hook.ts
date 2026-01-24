@@ -17,6 +17,7 @@ export const useFileActions = () => {
     resetFileName: () => dispatch(fileSlice.actions.resetFileName()),
     resetFileOId: () => dispatch(fileSlice.actions.resetFileOId()),
     resetFileUser: () => dispatch(fileSlice.actions.resetFileUser()),
+    resetRecentFiles: () => dispatch(fileSlice.actions.resetRecentFiles()),
     // ::
     selectFileUser: () => dispatch(fileSlice.actions.selectFileUser()),
     setFile: (file: ST.FileType) => dispatch(fileSlice.actions.setFile(file)),
@@ -24,7 +25,8 @@ export const useFileActions = () => {
     setFileName: (fileName: string) => dispatch(fileSlice.actions.setFileName(fileName)),
     setFileOId: (fileOId: string) => dispatch(fileSlice.actions.setFileOId(fileOId)),
     setFileUser: (fileUser: ST.UserType) => dispatch(fileSlice.actions.setFileUser(fileUser)),
+    setRecentFiles: (recentFiles: ST.FileRowType[]) => dispatch(fileSlice.actions.setRecentFiles(recentFiles)),
     // ::
-    unselectFileUser: () => dispatch(fileSlice.actions.unselectFileUser())
+    unselectFileUser: () => dispatch(fileSlice.actions.unselectFileUser()),
   }
 }

@@ -18,6 +18,7 @@ type ContextType = {
   loadComments: (fileOId: string) => Promise<APIReturnType>
   loadFile: (fileOId: string) => Promise<APIReturnType>
   loadNoticeFile: () => Promise<APIReturnType>
+  loadRecentFiles: () => Promise<APIReturnType>
 }
 // prettier-ignore
 export const FileCallbacksContext = createContext<ContextType>({
@@ -27,12 +28,13 @@ export const FileCallbacksContext = createContext<ContextType>({
   loadComments: () => Promise.resolve({isSuccess: false}),
   loadFile: () => Promise.resolve({isSuccess: false}),
   loadNoticeFile: () => Promise.resolve({isSuccess: false}),
+  loadRecentFiles: () => Promise.resolve({isSuccess: false}),
 })
 
 export const useFileCallbacksContext = () => useContext(FileCallbacksContext)
 
 export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
-  const {setFile, setFileOId, setFileUser, resetFile, resetFileUser} = useFileActions()
+  const {setFile, setFileOId, setFileUser, setRecentFiles, resetFile, resetFileUser} = useFileActions()
   const {setCommentReplyArr} = useCommentActions()
   const {writeExtraDirectory, writeExtraFileRow} = useDirectoryActions()
 
@@ -185,6 +187,32 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     [] // eslint-disable-line react-hooks/exhaustive-deps
   )
 
+  const loadRecentFiles = useCallback(
+    async () => {
+      const url = `/client/file/loadRecentFiles`
+      const NULL_JWT = ''
+
+      return F.get(url, NULL_JWT)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+
+          if (ok) {
+            setRecentFiles(body.fileRowArr)
+            return {isSuccess: true}
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return {isSuccess: false}
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return {isSuccess: false}
+        })
+    },
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  )
   // prettier-ignore
   const value: ContextType = {
     editFile,
@@ -193,6 +221,7 @@ export const FileCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     loadComments,
     loadFile,
     loadNoticeFile,
+    loadRecentFiles,
   }
   return <FileCallbacksContext.Provider value={value}>{children}</FileCallbacksContext.Provider>
 }

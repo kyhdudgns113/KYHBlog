@@ -15,6 +15,7 @@ interface FileState {
   fileUser: LT.UserTypeLocal // 현재 열려있는 파일의 작성자
   isDelete: boolean // 현재 열려있는 파일을 삭제할지 여부
   isFileUserSelected: boolean // 현재 열려있는 파일의 작성자가 선택되었는지 여부
+  recentFiles: LT.FileRowTypeLocal[] // 최근 게시물 목록
 }
 
 // 초기 상태
@@ -25,7 +26,8 @@ const initialState: FileState = {
   fileOId: '',
   fileUser: NV.NULL_USER(),
   isDelete: false,
-  isFileUserSelected: false
+  isFileUserSelected: false,
+  recentFiles: [],
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)
@@ -55,6 +57,9 @@ export const fileSlice = createSlice({
     resetFileUser: state => {
       state.fileUser = NV.NULL_USER()
     },
+    resetRecentFiles: state => {
+      state.recentFiles = []
+    },
 
     // ::
     selectFileUser: state => {
@@ -77,9 +82,20 @@ export const fileSlice = createSlice({
       const {createdAt, updatedAt, ...rest} = action.payload
       state.fileUser = {...rest, createdAtValue: new Date(createdAt).valueOf(), updatedAtValue: new Date(updatedAt).valueOf()}
     },
+    setRecentFiles: (state, action: PayloadAction<ST.FileRowType[]>) => {
+      const newRecentFiles = action.payload.map(elem => {
+        const {createdAt, updatedAt, ...rest} = elem
+        return {
+          ...rest,
+          createdAtValue: new Date(createdAt).valueOf(),
+          updatedAtValue: new Date(updatedAt).valueOf(),
+        }
+      })
+      state.recentFiles = newRecentFiles
+    },
     // ::
     unselectFileUser: state => {
       state.isFileUserSelected = false
-    }
-  }
+    },
+  },
 })
