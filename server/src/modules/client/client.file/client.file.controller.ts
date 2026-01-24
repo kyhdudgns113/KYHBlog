@@ -79,6 +79,12 @@ export class ClientFileController {
     return {ok, body, gkdErrMsg, statusCode}
   }
 
+  @Get('/loadRecentFiles')
+  async loadRecentFiles() {
+    const {ok, body, gkdErrMsg, statusCode} = await this.clientService.loadRecentFiles()
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
   // DELETE AREA:
 
   @Delete('/deleteComment/:commentOId')

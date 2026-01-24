@@ -410,6 +410,16 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readFileRowArrByRecent(where: string) {
+    try {
+      const {fileRowArr} = await this.fileDBService.readFileRowArrByRecent(where)
+      return {fileRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   async updateFileName(where: string, fileOId: string, fileName: string) {
     try {
@@ -660,7 +670,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없음`,
           gkdStatus: {userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -671,7 +681,7 @@ export class DBHubService {
           gkdErrMsg: `권한이 없습니다.`,
           gkdStatus: {userOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
       return {user}
@@ -694,7 +704,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없음`,
           gkdStatus: {userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -705,7 +715,7 @@ export class DBHubService {
           gkdErrMsg: `권한이 없습니다.`,
           gkdStatus: {userOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
       return {user}
@@ -726,7 +736,7 @@ export class DBHubService {
           gkdErrMsg: `알람이 없습니다.`,
           gkdStatus: {alarmOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -738,7 +748,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없습니다.`,
           gkdStatus: {userOId: alarm.userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -752,7 +762,7 @@ export class DBHubService {
           gkdErrMsg: `권한이 없습니다.`,
           gkdStatus: {userOId: jwtPayload.userOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
       return {user}
@@ -774,7 +784,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없습니다.`,
           gkdStatus: {userOId: jwtPayload.userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -788,7 +798,7 @@ export class DBHubService {
           gkdErrMsg: `권한이 없습니다.`,
           gkdStatus: {userOId: jwtPayload.userOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
       return {user}
@@ -809,7 +819,7 @@ export class DBHubService {
           gkdErrMsg: `댓글이 없습니다.`,
           gkdStatus: {commentOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -821,7 +831,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없습니다.`,
           gkdStatus: {userOId: comment.userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -836,7 +846,7 @@ export class DBHubService {
           gkdErrMsg: `권한이 없습니다.`,
           gkdStatus: {userOId: jwtPayload.userOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
       return {user}
@@ -858,7 +868,7 @@ export class DBHubService {
           gkdErrMsg: `대댓글이 없습니다.`,
           gkdStatus: {replyOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -870,7 +880,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없습니다.`,
           gkdStatus: {userOId: reply.userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -885,7 +895,7 @@ export class DBHubService {
           gkdErrMsg: `권한이 없습니다.`,
           gkdStatus: {userOId: jwtPayload.userOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
       return {user}
@@ -906,7 +916,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없습니다.`,
           gkdStatus: {userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -917,7 +927,7 @@ export class DBHubService {
           gkdErrMsg: `권한이 없습니다.`,
           gkdStatus: {userOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
       return {user}
@@ -941,7 +951,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없습니다.`,
           gkdStatus: {userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -953,7 +963,7 @@ export class DBHubService {
           gkdErrMsg: `유저 권한이 없습니다.`,
           gkdStatus: {userOId},
           statusCode: 403,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -968,7 +978,7 @@ export class DBHubService {
           gkdErrMsg: `존재하지 않는 QnA`,
           gkdStatus: {qnAOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -985,7 +995,7 @@ export class DBHubService {
             gkdErrMsg: `비공개 질문글은 작성자나 관리자만 볼 수 있습니다.`,
             gkdStatus: {qnAOId, userOId},
             statusCode: 403,
-            where
+            where,
           } as T.ErrorObjType
         }
       }
@@ -1010,7 +1020,7 @@ export class DBHubService {
           gkdErrMsg: `QnA가 없습니다.`,
           gkdStatus: {qnAOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -1022,7 +1032,7 @@ export class DBHubService {
           gkdErrMsg: `유저가 없습니다.`,
           gkdStatus: {userOId: jwtPayload.userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -1036,7 +1046,7 @@ export class DBHubService {
           gkdErrMsg: `QnA는 작성자나 관리자만 수정/삭제할 수 있습니다.`,
           gkdStatus: {qnAOId, userOId: jwtPayload.userOId},
           statusCode: 403,
-          where
+          where,
         } as T.ErrorObjType
       }
       return {qnA, user}

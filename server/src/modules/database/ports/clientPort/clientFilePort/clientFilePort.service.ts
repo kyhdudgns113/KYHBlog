@@ -41,7 +41,7 @@ export class ClientFilePortService {
         content,
         fileOId,
         userName,
-        userOId
+        userOId,
       }
       await this.dbHubService.createComment(where, dto)
 
@@ -59,7 +59,7 @@ export class ClientFilePortService {
           qnAOId: null,
           senderUserName: userName,
           senderUserOId: userOId,
-          userOId: file.userOId
+          userOId: file.userOId,
         }
         const {alarm: _alarm} = await this.dbHubService.createAlarm(where, dto)
 
@@ -122,7 +122,7 @@ export class ClientFilePortService {
         targetUserOId,
         targetUserName,
         userName,
-        userOId
+        userOId,
       }
       await this.dbHubService.createReply(where, dto)
 
@@ -148,7 +148,7 @@ export class ClientFilePortService {
           qnAOId: null,
           senderUserName: userName,
           senderUserOId: userOId,
-          userOId: targetUserOId
+          userOId: targetUserOId,
         }
         alarmTarget = (await this.dbHubService.createAlarm(where, dtoReplyReply)).alarm
 
@@ -162,7 +162,7 @@ export class ClientFilePortService {
             qnAOId: null,
             senderUserName: userName,
             senderUserOId: userOId,
-            userOId: comment.userOId
+            userOId: comment.userOId,
           }
           alarmComment = (await this.dbHubService.createAlarm(where, dtoCommentReply)).alarm
         }
@@ -289,7 +289,7 @@ export class ClientFilePortService {
         fileOId: file.fileOId,
         fileStatus: file.fileStatus,
         createdAt: file.createdAt,
-        updatedAt: file.updatedAt
+        updatedAt: file.updatedAt,
       }
 
       U.pushExtraFileRows_Single(where, extraFileRows, fileRow)
@@ -397,7 +397,7 @@ export class ClientFilePortService {
           gkdErrMsg: `존재하지 않는 파일`,
           gkdStatus: {fileOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -458,6 +458,28 @@ export class ClientFilePortService {
     } catch (errObj) {
       // ::
       throw errObj
+    }
+  }
+
+  /**
+   * loadRecentFiles
+   *  - 최근 파일 목록을 읽어온다.
+   *
+   * ------
+   *
+   * 리턴
+   *  - fileRowArr: 최근 파일 목록
+   */
+  async loadRecentFiles() {
+    const where = `/client/file/loadRecentFiles`
+    try {
+      const {fileRowArr} = await this.dbHubService.readFileRowArrByRecent(where)
+      return {fileRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
     }
   }
 

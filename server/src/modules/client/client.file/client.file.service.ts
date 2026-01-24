@@ -162,6 +162,20 @@ export class ClientFileService {
     }
   }
 
+  async loadRecentFiles() {
+    /**
+     * 최근 파일 목록을 읽어온다.
+     */
+    try {
+      const {fileRowArr} = await this.portService.loadRecentFiles()
+      return {ok: true, body: {fileRowArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // DELETE AREA:
 
   async deleteComment(jwtPayload: JwtPayloadType, commentOId: string) {
