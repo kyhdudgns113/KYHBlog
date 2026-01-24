@@ -1,4 +1,9 @@
+import {useCallback, useEffect} from 'react'
+
+import {useFileCallbacksContext} from '@context'
 import {useBlogSelector} from '@redux'
+
+import {RecentFileRowRObject} from '../../objects'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -10,15 +15,26 @@ type RecentPostsPartProps = DivCommonProps & {}
 export const RecentPostsPart: FC<RecentPostsPartProps> = ({...props}) => {
   const recentFiles = useBlogSelector(state => state.file.recentFiles)
 
+  const {loadRecentFiles} = useFileCallbacksContext()
+
+  const onClickTitle = useCallback(() => {
+    loadRecentFiles()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 최근 게시글 로딩
+  useEffect(() => {
+    loadRecentFiles()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className={`RecentPosts_Part`} {...props}>
-      <p className="_title_part">최근 게시글: {recentFiles.length}개</p>
+      <p className="_title_part" onClick={onClickTitle}>
+        최근 게시글
+      </p>
 
       <div className="_post_list_part">
-        {recentFiles.map(file => (
-          <div key={file.fileOId}>
-            <p>{file.fileName}</p>
-          </div>
+        {recentFiles.map(fileRow => (
+          <RecentFileRowRObject key={fileRow.fileOId} fileRow={fileRow} />
         ))}
       </div>
     </div>
