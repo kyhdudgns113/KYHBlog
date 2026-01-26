@@ -22,8 +22,8 @@ export class DBHubService {
     private readonly alarmDBService: DB.AlarmDBService,
     private readonly chatDBService: DB.ChatDBService,
     private readonly commentDBService: DB.CommentDBService,
-    private readonly dirDBService: DB.DirectoryDBService,
-    private readonly fileDBService: DB.FileDBService,
+    private readonly dirDBService: DB.DirectoryFileDBService,
+    private readonly fileDBService: DB.DirectoryFileDBService,
     private readonly logDBService: DB.LogDBService,
     private readonly qnaDBService: DB.QnaDBService,
     private readonly userDBService: DB.UserDBService

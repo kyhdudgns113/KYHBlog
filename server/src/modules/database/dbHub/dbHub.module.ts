@@ -8,14 +8,13 @@ import * as TABLE from '../_tables'
     TABLE.AlarmDBModule, // ::
     TABLE.ChatDBModule, // ::
     TABLE.CommentDBModule, // ::
-    TABLE.DirectoryDBModule, // ::
-    TABLE.FileDBModule, // ::
+    TABLE.DirectoryFileDBModule, // ::
     TABLE.LogDBModule, // ::
     TABLE.QnaDBModule,
-    TABLE.UserDBModule
+    TABLE.UserDBModule,
   ],
   controllers: [],
   providers: [DBHubService],
-  exports: [DBHubService]
+  exports: [DBHubService],
 })
 export class DBHubModule {}
