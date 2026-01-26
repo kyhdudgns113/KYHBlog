@@ -8,8 +8,8 @@ import {FileRowRObject} from '../FileRowRObject'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import * as ST from '@shareType'
 import * as NV from '@nullValue'
+import * as LT from '@localizeType'
 
 import './DirectoryRowRObject.scss'
 
@@ -19,7 +19,7 @@ export const DirectoryRowRObject: FC<DirectoryRowRObjectProps> = ({dirOId, ...pr
   const directories = useBlogSelector(state => state.directory.directories)
   const {loadDirectory} = useDirectoryCallbacksContext()
 
-  const [directory, setDirectory] = useState<ST.DirectoryType>(NV.NULL_DIR())
+  const [directory, setDirectory] = useState<LT.DirectoryTypeLocal>(NV.NULL_DIR())
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   // 초기화: directory
@@ -55,4 +55,3 @@ export const DirectoryRowRObject: FC<DirectoryRowRObjectProps> = ({dirOId, ...pr
     </div>
   )
 }
-

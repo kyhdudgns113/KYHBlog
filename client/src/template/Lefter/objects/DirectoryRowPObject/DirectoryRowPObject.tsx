@@ -10,7 +10,7 @@ import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import * as NV from '@nullValue'
-import * as ST from '@shareType'
+import * as LT from '@localizeType'
 
 import './DirectoryRowPObject.scss'
 
@@ -26,7 +26,7 @@ export const DirectoryRowPObject: FC<DirectoryRowPObjectProps> = ({dirIdx, dirOI
   const dirOId_addFile = useBlogSelector(state => state.directory.dirOId_addFile)
   const {loadDirectory} = useDirectoryCallbacksContext()
 
-  const [directory, setDirectory] = useState<ST.DirectoryType>(NV.NULL_DIR())
+  const [directory, setDirectory] = useState<LT.DirectoryTypeLocal>(NV.NULL_DIR())
   const [isOpen, setIsOpen] = useState<boolean>(false) // eslint-disable-line
 
   // 초기화: directory
@@ -79,4 +79,3 @@ export const DirectoryRowPObject: FC<DirectoryRowPObjectProps> = ({dirIdx, dirOI
     </div>
   )
 }
-

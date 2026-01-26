@@ -8,7 +8,7 @@ import * as ST from '@shareType'
 
 // State 타입 정의
 interface DirectoryState {
-  directories: {[dirOId: string]: ST.DirectoryType}
+  directories: {[dirOId: string]: LT.DirectoryTypeLocal}
   dirOId_addDir: string
   dirOId_addFile: string
   dirOId_editDir: string
@@ -16,7 +16,7 @@ interface DirectoryState {
   fileRows: {[fileOId: string]: LT.FileRowTypeLocal}
   moveDirOId: string
   moveFileOId: string
-  rootDir: ST.DirectoryType
+  rootDir: LT.DirectoryTypeLocal
   rootDirOId: string
 }
 
@@ -31,7 +31,7 @@ const initialState: DirectoryState = {
   moveDirOId: '',
   moveFileOId: '',
   rootDir: NV.NULL_DIR(),
-  rootDirOId: ''
+  rootDirOId: '',
 }
 
 // Slice 생성 (액션 + 리듀서를 한번에)
@@ -87,7 +87,7 @@ export const directorySlice = createSlice({
       state.moveDirOId = ''
       state.moveFileOId = action.payload
     },
-    setRootDir: (state, action: PayloadAction<ST.DirectoryType>) => {
+    setRootDir: (state, action: PayloadAction<LT.DirectoryTypeLocal>) => {
       state.rootDir = action.payload
     },
     setRootDirOId: (state, action: PayloadAction<string>) => {
@@ -97,7 +97,12 @@ export const directorySlice = createSlice({
     writeExtraDirectory: (state, action: PayloadAction<ST.ExtraDirObjectType>) => {
       const {dirOIdsArr, directories} = action.payload
       dirOIdsArr.forEach(dirOId => {
-        state.directories[dirOId] = directories[dirOId]
+        const directory = directories[dirOId]
+        const {updatedAtFile, ...rest} = directory
+        state.directories[dirOId] = {
+          ...rest,
+          updatedAtFileValue: updatedAtFile ? new Date(updatedAtFile).valueOf() : null,
+        }
       })
     },
     writeExtraFileRow: (state, action: PayloadAction<ST.ExtraFileRowObjectType>) => {
@@ -108,9 +113,9 @@ export const directorySlice = createSlice({
         state.fileRows[fileOId] = {
           ...rest,
           createdAtValue: new Date(createdAt).valueOf(),
-          updatedAtValue: new Date(updatedAt).valueOf()
+          updatedAtValue: new Date(updatedAt).valueOf(),
         }
       })
-    }
-  }
+    },
+  },
 })

@@ -8,9 +8,9 @@ import {AddDirButton, AddFileButton, SetDirButton} from '../../buttons'
 
 import type {FC, MouseEvent, DragEvent} from 'react'
 import type {DivCommonProps} from '@prop'
-import type {DirectoryType} from '@shareType'
 import type {Setter} from '@type'
 
+import * as LT from '@localizeType'
 import './DirectoryInfoGroup.scss'
 
 type DirectoryInfoGroupProps = DivCommonProps & {
@@ -18,7 +18,7 @@ type DirectoryInfoGroupProps = DivCommonProps & {
    * dirOId 는 부모로부터 받아와서 값이 있는데 directory 는 아직 안 들어왔을수도 있다
    * 둘 다 받아온다
    */
-  directory: DirectoryType
+  directory: LT.DirectoryTypeLocal
   dirOId: string
   isOpen: boolean
   setIsOpen: Setter<boolean>
@@ -107,4 +107,3 @@ export const DirectoryInfoGroup: FC<DirectoryInfoGroupProps> = ({directory, dirO
     </div>
   )
 }
-

@@ -37,6 +37,14 @@ export type CommentTypeLocal = {
   userOId: string
   userName: string
 }
+export type DirectoryTypeLocal = {
+  dirName: string
+  dirOId: string
+  fileOIdsArr: string[]
+  parentDirOId: string | null
+  subDirOIdsArr: string[]
+  updatedAtFileValue: number | null
+}
 export type FileTypeLocal = {
   content: string
   createdAtValue: number
@@ -48,6 +56,10 @@ export type FileTypeLocal = {
   updatedAtValue: number
   userName: string
   userOId: string
+}
+export type ExtraDirectoryObjectTypeLocal = {
+  dirOIdsArr: string[]
+  directories: {[dirOId: string]: DirectoryTypeLocal}
 }
 export type ExtraFileRowObjectTypeLocal = {
   /**

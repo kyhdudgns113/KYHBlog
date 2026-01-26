@@ -1,5 +1,4 @@
 import * as LT from '@localizeType'
-import * as ST from '@shareType'
 import * as T from '@type'
 
 export const NULL_AUTH_BODY = (): T.AuthBodyType => ({
@@ -9,7 +8,7 @@ export const NULL_AUTH_BODY = (): T.AuthBodyType => ({
   userId: '',
   userMail: '',
   userName: '',
-  userOId: ''
+  userOId: '',
 })
 
 export const NULL_CHAT_ROOM = (): LT.ChatRoomTypeLocal => ({
@@ -20,15 +19,16 @@ export const NULL_CHAT_ROOM = (): LT.ChatRoomTypeLocal => ({
   targetUserName: '',
   lastChatDateValue: 0,
   chatRoomName: '',
-  unreadMessageCount: 0
+  unreadMessageCount: 0,
 })
 
-export const NULL_DIR = (): ST.DirectoryType => ({
+export const NULL_DIR = (): LT.DirectoryTypeLocal => ({
   dirName: '',
   dirOId: '',
   fileOIdsArr: [],
   parentDirOId: '',
-  subDirOIdsArr: []
+  subDirOIdsArr: [],
+  updatedAtFileValue: null,
 })
 
 export const NULL_FILE = (): LT.FileTypeLocal => ({
@@ -41,7 +41,7 @@ export const NULL_FILE = (): LT.FileTypeLocal => ({
   fileName: '',
   updatedAtValue: 0,
   userName: '',
-  userOId: ''
+  userOId: '',
 })
 
 export const NULL_QNA = (): LT.QnATypeLocal => ({
@@ -53,7 +53,7 @@ export const NULL_QNA = (): LT.QnATypeLocal => ({
   qnAOId: '',
   title: '',
   updatedAtValue: 0,
-  viewCount: 0
+  viewCount: 0,
 })
 
 export const NULL_USER = (): LT.UserTypeLocal => ({
@@ -63,5 +63,5 @@ export const NULL_USER = (): LT.UserTypeLocal => ({
   userId: '',
   userMail: '',
   userName: '',
-  userOId: ''
+  userOId: '',
 })

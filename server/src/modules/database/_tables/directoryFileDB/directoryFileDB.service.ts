@@ -23,9 +23,13 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
      *
      * 기능
      *   1. 최근 파일 목록 초기화(for 홈 탭)
+     *   2. 파일행 맵 초기화
+     *   3. 디렉토리 맵 초기화
      */
     try {
-      await this._bootStrap_initRecentFileArr()
+      await this._bootstrap_initRecentFileArr()
+      await this._bootstrap_initFileRowMap()
+      await this._bootstrap_initDirectoryMap()
       // ::
     } catch (errObj) {
       // ::
@@ -108,7 +112,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       }
 
       // 5. 디렉토리 타입으로 변환 및 리턴
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: [], updatedAtFile: null}
 
       return {directory}
       // ::
@@ -230,6 +234,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
           parentDirOId,
           fileOIdsArr,
           subDirOIdsArr,
+          updatedAtFile: null,
         }
         directoryArr.push(directory)
       })
@@ -311,7 +316,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const subDirOIdsArr: string[] = resultArrSubDir.map(row => row.dirOId)
 
       // 4. 디렉토리 타입으로 변환 및 리턴
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr, updatedAtFile: null}
 
       return {directory, fileRowArr}
       // ::
@@ -368,7 +373,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const subDirOIdsArr: string[] = resultArrSubDir.map(row => row.dirOId)
 
       // 3. 디렉토리 타입으로 변환 및 리턴
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr, updatedAtFile: null}
 
       return {directory, fileRowArr}
       // ::
@@ -449,7 +454,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       // 6. 초기 디렉토리 배열 생성(자식 배열 미완성)
       const directoryArr: ST.DirectoryType[] = result5Arr.map(row => {
         const {dirOId, dirName, parentDirOId} = row
-        const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
+        const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: [], updatedAtFile: null}
         return directory
       })
 
@@ -648,7 +653,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       // 10. 디렉토리 정보 생성
       const {parentDirOId} = resultArr[0]
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr, updatedAtFile: null}
 
       return {directoryArr: [directory], fileRowArr}
       // ::
@@ -714,7 +719,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       // 4. 디렉토리 정보 생성
       const {dirName, parentDirOId} = resultMyArr[0]
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: [], updatedAtFile: null}
 
       // 5. 파일행 배열 생성
       const fileRowArr: ST.FileRowType[] = resultReadFileArr.map(row => {
@@ -780,7 +785,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const subDirOIdsArr: string[] = resultReadSubDirArr.map(row => row.dirOId)
 
       const {dirName, parentDirOId} = resultMyArr[0]
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr, updatedAtFile: null}
 
       const directoryArr: ST.DirectoryType[] = [directory]
 
@@ -862,7 +867,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       // 6. 부모 디렉토리 정보 생성
       const subDirOIdsArr: string[] = resultReadSubDirArr.map(row => row.dirOId).filter(_dirOId => _dirOId !== dirOId)
 
-      const directory: ST.DirectoryType = {dirOId: _pDirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId: _pDirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr, updatedAtFile: null}
 
       const fileRowArr: ST.FileRowType[] = resultReadFileArr.map(row => {
         const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
@@ -1379,6 +1384,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
         fileOIdsArr,
         parentDirOId,
         subDirOIdsArr,
+        updatedAtFile: null,
       }
 
       const fileRowArr: ST.FileRowType[] = fileArr.map(row => {
@@ -1441,7 +1447,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
     }
   }
 
-  private async _bootStrap_initRecentFileArr() {
+  private async _bootstrap_initRecentFileArr() {
     /**
      * _bootStrap_initRecentFileArr
      *
@@ -1475,6 +1481,123 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
         console.log(`   ${key}: ${errObj[key]}`)
       })
       this.recentFileArr = []
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  private async _bootstrap_initFileRowMap() {
+    /**
+     * _bootstrap_initFileRowMap
+     *
+     * 주의사항
+     *   - 디렉토리보다 꼭 먼저 실행되어야 한다.
+     *   - 파일행의 정보를 디렉토리맵 초기화할때 사용한다.
+     *
+     * 기능
+     *   1. 파일행 맵 초기화
+     */
+    const connection = await this.dbService.getConnection()
+    try {
+      // 1. 파일 맵 초기화
+      const query = `SELECT * FROM files`
+      const [result] = await connection.execute(query)
+      const resultArr = result as RowDataPacket[]
+      this.fileRowMap = new Map(
+        resultArr.map(file => {
+          const {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt} = file
+          const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+          return [fileOId, fileRow]
+        })
+      )
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
+
+  private async _bootstrap_initDirectoryMap() {
+    /**
+     * _bootstrap_initDirectoryMap
+     *
+     * 주의사항
+     *   - 파일행 맵 초기화 이후에 실행되어야 한다.
+     *
+     * 기능
+     *   1. 디렉토리 맵 초기화
+     *   2. updatedAtFile 도 업데이트 한다.
+     */
+    const connection = await this.dbService.getConnection()
+    try {
+      // 1. 디렉토리들을 쿼리로 읽어오고 초기 Map 을 구성한다.
+      const query = `SELECT * FROM directories`
+      const [result] = await connection.execute(query)
+      const resultArr = result as RowDataPacket[]
+
+      // 1-1. 먼저 디렉토리 맵을 생성 (subDirOIdsArr는 나중에 업데이트)
+      this.directoryMap = new Map(
+        resultArr.map(row => {
+          const {dirOId, dirName, parentDirOId} = row
+          const fileOIdsArr = Array.from(this.fileRowMap.keys()).filter(fileOId => this.fileRowMap.get(fileOId)?.dirOId === dirOId)
+          const subDirOIdsArr: string[] = [] // 나중에 업데이트
+          const updatedAtFile: Date | null = null // 나중에 업데이트
+          const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr, updatedAtFile}
+          return [dirOId, directory]
+        })
+      )
+
+      // 1-2. subDirOIdsArr 업데이트
+      for (const [dirOId, directory] of this.directoryMap.entries()) {
+        const subDirOIdsArr = Array.from(this.directoryMap.keys()).filter(subDirOId => this.directoryMap.get(subDirOId)?.parentDirOId === dirOId)
+        directory.subDirOIdsArr = subDirOIdsArr
+      }
+
+      // 2. 각 디렉토리의 updatedAtFile을 해당 디렉토리의 파일들 중 최신 updatedAt으로 설정
+      for (const [dirOId, directory] of this.directoryMap.entries()) {
+        let maxUpdatedAt: Date | null = null
+
+        // 2-1. 해당 디렉토리의 파일들 중 최신 updatedAt 찾기
+        for (const fileOId of directory.fileOIdsArr) {
+          const fileRow = this.fileRowMap.get(fileOId)
+          if (fileRow) {
+            const updatedAt = new Date(fileRow.updatedAt)
+            if (!maxUpdatedAt || updatedAt > maxUpdatedAt) {
+              maxUpdatedAt = updatedAt
+            }
+          }
+        }
+
+        directory.updatedAtFile = maxUpdatedAt
+      }
+
+      // 3. 부모 디렉토리로 올라가면서 updatedAtFile 업데이트 (null 체크 포함)
+      for (const [dirOId, directory] of this.directoryMap.entries()) {
+        if (!directory.updatedAtFile) continue
+
+        let parentDirOId = directory.parentDirOId
+        if (!parentDirOId) continue
+
+        let parentDirectory = this.directoryMap.get(parentDirOId)
+        while (parentDirectory) {
+          if (!parentDirectory.updatedAtFile || directory.updatedAtFile > parentDirectory.updatedAtFile) {
+            parentDirectory.updatedAtFile = directory.updatedAtFile
+          }
+          parentDirOId = parentDirectory.parentDirOId
+          if (!parentDirOId) break
+          parentDirectory = this.directoryMap.get(parentDirOId)
+        }
+      }
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
       // ::
     } finally {
       // ::

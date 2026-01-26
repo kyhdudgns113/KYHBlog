@@ -1,6 +1,7 @@
 import {useBlogSelector, useBlogDispatch} from '@redux'
 import {directorySlice} from './slice'
 
+import * as LT from '@localizeType'
 import * as ST from '@shareType'
 
 export const useDirectoryStates = () => useBlogSelector(state => state.directory)
@@ -25,11 +26,11 @@ export const useDirectoryActions = () => {
     setFileOId_editFile: (fileOId_editFile: string) => dispatch(directorySlice.actions.setFileOId_editFile(fileOId_editFile)),
     setMoveDirOId: (moveDirOId: string) => dispatch(directorySlice.actions.setMoveDirOId(moveDirOId)),
     setMoveFileOId: (moveFileOId: string) => dispatch(directorySlice.actions.setMoveFileOId(moveFileOId)),
-    setRootDir: (rootDir: ST.DirectoryType) => dispatch(directorySlice.actions.setRootDir(rootDir)),
+    setRootDir: (rootDir: LT.DirectoryTypeLocal) => dispatch(directorySlice.actions.setRootDir(rootDir)),
     setRootDirOId: (rootDirOId: string) => dispatch(directorySlice.actions.setRootDirOId(rootDirOId)),
     // ::
     writeExtraDirectory: (extraDir: ST.ExtraDirObjectType) => dispatch(directorySlice.actions.writeExtraDirectory(extraDir)),
-    writeExtraFileRow: (extraFileRow: ST.ExtraFileRowObjectType) => dispatch(directorySlice.actions.writeExtraFileRow(extraFileRow))
+    writeExtraFileRow: (extraFileRow: ST.ExtraFileRowObjectType) => dispatch(directorySlice.actions.writeExtraFileRow(extraFileRow)),
   }
 }
 

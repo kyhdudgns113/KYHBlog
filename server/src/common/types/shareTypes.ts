@@ -52,6 +52,7 @@ export type DirectoryType = {
   // isOpen?: boolean // 클라이언트에서 폴더 열렸는지 확인용 은 클라에서 따로 관리하자
   parentDirOId: string | null
   subDirOIdsArr: string[]
+  updatedAtFile: Date | null // 자손파일중 가장 최근에 수정된 파일의 수정일
 }
 export type ExtraDirObjectType = {
   /**
