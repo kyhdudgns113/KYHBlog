@@ -91,7 +91,7 @@ export const FileRowInfoGroup: FC<FileRowInfoGroupProps> = ({fileIdx, fileOId, p
       {...props}
     >
       <Icon iconName="article" style={{fontSize: '22px', marginRight: '4px'}} />
-      {fileRows[fileOId].fileName}
+      {fileRows[fileOId]?.fileName || 'ERROR'}
 
       <FileStatus fileOId={fileOId} />
 
@@ -99,4 +99,3 @@ export const FileRowInfoGroup: FC<FileRowInfoGroupProps> = ({fileIdx, fileOId, p
     </div>
   )
 }
-
