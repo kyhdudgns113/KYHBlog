@@ -1,7 +1,6 @@
 import {Injectable, OnApplicationBootstrap} from '@nestjs/common'
 import {DBService} from '../_db'
 import {RowDataPacket} from 'mysql2'
-import {DirectoryType, FileRowType, FileType} from '@shareType'
 import {FILE_NORMAL, FILE_NOTICE} from '@secret'
 import {generateObjectId} from '@util'
 
@@ -15,39 +14,23 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
   private readonly NUM_FILE = 10
 
   private recentFileArr: ST.FileRowType[] = []
+  private directoryMap: Map<string, ST.DirectoryType> = new Map()
+  private fileRowMap: Map<string, ST.FileRowType> = new Map()
 
   async onApplicationBootstrap() {
-    const where = 'DirectoryFileDBService/onApplicationBootstrap'
-    const connection = await this.dbService.getConnection()
+    /**
+     * onApplicationBootstrap
+     *
+     * 기능
+     *   1. 최근 파일 목록 초기화(for 홈 탭)
+     */
     try {
-      // 1. 수정된지 3일이 지나지 않은 파일만 조회 (숨김 파일 제외)
-      const now = new Date()
-      const threeDaysAgo = new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000)
-
-      const query = `SELECT * FROM files WHERE fileStatus != ? AND updatedAt >= ? ORDER BY updatedAt DESC`
-      const params = [SV.FILE_HIDDEN, threeDaysAgo]
-      const [result] = await connection.execute(query, params)
-      const resultArr = result as RowDataPacket[]
-
-      this.recentFileArr = resultArr.map(file => {
-        const {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt} = file
-        const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
-        return fileRow
-      })
+      await this._bootStrap_initRecentFileArr()
       // ::
     } catch (errObj) {
       // ::
-      // 초기화 실패 시 빈 배열로 유지
-      console.log(`[DirectoryFileDBService] 최근 게시물 목록 초기화 실패`)
-      console.log(errObj)
-      Object.keys(errObj).forEach(key => {
-        console.log(`   ${key}: ${errObj[key]}`)
-      })
-      this.recentFileArr = []
-      // ::
     } finally {
       // ::
-      connection.release()
     }
   }
 
@@ -125,7 +108,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       }
 
       // 5. 디렉토리 타입으로 변환 및 리턴
-      const directory: DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
 
       return {directory}
       // ::
@@ -203,10 +186,10 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const fileArr = files as RowDataPacket[]
 
       // 3. dirOId 별로 파일정보 그룹핑
-      const fileMap = new Map<string, T.FileRowType[]>()
+      const fileMap = new Map<string, ST.FileRowType[]>()
       fileArr.forEach(row => {
         const {dirOId, fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
+        const fileRow: ST.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         if (!fileMap.has(dirOId)) fileMap.set(dirOId, [])
         fileMap.get(dirOId).push(fileRow)
       })
@@ -230,8 +213,8 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       })
 
       // 6. 리턴할 정보들 생성
-      const directoryArr: DirectoryType[] = []
-      const fileRowArr: T.FileRowType[] = []
+      const directoryArr: ST.DirectoryType[] = []
+      const fileRowArr: ST.FileRowType[] = []
 
       dirArr.forEach(d => {
         const {dirOId, dirName, parentDirOId} = d
@@ -241,7 +224,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
         const subDirOIdsArr = subDirMap.get(dirOId) || []
 
-        const directory: DirectoryType = {
+        const directory: ST.DirectoryType = {
           dirName,
           dirOId,
           parentDirOId,
@@ -305,9 +288,9 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const fileOIdsArr: string[] = resultArrFile.map(row => row.fileOId)
 
       // 2-3. 자식 파일들의 행 배열 뙇!!
-      const fileRowArr: T.FileRowType[] = resultArrFile.map(row => {
+      const fileRowArr: ST.FileRowType[] = resultArrFile.map(row => {
         const {fileName, fileOId, fileStatus, createdAt, updatedAt} = row
-        const fileRow: T.FileRowType = {
+        const fileRow: ST.FileRowType = {
           dirOId,
           fileName,
           fileOId,
@@ -328,7 +311,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const subDirOIdsArr: string[] = resultArrSubDir.map(row => row.dirOId)
 
       // 4. 디렉토리 타입으로 변환 및 리턴
-      const directory: DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
 
       return {directory, fileRowArr}
       // ::
@@ -369,11 +352,11 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       // 2. 자식 파일들의 OId 배열 및 행 배열 생성
       const fileOIdsArr: string[] = []
-      const fileRowArr: T.FileRowType[] = []
+      const fileRowArr: ST.FileRowType[] = []
 
       resultArrFile.forEach(row => {
         const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
+        const fileRow: ST.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         fileRowArr.push(fileRow)
         fileOIdsArr.push(fileOId)
       })
@@ -385,7 +368,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const subDirOIdsArr: string[] = resultArrSubDir.map(row => row.dirOId)
 
       // 3. 디렉토리 타입으로 변환 및 리턴
-      const directory: DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
 
       return {directory, fileRowArr}
       // ::
@@ -464,14 +447,14 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const result7Arr = result7 as RowDataPacket[]
 
       // 6. 초기 디렉토리 배열 생성(자식 배열 미완성)
-      const directoryArr: DirectoryType[] = result5Arr.map(row => {
+      const directoryArr: ST.DirectoryType[] = result5Arr.map(row => {
         const {dirOId, dirName, parentDirOId} = row
-        const directory: DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
+        const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
         return directory
       })
 
       // 7. 파일행 배열 생성 및 자식파일 목록에 추가
-      const fileRowArr: T.FileRowType[] = result7Arr.map(row => {
+      const fileRowArr: ST.FileRowType[] = result7Arr.map(row => {
         const {dirOId, fileOId, fileName, fileStatus, createdAt, updatedAt} = row
 
         const index = directoryArr.findIndex(d => d.dirOId === dirOId)
@@ -479,7 +462,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
           directoryArr[index].fileOIdsArr.push(fileOId)
         }
 
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
+        const fileRow: ST.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         return fileRow
       })
 
@@ -653,9 +636,9 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const resultDirArr = resultDir as RowDataPacket[]
 
       // 8. 파일행 배열 생성
-      const fileRowArr: T.FileRowType[] = resultFileArr.map(row => {
+      const fileRowArr: ST.FileRowType[] = resultFileArr.map(row => {
         const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
+        const fileRow: ST.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         return fileRow
       })
 
@@ -665,7 +648,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       // 10. 디렉토리 정보 생성
       const {parentDirOId} = resultArr[0]
-      const directory: DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr}
 
       return {directoryArr: [directory], fileRowArr}
       // ::
@@ -731,17 +714,17 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       // 4. 디렉토리 정보 생성
       const {dirName, parentDirOId} = resultMyArr[0]
-      const directory: DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
 
       // 5. 파일행 배열 생성
-      const fileRowArr: T.FileRowType[] = resultReadFileArr.map(row => {
+      const fileRowArr: ST.FileRowType[] = resultReadFileArr.map(row => {
         const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: T.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
+        const fileRow: ST.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         directory.fileOIdsArr.push(fileOId)
         return fileRow
       })
 
-      const directoryArr: DirectoryType[] = [directory]
+      const directoryArr: ST.DirectoryType[] = [directory]
 
       return {directoryArr, fileRowArr}
       // ::
@@ -797,9 +780,9 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const subDirOIdsArr: string[] = resultReadSubDirArr.map(row => row.dirOId)
 
       const {dirName, parentDirOId} = resultMyArr[0]
-      const directory: DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr}
 
-      const directoryArr: DirectoryType[] = [directory]
+      const directoryArr: ST.DirectoryType[] = [directory]
 
       return {directoryArr, fileRowArr: []}
       // ::
@@ -879,16 +862,16 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       // 6. 부모 디렉토리 정보 생성
       const subDirOIdsArr: string[] = resultReadSubDirArr.map(row => row.dirOId).filter(_dirOId => _dirOId !== dirOId)
 
-      const directory: DirectoryType = {dirOId: _pDirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr}
+      const directory: ST.DirectoryType = {dirOId: _pDirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr}
 
-      const fileRowArr: T.FileRowType[] = resultReadFileArr.map(row => {
+      const fileRowArr: ST.FileRowType[] = resultReadFileArr.map(row => {
         const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: T.FileRowType = {dirOId: _pDirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
+        const fileRow: ST.FileRowType = {dirOId: _pDirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
         directory.fileOIdsArr.push(fileOId)
         return fileRow
       })
 
-      const directoryArr: DirectoryType[] = [directory]
+      const directoryArr: ST.DirectoryType[] = [directory]
 
       return {directoryArr, fileRowArr}
       // ::
@@ -1021,7 +1004,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       // 5. 파일 타입으로 변환 및 리턴
       const createdAt = new Date()
       const updatedAt = new Date()
-      const file: FileType = {
+      const file: ST.FileType = {
         fileOId,
         fileName,
         dirOId,
@@ -1077,7 +1060,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       const {createdAt, dirOId, fileName, fileIdx, fileStatus, updatedAt, userName, userOId, content} = resultArr[0]
 
-      const file: FileType = {fileOId, fileName, dirOId, fileIdx, fileStatus, userName, userOId, content, createdAt, updatedAt}
+      const file: ST.FileType = {fileOId, fileName, dirOId, fileIdx, fileStatus, userName, userOId, content, createdAt, updatedAt}
 
       return {file}
       // ::
@@ -1106,7 +1089,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       const {fileOId, fileName, dirOId, fileIdx, fileStatus, updatedAt, userName, userOId, content, createdAt} = resultArr[0]
 
-      const file: FileType = {fileOId, fileName, dirOId, fileIdx, fileStatus, userName, userOId, content, createdAt, updatedAt}
+      const file: ST.FileType = {fileOId, fileName, dirOId, fileIdx, fileStatus, userName, userOId, content, createdAt, updatedAt}
 
       return {file}
       // ::
@@ -1152,10 +1135,10 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       resultArr.sort((a, b) => a.fileIdx - b.fileIdx)
 
-      const fileRowArr: FileRowType[] = resultArr.map(row => {
+      const fileRowArr: ST.FileRowType[] = resultArr.map(row => {
         const {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt} = row
 
-        const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+        const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
 
         return fileRow
       })
@@ -1199,7 +1182,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       const {dirOId, fileStatus, createdAt, updatedAt} = resultArr[0]
 
-      const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+      const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
 
       // 3. recentFileArr에 추가
       this._addToRecentFileArr(fileRow)
@@ -1266,7 +1249,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       const {dirOId, fileStatus, createdAt, updatedAt} = resultArr[0]
 
-      const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+      const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
 
       // 3. recentFileArr에 추가
       this._addToRecentFileArr(fileRow)
@@ -1390,7 +1373,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const subDirOIdsArr = dirArr.map(row => row.dirOId)
       const fileOIdsArr = fileArr.map(row => row.fileOId)
 
-      const directory: DirectoryType = {
+      const directory: ST.DirectoryType = {
         dirName,
         dirOId,
         fileOIdsArr,
@@ -1398,9 +1381,9 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
         subDirOIdsArr,
       }
 
-      const fileRowArr: FileRowType[] = fileArr.map(row => {
+      const fileRowArr: ST.FileRowType[] = fileArr.map(row => {
         const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+        const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
         return fileRow
       })
 
@@ -1455,6 +1438,47 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
     // 최대 NUM_FILE(10)개까지만 유지
     if (this.recentFileArr.length > this.NUM_FILE) {
       this.recentFileArr = this.recentFileArr.slice(0, this.NUM_FILE)
+    }
+  }
+
+  private async _bootStrap_initRecentFileArr() {
+    /**
+     * _bootStrap_initRecentFileArr
+     *
+     * 기능
+     *   1. 최근 파일 목록 초기화(for 홈 탭)
+     *     - 수정된지 3일이 지나지 않은 파일만 조회 (숨김 파일 제외)
+     */
+    const connection = await this.dbService.getConnection()
+    try {
+      // 1. 수정된지 3일이 지나지 않은 파일만 조회 (숨김 파일 제외)
+      const now = new Date()
+      const threeDaysAgo = new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000)
+
+      const query = `SELECT * FROM files WHERE fileStatus != ? AND updatedAt >= ? ORDER BY updatedAt DESC`
+      const params = [SV.FILE_HIDDEN, threeDaysAgo]
+      const [result] = await connection.execute(query, params)
+      const resultArr = result as RowDataPacket[]
+
+      this.recentFileArr = resultArr.map(file => {
+        const {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt} = file
+        const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+        return fileRow
+      })
+      // ::
+    } catch (errObj) {
+      // ::
+      // 초기화 실패 시 빈 배열로 유지
+      console.log(`[DirectoryFileDBService(Bootstrap)] 최근 게시물 목록 초기화 실패`)
+      console.log(errObj)
+      Object.keys(errObj).forEach(key => {
+        console.log(`   ${key}: ${errObj[key]}`)
+      })
+      this.recentFileArr = []
+      // ::
+    } finally {
+      // ::
+      connection.release()
     }
   }
 }
