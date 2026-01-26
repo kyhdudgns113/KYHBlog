@@ -1,8 +1,8 @@
-26.01.26 :building_construction: [Both] 파일폴더 메모리화 초기작업
-
-:memo: [ShareType] DirectoryType 에 updatedAtFile 추가
-:hammer: [Client] LocalType 에 Directory 관련 타입 추가 및 반영
-:sparkles: [Server] DirectoryFileDB 모듈 실행시 파일행 및 폴더들의 맵 메모리에 로딩 추가
+26.01.27 [Server] 파일, 폴더 정보 기초 캐싱 기능 추가(Working...)
 
 - :construction: [Client] 블로그/ 새 게시물
+  - :construction: [Server] 파일, 폴더정보 메모리로 캐싱중...
+    - :sparkles: 기초 캐싱 구현 완
+    - :white_large_square: 폴더들의 최근 수정날짜 갱신 기능 구현 필요
+    - :white_large_square: 캐시 미스 처리
 - :white_large_square: [Server] 일부 DB 메모리화

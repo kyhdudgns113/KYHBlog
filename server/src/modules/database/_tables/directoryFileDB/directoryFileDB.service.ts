@@ -9,6 +9,8 @@ import * as SV from '@shareValue'
 import * as T from '@type'
 import * as DTO from '@dto'
 
+// TODO: 폴더들의 updatedAtFile 갱신해야됨
+// TODO: 메모리에 없을때 DB 에서 불러오기
 @Injectable()
 export class DirectoryFileDBService implements OnApplicationBootstrap {
   private readonly NUM_FILE = 10
@@ -74,16 +76,14 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       let dirIdx = 0
 
-      // 2. 부모 디렉토리의 자식 폴더 갯수 받아오기(루트 아닐때만)
+      // 2. 메모리에서 부모 디렉토리의 자식 디렉토리 갯수 받아오기(루트 아닐때만)
       if (parentDirOId !== null) {
-        const queryParent = `SELECT subDirArrLen FROM directories WHERE dirOId = ?`
-        const paramsParent = [parentDirOId]
-        const [resultParent] = await connection.execute(queryParent, paramsParent)
+        const parentDir = this.directoryMap.get(parentDirOId)
 
-        const resultArrParent = resultParent as RowDataPacket[]
-
-        // 2-1. 부모 디렉토리 존재 체크
-        if (resultArrParent.length === 0) {
+        if (parentDir) {
+          dirIdx = parentDir.subDirOIdsArr.length
+        } // ::
+        else {
           throw {
             gkd: {parentDirOId: `존재하지 않는 디렉토리`},
             gkdErrCode: 'DIRECTORYFILEDB_createDir_InvalidParentDirOId',
@@ -93,10 +93,6 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
             where,
           } as T.ErrorObjType
         }
-
-        const {subDirArrLen} = resultArrParent[0]
-
-        dirIdx = subDirArrLen
       }
 
       // 3. 디렉토리 생성
@@ -104,15 +100,17 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const params = [dirOId, dirName, dirIdx, parentDirOId]
       await connection.execute(query, params)
 
-      // 4. 부모 디렉토리의 subDirArrLen 증가
+      // 4. 메모리에 있는 부모 디렉토리에 자식 디렉토리 추가
       if (parentDirOId !== null) {
-        const queryParentUpdate = `UPDATE directories SET subDirArrLen = subDirArrLen + 1 WHERE dirOId = ?`
-        const paramsParentUpdate = [parentDirOId]
-        await connection.execute(queryParentUpdate, paramsParentUpdate)
+        const parentDir = this.directoryMap.get(parentDirOId)
+        if (parentDir) {
+          parentDir.subDirOIdsArr.push(dirOId)
+        }
       }
 
       // 5. 디렉토리 타입으로 변환 및 리턴
       const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: [], updatedAtFile: null}
+      this.directoryMap.set(dirOId, directory)
 
       return {directory}
       // ::
@@ -146,6 +144,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
     try {
       const dto: DTO.CreateDirDTO = {dirName: 'root', parentDirOId: null}
       const {directory} = await this.createDir(where, dto)
+      this.directoryMap.set(directory.dirOId, directory)
 
       return {directory}
       // ::
@@ -432,69 +431,28 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const param12 = [...subDirOIdsArr.flatMap((id, idx) => [id, idx]), dirOId, ...subDirOIdsArr]
       await connection.execute(query12, param12)
 
-      // 3. dirOId 디렉토리의 subDirArrLen 을 subDirOIdsArr.length 로 바꾼다.
-      const query3 = `UPDATE directories SET subDirArrLen = ? WHERE dirOId = ?`
-      const param3 = [subDirOIdsArr.length, dirOId]
-      await connection.execute(query3, param3)
-      // ::
-
-      // 4. (쿼리) 본인과 자식 폴더들의 정보를 읽는 쿼리
-      const query5 = `SELECT * FROM directories WHERE dirOId IN (?, ${subDirOIdsArr.map(() => '?').join(',')}) ORDER BY FIELD(dirOId, ?, ${subDirOIdsArr.map(() => '?').join(',')})`
-      const param5 = [dirOId, ...subDirOIdsArr, dirOId, ...subDirOIdsArr]
-      const [result5] = await connection.execute(query5, param5)
-
-      // 5. (쿼리) 본인과 자식 폴더들의 파일 정보들 읽어오는 쿼리
-      const query7 = `SELECT dirOId, fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId IN (?, ${subDirOIdsArr.map(() => '?').join(',')}) ORDER BY FIELD(fileOId, ?, ${subDirOIdsArr.map(() => '?').join(',')}), fileIdx ASC`
-      const param7 = [dirOId, ...subDirOIdsArr, dirOId, ...subDirOIdsArr]
-      const [result7] = await connection.execute(query7, param7)
-
-      const result5Arr = result5 as RowDataPacket[]
-      const result7Arr = result7 as RowDataPacket[]
-
-      // 6. 초기 디렉토리 배열 생성(자식 배열 미완성)
-      const directoryArr: ST.DirectoryType[] = result5Arr.map(row => {
-        const {dirOId, dirName, parentDirOId} = row
-        const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: [], updatedAtFile: null}
-        return directory
-      })
-
-      // 7. 파일행 배열 생성 및 자식파일 목록에 추가
-      const fileRowArr: ST.FileRowType[] = result7Arr.map(row => {
-        const {dirOId, fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-
-        const index = directoryArr.findIndex(d => d.dirOId === dirOId)
-        if (index !== -1) {
-          directoryArr[index].fileOIdsArr.push(fileOId)
-        }
-
-        const fileRow: ST.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
-        return fileRow
-      })
-
-      // 8. 폴더들의 자식 폴더들 목록 추가
-      directoryArr[0].subDirOIdsArr = [...subDirOIdsArr] // dirOId 건 직접 넣어줘도 된다.
-
-      // 9. (쿼리) 자식 폴더들의 자식 폴더들의 목록 가져오는 쿼리
-      if (subDirOIdsArr.length > 0) {
-        const query6 = `
-        SELECT dirOId, parentDirOId 
-          FROM directories 
-          WHERE parentDirOId IN (${subDirOIdsArr.map(() => '?').join(',')}) 
-          ORDER BY FIELD(parentDirOId, ${subDirOIdsArr.map(() => '?').join(',')}), dirIdx ASC
-        `
-        const param6 = [...subDirOIdsArr, ...subDirOIdsArr]
-        const [result6] = await connection.execute(query6, param6)
-        const result6Arr = (result6 ?? []) as RowDataPacket[]
-
-        result6Arr.forEach(row => {
-          const {dirOId, parentDirOId} = row
-          const index = directoryArr.findIndex(d => d.dirOId === parentDirOId)
-          if (index !== -1) {
-            directoryArr[index].subDirOIdsArr.push(dirOId)
-          }
-        })
+      // 3. 메모리에 있는 부모폴더의 자식폴더 목록 갱신
+      const parentDir = this.directoryMap.get(dirOId)
+      if (parentDir) {
+        parentDir.subDirOIdsArr = [...subDirOIdsArr]
       }
 
+      // 3. 메모리에 있는 자식폴더들의 parentDirOId 갱신
+      subDirOIdsArr.forEach(dirOId => {
+        const directory = this.directoryMap.get(dirOId)
+        if (directory) {
+          directory.parentDirOId = dirOId
+        }
+      })
+
+      // 4. 초기 디렉토리 배열 생성(자식 배열 미완성)
+      const dirOIdArr_param = [dirOId, ...subDirOIdsArr]
+      const directoryArr: ST.DirectoryType[] = this._get_directoryArr_fromMemory_byDirOIdArr(dirOIdArr_param)
+
+      // 5. 파일행 배열 생성 및 자식파일 목록에 추가
+      const fileRowArr: ST.FileRowType[] = this._get_fileRowArr_fromMemory_byDirOIdArr(dirOIdArr_param)
+
+      // 6. 리턴
       return {directoryArr, fileRowArr}
       // ::
     } catch (errObj) {
@@ -553,10 +511,19 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const param1 = [...subFileOIdsArr.flatMap((id, idx) => [id, idx]), dirOId, ...subFileOIdsArr]
       await connection.execute(query1, param1)
 
-      // 2. (쿼리) dirOId 디렉토리의 fileArrLen 을 subFileOIdsArr.length 로 바꾼다.
-      const query2 = `UPDATE directories SET fileArrLen = ? WHERE dirOId = ?`
-      const param2 = [subFileOIdsArr.length, dirOId]
-      await connection.execute(query2, param2)
+      // 2. 메모리에 있는 부모폴더의 파일 목록 갱신
+      const parentDir = this.directoryMap.get(dirOId)
+      if (parentDir) {
+        parentDir.fileOIdsArr = [...subFileOIdsArr]
+      }
+
+      // 3. 메모리에 있는 자식파일들의 dirOId 갱신
+      subFileOIdsArr.forEach(fileOId => {
+        const fileRow = this.fileRowMap.get(fileOId)
+        if (fileRow) {
+          fileRow.dirOId = dirOId
+        }
+      })
       // ::
     } catch (errObj) {
       // ::
@@ -606,54 +573,14 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       // 2. 업데이트 쿼리 실행
       await connection.execute(queryUpdate, paramsUpdate)
 
-      // 3. (쿼리) dirOId 디렉토리의 정보를 읽는다.
-      const queryRead = `SELECT * FROM directories WHERE dirOId = ?`
-      const paramsRead = [dirOId]
-
-      const [resultRead] = await connection.execute(queryRead, paramsRead)
-
-      const resultArr = resultRead as RowDataPacket[]
-
-      // 4. 존재하지 않는 디렉토리인 경우
-      if (resultArr.length === 0) {
-        throw {
-          gkd: {dirOId: `존재하지 않는 디렉토리`},
-          gkdErrCode: 'DIRECTORYFILEDB_updateDirName_InvalidDirOId',
-          gkdErrMsg: `존재하지 않는 디렉토리`,
-          gkdStatus: {dirOId, dirName},
-          statusCode: 400,
-          where,
-        } as T.ErrorObjType // ::
+      // 2. 메모리에 있는 디렉토리의 dirName 갱신
+      const directory = this.directoryMap.get(dirOId)
+      if (directory) {
+        directory.dirName = dirName
       }
 
-      // 5. (쿼리) dirOId 디렉토리의 자식 파일들의 정보를 읽는다.
-      const queryFile = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx`
-      const paramsFile = [dirOId]
-      const [resultFile] = await connection.execute(queryFile, paramsFile)
-
-      const resultFileArr = resultFile as RowDataPacket[]
-
-      // 6. (쿼리) dirOId 디렉토리의 자식 폴더들의 정보를 읽는다.
-      const queryDir = `SELECT dirOId FROM directories WHERE parentDirOId = ? ORDER BY dirIdx`
-      const paramsDir = [dirOId]
-      const [resultDir] = await connection.execute(queryDir, paramsDir)
-
-      const resultDirArr = resultDir as RowDataPacket[]
-
-      // 8. 파일행 배열 생성
-      const fileRowArr: ST.FileRowType[] = resultFileArr.map(row => {
-        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: ST.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
-        return fileRow
-      })
-
-      // 9. 자식 목록 추가
-      const fileOIdsArr: string[] = resultFileArr.map(row => row.fileOId)
-      const subDirOIdsArr: string[] = resultDirArr.map(row => row.dirOId)
-
-      // 10. 디렉토리 정보 생성
-      const {parentDirOId} = resultArr[0]
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr, updatedAtFile: null}
+      // 3. 메모리에 있는 디렉토리의 자식 파일행 목록 갱신
+      const fileRowArr: ST.FileRowType[] = this._get_fileRowArr_fromMemory_byDirOIdArr([dirOId])
 
       return {directoryArr: [directory], fileRowArr}
       // ::
@@ -694,53 +621,16 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
      *   - directoryArr: 본인 디렉토리만 들어있는 배열
      *   - fileRowArr: 본인 디렉토리의 파일행 배열
      */
-    const connection = await this.dbService.getConnection()
 
-    try {
-      // 1. (쿼리) dirOId 디렉토리의 subDirArrLen 을 0 으로 바꾼다.
-      const queryUpdate = `UPDATE directories SET subDirArrLen = 0 WHERE dirOId = ?`
-      const paramUpdate = [dirOId]
-
-      await connection.execute(queryUpdate, paramUpdate)
-
-      // 2. (쿼리) 본인 디렉토리 조회
-      const queryRead = `SELECT * FROM directories WHERE dirOId = ?`
-      const paramRead = [dirOId]
-      const [resultMy] = await connection.execute(queryRead, paramRead)
-
-      const resultMyArr = resultMy as RowDataPacket[]
-
-      // 3. (쿼리) 본인 디렉토리의 자식 파일행 정보 조회
-      const queryReadFile = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx`
-      const paramReadFile = [dirOId]
-      const [resultReadFile] = await connection.execute(queryReadFile, paramReadFile)
-
-      const resultReadFileArr = resultReadFile as RowDataPacket[]
-
-      // 4. 디렉토리 정보 생성
-      const {dirName, parentDirOId} = resultMyArr[0]
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: [], updatedAtFile: null}
-
-      // 5. 파일행 배열 생성
-      const fileRowArr: ST.FileRowType[] = resultReadFileArr.map(row => {
-        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: ST.FileRowType = {dirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
-        directory.fileOIdsArr.push(fileOId)
-        return fileRow
-      })
-
-      const directoryArr: ST.DirectoryType[] = [directory]
-
-      return {directoryArr, fileRowArr}
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-      // ::
-    } finally {
-      // ::
-      connection.release()
+    const directory = this.directoryMap.get(dirOId)
+    if (directory) {
+      directory.subDirOIdsArr = []
     }
+
+    const directoryArr: ST.DirectoryType[] = [directory]
+    const fileRowArr: ST.FileRowType[] = this._get_fileRowArr_fromMemory_byDirOIdArr([dirOId])
+
+    return {directoryArr, fileRowArr}
   }
   async updateDirResetArrLen_File(where: string, dirOId: string) {
     where = where + '/updateDirResetArrLen_File'
@@ -758,47 +648,14 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
      * 리턴
      *   - directoryArr: 본인 디렉토리만 들어있는 배열
      */
-    const connection = await this.dbService.getConnection()
-
-    try {
-      // 1. (쿼리) dirOId 디렉토리의 fileArrLen 을 0 으로 바꾼다.
-      const queryUpdate = `UPDATE directories SET fileArrLen = 0 WHERE dirOId = ?`
-      const paramUpdate = [dirOId]
-
-      await connection.execute(queryUpdate, paramUpdate)
-
-      // 2. (쿼리) 본인 디렉토리 조회
-      const queryRead = `SELECT * FROM directories WHERE dirOId = ?`
-      const paramRead = [dirOId]
-      const [resultMy] = await connection.execute(queryRead, paramRead)
-
-      const resultMyArr = resultMy as RowDataPacket[]
-
-      // 3. (쿼리) 본인 디렉토리의 자식 폴더들 조회
-      const queryReadSubDir = `SELECT dirOId FROM directories WHERE parentDirOId = ? ORDER BY dirIdx`
-      const paramReadSubDir = [dirOId]
-      const [resultReadSubDir] = await connection.execute(queryReadSubDir, paramReadSubDir)
-
-      const resultReadSubDirArr = resultReadSubDir as RowDataPacket[]
-
-      // 4. 디렉토리 정보 생성
-      const subDirOIdsArr: string[] = resultReadSubDirArr.map(row => row.dirOId)
-
-      const {dirName, parentDirOId} = resultMyArr[0]
-      const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr, updatedAtFile: null}
-
-      const directoryArr: ST.DirectoryType[] = [directory]
-
-      return {directoryArr, fileRowArr: []}
-      // ::
-    } catch (errObj) {
-      // ::
-      throw errObj
-      // ::
-    } finally {
-      // ::
-      connection.release()
+    const directory: ST.DirectoryType = this.directoryMap.get(dirOId)
+    if (directory) {
+      directory.fileOIdsArr = []
     }
+
+    const directoryArr: ST.DirectoryType[] = [directory]
+
+    return {directoryArr, fileRowArr: []}
   }
 
   async deleteDir(where: string, dirOId: string) {
@@ -809,76 +666,41 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
      *   - dirOId 디렉토리를 삭제한다.
      *
      * 순서
-     *   1. (쿼리) 부모 폴더 조회
-     *   2. (쿼리) 부모의 자식 폴더들 OId 조회
-     *   3. (쿼리) 부모의 자식 파일들 행 정보 조회
-     *   4. (쿼리) dirOId 폴더 삭제
-     *   5. (쿼리) 부모 폴더의 자식폴더 개수 감소
-     *   6. 부모 디렉토리 정보 생성
+     *   1. 메모리에 있는 부모폴더의 자식목록에서 본인 제거
+     *   2. (쿼리) 디렉토리 삭제
+     *   3. 메모리에서 디렉토리 삭제
+     *   4. 부모 폴더의 자식 파일행 목록 메모리에서 불러오기
+     *   5. 리턴
      */
     const connection = await this.dbService.getConnection()
 
     try {
-      // 1. (쿼리) 부모 폴더 조회
-      const queryRead = `
-      SELECT * FROM directories WHERE dirOId = (
-        SELECT parentDirOId FROM directories WHERE dirOId = ?
-      )
-      `
-      const paramRead = [dirOId]
-      const [resultRead] = await connection.execute(queryRead, paramRead)
-      const resultReadArr = resultRead as RowDataPacket[]
-
-      if (resultReadArr.length === 0) {
-        throw {
-          gkd: {dirOId: `존재하지 않는 디렉토리 ${dirOId}`},
-          gkdErrCode: 'DIRECTORYFILEDB_deleteDir_InvalidDirOId',
-          gkdErrMsg: `존재하지 않는 디렉토리`,
-          gkdStatus: {dirOId},
-          statusCode: 400,
-          where,
-        } as T.ErrorObjType // ::
+      // 1. 메모리에 있는 부모폴더의 자식목록에서 본인 제거
+      const dirDeleted = this.directoryMap.get(dirOId)
+      let parentDirOId = null
+      if (!dirDeleted) {
+        return {directoryArr: [], fileRowArr: []}
       }
 
-      const {dirName, dirOId: _pDirOId, parentDirOId} = resultReadArr[0]
+      parentDirOId = dirDeleted.parentDirOId
 
-      // 2. (쿼리) 부모의 자식 폴더들 OId 조회
-      const queryReadSubDir = `SELECT dirOId FROM directories WHERE parentDirOId = ? ORDER BY dirIdx`
-      const paramReadSubDir = [_pDirOId]
-      const [resultReadSubDir] = await connection.execute(queryReadSubDir, paramReadSubDir)
-      const resultReadSubDirArr = resultReadSubDir as RowDataPacket[]
-
-      // 3. (쿼리) 부모의 자식 파일들 행 정보 조회
-      const queryReadFile = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx`
-      const paramReadFile = [_pDirOId]
-      const [resultReadFile] = await connection.execute(queryReadFile, paramReadFile)
-      const resultReadFileArr = resultReadFile as RowDataPacket[]
-
-      // 4. (쿼리) dirOId 폴더 삭제
+      // 2. (쿼리) dirOId 폴더 삭제
       const queryDelete = `DELETE FROM directories WHERE dirOId = ?`
       const paramDelete = [dirOId]
       await connection.execute(queryDelete, paramDelete)
 
-      // 5. (쿼리) 부모 폴더의 자식폴더 개수 감소
-      const queryUpdate = `UPDATE directories SET subDirArrLen = subDirArrLen - 1 WHERE dirOId = ?`
-      const paramUpdate = [_pDirOId]
-      await connection.execute(queryUpdate, paramUpdate)
+      // 3. 메모리에서 디렉토리 삭제
+      this.directoryMap.delete(dirOId)
 
-      // 6. 부모 디렉토리 정보 생성
-      const subDirOIdsArr: string[] = resultReadSubDirArr.map(row => row.dirOId).filter(_dirOId => _dirOId !== dirOId)
+      const parentDir = this.directoryMap.get(parentDirOId)
+      if (!parentDir) {
+        return {directoryArr: [], fileRowArr: []}
+      }
 
-      const directory: ST.DirectoryType = {dirOId: _pDirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr, updatedAtFile: null}
+      // 4. 부모 폴더의 자식 파일행 목록 메모리에서 불러오기
+      const fileRowArr: ST.FileRowType[] = this._get_fileRowArr_fromMemory_byDirOIdArr([parentDirOId])
 
-      const fileRowArr: ST.FileRowType[] = resultReadFileArr.map(row => {
-        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: ST.FileRowType = {dirOId: _pDirOId, fileName, fileOId, fileStatus, createdAt, updatedAt}
-        directory.fileOIdsArr.push(fileOId)
-        return fileRow
-      })
-
-      const directoryArr: ST.DirectoryType[] = [directory]
-
-      return {directoryArr, fileRowArr}
+      return {directoryArr: [parentDir], fileRowArr}
       // ::
     } catch (errObj) {
       // ::
@@ -893,6 +715,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
   /**
    * isAncestor
    *   - baseDirOId 가 targetDirOId 의 조상인지 재귀적으로 확인한다.
+   *   - 메모리(directoryMap)를 사용하여 확인한다.
    *
    * @param baseDirOId 조상인지 볼 디렉토리의 OId
    * @param targetDirOId 자손인지 볼 디렉토리의 OId
@@ -900,39 +723,31 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
   async isAncestor(where: string, baseDirOId: string, targetDirOId: string) {
     where = where + '/isAncestor'
 
-    const connection = await this.dbService.getConnection()
-
     try {
-      const query = `
-        WITH RECURSIVE ancestors AS (
-          SELECT dirOId, parentDirOId
-          FROM directories
-          WHERE dirOId = ?
+      // targetDirOId부터 시작해서 부모 디렉토리를 따라 올라가면서 baseDirOId를 찾는다.
+      let currentDirOId: string | null = targetDirOId
 
-          UNION ALL
+      while (currentDirOId) {
+        const currentDir = this.directoryMap.get(currentDirOId)
+        if (!currentDir) {
+          return false
+        }
 
-          SELECT d.dirOId, d.parentDirOId
-          FROM directories d
-          INNER JOIN ancestors a ON d.dirOId = a.parentDirOId
-        )
-        SELECT 1
-        FROM ancestors
-        WHERE parentDirOId = ?
-        LIMIT 1;
-      `
+        // baseDirOId를 찾으면 true 반환
+        if (currentDirOId === baseDirOId) {
+          return true
+        }
 
-      const [rows] = await connection.execute(query, [targetDirOId, baseDirOId])
+        // 부모 디렉토리로 이동
+        currentDirOId = currentDir.parentDirOId
+      }
 
-      // 결과가 있으면 true, 없으면 false
-      return (rows as any[]).length > 0
+      // 루트까지 올라갔는데 baseDirOId를 찾지 못했으면 false
+      return false
       // ::
     } catch (errObj) {
       // ::
       throw errObj
-      // ::
-    } finally {
-      // ::
-      connection.release()
     }
   }
 
@@ -974,32 +789,19 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
       let fileIdx = 0
 
-      // 2. 부모 디렉토리의 파일 갯수 받아오기
-      const queryLen = `SELECT fileArrLen FROM directories WHERE dirOId = ?`
-      const [result] = await connection.execute(queryLen, [dirOId])
-
-      const resultArr = result as RowDataPacket[]
-
-      // 2-1. 부모 디렉토리 존재 체크
-      if (resultArr.length === 0) {
+      const parentDir = this.directoryMap.get(dirOId)
+      if (!parentDir) {
         throw {
-          gkd: {dirOId: `존재하지 않는 디렉토리`},
-          gkdErrCode: 'DIRECTORYFILEDB_createFile_InvalidDirOId',
-          gkdErrMsg: `존재하지 않는 디렉토리`,
-          gkdStatus: {dirOId, fileName},
+          gkd: {dirOId: `부모 디렉토리가 메모리에 존재하지 않음`},
+          gkdErrCode: 'DIRECTORYFILEDB_createFile_DirectoryNotFound',
+          gkdErrMsg: `부모 디렉토리가 메모리에 존재하지 않음`,
+          gkdStatus: {dirOId},
           statusCode: 400,
           where,
-        } as T.ErrorObjType // ::
+        } as T.ErrorObjType
       }
 
-      const {fileArrLen} = resultArr[0]
-
-      fileIdx = fileArrLen
-
-      // 3. 부모 디렉토리의 파일 갯수 증가
-      const queryUpdate = `UPDATE directories SET fileArrLen = fileArrLen + 1 WHERE dirOId = ?`
-      const paramsUpdate = [dirOId]
-      await connection.execute(queryUpdate, paramsUpdate)
+      fileIdx = parentDir.fileOIdsArr.length
 
       // 4. 파일 추가
       const query = `INSERT INTO files (content, fileOId, fileName, dirOId, fileIdx, fileStatus, userName, userOId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
@@ -1025,6 +827,9 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       // 6. recentFileArr에 추가
       const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus: 0, createdAt, updatedAt}
       this._addToRecentFileArr(fileRow)
+
+      // 7. 메모리에 파일 추가
+      this.fileRowMap.set(fileOId, fileRow)
 
       return {file}
       // ::
@@ -1165,29 +970,15 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
 
     const connection = await this.dbService.getConnection()
     try {
+      // 1. (쿼리) 파일 이름 수정
       const queryUpdate = `UPDATE files SET fileName = ? WHERE fileOId = ?`
       const paramsUpdate = [fileName, fileOId]
       const [resultUpdate] = await connection.execute(queryUpdate, paramsUpdate)
 
-      const queryRead = `SELECT * FROM files WHERE fileOId = ?`
-      const [resultRead] = await connection.execute(queryRead, [fileOId])
-
-      const resultArr = resultRead as RowDataPacket[]
-
-      if (resultArr.length === 0) {
-        throw {
-          gkd: {fileOId: `존재하지 않는 파일`},
-          gkdErrCode: 'DIRECTORYFILEDB_updateFileName_InvalidFileOId',
-          gkdErrMsg: `존재하지 않는 파일`,
-          gkdStatus: {fileOId, fileName},
-          statusCode: 400,
-          where,
-        } as T.ErrorObjType // ::
-      }
-
-      const {dirOId, fileStatus, createdAt, updatedAt} = resultArr[0]
-
-      const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+      // 2. 메모리에 있는 파일 이름 갱신
+      const fileRow = this.fileRowMap.get(fileOId)
+      fileRow.fileName = fileName
+      fileRow.updatedAt = new Date()
 
       // 3. recentFileArr에 추가
       this._addToRecentFileArr(fileRow)
@@ -1234,27 +1025,10 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const params = [fileName, content, fileOId]
       await connection.execute(query, params)
 
-      // 2. 파일행을 위한 파일 조회
-      const queryRead = `SELECT dirOId, fileStatus, createdAt, updatedAt FROM files WHERE fileOId = ?`
-      const paramsRead = [fileOId]
-      const [resultRead] = await connection.execute(queryRead, paramsRead)
-
-      const resultArr = resultRead as RowDataPacket[]
-
-      if (resultArr.length === 0) {
-        throw {
-          gkd: {fileOId: `존재하지 않는 파일`},
-          gkdErrCode: 'DIRECTORYFILEDB_updateFileNameContent_InvalidFileOId',
-          gkdErrMsg: `존재하지 않는 파일`,
-          gkdStatus: {fileOId},
-          statusCode: 400,
-          where,
-        } as T.ErrorObjType // ::
-      }
-
-      const {dirOId, fileStatus, createdAt, updatedAt} = resultArr[0]
-
-      const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
+      // 2. 메모리에 있는 파일행 정보 갱신
+      const fileRow = this.fileRowMap.get(fileOId)
+      fileRow.fileName = fileName
+      fileRow.updatedAt = new Date()
 
       // 3. recentFileArr에 추가
       this._addToRecentFileArr(fileRow)
@@ -1278,15 +1052,29 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
      * fileOId 파일의 fileStatus 데이터를 fileStatus 로 수정한다.
      */
     try {
+      // 1. 만약 공지파일로 바꾸는 거라면, 이전의 공지파일을 일반 파일로 바꾼다.
       if (fileStatus === FILE_NOTICE) {
+        // 1-1. (쿼리) 기존 공지파일이 있으면 일반 파일로 바꾼다.
         const query = `UPDATE files SET fileStatus = ? WHERE fileStatus = ?`
         const param = [FILE_NORMAL, FILE_NOTICE]
         await connection.execute(query, param)
+
+        // 1-2. 메모리도 갱신해줘야 한다.
+        this.fileRowMap.forEach(fileRow => {
+          if (fileRow.fileStatus === FILE_NOTICE) {
+            fileRow.fileStatus = FILE_NORMAL
+          }
+        })
       }
 
+      // 2. (쿼리) 현재 파일 상태 수정
       const query = `UPDATE files SET fileStatus = ? WHERE fileOId = ?`
       const params = [fileStatus, fileOId]
       await connection.execute(query, params)
+
+      // 3. 메모리에 있는 파일행 정보도 갱신한다.
+      const fileRow = this.fileRowMap.get(fileOId)
+      fileRow.fileStatus = fileStatus
       // ::
     } catch (errObj) {
       // ::
@@ -1348,50 +1136,25 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       const paramsDelete = [fileOId]
       await connection.execute(queryDelete, paramsDelete)
 
-      // 3. (쿼리) 부모 폴더의 파일 갯수 감소
-      const queryUpdate = `UPDATE directories SET fileArrLen = fileArrLen - 1 WHERE dirOId = ?`
-      const paramsUpdate = [dirOId]
-      await connection.execute(queryUpdate, paramsUpdate)
+      // 3. 메모리에 있는 파일행 정보 삭제
+      this.fileRowMap.delete(fileOId)
 
-      // 5. (쿼리) 부모 폴더 조회
-      const queryReadDir = `SELECT * FROM directories WHERE dirOId = ?`
-      const paramsReadDir = [dirOId]
-      const [resultReadDir] = await connection.execute(queryReadDir, paramsReadDir)
-
-      // 6. (쿼리) 부모 폴더의 자식 폴더들 조회
-      const queryReadDirArr = `SELECT dirOId FROM directories WHERE parentDirOId = ? ORDER BY dirIdx ASC`
-      const paramsReadDirArr = [dirOId]
-      const [resultReadDirArr] = await connection.execute(queryReadDirArr, paramsReadDirArr)
-
-      // 7. (쿼리) 부모 폴더의 자식 파일들 조회
-      const queryReadFileArr = `SELECT fileOId, fileName, fileStatus, createdAt, updatedAt FROM files WHERE dirOId = ? ORDER BY fileIdx ASC`
-      const paramsReadFileArr = [dirOId]
-      const [resultReadFileArr] = await connection.execute(queryReadFileArr, paramsReadFileArr)
-
-      // 8. 조회 쿼리 실행
-      const {dirName, parentDirOId} = resultReadDir[0]
-
-      const dirArr = resultReadDirArr as RowDataPacket[]
-      const fileArr = resultReadFileArr as RowDataPacket[]
-
-      // 9. 부모 폴더와 자식파일행 정보 생성
-      const subDirOIdsArr = dirArr.map(row => row.dirOId)
-      const fileOIdsArr = fileArr.map(row => row.fileOId)
-
-      const directory: ST.DirectoryType = {
-        dirName,
-        dirOId,
-        fileOIdsArr,
-        parentDirOId,
-        subDirOIdsArr,
-        updatedAtFile: null,
+      // 4. 메모리에 있는 부모폴더의 자식파일 목록에서 현재 파일 제거
+      const directory = this.directoryMap.get(dirOId)
+      if (!directory) {
+        throw {
+          gkd: {dirOId: `부모 디렉토리가 메모리에 존재하지 않음`},
+          gkdErrCode: 'DIRECTORYFILEDB_deleteFile_ParentDirectoryNotFound',
+          gkdErrMsg: `부모 디렉토리가 메모리에 존재하지 않음`,
+          gkdStatus: {dirOId},
+          statusCode: 400,
+          where,
+        } as T.ErrorObjType
       }
 
-      const fileRowArr: ST.FileRowType[] = fileArr.map(row => {
-        const {fileOId, fileName, fileStatus, createdAt, updatedAt} = row
-        const fileRow: ST.FileRowType = {fileOId, fileName, dirOId, fileStatus, createdAt, updatedAt}
-        return fileRow
-      })
+      directory.fileOIdsArr = directory.fileOIdsArr.filter(_fileOId => _fileOId !== fileOId)
+
+      const fileRowArr: ST.FileRowType[] = this._get_fileRowArr_fromMemory_byDirOIdArr([dirOId])
 
       return {directoryArr: [directory], fileRowArr}
       // ::
@@ -1603,5 +1366,67 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       // ::
       connection.release()
     }
+  }
+
+  private _get_directoryArr_fromMemory_byDirOIdArr(dirOIdsArr: string[]) {
+    /**
+     * _get_directoryArr_fromMemory_byDirOIdArr
+     *
+     * 기능
+     *   1. dirOIdsArr 에 있는 디렉토리들의 정보를 메모리(directoryMap)에서 가져온다.
+     */
+    const directoryArr: ST.DirectoryType[] = []
+    for (const dirOId of dirOIdsArr) {
+      const directory = this.directoryMap.get(dirOId)
+      if (directory) {
+        directoryArr.push(directory)
+      }
+    }
+    return directoryArr
+  }
+
+  private _get_directoryArr_fromMemory_byParentDirOIdArr(parentDirOIdsArr: string[]) {
+    /**
+     * _get_directoryArr_fromMemory_byParentDirOId
+     *
+     * 기능
+     *   1. parentDirOId 에 있는 디렉토리들의 정보를 메모리(directoryMap)에서 가져온다.
+     */
+    const directoryArr: ST.DirectoryType[] = []
+
+    for (const parentDirOId of parentDirOIdsArr) {
+      const parentDirectory = this.directoryMap.get(parentDirOId)
+      if (parentDirectory) {
+        for (const dirOId of parentDirectory.subDirOIdsArr) {
+          const directory = this.directoryMap.get(dirOId)
+          if (directory) {
+            directoryArr.push(directory)
+          }
+        }
+      }
+    }
+    return directoryArr
+  }
+
+  private _get_fileRowArr_fromMemory_byDirOIdArr(dirOIdsArr: string[]) {
+    /**
+     * _get_fileRowArr_fromMemory_byDirOIdArr
+     *
+     * 기능
+     *   1. dirOIdsArr 에 있는 디렉토리들의 자식 파일행 정보를 메모리(fileRowMap)에서 가져온다.
+     */
+    const fileRowArr: ST.FileRowType[] = []
+    for (const dirOId of dirOIdsArr) {
+      const directory = this.directoryMap.get(dirOId)
+      if (directory) {
+        for (const fileOId of directory.fileOIdsArr) {
+          const fileRow = this.fileRowMap.get(fileOId)
+          if (fileRow) {
+            fileRowArr.push(fileRow)
+          }
+        }
+      }
+    }
+    return fileRowArr
   }
 }
