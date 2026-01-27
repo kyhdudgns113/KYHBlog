@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {DBService} from '../_db'
+import {DBService} from '../__db'
 import {RowDataPacket} from 'mysql2'
 import {UserType} from '@shareType'
 import {AUTH_ADMIN, AUTH_USER, gkdSaltOrRounds, USER_ID_ADMIN} from '@secret'
@@ -75,7 +75,7 @@ export class UserDBService {
             gkdErrMsg: `입력값이 무언가 중복됨`,
             gkdStatus: {userId, userName},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
       }
@@ -197,7 +197,7 @@ export class UserDBService {
           gkdErrMsg: `userId 중복 오류`,
           gkdStatus: {userId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -246,7 +246,7 @@ export class UserDBService {
           gkdErrMsg: `userOId 중복 오류`,
           gkdStatus: {userOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 

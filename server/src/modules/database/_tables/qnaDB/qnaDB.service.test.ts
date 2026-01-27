@@ -1,4 +1,4 @@
-import {DBServiceTest} from '../_db'
+import {DBServiceTest} from '../__db'
 import {QnaDBService} from './qnaDB.service'
 
 export class QnaDBServiceTest {
@@ -6,4 +6,3 @@ export class QnaDBServiceTest {
 
   public static qnaDBService = new QnaDBService(QnaDBServiceTest.dbService)
 }
-

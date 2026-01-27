@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {DBService} from '../_db'
+import {DBService} from '../__db'
 import {RowDataPacket} from 'mysql2'
 import {generateObjectId} from '@util'
 
@@ -53,7 +53,7 @@ export class QnaDBService {
           gkdErrMsg: `QnA 생성 실패`,
           gkdStatus: {qnAOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -67,7 +67,7 @@ export class QnaDBService {
         userOId: row.userOId,
         viewCount: row.viewCount,
         createdAt: row.createdAt,
-        updatedAt: row.updatedAt
+        updatedAt: row.updatedAt,
       }
 
       return {qnA}
@@ -124,7 +124,7 @@ export class QnaDBService {
           gkdErrMsg: `QnA 댓글 생성 실패`,
           gkdStatus: {qCommentOId},
           statusCode: 500,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -137,7 +137,7 @@ export class QnaDBService {
         userName: row.userName,
         userOId: row.userOId,
         createdAt: row.createdAt,
-        updatedAt: row.updatedAt
+        updatedAt: row.updatedAt,
       }
 
       return {qnAComment}
@@ -187,7 +187,7 @@ export class QnaDBService {
         userOId: row.userOId,
         viewCount: row.viewCount,
         createdAt: row.createdAt,
-        updatedAt: row.updatedAt
+        updatedAt: row.updatedAt,
       }))
 
       return {qnAArr}
@@ -226,7 +226,7 @@ export class QnaDBService {
         userOId: row.userOId,
         viewCount: row.viewCount,
         createdAt: row.createdAt,
-        updatedAt: row.updatedAt
+        updatedAt: row.updatedAt,
       }
 
       return {qnA}
@@ -259,7 +259,7 @@ export class QnaDBService {
         userName: row.userName,
         userOId: row.userOId,
         createdAt: row.createdAt,
-        updatedAt: row.updatedAt
+        updatedAt: row.updatedAt,
       }))
 
       return {qnACommentArr}
@@ -324,7 +324,7 @@ export class QnaDBService {
           gkdErrMsg: `수정할 필드가 없음`,
           gkdStatus: {qnAOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 

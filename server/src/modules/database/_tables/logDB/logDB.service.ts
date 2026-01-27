@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {DBService} from '../_db'
+import {DBService} from '../__db'
 import {RowDataPacket} from 'mysql2'
 import {generateObjectId} from '@util'
 
@@ -79,7 +79,7 @@ export class LogDBService {
         userId,
         userName,
         userOId,
-        where
+        where,
       }
 
       return {log}
@@ -133,7 +133,7 @@ export class LogDBService {
             where,
             errObj: {},
             gkd: {},
-            gkdStatus: {}
+            gkdStatus: {},
           }
           logArr.push(log)
         }

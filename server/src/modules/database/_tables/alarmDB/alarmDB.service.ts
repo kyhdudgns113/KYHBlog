@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {DBService} from '../_db'
+import {DBService} from '../__db'
 import {RowDataPacket} from 'mysql2'
 import {generateObjectId} from '@util'
 
@@ -40,7 +40,7 @@ export class AlarmDBService {
         qnAOId: dto.qnAOId,
         senderUserName: dto.senderUserName,
         senderUserOId: dto.senderUserOId,
-        userOId: dto.userOId
+        userOId: dto.userOId,
       }
 
       return {alarm}

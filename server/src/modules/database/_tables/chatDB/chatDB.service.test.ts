@@ -1,4 +1,4 @@
-import {DBServiceTest} from '../_db'
+import {DBServiceTest} from '../__db'
 import {ChatDBService} from './chatDB.service'
 
 export class ChatDBServiceTest {

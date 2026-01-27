@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {DBService} from '../_db'
+import {DBService} from '../__db'
 import {RowDataPacket} from 'mysql2'
 import {generateObjectId} from '@util'
 
@@ -116,7 +116,7 @@ export class CommentDBService {
         createdAt,
         fileOId,
         userName,
-        userOId
+        userOId,
       }
       return {comment}
       // ::
@@ -181,7 +181,7 @@ export class CommentDBService {
             createdAt: row.commentCreatedAt,
             fileOId: row.commentFileOId,
             userName: row.commentUserName,
-            userOId: row.commentUserOId
+            userOId: row.commentUserOId,
           }
           commentReplyArr.push(comment)
           lastCommentOId = row.commentOId
@@ -197,7 +197,7 @@ export class CommentDBService {
             userOId: row.replyUserOId,
             targetUserOId: row.replyTargetUserOId,
             targetUserName: row.replyTargetUserName,
-            commentOId: row.commentOId
+            commentOId: row.commentOId,
           }
           commentReplyArr.push(reply)
         }
@@ -261,7 +261,7 @@ export class CommentDBService {
             createdAt: row.commentCreatedAt,
             fileOId,
             userName: row.commentUserName,
-            userOId: row.commentUserOId
+            userOId: row.commentUserOId,
           }
           commentReplyArr.push(comment)
           lastCommentOId = row.commentOId
@@ -277,7 +277,7 @@ export class CommentDBService {
             userOId: row.replyUserOId,
             targetUserOId: row.replyTargetUserOId,
             targetUserName: row.replyTargetUserName,
-            commentOId: row.replyCommentOId
+            commentOId: row.replyCommentOId,
           }
           commentReplyArr.push(reply)
         }
@@ -348,7 +348,7 @@ export class CommentDBService {
             createdAt: row.commentCreatedAt,
             fileOId: row.commentFileOId,
             userName: row.commentUserName,
-            userOId: row.commentUserOId
+            userOId: row.commentUserOId,
           }
           commentReplyArr.push(comment)
           lastCommentOId = row.commentOId
@@ -364,7 +364,7 @@ export class CommentDBService {
             userOId: row.replyUserOId,
             targetUserOId: row.replyTargetUserOId,
             targetUserName: row.replyTargetUserName,
-            commentOId: row.replyCommentOId
+            commentOId: row.replyCommentOId,
           }
           commentReplyArr.push(reply)
         }

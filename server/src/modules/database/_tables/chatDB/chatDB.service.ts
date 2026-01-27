@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {DBService} from '../_db'
+import {DBService} from '../__db'
 import {RowDataPacket} from 'mysql2'
 import {generateObjectId} from '@util'
 import * as T from '@type'
@@ -27,7 +27,7 @@ export class ChatDBService {
         content,
         createdAt,
         userOId,
-        userName
+        userName,
       }
       // ::
       return {chat}
@@ -85,7 +85,7 @@ export class ChatDBService {
         targetUserMail,
         targetUserName,
         chatRoomName: targetUserName,
-        lastChatDate: nowDate
+        lastChatDate: nowDate,
       }
 
       return {chatRoom}
@@ -123,7 +123,7 @@ export class ChatDBService {
           gkdErrMsg: `외래키 제약조건 위배: userOId 유저가 없거나, targetUserOId 유저가 없거나`,
           gkdStatus: {chatRoomOId, userOId: dto.userOId, targetUserOId: dto.targetUserOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
       // ::
@@ -203,7 +203,7 @@ export class ChatDBService {
         targetUserMail: row.targetUserMail,
         targetUserName: row.targetUserName,
         chatRoomName: row.targetUserName,
-        lastChatDate: row.lastChatDate
+        lastChatDate: row.lastChatDate,
       }))
 
       return {chatRoomArr}
@@ -253,7 +253,7 @@ export class ChatDBService {
         targetUserId,
         targetUserName,
         unreadMessageCount: resultArr[0].unreadMessageCount,
-        targetUserMail
+        targetUserMail,
       }
 
       return {chatRoom}
@@ -296,7 +296,7 @@ export class ChatDBService {
           gkdErrMsg: `채팅방이 없습니다.`,
           gkdStatus: {chatRoomOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -307,7 +307,7 @@ export class ChatDBService {
         if (row.userOId) {
           refreshs[row.userOId] = {
             chatRoomOId,
-            unreadMessageCount: row.unreadMessageCount
+            unreadMessageCount: row.unreadMessageCount,
           }
         }
       })

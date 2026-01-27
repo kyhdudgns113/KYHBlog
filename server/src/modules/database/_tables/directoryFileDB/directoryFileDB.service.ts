@@ -1,5 +1,5 @@
 import {Injectable, OnApplicationBootstrap} from '@nestjs/common'
-import {DBService} from '../_db'
+import {DBService} from '../__db'
 import {RowDataPacket} from 'mysql2'
 import {FILE_NORMAL, FILE_NOTICE} from '@secret'
 import {generateObjectId} from '@util'
@@ -1330,7 +1330,7 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
         for (const fileOId of directory.fileOIdsArr) {
           const fileRow = this.fileRowMap.get(fileOId)
           if (fileRow) {
-            const updatedAt = new Date(fileRow.updatedAt)
+            const updatedAt = fileRow.updatedAt
             if (!maxUpdatedAt || updatedAt > maxUpdatedAt) {
               maxUpdatedAt = updatedAt
             }
@@ -1428,5 +1428,80 @@ export class DirectoryFileDBService implements OnApplicationBootstrap {
       }
     }
     return fileRowArr
+  }
+
+  private _get_updatedAtFile_InMemory_recursively(dirOId: string): Date | null {
+    const directory = this.directoryMap.get(dirOId)
+    let result = null
+
+    // 1. 디렉토리의 자식 파일중에서 가장 최근값 찾기
+    for (const fileOId of directory.fileOIdsArr) {
+      const fileRow = this.fileRowMap.get(fileOId)
+      if (fileRow) {
+        const updatedAt = fileRow.updatedAt
+        if (!result || updatedAt > result) {
+          result = updatedAt
+        }
+      }
+    }
+
+    // 2. 디렉토리의 자식 폴더중에서 가장 최근값 찾기
+    for (const subDirOId of directory.subDirOIdsArr) {
+      const subDirectory = this.directoryMap.get(subDirOId)
+      if (subDirectory) {
+        const updatedAt = this._get_updatedAtFile_InMemory_recursively(subDirOId)
+        if (updatedAt && (!result || updatedAt > result)) {
+          result = updatedAt
+        }
+      }
+    }
+
+    // 3. 현재 디렉토리의 값을 여기서 바꿔줘야 재귀적으로 바뀐다.
+    directory.updatedAtFile = result
+
+    // 4. 조상 폴더로 거슬러 올라가면서 갱신
+    let parentDirOId = directory.parentDirOId
+    if (!parentDirOId) return result
+
+    let parentDir = this.directoryMap.get(parentDirOId)
+
+    while (parentDir) {
+      let parentsValue = null
+      // 4-1. 조상 폴더의 자식폴더 데이터의 최근값 탐색
+      for (const subDirOId of parentDir.subDirOIdsArr) {
+        const subDirectory = this.directoryMap.get(subDirOId)
+        if (subDirectory) {
+          const updatedAt = subDirectory.updatedAtFile
+          if (updatedAt && (!parentsValue || updatedAt > parentsValue)) {
+            parentsValue = updatedAt
+          }
+        }
+      }
+
+      // 4-2. 조상 폴더의 자식파일중 가장 최근 날짜값 탐색
+      for (const fileOId of parentDir.fileOIdsArr) {
+        const fileRow = this.fileRowMap.get(fileOId)
+        if (fileRow) {
+          const updatedAt = fileRow.updatedAt
+          if (updatedAt && (!parentsValue || updatedAt > parentsValue)) {
+            parentsValue = updatedAt
+          }
+        }
+      }
+
+      // 4-3. 조상폴더의 값이 더 낮으면 갱신
+      if (result !== null && (parentsValue === null || parentsValue < result)) {
+        parentDir.updatedAtFile = result
+        // ::
+      } // 4-4. 조상폴더의 값이 같거나 높으면 종료
+      else if (result === null || result === parentsValue || (parentsValue !== null && parentsValue > result)) {
+        break
+      }
+      parentDirOId = parentDir.parentDirOId
+      if (!parentDirOId) break
+      parentDir = this.directoryMap.get(parentDirOId)
+    }
+
+    return result
   }
 }
