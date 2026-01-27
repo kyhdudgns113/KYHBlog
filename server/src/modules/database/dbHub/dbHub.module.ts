@@ -8,7 +8,8 @@ import * as TABLE from '../_tables'
     TABLE.AlarmDBModule, // ::
     TABLE.ChatDBModule, // ::
     TABLE.CommentDBModule, // ::
-    TABLE.DirectoryFileDBModule, // ::
+    TABLE.DirectoryDBModule, // ::
+    TABLE.FileDBModule, // ::
     TABLE.LogDBModule, // ::
     TABLE.QnaDBModule,
     TABLE.UserDBModule,
