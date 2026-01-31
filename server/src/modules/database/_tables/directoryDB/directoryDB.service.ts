@@ -290,8 +290,8 @@ export class DirectoryDBService {
       }
 
       // 3. 메모리에 있는 자식폴더들의 parentDirOId 갱신
-      for (const dirOId of subDirOIdsArr) {
-        const {directory} = await this.cacheDBService.getDirectoryByDirOId(dirOId)
+      for (const _dirOId of subDirOIdsArr) {
+        const {directory} = await this.cacheDBService.getDirectoryByDirOId(_dirOId)
         if (directory) {
           directory.parentDirOId = dirOId
         }

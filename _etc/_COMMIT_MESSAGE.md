@@ -1,3 +1,1 @@
-26.02.01 :construction: 구글 검색 노출 작업중: JSON-LD 스키마 추가
-
-:heavy_plus_sign: [Client] JSON-LD 스키마 추가
+26.02.01 :bug: 캐싱 이후 폴더 이동 안되던 버그 수정

@@ -60,7 +60,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       const url = `/client/directory/addDirectory`
       const data: HTTP.AddDirectoryType = {
         dirName,
-        parentDirOId
+        parentDirOId,
       }
 
       // 입력값 검증: 폴더 이름이 들어왔는가
@@ -104,7 +104,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       const url = `/client/directory/addFile`
       const data: HTTP.AddFileType = {
         fileName,
-        dirOId
+        dirOId,
       }
 
       // 입력값 검증: 파일 이름이 들어왔는가
@@ -150,7 +150,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       const url = `/client/directory/changeDirName`
       const data: HTTP.ChangeDirNameType = {
         dirName,
-        dirOId
+        dirOId,
       }
 
       // 입력값 검증: 폴더 이름이 들어왔는가
@@ -201,7 +201,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
       const url = `/client/directory/changeFileName`
       const data: HTTP.ChangeFileNameType = {
         fileName,
-        fileOId
+        fileOId,
       }
 
       // 입력값 검증: 파일 이름이 들어왔는가
@@ -391,7 +391,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
         oldParentChildArr,
         oldParentDirOId,
         newParentChildArr,
-        newParentDirOId
+        newParentDirOId,
       }
 
       return F.putWithJwt(url, data)
@@ -473,7 +473,7 @@ export const DirectoryCallbacksProvider: FC<PropsWithChildren> = ({children}) =>
         oldParentChildArr,
         oldParentDirOId,
         newParentChildArr,
-        newParentDirOId
+        newParentDirOId,
       }
 
       return F.putWithJwt(url, data)
