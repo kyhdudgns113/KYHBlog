@@ -33,7 +33,7 @@ export const RecentPostsPart: FC<RecentPostsPartProps> = ({...props}) => {
       </p>
 
       <div className="_post_list_part">
-        {recentFiles.map(fileRow => (
+        {recentFiles.slice(0, 10).map(fileRow => (
           <RecentFileRowRObject key={fileRow.fileOId} fileRow={fileRow} />
         ))}
       </div>
