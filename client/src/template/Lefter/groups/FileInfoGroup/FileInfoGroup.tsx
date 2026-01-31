@@ -2,6 +2,7 @@ import {Icon} from '@component'
 import {useBlogSelector} from '@redux'
 
 import {FileStatusButton} from '../../buttons'
+import {NewFile} from '../../components'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -23,6 +24,9 @@ export const FileInfoGroup: FC<FileInfoGroupProps> = ({fileOId, className, ...pr
 
       {/* 3. 파일 상태 아이콘 */}
       <FileStatusButton fileOId={fileOId} />
+
+      {/* 4. 새 파일 표시 */}
+      <NewFile fileOId={fileOId} />
     </div>
   )
 }

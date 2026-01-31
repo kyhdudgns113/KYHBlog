@@ -1,6 +1,7 @@
 import {useCallback} from 'react'
 
 import {Icon} from '@component'
+import {NewFile} from '../../components'
 
 import type {FC, MouseEvent} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -8,9 +9,9 @@ import type {Setter} from '@type'
 
 import './DirInfoGroup.scss'
 
-type DirInfoGroupProps = DivCommonProps & {dirName: string; isOpen: boolean; setIsOpen: Setter<boolean>}
+type DirInfoGroupProps = DivCommonProps & {dirName: string; dirOId: string; isOpen: boolean; setIsOpen: Setter<boolean>}
 
-export const DirInfoGroup: FC<DirInfoGroupProps> = ({dirName, isOpen, setIsOpen, ...props}) => {
+export const DirInfoGroup: FC<DirInfoGroupProps> = ({dirName, dirOId, isOpen, setIsOpen, ...props}) => {
   const onClickRow = useCallback((e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
     setIsOpen(prev => !prev)
@@ -23,6 +24,9 @@ export const DirInfoGroup: FC<DirInfoGroupProps> = ({dirName, isOpen, setIsOpen,
 
       {/* 2. 디렉토리 이름 */}
       <p className={`_name_group`}>{dirName}</p>
+
+      {/* 3. 새 파일 있는지 표시할 아이콘 */}
+      <NewFile dirOId={dirOId} />
     </div>
   )
 }
