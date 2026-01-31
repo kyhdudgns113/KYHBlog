@@ -301,22 +301,32 @@ export class CacheDBService implements OnApplicationBootstrap {
       const [result] = await connection.execute(query)
       const resultArr = result as RowDataPacket[]
 
-      // 1-1. 먼저 디렉토리 맵을 생성 (subDirOIdsArr는 나중에 업데이트)
+      // 1-1. 먼저 디렉토리 맵을 생성 (fileOIdsArr, subDirOIdsArr는 나중에 업데이트)
       this.directoryMap = new Map(
         resultArr.map(row => {
           const {dirOId, dirName, parentDirOId} = row
-          const fileOIdsArr = Array.from(this.fileRowMap.keys()).filter(fileOId => this.fileRowMap.get(fileOId)?.dirOId === dirOId)
-          const subDirOIdsArr: string[] = [] // 나중에 업데이트
+          const fileOIdsArr: string[] = [] // 나중에 DB에서 정렬된 순서로 업데이트
+          const subDirOIdsArr: string[] = [] // 나중에 DB에서 정렬된 순서로 업데이트
           const updatedAtFile: Date | null = null // 나중에 업데이트
           const directory: ST.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr, subDirOIdsArr, updatedAtFile}
           return [dirOId, directory]
         })
       )
 
-      // 1-2. subDirOIdsArr 업데이트
+      // 1-2. 각 디렉토리의 fileOIdsArr를 DB에서 정렬된 순서로 조회하여 업데이트
       for (const [dirOId, directory] of this.directoryMap.entries()) {
-        const subDirOIdsArr = Array.from(this.directoryMap.keys()).filter(subDirOId => this.directoryMap.get(subDirOId)?.parentDirOId === dirOId)
-        directory.subDirOIdsArr = subDirOIdsArr
+        const queryFile = `SELECT fileOId FROM files WHERE dirOId = ? ORDER BY fileIdx ASC`
+        const [resultFile] = await connection.execute(queryFile, [dirOId])
+        const resultArrFile = resultFile as RowDataPacket[]
+        directory.fileOIdsArr = resultArrFile.map(row => row.fileOId)
+      }
+
+      // 1-3. 각 디렉토리의 subDirOIdsArr를 DB에서 정렬된 순서로 조회하여 업데이트
+      for (const [dirOId, directory] of this.directoryMap.entries()) {
+        const querySubDir = `SELECT dirOId FROM directories WHERE parentDirOId = ? ORDER BY dirIdx ASC`
+        const [resultSubDir] = await connection.execute(querySubDir, [dirOId])
+        const resultArrSubDir = resultSubDir as RowDataPacket[]
+        directory.subDirOIdsArr = resultArrSubDir.map(row => row.dirOId)
       }
 
       // 2. 각 디렉토리의 updatedAtFile을 해당 디렉토리의 파일들 중 최신 updatedAt으로 설정
