@@ -175,6 +175,16 @@ export class FileDBService {
       connection.release()
     }
   }
+  async readFileRowArrAll(where: string) {
+    try {
+      const {fileRowArr} = await this.cacheDBService.getFileRowArrAll()
+      return {fileRowArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
   async readFileRowArrByRecent(where: string) {
     /**
      * 최근 게시물 목록 조회

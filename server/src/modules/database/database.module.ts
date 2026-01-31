@@ -8,6 +8,7 @@ import * as P from './ports'
   imports: [
     DBHubModule, // ::
 
+    P.AppPortModule,
     P.ClientPortModule,
     P.JwtPortModule,
     P.LoggerPortModule,
@@ -16,6 +17,8 @@ import * as P from './ports'
   ],
   controllers: [],
   providers: [
+    P.AppPortService,
+
     P.ClientAdminPortService,
     P.ClientAuthPortService, // ::
     P.ClientChatPortService,
@@ -32,6 +35,8 @@ import * as P from './ports'
     GKDLockService
   ],
   exports: [
+    P.AppPortService,
+
     P.ClientAdminPortService,
     P.ClientAuthPortService, // ::
     P.ClientChatPortService,

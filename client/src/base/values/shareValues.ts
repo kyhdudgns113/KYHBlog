@@ -1,3 +1,8 @@
+import * as SC from '@secret'
+
+export const BASE_URL = `${SC.serverUrl}`
+export const CLIENT_URL = `${SC.clientIP}:${SC.clientPort}` // SEO 메타 태그용 클라이언트 URL
+
 export const CHAT_MAX_LENGTH = 1000
 export const COMMENT_MAX_LENGTH = 300
 export const DIR_NAME_MAX_LENGTH = 20

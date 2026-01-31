@@ -4,12 +4,15 @@ import remarkBreaks from 'node_modules/remark-breaks/lib'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import {emojify} from 'node-emoji'
+import {Helmet} from 'react-helmet-async'
 
 import {MarkDownComponent, Modal} from '@component'
 import {useBlogSelector} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
+
+import * as SV from '@shareValue'
 
 import './BlogPage.scss'
 import '@styles/MarkdownStyles.scss'
@@ -146,26 +149,40 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
   }, [])
 
   return (
-    <div className={`BlogPage`} {...props}>
-      <div className={`_container_contents`}>
-        <div className={`MarkdownArea`} key={fileOId || 'keys'} ref={containerRef}>
-          <ReactMarkdown
-            components={MarkDownComponent(stringArr, onClickImage)}
-            rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[remarkGfm, remarkBreaks]}
-            skipHtml={false} // ::
-          >
-            {/* 1. 마크다운 적용할 "문자열" */}
-            {stringArr.join('\n')}
-          </ReactMarkdown>
-        </div>
-      </div>
+    <>
+      <Helmet>
+        <title>블로그 - KYH Blog</title>
+        <meta name="description" content="KYH Blog - 개발 블로그 포스트 목록" />
+        <link rel="canonical" href={`${SV.CLIENT_URL}/main/blog`} />
 
-      {previewImageSrc && (
-        <Modal className={`ImagePreviewModal`} onClose={onClosePreview}>
-          <img alt="미리보기" src={previewImageSrc} style={{maxHeight: '90vh', maxWidth: '90vw'}} />
-        </Modal>
-      )}
-    </div>
+        <meta property="og:title" content="블로그 - KYH Blog" />
+        <meta property="og:description" content="KYH Blog - 개발 블로그 포스트 목록" />
+        <meta property="og:url" content={`${SV.CLIENT_URL}/main/blog`} />
+
+        <meta property="twitter:title" content="블로그 - KYH Blog" />
+        <meta property="twitter:description" content="KYH Blog - 개발 블로그 포스트 목록" />
+      </Helmet>
+      <div className={`BlogPage`} {...props}>
+        <div className={`_container_contents`}>
+          <div className={`MarkdownArea`} key={fileOId || 'keys'} ref={containerRef}>
+            <ReactMarkdown
+              components={MarkDownComponent(stringArr, onClickImage)}
+              rehypePlugins={[rehypeRaw]}
+              remarkPlugins={[remarkGfm, remarkBreaks]}
+              skipHtml={false} // ::
+            >
+              {/* 1. 마크다운 적용할 "문자열" */}
+              {stringArr.join('\n')}
+            </ReactMarkdown>
+          </div>
+        </div>
+
+        {previewImageSrc && (
+          <Modal className={`ImagePreviewModal`} onClose={onClosePreview}>
+            <img alt="미리보기" src={previewImageSrc} style={{maxHeight: '90vh', maxWidth: '90vw'}} />
+          </Modal>
+        )}
+      </div>
+    </>
   )
 }

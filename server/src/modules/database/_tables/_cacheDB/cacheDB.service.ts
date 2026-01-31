@@ -203,6 +203,9 @@ export class CacheDBService implements OnApplicationBootstrap {
     })
   }
 
+  async getFileRowArrAll() {
+    return {fileRowArr: Array.from(this.fileRowMap.values())}
+  }
   async getFileRowByFileOId(fileOId: string) {
     // 1. 메모리에서 조회
     const fileRow = this.fileRowMap.get(fileOId)

@@ -2,6 +2,7 @@ import {Module} from '@nestjs/common'
 import {ServeStaticModule} from '@nestjs/serve-static'
 import {join} from 'path'
 import {AppController} from './app.controller'
+import {AppService} from './app.service'
 
 import * as M from './modules'
 
@@ -17,9 +18,10 @@ import * as M from './modules'
 
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'static_files'),
-      serveRoot: '/static_files'
-    })
+      serveRoot: '/static_files',
+    }),
   ],
-  controllers: [AppController]
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

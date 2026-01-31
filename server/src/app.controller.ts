@@ -1,5 +1,7 @@
-import {Body, Controller, Get, Headers, Param, Post} from '@nestjs/common'
+import {Body, Controller, Get, Headers, Param, Post, Res} from '@nestjs/common'
 import {ApiBody, ApiOperation, ApiResponse} from '@nestjs/swagger'
+import {Response} from 'express'
+import {AppService} from './app.service'
 
 /**
  * Swagger 사용 예시
@@ -9,21 +11,21 @@ import {ApiBody, ApiOperation, ApiResponse} from '@nestjs/swagger'
  */
 @Controller('/app')
 export class AppController {
-  constructor() {}
+  constructor(private readonly appService: AppService) {}
 
   @Post('/hello')
   @ApiOperation({
     summary: 'Swagger 사용 예시',
 
-    description: 'Swagger 사용 예시. 혼자 개발하기에 Swagger 가 굳이 필요하지 않고, 깔끔한 코드작성을 위해 여기서만 Swagger 적용'
+    description: 'Swagger 사용 예시. 혼자 개발하기에 Swagger 가 굳이 필요하지 않고, 깔끔한 코드작성을 위해 여기서만 Swagger 적용',
   })
   @ApiBody({
     schema: {
       properties: {
         userId: {type: 'string'},
-        userName: {type: 'string'}
-      }
-    }
+        userName: {type: 'string'},
+      },
+    },
   })
   @ApiResponse({status: 200, description: '호출 성공'})
   @ApiResponse({status: 400, description: '호출 실패'})
@@ -40,11 +42,28 @@ export class AppController {
   @Get('/getHello')
   @ApiOperation({
     summary: 'Swagger 사용 예시',
-    description: 'Swagger 사용 예시. 혼자 개발하기에 Swagger 가 굳이 필요하지 않고, 깔끔한 코드작성을 위해 여기서만 Swagger 적용'
+    description: 'Swagger 사용 예시. 혼자 개발하기에 Swagger 가 굳이 필요하지 않고, 깔끔한 코드작성을 위해 여기서만 Swagger 적용',
   })
   @ApiResponse({status: 200, description: '호출 성공'})
   @ApiResponse({status: 400, description: '호출 실패'})
   async getHello() {
     return {ok: true, body: '안녕하세요.', errObj: {status: 200}}
+  }
+
+  @Get('/sitemap.xml')
+  async getSitemap(@Res() res: Response) {
+    /**
+     * sitemap.xml 생성
+     * - 모든 블로그 포스트 (숨김 파일 제외)
+     * - 모든 공개 QnA 게시글
+     * - 정적 페이지들
+     */
+    try {
+      const {sitemap} = await this.appService.getSitemap()
+      res.setHeader('Content-Type', 'application/xml')
+      res.send(sitemap)
+    } catch (errObj) {
+      res.status(500).send('Sitemap generation failed')
+    }
   }
 }
