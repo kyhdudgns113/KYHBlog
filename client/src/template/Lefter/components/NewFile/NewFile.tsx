@@ -4,14 +4,14 @@ import {useBlogSelector} from '@redux'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import * as SV from '@shareValue'
+
 import './NewFile.scss'
 
 type NewFileProps = DivCommonProps & {
   dirOId?: string
   fileOId?: string
 }
-
-const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000
 
 export const NewFile: FC<NewFileProps> = ({dirOId, fileOId, className, style, ...props}) => {
   const directories = useBlogSelector(state => state.directory.directories)
@@ -21,7 +21,7 @@ export const NewFile: FC<NewFileProps> = ({dirOId, fileOId, className, style, ..
 
   useEffect(() => {
     const now = Date.now()
-    const oneWeekAgo = now - ONE_WEEK_MS
+    const oneWeekAgo = now - SV.DATE_DIFF_NEW_FILE
 
     if (dirOId) {
       const directory = directories[dirOId]

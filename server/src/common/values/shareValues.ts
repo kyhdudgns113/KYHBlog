@@ -22,6 +22,8 @@ export const [FILE_NORMAL, FILE_HIDDEN, FILE_NOTICE] = [0, 1, 2]
 
 export const [QNA_TITLE_LENGTH_MAX, QNA_CONTENT_LENGTH_MAX] = [32, 1000]
 
+export const DATE_DIFF_NEW_FILE = 1000 * 60 * 60 * 24 * 7 // 7일
+
 export const REGIX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!-/:-@[-`{-~])[A-Za-z\d!-/:-@[-`{-~]+$/
 export const REGIX_USER_ID = /^[a-zA-Z0-9_.]+$/
 export const REGIX_USER_MAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/

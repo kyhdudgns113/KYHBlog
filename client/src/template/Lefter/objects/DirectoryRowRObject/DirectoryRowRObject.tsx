@@ -37,7 +37,7 @@ export const DirectoryRowRObject: FC<DirectoryRowRObjectProps> = ({dirOId, ...pr
   return (
     <div className={`DirectoryRow_RObject`} {...props}>
       {/* 1. 본인 정보 */}
-      <DirInfoGroup dirName={directory?.dirName || 'ERROR'} dirOId={dirOId} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <DirInfoGroup directory={directory} isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <div className={`_container_object`}>
         {/* 2. 자식 폴더 목록 */}

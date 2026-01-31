@@ -15,8 +15,15 @@
       &:hover {
         background-color: #dddddd;
       }
+
+      &._isNewFile {
+        color: oklch(0.4 0.3 120);
+        font-style: italic;
+      }
+
+      &._isNotNewFile {
+        color: #000000;
+      }
     }
   }
 }
-
-
