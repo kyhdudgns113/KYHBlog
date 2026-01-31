@@ -64,6 +64,26 @@ export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
   const description = getDescription()
   const url = qnAOId ? `${SV.CLIENT_URL}/main/qna/read/${qnAOId}` : `${SV.CLIENT_URL}/main/qna`
 
+  // JSON-LD 구조화된 데이터 생성
+  const jsonLd = qnA?.qnAOId
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'QAPage',
+        mainEntity: {
+          '@type': 'Question',
+          name: qnA.title,
+          text: description,
+          dateCreated: qnA.createdAtValue ? new Date(qnA.createdAtValue).toISOString() : undefined,
+          dateModified: qnA.updatedAtValue ? new Date(qnA.updatedAtValue).toISOString() : undefined,
+          author: {
+            '@type': 'Person',
+            name: qnA.userName
+          }
+        },
+        url: url
+      }
+    : null
+
   return (
     <CheckAuth reqAuth={reqAuth}>
       <Helmet>
@@ -79,6 +99,8 @@ export const QnAReadPage: FC<QnAReadPageProps> = ({reqAuth, ...props}) => {
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
         <meta property="twitter:card" content="summary" />
+
+        {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
       </Helmet>
       <div className={`QnAReadPage`} {...props}>
         <div className="_container_page">

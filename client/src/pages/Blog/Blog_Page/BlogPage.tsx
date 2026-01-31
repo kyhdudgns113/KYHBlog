@@ -148,6 +148,18 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
     setPreviewImageSrc(null)
   }, [])
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: '블로그 - KYH Blog',
+    description: 'KYH Blog - 개발 블로그 포스트 목록',
+    url: `${SV.CLIENT_URL}/main/blog`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: []
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -161,6 +173,8 @@ export const BlogPage: FC<BlogPageProps> = ({...props}) => {
 
         <meta property="twitter:title" content="블로그 - KYH Blog" />
         <meta property="twitter:description" content="KYH Blog - 개발 블로그 포스트 목록" />
+
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
       <div className={`BlogPage`} {...props}>
         <div className={`_container_contents`}>

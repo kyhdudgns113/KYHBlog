@@ -21,6 +21,18 @@ export const QnAPage: FC<QnAPageProps> = ({...props}) => {
     loadQnARowArr()
   }, [])
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Q&A - KYH Blog',
+    description: 'KYH Blog Q&A 페이지 - 질문과 답변',
+    url: `${SV.CLIENT_URL}/main/qna`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: []
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -34,6 +46,8 @@ export const QnAPage: FC<QnAPageProps> = ({...props}) => {
 
         <meta property="twitter:title" content="Q&A - KYH Blog" />
         <meta property="twitter:description" content="KYH Blog Q&A 페이지 - 질문과 답변" />
+
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
       <div className={`QnAPage`} {...props}>
         <div className="_wrapper_page">

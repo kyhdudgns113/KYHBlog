@@ -12,6 +12,22 @@ import './HomePage.scss'
 type HomePageProps = DivCommonProps & {}
 
 export const HomePage: FC<HomePageProps> = ({...props}) => {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'KYH Blog',
+    description: 'KYH Blog - 개발 블로그 및 기술 공유',
+    url: `${SV.CLIENT_URL}`,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SV.CLIENT_URL}/main/blog?search={search_term_string}`
+      },
+      'query-input': 'required name=search_term_string'
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -25,6 +41,8 @@ export const HomePage: FC<HomePageProps> = ({...props}) => {
 
         <meta property="twitter:title" content="홈 - KYH Blog" />
         <meta property="twitter:description" content="KYH Blog 홈페이지 - 최신 블로그 포스트와 소개" />
+
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
       <div className={`HomePage`} {...props}>
         <IntroPart />

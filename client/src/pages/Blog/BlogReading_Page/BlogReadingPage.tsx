@@ -57,6 +57,27 @@ export const BlogReadingPage: FC<BlogReadingPageProps> = ({reqAuth, className, .
   const description = getDescription()
   const url = fileOId ? `${SV.CLIENT_URL}/main/blog/${fileOId}` : `${SV.CLIENT_URL}/main/blog`
 
+  // JSON-LD 구조화된 데이터 생성
+  const jsonLd = file?.fileOId
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: file.fileName,
+        description: description,
+        url: url,
+        datePublished: file.createdAtValue ? new Date(file.createdAtValue).toISOString() : undefined,
+        dateModified: file.updatedAtValue ? new Date(file.updatedAtValue).toISOString() : undefined,
+        author: {
+          '@type': 'Person',
+          name: file.userName
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'KYH Blog'
+        }
+      }
+    : null
+
   return (
     <CheckAuth reqAuth={reqAuth}>
       <Helmet>
@@ -72,6 +93,8 @@ export const BlogReadingPage: FC<BlogReadingPageProps> = ({reqAuth, className, .
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
         <meta property="twitter:card" content="summary" />
+
+        {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
       </Helmet>
       <div className={`BlogReadingPage ${className || ''}`} {...props}>
         <div className={`_container_page`}>
