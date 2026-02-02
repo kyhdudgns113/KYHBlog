@@ -94,6 +94,9 @@ export class FileDBService {
       // 7. 메모리에 파일 추가
       this.cacheDBService.setFileRowToMemory(fileRow)
 
+      // 8. 부모폴더의 자식폴더 목록 갱신
+      parentDir.fileOIdsArr.push(fileOId)
+
       return {file}
       // ::
     } catch (errObj) {
