@@ -97,6 +97,9 @@ export class FileDBService {
       // 8. 부모폴더의 자식폴더 목록 갱신
       parentDir.fileOIdsArr.push(fileOId)
 
+      // 9. 부모폴더의 updatedAtFile 갱신
+      this.cacheDBService.updateDirectoryUpdatedAtFile(dirOId)
+
       return {file}
       // ::
     } catch (errObj) {

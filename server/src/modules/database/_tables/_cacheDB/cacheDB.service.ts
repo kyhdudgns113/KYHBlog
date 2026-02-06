@@ -166,6 +166,10 @@ export class CacheDBService implements OnApplicationBootstrap {
     this.directoryMap.set(directory.dirOId, directory)
   }
 
+  updateDirectoryUpdatedAtFile(dirOId: string) {
+    this._get_updatedAtFile_InMemory_recursively(dirOId)
+  }
+
   // AREA5: File Area
 
   addToRecentFileArr(fileRow: ST.FileRowType) {
