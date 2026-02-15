@@ -512,12 +512,12 @@ export class CacheDBService implements OnApplicationBootstrap {
         }
       }
 
-      // 4-3. 조상폴더의 값이 더 낮으면 갱신
-      if (result !== null && (parentsValue === null || parentsValue < result)) {
-        parentDir.updatedAtFile = result
+      // 4-3. 조상폴더의 updatedAtFile이 parentsValue보다 낮거나 null이면 갱신
+      if (parentsValue !== null && (parentDir.updatedAtFile === null || parentDir.updatedAtFile < parentsValue)) {
+        parentDir.updatedAtFile = parentsValue
         // ::
-      } // 4-4. 조상폴더의 값이 같거나 높으면 종료
-      else if (result === null || result === parentsValue || (parentsValue !== null && parentsValue > result)) {
+      } // 4-4. 갱신할 필요 없으면 종료 (상위 조상도 갱신 필요 없음)
+      else {
         break
       }
       parentDirOId = parentDir.parentDirOId
