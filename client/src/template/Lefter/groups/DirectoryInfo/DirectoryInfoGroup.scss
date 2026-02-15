@@ -19,9 +19,21 @@
       ._title_group {
         font-weight: 700;
 
-        width: fit-content;
+        flex: 1;
+        min-width: 0;
+        word-break: break-word;
+      }
+
+      ._btn_row_group {
+        background-color: v.$SAKURA_BG;
+        border-color: v.$SAKURA_BORDER;
+        border-width: 1px;
+
+        padding-left: 4px;
+        padding-right: 4px;
+
+        z-index: 1;
       }
     }
   }
 }
-
