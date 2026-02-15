@@ -158,7 +158,15 @@ export class CacheDBService implements OnApplicationBootstrap {
     }
   }
 
-  removeDirectoryFromMemory(dirOId: string) {
+  async removeDirectoryFromMemory(dirOId: string) {
+    const {parentDirOId} = this.directoryMap.get(dirOId)
+    if (parentDirOId) {
+      const {directory} = await this.getDirectoryByDirOId(parentDirOId)
+      if (!directory) {
+        return
+      }
+      directory.subDirOIdsArr = directory.subDirOIdsArr.filter(_dirOId => _dirOId !== dirOId)
+    }
     this.directoryMap.delete(dirOId)
   }
 
