@@ -19,6 +19,7 @@
       &._isNewFile {
         color: oklch(0.4 0.3 120);
         font-style: italic;
+        font-weight: 700;
       }
 
       &._isNotNewFile {
