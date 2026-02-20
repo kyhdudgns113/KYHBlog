@@ -229,6 +229,19 @@ export class FileDBService {
 
     const connection = await this.dbService.getConnection()
     try {
+      // 0. 파일 조회
+      const {file} = await this.readFileByFileOId(where, fileOId)
+      if (!file) {
+        throw {
+          gkd: {fileOId: `존재하지 않는 파일`},
+          gkdErrCode: 'FILEDB_updateFileName_InvalidFileOId',
+          gkdErrMsg: `존재하지 않는 파일`,
+          gkdStatus: {fileOId},
+          statusCode: 400,
+          where,
+        } as T.ErrorObjType
+      }
+
       // 1. (쿼리) 파일 이름 수정
       const queryUpdate = `UPDATE files SET fileName = ? WHERE fileOId = ?`
       const paramsUpdate = [fileName, fileOId]
