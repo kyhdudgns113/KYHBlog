@@ -293,6 +293,13 @@ export class CacheDBService implements OnApplicationBootstrap {
     this.fileRowMap.set(fileRow.fileOId, fileRow)
   }
 
+  // AREA4: For Test
+  async resetCacheDB() {
+    this.directoryMap = new Map()
+    this.fileRowMap = new Map()
+    this.recentFileArr = []
+  }
+
   // AREA6: Private Area
 
   private async _bootstrap_initDirectoryMap() {

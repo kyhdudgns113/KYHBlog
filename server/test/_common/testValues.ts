@@ -1,4 +1,5 @@
 import {AUTH_ADMIN, AUTH_GUEST, AUTH_USER} from '@secret'
+import * as ST from '@shareType'
 
 // AREA1: Constant Variable Area
 
@@ -20,7 +21,7 @@ export const userInfo_root = {
   userOId: userOId_root,
   userMail: 'root@root.root',
   userName: 'commonRoot',
-  userAuth: AUTH_ADMIN
+  userAuth: AUTH_ADMIN,
 }
 export const userInfo_user_0 = {
   password: 'authUserPassword1!',
@@ -30,7 +31,7 @@ export const userInfo_user_0 = {
   userOId: userOId_user_0,
   userMail: 'user0@user.user',
   userName: 'commonUser0',
-  userAuth: AUTH_USER
+  userAuth: AUTH_USER,
 }
 export const userInfo_user_1 = {
   password: 'authUserPassword1!',
@@ -40,7 +41,7 @@ export const userInfo_user_1 = {
   userOId: userOId_user_1,
   userMail: 'user1@user.user',
   userName: 'commonUser1',
-  userAuth: AUTH_USER
+  userAuth: AUTH_USER,
 }
 export const userInfo_banned = {
   password: 'authBannedPassword1!',
@@ -50,7 +51,7 @@ export const userInfo_banned = {
   userOId: userOId_banned,
   userMail: 'ban@ban.ban',
   userName: 'commonBan',
-  userAuth: AUTH_GUEST
+  userAuth: AUTH_GUEST,
 }
 
 // AREA3: Directory Area
@@ -59,13 +60,20 @@ export const dirOId_root: string = '000000000000000000010000'
 export const dirOId_0: string = '000000000000000000010100'
 export const dirOId_1: string = '000000000000000000010200'
 
+export const fileOId_root: string = '000000000000000000010001'
+export const fileOId_0: string = '000000000000000000010101'
+export const fileOId_1: string = '000000000000000000010201'
+
 export const dirInfo_root = {
   dirIdx: 0,
   dirName: 'root',
   dirOId: dirOId_root,
   fileArrLen: 1,
   subDirArrLen: 2,
-  parentDirOId: null
+  parentDirOId: null,
+  fileOIdsArr: [fileOId_root],
+  subDirOIdsArr: [dirOId_0, dirOId_1],
+  updatedAtFile: null,
 }
 export const dirInfo_0 = {
   dirIdx: 0,
@@ -73,7 +81,10 @@ export const dirInfo_0 = {
   dirOId: dirOId_0,
   fileArrLen: 1,
   subDirArrLen: 0,
-  parentDirOId: dirOId_root
+  parentDirOId: dirOId_root,
+  fileOIdsArr: [fileOId_0],
+  subDirOIdsArr: [],
+  updatedAtFile: null,
 }
 export const dirInfo_1 = {
   dirIdx: 1,
@@ -81,44 +92,49 @@ export const dirInfo_1 = {
   dirOId: dirOId_1,
   fileArrLen: 1,
   subDirArrLen: 0,
-  parentDirOId: dirOId_root
+  parentDirOId: dirOId_root,
+  fileOIdsArr: [fileOId_1],
+  subDirOIdsArr: [],
+  updatedAtFile: null,
 }
 
 // AREA4: File Area
 
-export const fileOId_root: string = '000000000000000000010001'
-export const fileOId_0: string = '000000000000000000010101'
-export const fileOId_1: string = '000000000000000000010201'
-
 export const fileInfo_root = {
   content: 'content0',
+  createdAt: nowDate,
   dirOId: dirOId_root,
   fileIdx: 0,
   fileOId: fileOId_root,
   fileStatus: 0,
   fileName: 'file_0',
+  updatedAt: nowDate,
   userName: userInfo_root.userName,
-  userOId: userOId_root
+  userOId: userOId_root,
 }
 export const fileInfo_0 = {
   content: 'content1',
+  createdAt: nowDate,
   dirOId: dirOId_0,
   fileIdx: 0,
   fileOId: fileOId_0,
   fileStatus: 0,
   fileName: 'file_0_0',
+  updatedAt: nowDate,
   userName: userInfo_root.userName,
-  userOId: userOId_root
+  userOId: userOId_root,
 }
 export const fileInfo_1 = {
   content: 'content2',
+  createdAt: nowDate,
   dirOId: dirOId_1,
   fileIdx: 0,
   fileOId: fileOId_1,
   fileStatus: 0,
   fileName: 'file_1_0',
+  updatedAt: nowDate,
   userName: userInfo_root.userName,
-  userOId: userOId_root
+  userOId: userOId_root,
 }
 
 // AREA5: Chat Area
@@ -143,7 +159,7 @@ export const chatRoomInfo_root_0 = {
   targetUserName: userInfo_user_0.userName,
   targetUserOId: userOId_user_0,
   unreadMessageCount: 0,
-  userOId: userOId_root
+  userOId: userOId_root,
 }
 export const chatRoomInfo_root_1 = {
   chatRoomOId: chatRoomOId_root_1,
@@ -155,7 +171,7 @@ export const chatRoomInfo_root_1 = {
   targetUserName: userInfo_user_1.userName,
   targetUserOId: userOId_user_1,
   unreadMessageCount: 0,
-  userOId: userOId_root
+  userOId: userOId_root,
 }
 export const chatRoomInfo_0_1 = {
   chatRoomOId: chatRoomOId_0_1,
@@ -167,7 +183,7 @@ export const chatRoomInfo_0_1 = {
   targetUserName: userInfo_user_1.userName,
   targetUserOId: userOId_user_1,
   unreadMessageCount: 0,
-  userOId: userOId_user_0
+  userOId: userOId_user_0,
 }
 export const chatRoomInfo_0_banned = {
   chatRoomOId: chatRoomOId_0_banned,
@@ -179,7 +195,7 @@ export const chatRoomInfo_0_banned = {
   targetUserName: userInfo_banned.userName,
   targetUserOId: userOId_banned,
   unreadMessageCount: 0,
-  userOId: userOId_user_0
+  userOId: userOId_user_0,
 }
 
 export const chatRoomInfo_0_root = {
@@ -192,7 +208,7 @@ export const chatRoomInfo_0_root = {
   targetUserName: userInfo_root.userName,
   targetUserOId: userOId_root,
   unreadMessageCount: 0,
-  userOId: userOId_user_0
+  userOId: userOId_user_0,
 }
 export const chatRoomInfo_1_root = {
   chatRoomOId: chatRoomOId_1_root,
@@ -204,7 +220,7 @@ export const chatRoomInfo_1_root = {
   targetUserName: userInfo_root.userName,
   targetUserOId: userOId_root,
   unreadMessageCount: 0,
-  userOId: userOId_user_1
+  userOId: userOId_user_1,
 }
 export const chatRoomInfo_1_0 = {
   chatRoomOId: chatRoomOId_1_0,
@@ -216,7 +232,7 @@ export const chatRoomInfo_1_0 = {
   targetUserName: userInfo_user_0.userName,
   targetUserOId: userOId_user_0,
   unreadMessageCount: 0,
-  userOId: userOId_user_1
+  userOId: userOId_user_1,
 }
 export const chatRoomInfo_banned_0 = {
   chatRoomOId: chatRoomOId_banned_0,
@@ -228,5 +244,5 @@ export const chatRoomInfo_banned_0 = {
   targetUserName: userInfo_user_0.userName,
   targetUserOId: userOId_user_0,
   unreadMessageCount: 0,
-  userOId: userOId_banned
+  userOId: userOId_banned,
 }

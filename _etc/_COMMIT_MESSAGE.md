@@ -1,1 +1,1 @@
-26.02.20 [ServerTest] 테이블 서비스 에러코드 변경
+26.02.20 [ServerTest] created, updated 반영

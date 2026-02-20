@@ -14,6 +14,7 @@ export class TestDB {
   // AREA1: Module Area
   private static directoryDBService: TABLE.DirectoryDBService = TABLE.DirectoryDBServiceTest.directoryDBService
   private static fileDBService: TABLE.FileDBService = TABLE.FileDBServiceTest.fileDBService
+  private static cacheDBService: TABLE.CacheDBService = TABLE.CacheDBServiceTest.cacheDBService
 
   // AREA2: Static Variable Area
   private static db: mysql.Pool = null // GKDTestBase 에서 생성해서 넘겨준다
@@ -120,7 +121,10 @@ export class TestDB {
      * 2. 디렉토리 롤백
      * 3. 파일 롤백
      * 4. 채팅방 + 라우터 롤백
+     * 5. 캐시 초기화
      */
+
+    // 변수 설정
     const connection = await TestDB.db.getConnection()
 
     const {RESET_FLAG_USER, RESET_FLAG_DIR, RESET_FLAG_FILE, RESET_FLAG_CHAT_ROOM} = TV
@@ -277,7 +281,7 @@ export class TestDB {
       }
 
       /**
-       * 4-1. 채팅방 롤백
+       * 4. 채팅방 롤백
        */
       if (isChatRoom) {
         const queryChatRoom = `UPDATE chatRooms SET lastChatDate = ?, numChat = ? WHERE chatRoomOId = ?`
@@ -293,7 +297,7 @@ export class TestDB {
         await connection.execute(queryChatRoom, paramChatRoom_0_banned)
 
         /**
-         * 4-2. 채팅방 라우터 롤백
+         * 4-1. 채팅방 라우터 롤백
          */
         const queryChatRoomRouter = `UPDATE chatRoomRouters SET roomStatus = ?, unreadMessageCount = ? WHERE userOId = ? AND targetUserOId = ?`
 
@@ -314,6 +318,18 @@ export class TestDB {
         await connection.execute(queryChatRoomRouter, paramChatRoomRouter_1_root)
         await connection.execute(queryChatRoomRouter, paramChatRoomRouter_1_0)
         await connection.execute(queryChatRoomRouter, paramChatRoomRouter_banned_0)
+      }
+
+      /**
+       * 5. 캐시 초기화
+       */
+      await TestDB.cacheDBService.resetCacheDB()
+
+      for (const directory of [dirInfo_root, dirInfo_0, dirInfo_1]) {
+        TestDB.cacheDBService.setDirectoryToMemory(directory)
+      }
+      for (const file of [fileInfo_root, fileInfo_0, fileInfo_1]) {
+        TestDB.cacheDBService.setFileRowToMemory(file)
       }
 
       // ::
