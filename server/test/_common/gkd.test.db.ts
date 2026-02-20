@@ -27,7 +27,8 @@ export class TestDB {
     dirOId: null,
     fileOIdsArr: [],
     parentDirOId: null,
-    subDirOIdsArr: []
+    subDirOIdsArr: [],
+    updatedAtFile: null,
   }
   private static usersCommon: {[userAuth: number]: T.UserType[]} = {}
 
@@ -95,7 +96,7 @@ export class TestDB {
       userOId,
       userName,
       signUpType,
-      userId
+      userId,
     }
     return {jwtPayload}
   }
@@ -133,7 +134,7 @@ export class TestDB {
       chatRoomInfo_0_root,
       chatRoomInfo_1_root,
       chatRoomInfo_1_0,
-      chatRoomInfo_banned_0
+      chatRoomInfo_banned_0,
     } = TV
     const {dirOId_root, dirOId_0, dirOId_1} = TV
     const {dirInfo_root, dirInfo_0, dirInfo_1} = TV
@@ -162,7 +163,7 @@ export class TestDB {
           userInfo_root.userName,
           AUTH_ADMIN,
           userInfo_root.userMail,
-          userOId_root
+          userOId_root,
         ]
         const paramUserUser_0 = [
           userInfo_user_0.picture,
@@ -171,7 +172,7 @@ export class TestDB {
           userInfo_user_0.userName,
           AUTH_USER,
           userInfo_user_0.userMail,
-          userOId_user_0
+          userOId_user_0,
         ]
         const paramUserUser_1 = [
           userInfo_user_1.picture,
@@ -180,7 +181,7 @@ export class TestDB {
           userInfo_user_1.userName,
           AUTH_USER,
           userInfo_user_1.userMail,
-          userOId_user_1
+          userOId_user_1,
         ]
         const paramUserBanned = [
           userInfo_banned.picture,
@@ -189,7 +190,7 @@ export class TestDB {
           userInfo_banned.userName,
           AUTH_GUEST,
           userInfo_banned.userMail,
-          userOId_banned
+          userOId_banned,
         ]
         await connection.execute(queryUserAdmin, paramUserAdmin)
         await connection.execute(queryUserAdmin, paramUserUser_0)
@@ -209,7 +210,7 @@ export class TestDB {
           dirInfo_root.dirIdx,
           dirInfo_root.fileArrLen,
           dirInfo_root.subDirArrLen,
-          dirOId_root
+          dirOId_root,
         ]
         const paramDir_0 = [
           dirInfo_0.dirName, // ::
@@ -217,7 +218,7 @@ export class TestDB {
           dirInfo_0.dirIdx,
           dirInfo_0.fileArrLen,
           dirInfo_0.subDirArrLen,
-          dirOId_0
+          dirOId_0,
         ]
         const paramDir_1 = [
           dirInfo_1.dirName, // ::
@@ -225,7 +226,7 @@ export class TestDB {
           dirInfo_1.dirIdx,
           dirInfo_1.fileArrLen,
           dirInfo_1.subDirArrLen,
-          dirOId_1
+          dirOId_1,
         ]
 
         await connection.execute(queryDir, paramDirRoot)
@@ -247,7 +248,7 @@ export class TestDB {
           fileInfo_root.fileStatus,
           fileInfo_root.userName,
           userOId_root,
-          fileOId_root
+          fileOId_root,
         ]
         const paramFile_0 = [
           fileInfo_0.content,
@@ -257,7 +258,7 @@ export class TestDB {
           fileInfo_0.fileStatus,
           fileInfo_0.userName,
           userOId_root,
-          fileOId_0
+          fileOId_0,
         ]
         const paramFile_1 = [
           fileInfo_1.content,
@@ -267,7 +268,7 @@ export class TestDB {
           fileInfo_1.fileStatus,
           fileInfo_1.userName,
           userOId_root,
-          fileOId_1
+          fileOId_1,
         ]
 
         await connection.execute(queryFile, paramFileRoot)
@@ -355,7 +356,7 @@ export class TestDB {
         fileOId,
         userName,
         userOId,
-        createdAt
+        createdAt,
       }
       return {comment}
       // ::
@@ -400,7 +401,7 @@ export class TestDB {
       const param = [dirOId, dirName, dirIdx, parentDirOId]
       await connection.execute(query, param)
 
-      const directory: T.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: []}
+      const directory: T.DirectoryType = {dirOId, dirName, parentDirOId, fileOIdsArr: [], subDirOIdsArr: [], updatedAtFile: null}
       return {directory}
       // ::
     } catch (errObj) {
@@ -455,7 +456,7 @@ export class TestDB {
         content: '',
         createdAt: new Date(),
         fileIdx,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       }
       return {file}
       // ::
@@ -509,7 +510,7 @@ export class TestDB {
         targetUserName,
         userOId,
         userName,
-        createdAt
+        createdAt,
       }
       return {reply}
       // ::
@@ -689,7 +690,7 @@ export class TestDB {
         userInfo_banned.userName,
         AUTH_GUEST,
         createdAt,
-        updatedAt
+        updatedAt,
       ]
       const paramUser_0 = [
         userOId_user_0,
@@ -701,7 +702,7 @@ export class TestDB {
         userInfo_user_0.userName,
         AUTH_USER,
         createdAt,
-        updatedAt
+        updatedAt,
       ]
       const paramUser_1 = [
         userOId_user_1,
@@ -713,7 +714,7 @@ export class TestDB {
         userInfo_user_1.userName,
         AUTH_USER,
         createdAt,
-        updatedAt
+        updatedAt,
       ]
       const paramRoot = [
         userOId_root,
@@ -725,7 +726,7 @@ export class TestDB {
         userInfo_root.userName,
         AUTH_ADMIN,
         createdAt,
-        updatedAt
+        updatedAt,
       ]
       await connection.execute(query, paramBanned)
       await connection.execute(query, paramUser_0)
@@ -741,8 +742,8 @@ export class TestDB {
           picture: userInfo_banned.picture,
           userAuth: AUTH_GUEST,
           createdAt,
-          updatedAt
-        }
+          updatedAt,
+        },
       ]
       TestDB.usersCommon[AUTH_USER] = [
         {
@@ -753,7 +754,7 @@ export class TestDB {
           picture: userInfo_user_0.picture,
           userAuth: AUTH_USER,
           createdAt,
-          updatedAt
+          updatedAt,
         },
         {
           userOId: userOId_user_1,
@@ -763,8 +764,8 @@ export class TestDB {
           picture: userInfo_user_1.picture,
           userAuth: AUTH_USER,
           createdAt,
-          updatedAt
-        }
+          updatedAt,
+        },
       ]
       TestDB.usersCommon[AUTH_ADMIN] = [
         {
@@ -775,8 +776,8 @@ export class TestDB {
           picture: userInfo_root.picture,
           userAuth: AUTH_ADMIN,
           createdAt,
-          updatedAt
-        }
+          updatedAt,
+        },
       ]
       // ::
     } catch (errObj) {
@@ -815,7 +816,7 @@ export class TestDB {
         dirInfo_root.dirName,
         dirInfo_root.parentDirOId,
         dirInfo_root.fileArrLen,
-        dirInfo_root.subDirArrLen
+        dirInfo_root.subDirArrLen,
       ]
       const paramDir_0 = [dirOId_0, dirInfo_0.dirIdx, dirInfo_0.dirName, dirInfo_0.parentDirOId, dirInfo_0.fileArrLen, dirInfo_0.subDirArrLen]
       const paramDir_1 = [dirOId_1, dirInfo_1.dirIdx, dirInfo_1.dirName, dirInfo_1.parentDirOId, dirInfo_1.fileArrLen, dirInfo_1.subDirArrLen]
@@ -830,7 +831,8 @@ export class TestDB {
         dirOId: dirOId_root,
         fileOIdsArr: [],
         parentDirOId: null,
-        subDirOIdsArr: [dirOId_0, dirOId_1]
+        subDirOIdsArr: [dirOId_0, dirOId_1],
+        updatedAtFile: null,
       }
 
       // 3. 디렉토리 객체 설정
@@ -840,14 +842,16 @@ export class TestDB {
         dirOId: dirOId_0,
         fileOIdsArr: [],
         parentDirOId: dirOId_root,
-        subDirOIdsArr: []
+        subDirOIdsArr: [],
+        updatedAtFile: null,
       }
       TestDB.directories[dirOId_1] = {
         dirName: dirInfo_1.dirName,
         dirOId: dirOId_1,
         fileOIdsArr: [],
         parentDirOId: dirOId_root,
-        subDirOIdsArr: []
+        subDirOIdsArr: [],
+        updatedAtFile: null,
       }
 
       // ::
@@ -893,7 +897,7 @@ export class TestDB {
         fileInfo_root.fileStatus,
         userName,
         userOId,
-        createdAt
+        createdAt,
       ]
       const paramDir_0 = [
         fileOId_0,
@@ -904,7 +908,7 @@ export class TestDB {
         fileInfo_0.fileStatus,
         userName,
         userOId,
-        createdAt
+        createdAt,
       ]
       const paramDir_1 = [
         fileOId_1,
@@ -915,7 +919,7 @@ export class TestDB {
         fileInfo_1.fileStatus,
         userName,
         userOId,
-        createdAt
+        createdAt,
       ]
 
       await connection.execute(query, paramRoot)
@@ -933,7 +937,7 @@ export class TestDB {
         userName: userName,
         userOId: userOId,
         createdAt,
-        updatedAt: createdAt
+        updatedAt: createdAt,
       }
       TestDB.files[fileOId_0] = {
         content: fileInfo_0.content,
@@ -945,7 +949,7 @@ export class TestDB {
         userName: userName,
         userOId: userOId,
         createdAt,
-        updatedAt: createdAt
+        updatedAt: createdAt,
       }
       TestDB.files[fileOId_1] = {
         content: fileInfo_1.content,
@@ -957,7 +961,7 @@ export class TestDB {
         userName: userName,
         userOId: userOId,
         createdAt,
-        updatedAt: createdAt
+        updatedAt: createdAt,
       }
 
       /**
@@ -994,7 +998,7 @@ export class TestDB {
       chatRoomOId_0_root,
       chatRoomOId_1_root,
       chatRoomOId_1_0,
-      chatRoomOId_banned_0
+      chatRoomOId_banned_0,
     } = TV
     const {
       chatRoomInfo_root_0,
@@ -1004,7 +1008,7 @@ export class TestDB {
       chatRoomInfo_0_root,
       chatRoomInfo_1_root,
       chatRoomInfo_1_0,
-      chatRoomInfo_banned_0
+      chatRoomInfo_banned_0,
     } = TV
 
     const nowDate = chatRoomInfo_root_0.lastChatDate
@@ -1165,7 +1169,7 @@ export class TestDB {
         connection.execute(queryDir),
         connection.execute(queryFile),
         connection.execute(queryChatRoom),
-        connection.execute(queryChatRoomRouter)
+        connection.execute(queryChatRoomRouter),
       ])
 
       const userLen = (userResult[0] as any[]).length
