@@ -306,6 +306,16 @@ export class DBHubService {
       throw errObj
     }
   }
+  async readDirByNameAndParentDirOId(where: string, dirName: string, parentDirOId: string) {
+    try {
+      const {directory} = await this.dirDBService.readDirByNameAndParentDirOId(where, dirName, parentDirOId)
+      return {directory}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
   async readDirRoot(where: string) {
     try {
       const {directory, fileRowArr} = await this.dirDBService.readDirRoot(where)

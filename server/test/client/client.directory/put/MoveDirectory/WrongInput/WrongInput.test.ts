@@ -207,7 +207,7 @@ export class WrongInput extends GKDTestBase {
       // ::
       const possibleErrCode = [
         'CLIENTDIRPORT_moveDirectory_InvalidOldParentChildArrLen', // ::
-        'CLIENTDIRPORT_moveDirectory_InvalidOldParentChildArrOver'
+        'CLIENTDIRPORT_moveDirectory_InvalidOldParentChildArrOver',
       ]
       if (!possibleErrCode.includes(errObj.gkdErrCode)) {
         return this.logErrorObj(errObj, 2)
@@ -230,7 +230,7 @@ export class WrongInput extends GKDTestBase {
       // ::
       const possibleErrCode = [
         'CLIENTDIRPORT_moveDirectory_InvalidNewParentChildArrLen', // ::
-        'CLIENTDIRPORT_moveDirectory_InvalidNewParentChildArrOver'
+        'CLIENTDIRPORT_moveDirectory_InvalidNewParentChildArrOver',
       ]
       if (!possibleErrCode.includes(errObj.gkdErrCode)) {
         return this.logErrorObj(errObj, 2)
@@ -255,7 +255,7 @@ export class WrongInput extends GKDTestBase {
       const possibleErrCode = [
         'CLIENTDIRPORT_moveDirectory_InvalidMoveDirOId', // ::
         'CLIENTDIRPORT_moveDirectory_InvalidNewParentChildArrLen',
-        'CLIENTDIRPORT_moveDirectory_InvalidOldParentChildArrLen'
+        'CLIENTDIRPORT_moveDirectory_InvalidOldParentChildArrLen',
       ]
       if (!possibleErrCode.includes(errObj.gkdErrCode)) {
         return this.logErrorObj(errObj, 2)
@@ -298,7 +298,7 @@ export class WrongInput extends GKDTestBase {
       // ::
     } catch (errObj) {
       // ::
-      if (errObj.gkdErrCode !== 'DIRECTORYDB_updateDirArr_Dir_Duplicate') {
+      if (errObj.gkdErrCode !== 'CLIENTDIRPORT_moveDirectory_InvalidMoveDirOId') {
         return this.logErrorObj(errObj, 2)
       }
 

@@ -195,6 +195,42 @@ export class DirectoryDBService {
       // ::
     }
   }
+  async readDirByNameAndParentDirOId(where: string, dirName: string, parentDirOId: string) {
+    where = where + '/readDirByNameAndParentDirOId'
+    const connection = await this.dbService.getConnection()
+    try {
+      const query = `SELECT dirOId FROM directories WHERE dirName = ? AND parentDirOId = ?`
+      const [result] = await connection.execute(query, [dirName, parentDirOId])
+      const resultArr = result as RowDataPacket[]
+
+      if (resultArr.length === 0) {
+        return {directory: null}
+      }
+
+      const {dirOId} = resultArr[0]
+      const {directory} = await this.cacheDBService.getDirectoryByDirOId(dirOId)
+      if (!directory) {
+        throw {
+          gkd: {dirOId: `캐시에 존재하지 않는 디렉토리`},
+          gkdErrCode: 'DIRECTORYDB_readDirByNameAndParentDirOId_InvalidCacheDirOId',
+          gkdErrMsg: `캐시에 존재하지 않는 디렉토리`,
+          gkdStatus: {dirName, parentDirOId},
+          statusCode: 400,
+          where,
+        } as T.ErrorObjType
+      }
+
+      return {directory}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+      // ::
+    } finally {
+      // ::
+      connection.release()
+    }
+  }
   async readDirRoot(where: string) {
     /**
      * 루트 폴더의 정보와 자식파일들의 행정보 배열을 리턴한다.

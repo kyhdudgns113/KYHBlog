@@ -51,7 +51,7 @@ export class ClientDirPortService {
           gkdErrMsg: `디렉토리 이름은 비어있거나 20자 이상이면 안됨`,
           gkdStatus: {dirName, parentDirOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -63,7 +63,7 @@ export class ClientDirPortService {
           gkdErrMsg: `그 이름으로는 만들지 못합니다.`,
           gkdStatus: {dirName, parentDirOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -75,7 +75,7 @@ export class ClientDirPortService {
           gkdErrMsg: `부모 디렉토리값이 들어와야 합니다.`,
           gkdStatus: {parentDirOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -138,7 +138,7 @@ export class ClientDirPortService {
           gkdErrMsg: `디렉토리 오브젝트 아이디가 없음`,
           gkdStatus: {dirOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -150,7 +150,7 @@ export class ClientDirPortService {
           gkdErrMsg: `파일 이름은 비어있거나 ${SV.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`,
           gkdStatus: {dirOId, fileName},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -217,7 +217,7 @@ export class ClientDirPortService {
           gkdErrMsg: `디렉토리 이름은 비어있거나 ${SV.DIR_NAME_MAX_LENGTH}자 이상이면 안됨`,
           gkdStatus: {dirOId, dirName, dirNameLength: dirName.length},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -229,7 +229,7 @@ export class ClientDirPortService {
           gkdErrMsg: `그 이름으로는 만들지 못합니다.`,
           gkdStatus: {dirOId, dirName},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -282,7 +282,7 @@ export class ClientDirPortService {
           gkdErrMsg: `파일 이름은 비어있거나 ${SV.FILE_NAME_MAX_LENGTH}자 이상이면 안됨`,
           gkdStatus: {fileOId, fileName},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -365,7 +365,7 @@ export class ClientDirPortService {
                 gkdErrMsg: `자손 폴더로 이동할 수 없어요`,
                 gkdStatus: {moveDirOId, newParentDirOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
           }),
@@ -381,7 +381,7 @@ export class ClientDirPortService {
                 gkdErrMsg: `기존 부모폴더 존재하지 않음`,
                 gkdStatus: {oldParentDirOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
           }),
@@ -397,10 +397,10 @@ export class ClientDirPortService {
                 gkdErrMsg: `새로운 부모폴더 존재하지 않음`,
                 gkdStatus: {newParentDirOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
-          })
+          }),
       ])
 
       /**
@@ -427,7 +427,7 @@ export class ClientDirPortService {
                 gkdErrMsg: `기존 부모폴더의 자식목록 길이가 맞지 않음`,
                 gkdStatus: {oldParentChildArr, prevChildArr, isSameDir, moveDirOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
 
@@ -443,7 +443,7 @@ export class ClientDirPortService {
                   gkdErrMsg: `갱신될 기존부모 폴더의 자식목록에 이상한게 있음.`,
                   gkdStatus: {prevChildArr, oldParentChildArr, dirOId, moveDirOId},
                   statusCode: 400,
-                  where
+                  where,
                 } as T.ErrorObjType
               }
             })
@@ -455,7 +455,7 @@ export class ClientDirPortService {
                 gkdErrMsg: `갱신될 기존부모 폴더의 자식목록에 이것들이 없음.`,
                 gkdStatus: {excludedArr: prevChildArr.filter(dirOId => dirOId !== moveDirOId), oldParentChildArr, moveDirOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
           }),
@@ -477,7 +477,7 @@ export class ClientDirPortService {
                 gkdErrMsg: `새로운 부모폴더의 자식목록 길이가 맞지 않음`,
                 gkdStatus: {newParentChildArr, prevChildArr, isSameDir, moveDirOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
 
@@ -493,7 +493,7 @@ export class ClientDirPortService {
                   gkdErrMsg: `갱신될 새로운 부모 폴더의 자식목록에 이상한게 있음.`,
                   gkdStatus: {prevChildArr, newParentChildArr, dirOId, moveDirOId},
                   statusCode: 400,
-                  where
+                  where,
                 } as T.ErrorObjType
               }
             })
@@ -505,10 +505,10 @@ export class ClientDirPortService {
                 gkdErrMsg: `갱신될 새로운 부모 폴더의 자식목록에 이게 없어.`,
                 gkdStatus: {excludedArr: prevChildArr, newParentChildArr, moveDirOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
-          })
+          }),
       ])
 
       // 3-1. 기존 부모폴더 자식목록에 중복 있는지 췍!!
@@ -520,7 +520,7 @@ export class ClientDirPortService {
           gkdErrMsg: `기존 부모폴더 자식목록에 중복 있음`,
           gkdStatus: {oldParentChildArr, dirOIdDuplicate},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -533,7 +533,7 @@ export class ClientDirPortService {
           gkdErrMsg: `새로운 부모폴더 자식목록에 중복 있음`,
           gkdStatus: {newParentChildArr, dirOIdDuplicate},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -545,7 +545,7 @@ export class ClientDirPortService {
           gkdErrMsg: `새로운 부모폴더 자식목록에 이동하는 폴더 없음`,
           gkdStatus: {newParentChildArr, moveDirOId, newParentDirOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -564,7 +564,7 @@ export class ClientDirPortService {
             gkdErrMsg: `자식폴더 배열들 서로 같지 않음`,
             gkdStatus: {oldParentChildArr, newParentChildArr},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
         if (oldParentChildArr.some((id, idx) => id !== newParentChildArr[idx])) {
@@ -574,7 +574,7 @@ export class ClientDirPortService {
             gkdErrMsg: `자식폴더 배열들 서로 같지 않음`,
             gkdStatus: {oldParentChildArr, newParentChildArr},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
 
@@ -588,11 +588,35 @@ export class ClientDirPortService {
       else {
         // 5. 다른 폴더로 이동시
 
+        // 5-0. 새로운 부모폴더에 옮기려는 폴더와 이름 같은거 있는지 췍!!
+        const {directory} = await this.dbHubService.readDirByDirOId(where, moveDirOId)
+        if (!directory) {
+          throw {
+            gkd: {moveDirOId: `이동 대상 폴더 존재하지 않음`},
+            gkdErrCode: 'CLIENTDIRPORT_moveDirectory_InvalidMoveDirOId',
+            gkdErrMsg: `이동 대상 폴더 존재하지 않음`,
+            gkdStatus: {moveDirOId},
+            statusCode: 400,
+            where,
+          } as T.ErrorObjType
+        }
+        const {dirName} = directory
+        const {directory: isDuplicateExists} = await this.dbHubService.readDirByNameAndParentDirOId(where, dirName, newParentDirOId)
+        if (isDuplicateExists) {
+          throw {
+            gkd: {dirName: `새로운 부모폴더에 옮기려는 폴더와 이름 같은거 있음`},
+            gkdErrCode: 'CLIENTDIRPORT_moveDirectory_InvalidMoveDirOId',
+            gkdErrMsg: `새로운 부모폴더에 옮기려는 폴더와 이름 같은거 있음`,
+            gkdStatus: {dirName, newParentDirOId},
+            statusCode: 400,
+            where,
+          } as T.ErrorObjType
+        }
         // 5-1. oldParentDirOId 의 자식 폴더배열 업데이트 뙇!!
         // 5-2. newParentDirOId 의 자식 폴더배열 업데이트 뙇!!
         const [{directoryArr: _oDirArr, fileRowArr: _oFileRowArr}, {directoryArr: _nDirArr, fileRowArr: _nFileRowArr}] = await Promise.all([
           this.dbHubService.updateDirArr_Dir(where, oldParentDirOId, oldParentChildArr),
-          this.dbHubService.updateDirArr_Dir(where, newParentDirOId, newParentChildArr)
+          this.dbHubService.updateDirArr_Dir(where, newParentDirOId, newParentChildArr),
         ])
 
         // 5-3. 두 폴더와 자식 폴더들의 Directory, FileRow 정보를 ExtraObjects 에 삽입 뙇!!
@@ -684,7 +708,7 @@ export class ClientDirPortService {
                 gkdErrMsg: `기존 부모폴더 존재하지 않음`,
                 gkdStatus: {oldParentDirOId, moveFileOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
             return directory
@@ -700,7 +724,7 @@ export class ClientDirPortService {
                 gkdErrMsg: `새로운 부모폴더 존재하지 않음`,
                 gkdStatus: {newParentDirOId, moveFileOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
             return directory
@@ -716,11 +740,11 @@ export class ClientDirPortService {
                 gkdErrMsg: `이동 대상 파일이 존재하지 않음`,
                 gkdStatus: {moveFileOId},
                 statusCode: 400,
-                where
+                where,
               } as T.ErrorObjType
             }
             return file
-          })
+          }),
       ])
 
       // 3-1. 기존 부모폴더 자식 파일들이 맞는지 췍!!
@@ -732,7 +756,7 @@ export class ClientDirPortService {
             gkdErrMsg: `기존 부모 폴더에 없는 파일을 입력으로 전달함`,
             gkdStatus: {oldParentDirOId, oldParentChildArr, fileOId},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
       }
@@ -746,7 +770,7 @@ export class ClientDirPortService {
             gkdErrMsg: `새로운 부모 폴더에 없는 파일을 입력으로 전달함`,
             gkdStatus: {newParentDirOId, newParentChildArr, fileOId},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
       }
@@ -759,7 +783,7 @@ export class ClientDirPortService {
           gkdErrMsg: `새로운 부모 폴더 자식목록에 이동하는 파일 없음`,
           gkdStatus: {newParentDirOId, newParentChildArr, moveFileOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
@@ -776,7 +800,7 @@ export class ClientDirPortService {
             gkdErrMsg: `자식파일 배열들 서로 같지 않음`,
             gkdStatus: {oldParentChildArr, newParentChildArr},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
         if (oldParentChildArr.some((id, idx) => id !== newParentChildArr[idx])) {
@@ -786,7 +810,7 @@ export class ClientDirPortService {
             gkdErrMsg: `자식파일 배열들 서로 같지 않음`,
             gkdStatus: {oldParentChildArr, newParentChildArr},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
         // 5-1. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
@@ -808,7 +832,7 @@ export class ClientDirPortService {
             gkdErrMsg: `기존 부모 폴더 자식목록에 이동하는 파일 있음`,
             gkdStatus: {oldParentDirOId, oldParentChildArr, moveFileOId},
             statusCode: 400,
-            where
+            where,
           } as T.ErrorObjType
         }
 
@@ -816,7 +840,7 @@ export class ClientDirPortService {
         // 6-2. newParentDirOId 의 자식 파일 배열 업데이트 뙇!!
         await Promise.all([
           this.dbHubService.updateDirArr_File(where, oldParentDirOId, oldParentChildArr),
-          this.dbHubService.updateDirArr_File(where, newParentDirOId, newParentChildArr)
+          this.dbHubService.updateDirArr_File(where, newParentDirOId, newParentChildArr),
         ])
 
         const {directory: _oDir, fileRowArr: _oFileRowArr} = await this.dbHubService.readDirByDirOId(where, oldParentDirOId)
@@ -876,7 +900,7 @@ export class ClientDirPortService {
           gkdErrMsg: `존재하지 않는 디렉토리`,
           gkdStatus: {dirOId},
           statusCode: 400,
-          where
+          where,
         } as T.ErrorObjType
       }
 
