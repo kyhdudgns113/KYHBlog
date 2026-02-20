@@ -56,7 +56,7 @@ export class FileDBService {
       if (!parentDir) {
         throw {
           gkd: {dirOId: `부모 디렉토리가 DB에 존재하지 않음`},
-          gkdErrCode: 'FILEDB_createFile_DirectoryNotFound',
+          gkdErrCode: 'FILEDB_createFile_InvalidDirOId',
           gkdErrMsg: `부모 디렉토리가 DB에 존재하지 않음`,
           gkdStatus: {dirOId},
           statusCode: 400,
