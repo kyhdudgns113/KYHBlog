@@ -68,7 +68,7 @@ export class WrongInput extends GKDTestBase {
       // ::
     } catch (errObj) {
       // ::
-      if (errObj.gkdErrCode !== 'DIRECTORYDB_deleteDir_InvalidDirOId') {
+      if (errObj.gkdErrCode !== 'DIRECTORYDB_deleteDir_DirectoryNotFound') {
         return this.logErrorObj(errObj, 2)
       }
       throw errObj
@@ -84,7 +84,7 @@ export class WrongInput extends GKDTestBase {
     } catch (errObj) {
       // ::
       // 루트 폴더의 부모폴더가 존재하지 않으므로 이 에러가 뜬다.
-      if (errObj.gkdErrCode !== 'DIRECTORYDB_deleteDir_InvalidDirOId') {
+      if (errObj.gkdErrCode !== 'DIRECTORYDB_deleteDir_ParentDirectoryNotFound') {
         return this.logErrorObj(errObj, 2)
       }
       throw errObj

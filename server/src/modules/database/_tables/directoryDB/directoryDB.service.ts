@@ -566,10 +566,42 @@ export class DirectoryDBService {
       // 1. 메모리에 있는 부모폴더의 자식목록에서 본인 제거
       const {directory: dirDeleted} = await this.cacheDBService.getDirectoryByDirOId(dirOId)
       if (!dirDeleted) {
-        return {directoryArr: [], fileRowArr: []}
+        throw {
+          gkd: {dirOId: `존재하지 않는 디렉토리`},
+          gkdErrCode: 'DIRECTORYDB_deleteDir_DirectoryNotFound',
+          gkdErrMsg: `존재하지 않는 디렉토리`,
+          gkdStatus: {dirOId},
+          statusCode: 400,
+          where,
+        } as T.ErrorObjType
       } // ::
 
       const parentDirOId = dirDeleted.parentDirOId
+
+      if (!parentDirOId) {
+        throw {
+          gkd: {parentDirOId: `존재하지 않는 디렉토리`},
+          gkdErrCode: 'DIRECTORYDB_deleteDir_ParentDirectoryNotFound',
+          gkdErrMsg: `존재하지 않는 디렉토리`,
+          gkdStatus: {parentDirOId},
+          statusCode: 400,
+          where,
+        } as T.ErrorObjType
+      }
+
+      const {directory: parentDir} = await this.cacheDBService.getDirectoryByDirOId(parentDirOId)
+      if (!parentDir) {
+        throw {
+          gkd: {parentDirOId: `존재하지 않는 디렉토리`},
+          gkdErrCode: 'DIRECTORYDB_deleteDir_ParentDirectoryNotFound',
+          gkdErrMsg: `존재하지 않는 디렉토리`,
+          gkdStatus: {parentDirOId},
+          statusCode: 400,
+          where,
+        } as T.ErrorObjType
+      }
+
+      parentDir.subDirOIdsArr = parentDir.subDirOIdsArr.filter(_dirOId => _dirOId !== dirOId)
 
       // 2. (쿼리) dirOId 폴더 삭제
       const queryDelete = `DELETE FROM directories WHERE dirOId = ?`
@@ -578,11 +610,6 @@ export class DirectoryDBService {
 
       // 3. 메모리에서 디렉토리 삭제
       this.cacheDBService.removeDirectoryFromMemory(dirOId)
-
-      const {directory: parentDir} = await this.cacheDBService.getDirectoryByDirOId(parentDirOId)
-      if (!parentDir) {
-        return {directoryArr: [], fileRowArr: []}
-      }
 
       // 4. 부모 폴더의 자식 파일행 목록 메모리에서 불러오기
       const {fileRowArr} = await this.cacheDBService.getFileRowArrByDirOIdArr([parentDirOId])

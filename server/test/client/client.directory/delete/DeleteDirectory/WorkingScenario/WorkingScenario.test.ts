@@ -446,7 +446,7 @@ export class WorkingScenario extends GKDTestBase {
         // ::
       } catch (errObj) {
         // ::
-        if (errObj.gkdErrCode !== 'DIRECTORYDB_deleteDir_InvalidDirOId') {
+        if (errObj.gkdErrCode !== 'DIRECTORYDB_deleteDir_DirectoryNotFound') {
           throw errObj
         }
       }
