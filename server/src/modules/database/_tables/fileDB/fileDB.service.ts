@@ -56,7 +56,7 @@ export class FileDBService {
       if (!parentDir) {
         throw {
           gkd: {dirOId: `부모 디렉토리가 DB에 존재하지 않음`},
-          gkdErrCode: 'DIRECTORYFILEDB_createFile_DirectoryNotFound',
+          gkdErrCode: 'FILEDB_createFile_DirectoryNotFound',
           gkdErrMsg: `부모 디렉토리가 DB에 존재하지 않음`,
           gkdStatus: {dirOId},
           statusCode: 400,
@@ -108,7 +108,7 @@ export class FileDBService {
         if (errObj.errno === 1062) {
           throw {
             gkd: {duplicate: `파일 이름이 겹침`, message: errObj.message},
-            gkdErrCode: 'DIRECTORYFILEDB_createFile_DuplicateFileName',
+            gkdErrCode: 'FILEDB_createFile_DuplicateFileName',
             gkdErrMsg: `파일 이름이 겹침`,
             gkdStatus: {dirOId, fileName},
             statusCode: 400,
@@ -250,7 +250,7 @@ export class FileDBService {
         if (errObj.errno === 1062) {
           throw {
             gkd: {duplicate: `파일 이름이 겹침`, message: errObj.message},
-            gkdErrCode: 'DIRECTORYFILEDB_updateFileName_DuplicateFileName',
+            gkdErrCode: 'FILEDB_updateFileName_DuplicateFileName',
             gkdErrMsg: `파일 이름이 겹침`,
             gkdStatus: {fileOId, fileName},
             statusCode: 400,
@@ -377,7 +377,7 @@ export class FileDBService {
       if (resultArr.length === 0) {
         throw {
           gkd: {fileOId: `존재하지 않는 파일`},
-          gkdErrCode: 'DIRECTORYFILEDB_deleteFile_InvalidFileOId',
+          gkdErrCode: 'FILEDB_deleteFile_InvalidFileOId',
           gkdErrMsg: `존재하지 않는 파일`,
           gkdStatus: {fileOId},
           statusCode: 400,
@@ -399,7 +399,7 @@ export class FileDBService {
       if (!directory) {
         throw {
           gkd: {dirOId: `부모 디렉토리가 메모리에 존재하지 않음`},
-          gkdErrCode: 'DIRECTORYFILEDB_deleteFile_ParentDirectoryNotFound',
+          gkdErrCode: 'FILEDB_deleteFile_ParentDirectoryNotFound',
           gkdErrMsg: `부모 디렉토리가 메모리에 존재하지 않음`,
           gkdStatus: {dirOId},
           statusCode: 400,

@@ -58,7 +58,7 @@ export class DirectoryDBService {
         else {
           throw {
             gkd: {parentDirOId: `존재하지 않는 디렉토리`},
-            gkdErrCode: 'DIRECTORYFILEDB_createDir_InvalidParentDirOId',
+            gkdErrCode: 'DIRECTORYDB_createDir_InvalidParentDirOId',
             gkdErrMsg: `존재하지 않는 디렉토리`,
             gkdStatus: {dirName, parentDirOId},
             statusCode: 400,
@@ -92,7 +92,7 @@ export class DirectoryDBService {
         if (errObj.errno === 1062) {
           throw {
             gkd: {duplicate: `자식 폴더의 이름은 겹치면 안됨`, message: errObj.message},
-            gkdErrCode: 'DIRECTORYFILEDB_createDir_DuplicateDirName',
+            gkdErrCode: 'DIRECTORYDB_createDir_DuplicateDirName',
             gkdErrMsg: `자식 폴더의 이름은 겹치면 안됨`,
             gkdStatus: {dirName, parentDirOId},
             statusCode: 400,
@@ -312,7 +312,7 @@ export class DirectoryDBService {
       if (errObj.errno === 1062) {
         throw {
           gkd: {subDirOIdsArr: `자식 폴더 이름 중복 있음`},
-          gkdErrCode: 'DIRECTORYFILEDB_updateDirArr_Dir_Duplicate',
+          gkdErrCode: 'DIRECTORYDB_updateDirArr_Dir_Duplicate',
           gkdErrMsg: `자식 폴더 이름 중복 있음`,
           gkdStatus: {subDirOIdsArr, dirOId},
           statusCode: 400,
@@ -382,7 +382,7 @@ export class DirectoryDBService {
       if (errObj.errno === 1062) {
         throw {
           gkd: {subFileOIdsArr: `자식 파일 이름 중복 있음`},
-          gkdErrCode: 'DIRECTORYFILEDB_updateDirArr_File_Duplicate',
+          gkdErrCode: 'DIRECTORYDB_updateDirArr_File_Duplicate',
           gkdErrMsg: `자식 파일 이름 중복 있음`,
           gkdStatus: {subFileOIdsArr, dirOId},
           statusCode: 400,
@@ -441,7 +441,7 @@ export class DirectoryDBService {
       if (errObj.errno === 1062) {
         throw {
           gkd: {dirName: `디렉토리 이름이 겹침`},
-          gkdErrCode: 'DIRECTORYFILEDB_updateDirName_DuplicateDirName',
+          gkdErrCode: 'DIRECTORYDB_updateDirName_DuplicateDirName',
           gkdErrMsg: `디렉토리 이름이 겹침`,
           gkdStatus: {dirOId, dirName},
           statusCode: 400,
