@@ -284,20 +284,20 @@ export class DirectoryDBService {
      *   - dirOId 디렉토리의 subDirArrLen 을 subDirOIdsArr.length 로 바꾼다.
      *
      * 순서
+     *   0. 자식 폴더들이 없는 경우 → updateDirResetArrLen_Dir 호출
      *   1. (쿼리) 자식 폴더들의 dirIdx 를 배열 내의 인덱스로 바꾼다.
      *   2. (쿼리) 자식 폴더들의 parentDirOId 를 dirOId 로 바꾼다.
-     *   3. (쿼리) dirOId 디렉토리의 subDirArrLen 을 subDirOIdsArr.length 로 바꾼다.
-     *   4. (쿼리) 본인과 자식 폴더들의 정보를 읽는 쿼리
-     *   5. (쿼리) 자식 폴더들의 자식 폴더들의 목록 가져오는 쿼리
-     *   6. (쿼리) 본인과 자식 폴더들의 파일 정보들 읽어오는 쿼리
-     *   7. 디렉토리 배열 생성
-     *   8. 파일행 배열 생성 및 자식파일 목록에 추가
-     *   9. 폴더들의 자식 폴더들 목록 추가
+     *   3. 메모리에 있는 부모폴더의 자식폴더 목록 갱신
+     *   4. 메모리에 있는 자식폴더들의 parentDirOId 갱신
+     *   5. 부모폴더의 updatedAtFile 갱신
+     *   6. 디렉토리 배열 생성
+     *   7. 파일행 배열 생성
+     *   8. 리턴
      */
     const connection = await this.dbService.getConnection()
 
     try {
-      // CASE 1. 자식 폴더들이 없는 경우
+      // 0. 자식 폴더들이 없는 경우
       if (subDirOIdsArr.length === 0) {
         return this.updateDirResetArrLen_Dir(where, dirOId)
       }
@@ -333,14 +333,19 @@ export class DirectoryDBService {
         }
       }
 
-      // 4. 초기 디렉토리 배열 생성(자식 배열 미완성)
+      // 4. 부모폴더의 updatedAtFile 갱신
+      if (parentDir) {
+        this.cacheDBService.updateDirectoryUpdatedAtFile(dirOId)
+      }
+
+      // 5. 초기 디렉토리 배열 생성(자식 배열 미완성)
       const dirOIdArr_param = [dirOId, ...subDirOIdsArr]
       const {directoryArr} = await this.cacheDBService.getDirectoryByDirOIdArr(dirOIdArr_param)
 
-      // 5. 파일행 배열 생성 및 자식파일 목록에 추가
+      // 6. 파일행 배열 생성 및 자식파일 목록에 추가
       const {fileRowArr} = await this.cacheDBService.getFileRowArrByDirOIdArr(dirOIdArr_param)
 
-      // 6. 리턴
+      // 7. 리턴
       return {directoryArr, fileRowArr}
       // ::
     } catch (errObj) {
